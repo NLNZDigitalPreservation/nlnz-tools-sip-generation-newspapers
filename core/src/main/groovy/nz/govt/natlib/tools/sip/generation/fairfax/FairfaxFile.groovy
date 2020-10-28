@@ -33,12 +33,24 @@ class FairfaxFile {
     // Note that the titleCode appears to be, in some cases 4 characters long (eg. JAZZTAB), but for most cases it is 3.
     // The populate() method attempts to correct any issues with the titleCode/sectionCode grouping.
     // Note that the pdf extension can be upper or lower case (and we handle the mixed case as well
+
+    // Normal Fairfax Processing
+//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
+//            "(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})" +
+//            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
+//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{5,7}-\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
+//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{5,7}-\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}'
+//    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
+
+
+    // Wairarapa Times Processing
     static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
-            "(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})" +
+            "(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,2})" +
             "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
-    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{5,7}-\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{5,7}-\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
+    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
+    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
+    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
+
     static final Point UNDIMENSIONED = new Point(-1, -1)
 
     Path file
@@ -119,7 +131,11 @@ class FairfaxFile {
 
     static List<FairfaxFile> postMissingSequenceFiles(List<FairfaxFile> files,
                                                       FairfaxProcessingParameters processingParameters) {
-        List<FairfaxFile> sorted = sortWithSameTitleCodeAndDate(files, processingParameters)
+        List<FairfaxFile> sorted = null;
+        // Sort list in ascending order if it doesn't contain a section code
+        if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) sorted = files.sort()
+        else sorted = sortWithSameTitleCodeAndDate(files, processingParameters)
+
         FairfaxFile previousFile = null
         List<FairfaxFile> postMissingFiles = [ ]
         sorted.each { FairfaxFile testFile ->
@@ -220,13 +236,17 @@ class FairfaxFile {
                 List<FairfaxFile> substituted = substituteAllFor(firstDiscriminatorCode,
                         processingParameters.currentEdition, processingParameters.editionDiscriminators, filtered)
                 // Then we sort so the ordering is correct
-                filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(substituted, processingParameters)
+                // Sort list in ascending order if it doesn't contain a section code
+                if (substituted[0].getSectionCode() == null || substituted[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = substituted.sort()
+                else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(substituted, processingParameters)
             } else {
                 // If there are no substitutions (including the first for itself) then there is nothing to process
                 filteredSubstitutedAndSorted = [ ]
             }
         } else {
-            filteredSubstitutedAndSorted =  sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
+            // Sort list in ascending order if it doesn't contain a section code
+            if (allPossibleFiles[0].getSectionCode() || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
+            else filteredSubstitutedAndSorted =  sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
         }
         return filteredSubstitutedAndSorted
     }

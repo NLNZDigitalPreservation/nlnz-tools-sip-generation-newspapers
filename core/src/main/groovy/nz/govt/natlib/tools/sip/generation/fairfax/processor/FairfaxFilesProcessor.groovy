@@ -159,9 +159,9 @@ class FairfaxFilesProcessor {
                 }
             }
         }
-
+        // Wairarapa Times contains duplicated double sided pages.  Ignore right hand side
         sortedFilesForProcessing.each { FairfaxFile fileForProcessing ->
-            processFile(fileForProcessing)
+            if (!fileForProcessing.getFilename().toLowerCase().contains("dpsrh")) processFile(fileForProcessing)
         }
         // TODO We are converting back and forth between FairfaxFile and File for different processing stages to
         // ensure that the sip-generation-core classes don't get polluted with Fairfax-specific functionality.

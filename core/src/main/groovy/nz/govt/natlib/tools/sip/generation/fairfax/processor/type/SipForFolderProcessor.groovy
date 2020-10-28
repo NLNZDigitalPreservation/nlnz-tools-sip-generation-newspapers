@@ -16,8 +16,10 @@ class SipForFolderProcessor {
         if (processingParameters.spreadsheetRow.isEmpty()) {
             processingParameters.spreadsheetRow = FairfaxSpreadsheet.BLANK_ROW
         }
-        List<FairfaxFile> selectedAndSorted = FairfaxFile.sortWithSameTitleCodeAndDate(allPossibleFiles,
-                processingParameters)
+        List<FairfaxFile> selectedAndSorted = null
+        // Sort list in ascending order if it doesn't contain a section code
+        if (allPossibleFiles[0].getSectionCode() == null || allPossibleFiles[0].getSectionCode().isEmpty()) selectedAndSorted = allPossibleFiles.sort()
+        else selectedAndSorted = FairfaxFile.sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
 
         return selectedAndSorted
     }

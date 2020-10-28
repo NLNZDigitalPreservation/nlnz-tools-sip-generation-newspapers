@@ -24,6 +24,7 @@ import org.apache.commons.io.FilenameUtils
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -159,6 +160,22 @@ class ReadyForIngestionProcessor {
         } else {
             sipAndFilesFolder = forReviewFolder.resolve("${sipProcessingState.failureReasonSummary}${File.separator}${typeFolderNamePath}")
         }
+
+        // Will not create directories if the folder ends with a full stop or space
+        boolean checkFoldernameValidEnding = true
+        if (sipAndFilesFolder.toString().length() == sipAndFilesFolder.toString().trim().length()
+                && !sipAndFilesFolder.toString().endsWith(".")) {
+            checkFoldernameValidEnding = false
+        }
+        while (checkFoldernameValidEnding) {
+            String trimmedPathString = sipAndFilesFolder.toString().trim()
+            if (trimmedPathString.endsWith(".")) {
+                sipAndFilesFolder = Paths.get(trimmedPathString.substring(0, trimmedPathString.length() -1))
+            }
+            else {checkFoldernameValidEnding = false
+            }
+        }
+
         Path contentStreamsFolder = sipAndFilesFolder.resolve(FilenameUtils.separatorsToSystem("content/streams"))
         // Note that unrecognized only gets moved/copied if ProcessingRule.HandleUnrecognised
         String invalidPath = FilenameUtils.separatorsToSystem("INVALID/${dateString}/${processingParameters.titleCode}")
