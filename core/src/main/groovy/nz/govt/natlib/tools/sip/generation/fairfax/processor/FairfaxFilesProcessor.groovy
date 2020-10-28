@@ -159,7 +159,6 @@ class FairfaxFilesProcessor {
                 }
             }
         }
-
         sortedFilesForProcessing.each { FairfaxFile fileForProcessing ->
             processFile(fileForProcessing)
         }
