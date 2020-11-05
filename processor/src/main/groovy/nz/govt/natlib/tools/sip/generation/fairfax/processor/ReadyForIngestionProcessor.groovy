@@ -172,7 +172,8 @@ class ReadyForIngestionProcessor {
             if (trimmedPathString.endsWith(".")) {
                 sipAndFilesFolder = Paths.get(trimmedPathString.substring(0, trimmedPathString.length() -1))
             }
-            else {checkFoldernameValidEnding = false
+            else {
+                checkFoldernameValidEnding = false
             }
         }
 
