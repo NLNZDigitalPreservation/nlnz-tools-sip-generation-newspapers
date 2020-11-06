@@ -352,6 +352,8 @@ class FairfaxFile {
                 this.titleCode = this.titleCode.substring(0, 3)
              }
             String dateString = matcher.group('date')
+            // Will not parse if the month is all in caps
+            dateString = dateString.substring(0,3) + dateString.substring(3, 5).toLowerCase() + dateString.substring(5)
             this.date = LocalDate.parse(dateString, LOCAL_DATE_TIME_FORMATTER)
             this.dateYear = date.year
             this.dateMonthOfYear = date.monthValue
