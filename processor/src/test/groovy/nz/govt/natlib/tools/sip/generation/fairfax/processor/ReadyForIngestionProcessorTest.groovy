@@ -11,10 +11,10 @@ class ReadyForIngestionProcessorTest {
 
     @Test
     void correctlyAssemblesSipAndFilesFolderName() {
-        validateAssemblySipAndFilesFolderName("20190524", "ABC", "this-type", null,
-                "20190524_ABC_this-type")
-        validateAssemblySipAndFilesFolderName("20190524", "ABC", "this-type", "my-identifier",
-                "20190524_ABC_this-type_my-identifier")
+        validateAssemblySipAndFilesFolderName("24May19", "ABC", "this-type", null,
+                "24May19_ABC_this-type")
+        validateAssemblySipAndFilesFolderName("24May19", "ABC", "this-type", "my-identifier",
+                "24May19_ABC_this-type_my-identifier")
         validateAssemblySipAndFilesFolderName("NO-DATE-NECESSARY", "1234", "this-type", "my-identifier",
                 "NO-DATE-NECESSARY_1234_this-type_my-identifier")
     }
@@ -28,8 +28,8 @@ class ReadyForIngestionProcessorTest {
 
     @Test
     void correctlyParsesSipAndFilesFolderNameForTitleCodeAndDate() {
-        validateParsingSipAndFilesFolderName("20190524_ABC_this-type", "ABC", LocalDate.of(2019, 5, 24))
-        validateParsingSipAndFilesFolderName("20190524_ABC_this-type_my-identifier", "ABC", LocalDate.of(2019, 5, 24))
+        validateParsingSipAndFilesFolderName("24May19_ABC_this-type", "ABC", LocalDate.of(2019, 5, 24))
+        validateParsingSipAndFilesFolderName("24May19_ABC_this-type_my-identifier", "ABC", LocalDate.of(2019, 5, 24))
         validateParsingSipAndFilesFolderName("BAD-DATE_JUNK", "JUNK", null)
         validateParsingSipAndFilesFolderName("2019-05-24_SOME_WHERE", "SOME", null)
         validateParsingSipAndFilesFolderName("JUNK", null, null)

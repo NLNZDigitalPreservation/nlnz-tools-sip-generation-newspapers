@@ -97,11 +97,11 @@ class MissingSequenceTest {
     }
 
     void processFiles(List<Path> filesForProcessing) {
-        String dateString = "20181123"
+        String dateString = "23Nov18"
         LocalDate processingDate = LocalDate.parse(dateString, FairfaxFile.LOCAL_DATE_TIME_FORMATTER)
 
         Path sourceFolder = Path.of(testMethodState.localPath)
-        List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build("TST",
+        List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build("TSTP",
                 [ ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.fairfaxSpreadsheet)
 
         assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
@@ -117,10 +117,10 @@ class MissingSequenceTest {
         log.info(processingParameters.detailedDisplay(0, true))
         log.info(System.lineSeparator())
 
-        int expectedNumberOfFilesProcessed = 11
-        int expectedNumberOfSipFiles = 11
-        int expectedNumberOfThumbnailPageFiles = 11
-        int expectedNumberOfValidFiles = 11
+        int expectedNumberOfFilesProcessed = 7
+        int expectedNumberOfSipFiles = 7
+        int expectedNumberOfThumbnailPageFiles = 7
+        int expectedNumberOfValidFiles = 7
         int expectedNumberOfInvalidFiles = 0
         int expectedNumberOfIgnoredFiles = 0
         int expectedNumberOfUnrecognizedFiles = 0
@@ -160,45 +160,33 @@ class MissingSequenceTest {
         TestHelper.assertExpectedExceptionReason(testMethodState.sipProcessingState, SipProcessingExceptionReasonType.MISSING_SEQUENCE_FILES)
         SipProcessingException firstException = testMethodState.sipProcessingState.exceptions.first()
         SipProcessingExceptionReason firstExceptionReason = firstException.reasons.first()
-        String expectedReason = "One or more skipped sequences precedes these files=[TSTPB1-20181123-004.pdf, TSTPB1-20181123-A02.pdf, TSTPB1-20181123-B03.pdf]"
+        String expectedReason = "One or more skipped sequences precedes these files=[TSTP23Nov18004.pdf, TSTP23Nov18A02.pdf, TSTP23Nov18B03.pdf]"
         assertThat("SipProcessingState firstExceptionReason is ${expectedReason}", firstExceptionReason.toString(), is(expectedReason))
 
         TestHelper.assertExpectedSipMetadataValues(sipForValidation, "Test Publication One", "2018", "11", "23",
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-one", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTPB1-20181123-001.pdf", "TSTPB1-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTP23Nov18001.pdf", "TSTP23Nov18001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTPB1-20181123-002.pdf", "TSTPB1-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTP23Nov18002.pdf", "TSTP23Nov18002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTPB1-20181123-004.pdf", "TSTPB1-20181123-004.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTP23Nov18004.pdf", "TSTP23Nov18004.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTPB1-20181123-A02.pdf", "TSTPB1-20181123-A02.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTP23Nov18A02.pdf", "TSTP23Nov18A02.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTPB1-20181123-B01.pdf", "TSTPB1-20181123-B01.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTP23Nov18B01.pdf", "TSTP23Nov18B01.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0005", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTPB1-20181123-B03.pdf", "TSTPB1-20181123-B03.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTP23Nov18B03.pdf", "TSTP23Nov18B03.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0006", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTPB1-20181123-C01.pdf", "TSTPB1-20181123-C01.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTP23Nov18C01.pdf", "TSTP23Nov18C01.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0007", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 8, "TSTBOO-20181123-001.pdf", "TSTBOO-20181123-001.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0008", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 9, "TSTBOO-20181123-002.pdf", "TSTBOO-20181123-002.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0009", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 10, "TSTAAT-20181123-P01.pdf", "TSTAAT-20181123-P01.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0010", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 11, "TSTAAT-20181123-P02.pdf", "TSTAAT-20181123-P02.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0011", "application/pdf")
     }
 
 }
