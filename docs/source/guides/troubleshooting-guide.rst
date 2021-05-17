@@ -11,7 +11,7 @@ Additional TODO
 Introduction
 ============
 
-NLNZ Tools SIP Generation Fairfax has some sophisticated components and depends on several sets of technologies.
+NLNZ Tools SIP Generation Fairfax and Wairarapa Times has some sophisticated components and depends on several sets of technologies.
 Problems can occur. This guide is designed to help resolve those issues.
 
 Contents of this document

@@ -6,9 +6,9 @@ Developer Guide
 Introduction
 ============
 
-This guide, designed for a NLNZ Tools SIP Generation Fairfax developer and contributor, covers how to develop and
-contribute to the NLNZ Tools SIP Generation Fairfax. The source for both code and documentation can be found at:
-https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-fairfax/
+This guide, designed for a NLNZ Tools SIP Generation Wairarapa Times developer and contributor, covers how to develop and
+contribute to the NLNZ Tools SIP Generation Wairarapa Times. The source for both code and documentation can be found at:
+https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-wairarapa-times/
 
 Contents of this document
 -------------------------
@@ -21,7 +21,7 @@ Following this introduction, the NLNZ Tools SIP Generation Fairfax includes the 
 
 -   **Basic packages and classes**  - Covers the packages and classes in the project.
 
--   **Building** - Covers building the nlnz-tools-sip-generation-fairfax jars from source.
+-   **Building** - Covers building the nlnz-tools-sip-generation-wairarapa-times jars from source.
 
 -   **Developer guidelines** - Covers coding practice and development workflow.
 
@@ -31,7 +31,7 @@ Following this introduction, the NLNZ Tools SIP Generation Fairfax includes the 
 Contributing
 ============
 
-This describes how to contribute to the NLNZ Tools SIP Generation Fairfax project. General contribution guidelines
+This describes how to contribute to the NLNZ Tools SIP Generation Wairarapa Times project. General contribution guidelines
 follow the guidelines outlined in *Contributing* section of the *Developer Guide* of the
 *National Library of New Zealand Developer Guidelines* for a description of the build commands used for this project.
 These guidelines can be found at https://nlnz-developer-guidelines.readthedocs.io .
@@ -40,13 +40,13 @@ Source Code Repository
 ----------------------
 
 Source code for the NLNZ Tools SIP Generation Fairfax is stored in github at:
-https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-fairfax/
+https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-wairarapa-times/
 Contributors to the codebase will require a github account.
 
 Major Contributors
 ------------------
 
-Major contributors to NLNZ Tools SIP Generation Fairfax are NLNZ (The National Library of New Zealand)
+Major contributors to NLNZ Tools SIP Generation Wairarapa Times are NLNZ (The National Library of New Zealand)
 (https://natlib.govt.nz/). This institution currently drive most development. All contributors are welcome. Making your
 interest in NLNZ Tools SIP Generation Fairfax known can help to ensure that the tools meets your needs.
 

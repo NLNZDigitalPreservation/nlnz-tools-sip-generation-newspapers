@@ -11,7 +11,7 @@ Additional TODO
 Introduction
 ============
 
-NLNZ Tools SIP Generation Fairfax has many useful classes. This document aims to answer any frequently asked questions
+NLNZ Tools SIP Generation Fairfax (and Wairarapa Times) has many useful classes. This document aims to answer any frequently asked questions
 regarding the classes provided.
 
 Contents of this document

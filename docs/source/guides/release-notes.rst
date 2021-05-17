@@ -6,9 +6,9 @@ Release Notes
 Introduction
 ============
 
-This guide, designed for a NLNZ Tools SIP Generation Fairfax developer, covers release notes from `1.0.0-SNAPSHOT`.
+This guide, designed for a NLNZ Tools SIP Generation Wairarapa Times developer, covers release notes from `1.0.0-SNAPSHOT`.
 Versions are in reverse chronological order, with the most recent version first. While the
-*NLNZ Tools SIP Generation Fairfax Developer Guide* and *NLNZ Tools SIP Generation Fairfax User Guide* are accurate for
+*NLNZ Tools SIP Generation Wairarapa Times Developer Guide* and *NLNZ Tools SIP Generation Wairarapa Times User Guide* are accurate for
 the current release, the *Release Notes* can give some idea of how things have changed since the last major release.
 
 Contents of this document
@@ -39,4 +39,4 @@ TODO Major features of this release
 1.0.0-SNAPSHOT
 ==============
 
-TODO Keep track of ongoing development changes here.
+Created from NLNZ Tools SIP Generation Fairfax with modifications to the way that files are processed based on filenames.  New date format was used and checks for nulls on the Section Code, which isn't used by Wairarapa Times. 

@@ -11,10 +11,10 @@ Additional TODO
 Introduction
 ============
 
-About NLNZ Tools SIP Generation Fairfax
----------------------------------------
+About NLNZ Tools SIP Generation Wairarapa Times 
+-----------------------------------------------
 
-NLNZ Tools SIP Generation Fairfax is specific set of tools for processing Fairfax-specific content. The ultimate output
+NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing Wairarapa Times-specific content. The ultimate output
 of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 This guide documents the workflows involved that move files from being dropped in an FTP folder through to being
@@ -23,7 +23,7 @@ ingested into the Rosetta archiving system.
 About this document
 -------------------
 
-This document is the NLNZ Tools SIP Generation Fairfax Workflow Guide.
+This document is the NLNZ Tools SIP Generation Workflow Wairarapa Times Guide and it is based on the NLNZ Tools SIP Generation Fairfax Guide.
 
 The manual is divided into chapters, each of which deals with a particular workflow.
 

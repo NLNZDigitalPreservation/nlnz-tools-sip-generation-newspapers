@@ -11,22 +11,22 @@ Additional TODO
 Introduction
 ============
 
-About NLNZ Tools SIP Generation Fairfax
+About NLNZ Tools SIP Generation Wairarapa Times (and Fairfax)
 ---------------------------------------
 
-NLNZ Tools SIP Generation Fairfax is specific set of tools for processing Fairfax-specific content. The ultimate output
+NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing Wairarapa Times-specific content. The ultimate output
 of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 Most of the operations are run on the command line using a set of parameters and a spreadsheet of values that when
 combined together with the operational code produce an output that is ready for ingestion into Rosetta.
 
-The purpose of these tools is to process the Fairfax files. The long-term goal would be to wrap these tools into a
+The purpose of these tools is to process the Wairarapa Timaes files. The long-term goal would be to wrap these tools into a
 user interface. See the **Future milestones** section of the :doc:`developer-guide` for more details.
 
 About this document
 -------------------
 
-This document is the NLNZ Tools SIP Generation Fairfax Script Runner Guide. It describes how to use the command-line
+This document is the NLNZ Tools SIP Generation Wairarapa Times Script Runner Guide. It describes how to use the command-line
 tools provided by the project to perform various workflow operations.
 
 The manual is divided into chapters, each of which deals with a particular scripting operation.
@@ -309,10 +309,10 @@ This file structure prepares the files for ready-for-ingestion processing.
 
 Example processing command
 --------------------------
-The ``sip-generation-fairfax-fat-all`` jar is executed with arguments as shown in the following example::
+The ``sip-generation-WMMA-fat-all`` jar is executed with arguments as shown in the following example::
 
     sourceFolder="/path/to/ftp/folder"
-    targetBaseFolder="/path/to/LD_Sched/fairfax-processing"
+    targetBaseFolder="/path/to/LD_Sched/wairarapa-times-processing"
     targetPreProcessingFolder="${targetBaseFolder}/pre-processing"
     forReviewFolder="${targetBaseFolder}/for-review"
 
@@ -326,7 +326,7 @@ The ``sip-generation-fairfax-fat-all`` jar is executed with arguments as shown i
     minMemory="2048m"
 
     java -Xms${minMemory} -Xmx${maxMemory} \
-        -jar fat/build/libs/sip-generation-fairfax-fat-all-<VERSION>.jar \
+        -jar fat/build/libs/sip-generation-WMMA-all-<VERSION>.jar \
         --preProcess \
         --startingDate="${startingDate}" \
         --endingDate="${endingDate}" \
@@ -408,29 +408,29 @@ The JSON-file structure lays out the same parameters in a JSON format. The actua
 processing input. For example, the Taupo Times has the following entry::
 
     {
-        "row-0246": {
-            "MMSID": "9917962373502836",
-            "title_parent": "Taupo Times",
+        "row-0001": {
+            "MMSID": "9918822769202836",
+            "title_parent": "Wairarapa times-age.",
             "processing_type": "parent_grouping",
             "processing_rules": "",
             "processing_options": "numeric_before_alpha",
             "publication_key": "title_code",
-            "title_code": "TAT",
+            "title_code": "WMMA",
             "edition_discriminators": "",
-            "section_codes": "ED1+TAB+QFS",
+            "section_codes": "",
             "Access": "200",
             "Magazine": "0",
             "ingest_status": "STA",
             "Frequency": "",
             "entity_type": "PER",
-            "title_mets": "Taupo Times",
+            "title_mets": "Wairarapa times-age.",
             "ISSN online": "",
             "Bib ID": "",
             "Access condition": "",
             "Date catalogued": "",
-            "Collector_folder": "Taupo_Times",
+            "Collector_folder": "TBC",
             "Cataloguer": "",
-            "Notes": "Fairfax updated title code",
+            "Notes": "",
             "first_issue_starting_page": "",
             "last_issue_starting_page": "",
             "has_volume_md": "0",
@@ -447,6 +447,7 @@ processing input. For example, the Taupo Times has the following entry::
             "previous_number_frequency": ""
         }
     }
+
 
 Folder structure
 ----------------
@@ -747,8 +748,8 @@ Example processing command
 --------------------------
 The following snippet illustrates a ready-for-ingestion processing command::
 
-    sourceFolder="path/to/LD_Sched/fairfax-processing/pre-processing"
-    targetBaseFolder="/path/to/LD_Sched/fairfax-processing"
+    sourceFolder="path/to/LD_Sched/wairarapa-times-processing/pre-processing"
+    targetBaseFolder="/path/to/LD_Sched/wairarapa-times-processing"
     targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
     forReviewFolder="${targetBaseFolder}/for-review"
 
@@ -766,7 +767,7 @@ The following snippet illustrates a ready-for-ingestion processing command::
     minMemory="3048m"
 
     java -Xms${minMemory} -Xmx${maxMemory} \
-        -jar fat/build/libs/sip-generation-fairfax-fat-all-<VERSION>.jar \
+        -jar fat/build/libs/sip-generation-WMMA-fat-all-<VERSION>.jar \
         --readyForIngestion \
         --startingDate="${startingDate}" \
         --endingDate="${endingDate}" \
@@ -847,7 +848,7 @@ Example processing command
 --------------------------
 The following snippet illustrates a ``--copyIngestedLoadsToIngestedFolder`` processing command::
 
-    baseFolder="/path/to/LD_Sched/fairfax-processing"
+    baseFolder="/path/to/LD_Sched/wairarapa-times-processing"
     sourceFolder="${baseFolder}/for-ingestion"
     targetPostProcessedFolder="${baseFolder}/post-processed"
     forReviewFolder="${baseFolder}/for-review"
@@ -862,7 +863,7 @@ The following snippet illustrates a ``--copyIngestedLoadsToIngestedFolder`` proc
     minMemory="2048m"
 
     java -Xms${minMemory} -Xmx${maxMemory} \
-        -jar fat/build/libs/sip-generation-fairfax-fat-all-<VERSION>.jar \
+        -jar fat/build/libs/sip-generation-WMMA-fat-all-<VERSION>.jar \
         --copyIngestedLoadsToIngestedFolder \
         --startingDate="${startingDate}" \
         --endingDate="${endingDate}" \
@@ -902,7 +903,7 @@ listFiles: list files based on source folder
 --------------------------------------------
 ``listFiles`` simply lists files by title code, section code and date::
 
-    java -jar sip-generation-fairfax-fat-all-<VERSION>.jar \
+    java -jar sip-generation-WMMA-fat-all-<VERSION>.jar \
         --listFiles \
         --startingDate="yyyy-MM-dd" \
         --endingDate="yyyy-MM-dd" \
@@ -912,7 +913,7 @@ extractMetadata: extract metadata from the pdf files based on source folder
 ---------------------------------------------------------------------------
 Extracts metadata from the pdf files::
 
-    java -jar sip-generation-fairfax-fat-all-<VERSION>.jar \
+    java -jar sip-generation-WMMA-fat-all-<VERSION>.jar \
         --extractMetadata \
         --startingDate="yyyy-MM-dd" \
         --endingDate="yyyy-MM-dd" \
@@ -930,9 +931,9 @@ for testing. The structures are as follows:
     same as the output to `readyForIngestion`, with the folder structure starting with
     ``<targetFolder>/readyForIngestion``.
 
-These structures provide for testing the Fairfax processor, to see if its outputs match the work done previously::
+These structures provide for testing the processor, to see if its outputs match the work done previously::
 
-    java -jar sip-generation-fairfax-fat-all-<VERSION>.jar \
+    java -jar sip-generation-WMMA-fat-all-<VERSION>.jar \
         --copyProdLoadToTestStructures \
         --startingDate="yyyy-MM-dd" \
         --endingDate="yyyy-MM-dd" \
@@ -943,7 +944,7 @@ These structures provide for testing the Fairfax processor, to see if its output
 Converting the spreadsheet to JSON and vice-versa
 =================================================
 
-From time to time the spreadsheet that defines how the Fairfax files are ingested will changed based on new information.
+From time to time the spreadsheet that defines how the files are ingested will changed based on new information.
 When this happens, the json file found at ``core/src/main/resources/default-fairfax-import-parameters.json`` needs
 updating to reflect the changes in the source spreadsheet.
 

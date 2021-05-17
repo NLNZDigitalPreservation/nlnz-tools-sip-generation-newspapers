@@ -11,17 +11,17 @@ Additional TODO
 Introduction
 ============
 
-About NLNZ Tools SIP Generation Fairfax
----------------------------------------
+About NLNZ Tools SIP Generation Wairarapa Times 
+-----------------------------------------------
 
-NLNZ Tools SIP Generation Fairfax is specific set of tools for processing Fairfax-specific content. The ultimate output
+NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing Wairarapa Times-specific content. The ultimate output
 of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 About this document
 -------------------
 
-This document is the NLNZ Tools SIP Generation Fairfax Librarian Guide. It describes how a librarian works helps in
-processing Fairfax files from when they are dropped into a FTP folder to the point they are ingested into Rosetta
+This document is the NLNZ Tools SIP Generation Wairarapa Times Librarian Guide. It describes how a librarian works helps in
+processing Wairarapa Times files from when they are dropped into a FTP folder to the point they are ingested into Rosetta
 archiving system.
 
 The manual is divided into chapters, each of which deals with a particular aspect of the role.
@@ -50,31 +50,30 @@ Following this introduction, this User Guide includes the following sections:
 PDF filenames
 =============
 
-The PDF files produced by Fairfax have the following filename structure::
+The PDF files produced by Wairarapa Times have the following filename structure::
 
-    <title_code><section_code>-yyyyMMdd-<optional-sequence-letter><optional-sequence-number><optional-qualifier>.pdf
+    <title_code>-ddmmmyy-<optional-sequence-letter><optional-sequence-number><optional-qualifier>.pdf
 
-For example, the filename ``DOMED1-20190617-A01-my-first.pdf`` has the following values::
+For example, the filename ``WMMA01Jan21A001dpsLH.pdf`` has the following values::
 
-    title_code: DOM
-    section_code: ED1
-    date: 20190617
+    title_code: WMMA
+    date: 01Jan21 
     sequence_letter: A
     sequence_number: 01
-    qualifier: -my-first
+    qualifier: dpsLH
 
 - A ``title_code`` is generally 3 - 4 characters long.
-- A ``section_code`` is generally 2 - 3 characters long.
 - A ``date`` is always of the format yyyyMMdd.
 - A ``sequence_letter`` is optional, and is generally of the form A, B, C, ...
 - A ``sequence_number`` is required, and is generally of the form 1, 2, 3, ... or 01, 02, 03, ... or 001, 002, 003, ...
-- A ``qualifier`` is optional and is anything past the ``sequence_number``.
+- A ``qualifier`` is optional and is anything past the ``sequence_number``.  Often dpsLH or dpsRH will be used to indicate 
+  that it is either the left hand side (LH) or righthand side (RH) of a double page.
 - The extension is some form of ``pdf``, in either lower, upper or mixed case (for example, ``pDf`` is acceptable).
 
-As an example, `SHMED1-20181108-011.pdf` and `WHMED1-20181108-G012new-page.Pdf` are valid filenames.
+As an example, `WMMA01Jan21A001.pdf` and `WMMA01Jan21A001dpsLH.Pdf` are valid filenames.
 
-As an example, `ABC-20181108-011.pdf` and `WHMED1-2018-11-08-G012.pdf` are invalid filenames. The first does not have a
-long enough title_code/section_code block, and the second's date is not the correct format.
+As an example, `WMM20210101A001.pdf` is an invalid filename.  It does not have a
+long enough title_code block, and the second's date is not the correct format.
 
 
 Processing spreadsheet
@@ -191,7 +190,7 @@ Each spreadsheet row is associated with a specific processing type. These proces
 
 Ready-for-ingestion processing rules and options
 ------------------------------------------------
-See the :doc:`script-runner-guide` for details on how processing rules and options affect how Fairfax files get
+See the :doc:`script-runner-guide` for details on how processing rules and options affect how files get
 processed.
 
 Parameters-and-state file

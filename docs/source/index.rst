@@ -1,7 +1,7 @@
 
 
-National Library of New Zealand Tools SIP Generation Fairfax Documentation
-==========================================================================
+National Library of New Zealand Tools SIP Generation Wairarapa Times Documentation
+==================================================================================
 
 .. toctree::
    :maxdepth: 2

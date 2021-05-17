@@ -12,7 +12,7 @@ Introduction
 ============
 
 This guide, designed for non-technical users, provides a background and history of National Library of New Zealand
-(NLNZ) Tools SIP Generation Fairfax.
+(NLNZ) Tools SIP Generation Fairfax, which is what NLNZ Tools Sip Generation Wairarapa Times is based on.
 
 Contents of this document
 -------------------------
