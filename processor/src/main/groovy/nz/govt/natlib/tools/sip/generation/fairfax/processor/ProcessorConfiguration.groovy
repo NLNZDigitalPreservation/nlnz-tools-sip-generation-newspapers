@@ -48,6 +48,7 @@ trait ProcessorConfiguration {
     Path targetPostProcessedFolder
     Path forReviewFolder
 
+    String publicationType
     String forIngestionProcessingTypes
     String forIngestionProcessingRules
     String forIngestionProcessingOptions

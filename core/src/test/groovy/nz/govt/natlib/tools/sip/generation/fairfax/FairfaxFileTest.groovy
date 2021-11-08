@@ -27,6 +27,8 @@ class FairfaxFileTest {
 
     @Mock
     Path mockFile, mockFile1, mockFile2, mockFile3
+    @Mock
+    PublicationType mockPublicationType
 
     @Test
     void correctlyMatchesFilenamesUsingDifferentRegexPatterns() {
@@ -51,6 +53,7 @@ class FairfaxFileTest {
 
     void checkRegexFilenamePatternMatches(String valueToCheck, boolean matchesWithGroupingRegex,
                                           boolean matchesWithDateSequencePattern, boolean matchesWithDateOnlyPattern) {
+
         if (matchesWithGroupingRegex) {
             assertTrue("value=${valueToCheck} matches pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
                     valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
@@ -76,13 +79,13 @@ class FairfaxFileTest {
 
     @Test
     void createsCorrectlyWithLetterSequence() {
-        String originalFilename = "TST22Oct18B024.pdf"
+        String originalFilename = "WMMA22Oct18B024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
-
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
-        assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("TST"))
+        assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("WMMA"))
         assertNotNull("Year extracted", testFairfaxFile.dateYear)
         assertThat("dateYear parsed correctly", testFairfaxFile.dateYear, is(new Integer(2018)))
         assertThat("dateMonthOfYear parsed correctly", testFairfaxFile.dateMonthOfYear, is(new Integer(10)))

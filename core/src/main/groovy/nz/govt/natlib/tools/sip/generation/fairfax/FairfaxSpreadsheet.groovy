@@ -50,10 +50,11 @@ class FairfaxSpreadsheet {
     /**
      * Load and return the FairfaxSpreadsheet from default resources.
      */
-    static FairfaxSpreadsheet defaultInstance() {
+    static FairfaxSpreadsheet defaultInstance(String pathToSpreadsheet) {
         // TODO Either a root class to get resourceAsStream, move the json file to the same package or do ../../.. etc
         // or do what SipTestHelper does.
-        InputStream defaultSpreadsheetInputStream = FairfaxSpreadsheet.getResourceAsStream("default-fairfax-import-parameters.json")
+//        InputStream defaultSpreadsheetInputStream = FairfaxSpreadsheet.getResourceAsStream("default-fairfax-import-parameters.json")
+        InputStream defaultSpreadsheetInputStream = FairfaxSpreadsheet.getResourceAsStream(pathToSpreadsheet)
         Spreadsheet spreadsheet = Spreadsheet.fromJson(Spreadsheet.GENERATE_ID_VALUE, defaultSpreadsheetInputStream.text, true, true)
 
         return new FairfaxSpreadsheet(spreadsheet)
