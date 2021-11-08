@@ -5,6 +5,7 @@ import groovyx.gpars.GParsExecutorsPool
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxFile
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxProcessingParameters
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxSpreadsheet
+import nz.govt.natlib.tools.sip.generation.fairfax.PublicationType
 import nz.govt.natlib.tools.sip.generation.fairfax.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.fairfax.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.fairfax.parameters.ProcessingType
@@ -26,6 +27,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
@@ -40,6 +42,7 @@ class ReadyForIngestionProcessor {
     // TODO This might be better configurable or as a general option in ProcessorRunner.
     static final String KILL_FILE_NAME = "ready-for-ingestion-STOP"
 
+    PublicationType publicationType
     FairfaxSpreadsheet fairfaxSpreadsheet
     ProcessorConfiguration processorConfiguration
     List<ProcessingType> processingTypes
@@ -284,7 +287,7 @@ class ReadyForIngestionProcessor {
         boolean matchFilenameOnly = true
         boolean sortFiles = true
         // Only process PDF files
-        String pattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+        String pattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
 
         log.info("Processing for pattern=${pattern}, titleCodeFolder=${processingParameters.sourceFolder.normalize()}")
 
@@ -294,13 +297,14 @@ class ReadyForIngestionProcessor {
         // Process the folder as a single collection of files
         // Note that the folder is processed for a single processingType (so there could be multiple passes, one for
         // each processingType).
-        FairfaxFilesProcessor.processCollectedFiles(processingParameters, allFiles)
+        FairfaxFilesProcessor.processCollectedFiles(processingParameters, allFiles, processorConfiguration.publicationType)
     }
 
     // See README.md for folder descriptions and structures.
     void process() {
         log.info("START ready-for-ingestion with parameters:")
-        log.info("    startindDate=${processorConfiguration.startingDate}")
+        log.info("    publicationType=${processorConfiguration.publicationType}")
+        log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")
         log.info("    targetForIngestionFolder=${processorConfiguration.targetForIngestionFolder.normalize().toString()}")
@@ -314,8 +318,8 @@ class ReadyForIngestionProcessor {
             Files.createDirectories(processorConfiguration.targetForIngestionFolder)
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
-
-        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance()
+        this.publicationType = new PublicationType(processorConfiguration.publicationType)
+        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.getPATH_TO_SPREADSHEET())
 
         // First, collect all the directories to process
         List<Tuple2<Path, String>> titleCodeFoldersAndDates = [ ]
@@ -324,7 +328,7 @@ class ReadyForIngestionProcessor {
         List<LocalDate> datesInRange = GeneralUtils.datesInRange(processorConfiguration.startingDate,
                 processorConfiguration.endingDate)
         datesInRange.each { LocalDate currentDate ->
-            String currentDateString = FairfaxFile.LOCAL_DATE_TIME_FORMATTER.format(currentDate)
+            String currentDateString = DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN()).format(currentDate)
             Path dateFolder = processorConfiguration.sourceFolder.resolve(currentDateString)
             if (Files.exists(dateFolder) && Files.isDirectory(dateFolder)) {
                 dateFolder.toFile().listFiles().each { File subFile ->
@@ -369,7 +373,7 @@ class ReadyForIngestionProcessor {
                         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at start of ${titleCodeFolderMessage}",
                                 false, true, true, false, true, false, true)
                         // we want to process this directory, which should be a <titleCode>
-                        LocalDate processingDate = LocalDate.parse(dateString, FairfaxFile.LOCAL_DATE_TIME_FORMATTER)
+                        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN()))
 
                         // Avoid issue when multiple threads iterating through this list.
                         List<ProcessingType> perThreadProcessingTypes = (List<ProcessingType>) this.processingTypes.clone()

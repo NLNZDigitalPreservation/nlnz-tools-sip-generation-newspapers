@@ -48,12 +48,13 @@ class FairfaxProcessingParameters {
     static List<FairfaxProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
                                                    LocalDate processingDate, FairfaxSpreadsheet spreadsheet,
                                                    List<ProcessingRule> overrideRules = [],
-                                                   List<ProcessingOption> overrideOptions = [],
-                                                   String fileFindPattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN) {
+                                                   List<ProcessingOption> overrideOptions = []) {
         List<FairfaxProcessingParameters> parametersList = [ ]
+//        PublicationType publicationType = new PublicationType(publication)
+//        String fileFindPattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
 
         processingTypes.sort().each { ProcessingType processingType ->
-            List<Map<String, String>> matchingRows = matchingRowsFor(titleCode, processingType, sourceFolder, processingDate, spreadsheet, fileFindPattern)
+            List<Map<String, String>> matchingRows = matchingRowsFor(titleCode, processingType, sourceFolder, processingDate, spreadsheet)
             if (processingType == ProcessingType.ParentGroupingWithEdition) {
                 matchingRows.each { Map<String, String> singleRow ->
                     FairfaxProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
@@ -123,7 +124,7 @@ class FairfaxProcessingParameters {
                 processingParameters.editionDiscriminators.each { String editionDiscriminator ->
                     boolean hasMatchingEdition = true
                     if (processingParameters.rules.contains(ProcessingRule.IgnoreEditionsWithoutMatchingFiles)) {
-                        List<FairfaxFile> allFairfaxFiles = FairfaxFile.fromSourceFolder(sourceFolder, fileFindPattern)
+                        List<FairfaxFile> allFairfaxFiles = FairfaxFile.fromSourceFolder(sourceFolder)
                         hasMatchingEdition = allFairfaxFiles.any { FairfaxFile fairfaxFile ->
                             editionDiscriminator == fairfaxFile.sectionCode
                         }
@@ -198,13 +199,13 @@ class FairfaxProcessingParameters {
     }
 
     static List<Map<String, String>> matchingRowsFor(String titleCode, ProcessingType processingType, Path sourceFolder,
-                                                     LocalDate processingDate, FairfaxSpreadsheet spreadsheet,
-                                                     String fileFindPattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN) {
+                                                     LocalDate processingDate, FairfaxSpreadsheet spreadsheet) {
         List<Map<String, String>> matchingRows = spreadsheet.matchingProcessingTypeParameterMaps(
                 processingType.fieldValue, titleCode)
         if (!matchingRows.isEmpty() && processingType == ProcessingType.ParentGroupingWithEdition) {
             // Step 1: Find all the files, get the different section_codes
-            List<FairfaxFile> allFairfaxFiles = FairfaxFile.fromSourceFolder(sourceFolder, fileFindPattern)
+//            List<FairfaxFile> allFairfaxFiles = FairfaxFile.fromSourceFolder(sourceFolder, fileFindPattern)
+            List<FairfaxFile> allFairfaxFiles = FairfaxFile.fromSourceFolder(sourceFolder)
             List<String> uniqueSectionCodes = FairfaxFile.uniqueSectionCodes(allFairfaxFiles)
 
             // Step 2: Based on the section_code pick the right spreadsheet row

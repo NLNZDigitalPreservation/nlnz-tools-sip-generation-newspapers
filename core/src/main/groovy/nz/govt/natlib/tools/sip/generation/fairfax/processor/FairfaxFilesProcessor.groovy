@@ -8,6 +8,7 @@ import nz.govt.natlib.tools.sip.generation.SipXmlGenerator
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxFile
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxProcessingParameters
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxSpreadsheet
+import nz.govt.natlib.tools.sip.generation.fairfax.PublicationType
 import nz.govt.natlib.tools.sip.generation.fairfax.SipFactory
 import nz.govt.natlib.tools.sip.generation.fairfax.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.fairfax.parameters.ProcessingRule
@@ -40,6 +41,7 @@ import java.time.LocalDate
 class FairfaxFilesProcessor {
     FairfaxProcessingParameters processingParameters
     List<Path> filesForProcessing
+    PublicationType publicationType
 
     Map<FairfaxFile, FairfaxFile> processedFairfaxFiles
 
@@ -55,9 +57,10 @@ class FairfaxFilesProcessor {
     }
 
     static void processCollectedFiles(FairfaxProcessingParameters processingParameters,
-                                      List<Path> filesForProcessing) {
+                                      List<Path> filesForProcessing,
+                                      String publicationType) {
         FairfaxFilesProcessor fairfaxFilesProcessor = new FairfaxFilesProcessor(processingParameters,
-                filesForProcessing)
+                filesForProcessing, publicationType)
         if (processingParameters.rules.contains(ProcessingRule.ForceSkip)) {
             log.info("Skipping processing sourceFolder=${processingParameters.sourceFolder.normalize()} as processing rules include=${ProcessingRule.ForceSkip.fieldValue}")
             processingParameters.skip = true
@@ -67,9 +70,10 @@ class FairfaxFilesProcessor {
         fairfaxFilesProcessor.process()
     }
 
-    FairfaxFilesProcessor(FairfaxProcessingParameters processingParameters, List<Path> filesForProcessing) {
+    FairfaxFilesProcessor(FairfaxProcessingParameters processingParameters, List<Path> filesForProcessing, String publication) {
         this.processingParameters = processingParameters
         this.filesForProcessing = filesForProcessing
+        this.publicationType = new PublicationType(publication)
     }
 
     void process() {
@@ -80,7 +84,7 @@ class FairfaxFilesProcessor {
 
         if (this.processingParameters.valid) {
             List<FairfaxFile> fairfaxFilesForProcessing = filesForProcessing.collect { Path rawFile ->
-                new FairfaxFile(rawFile)
+                new FairfaxFile(rawFile, this.publicationType)
             }
             List<FairfaxFile> validNamedFiles = extractValidNamedFiles(fairfaxFilesForProcessing)
 
@@ -142,7 +146,7 @@ class FairfaxFilesProcessor {
             // Strip the ignored of any editionDiscriminator files
             List<FairfaxFile> withoutEditionFiles = processingParameters.sipProcessingState.ignoredFiles.findAll {
                 Path file ->
-                    FairfaxFile fairfaxFile = new FairfaxFile(file)
+                    FairfaxFile fairfaxFile = new FairfaxFile(file, this.publicationType)
                     !processingParameters.editionDiscriminators.contains(fairfaxFile.sectionCode)
             }
             if (!withoutEditionFiles.isEmpty()) {
@@ -169,7 +173,7 @@ class FairfaxFilesProcessor {
         // For the moment we do the conversion. This is something to consider when refactoring/redesigning this
         // application.
         List<FairfaxFile> sipFiles = processingParameters.sipProcessingState.sipFiles.collect { Path file ->
-            new FairfaxFile(file)
+            new FairfaxFile(file, this.publicationType)
         }
         checkForMissingSequenceFiles(sipFiles)
 
@@ -177,7 +181,7 @@ class FairfaxFilesProcessor {
 
         // See the note above about converting back and forth.
         List<FairfaxFile> thumbnailPageFiles = processingParameters.sipProcessingState.thumbnailPageFiles.collect { Path file ->
-            new FairfaxFile(file)
+            new FairfaxFile(file, this.publicationType)
         }
         generateThumbnailPage(thumbnailPageFiles)
         // TODO If we are generating a thumbnail page when there are errors we may want to consider generating a

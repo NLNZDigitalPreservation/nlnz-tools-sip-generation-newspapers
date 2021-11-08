@@ -383,6 +383,11 @@ For processing exceptions, depending on processor.""")
             commandExecuted = true
         }
         if (readyForIngestion) {
+            if (publicationType == null) {
+                String message = "preProcess requires publicationType"
+                log.error(message)
+                throw new ProcessorException(message)
+            }
             if (sourceFolder == null) {
                 String message = "readyForIngestion requires sourceFolder"
                 log.error(message)
