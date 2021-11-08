@@ -4,6 +4,7 @@ import groovy.util.logging.Log4j2
 import groovyx.gpars.GParsExecutorsPool
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxFile
 import nz.govt.natlib.tools.sip.generation.fairfax.FairfaxSpreadsheet
+import nz.govt.natlib.tools.sip.generation.fairfax.PublicationType
 import nz.govt.natlib.tools.sip.processing.ProcessLogger
 import nz.govt.natlib.tools.sip.utils.GeneralUtils
 import nz.govt.natlib.tools.sip.utils.PathUtils
@@ -21,9 +22,10 @@ class PreProcessProcessor {
 //    static final DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
 
     // Wairarapa Times Processing
-    static final DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
+//    static final DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
 
     ProcessorConfiguration processorConfiguration
+    PublicationType publicationType
     FairfaxSpreadsheet fairfaxSpreadsheet
     Set<String> recognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<String> unrecognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
@@ -185,7 +187,7 @@ class PreProcessProcessor {
                                     boolean sortByDate) {
         List<FairfaxFile> filteredList = new ArrayList<>()
         allFilesList.each { Path theFile ->
-            FairfaxFile fairfaxFile = new FairfaxFile(theFile)
+            FairfaxFile fairfaxFile = new FairfaxFile(theFile, this.publicationType)
             if (fairfaxFile.date >= startingDate && fairfaxFile.date <= endingDate) {
                 filteredList.add(fairfaxFile)
             }
@@ -206,7 +208,8 @@ class PreProcessProcessor {
         ProcessLogger processLogger = new ProcessLogger()
         processLogger.startSplit()
 
-        log.info("START process for startindDate=${processorConfiguration.startingDate}, " +
+        log.info("START process for publicationType=${processorConfiguration.publicationType}, " +
+                "startindDate=${processorConfiguration.startingDate}, " +
                 "endingDate=${processorConfiguration.endingDate}, " +
                 "sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}, " +
                 "forReviewFolder=${processorConfiguration.forReviewFolder.normalize().toString()}")
@@ -216,13 +219,16 @@ class PreProcessProcessor {
             Files.createDirectories(processorConfiguration.targetPreProcessingFolder)
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
-        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance()
+        this.publicationType = new PublicationType(processorConfiguration.publicationType)
+        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.getPATH_TO_SPREADSHEET())
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
 
-        String pattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+        String pattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
+        DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN())
+//        String pattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
         // get them all at once
         List<Path> allFiles = PathUtils.findFiles(processorConfiguration.sourceFolder.normalize().toString(),
@@ -275,7 +281,7 @@ class PreProcessProcessor {
             foundFiles.each { Path foundFile ->
                 String dateString = "UNKNOWN-DATE"
                 copyOrMoveFileToPreProcessingDestination(processorConfiguration.targetPreProcessingFolder,
-                        processorConfiguration.forReviewFolder, new FairfaxFile(foundFile), dateString,
+                        processorConfiguration.forReviewFolder, new FairfaxFile(foundFile, publicationType), dateString,
                         processorConfiguration.moveFiles)
             }
         }

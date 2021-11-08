@@ -180,6 +180,11 @@ See the class ProcessorOption for a list of what those options are.""")
 For processing exceptions, depending on processor.""")
     Path forReviewFolder
 
+    @Option(names=['--publicationType'], paramLabel = "PUBlICATION_TYPE",
+            description = """The publication type to be processed, e.g. AlliedPress""")
+    String publicationType
+
+
     static void main(String[] args) {
         ProcessorRunner processorRunner = new ProcessorRunner()
         CommandLine.call(processorRunner, args)
@@ -213,6 +218,8 @@ For processing exceptions, depending on processor.""")
         log.info("        listFiles=${listFiles}")
         log.info("        statisticalAudit=${statisticalAudit}")
         log.info("        extractMetadata=${extractMetadata}")
+        log.info("    Publication type:")
+        log.info("        publicationType=${publicationType}")
         log.info("    Source and target folders:")
         log.info("        sourceFolder=${sourceFolder}")
         log.info("        targetFolder=${targetFolder}")
@@ -350,6 +357,11 @@ For processing exceptions, depending on processor.""")
             commandExecuted = true
         }
         if (preProcess) {
+            if (publicationType == null) {
+                String message = "preProcess requires publicationType"
+                log.error(message)
+                throw new ProcessorException(message)
+            }
             if (sourceFolder == null) {
                 String message = "preProcess requires sourceFolder"
                 log.error(message)

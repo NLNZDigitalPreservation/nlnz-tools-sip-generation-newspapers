@@ -44,16 +44,22 @@ class FairfaxFile {
 
 
     // Wairarapa Times Processing
-    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
-            "(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,2})" +
-            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
-    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
+//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
+//            "(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,2})" +
+//            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
+//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
+//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
+//    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
 
     static final Point UNDIMENSIONED = new Point(-1, -1)
 
+//    String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN
+//    String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+//    String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN
+    DateTimeFormatter LOCAL_DATE_TIME_FORMATTER
+
     Path file
+    static PublicationType publicationType
     // This is for when the file gets replaced, such as when a zero-length pdf is replaced by another file.
     Path originalFile
     String filename
@@ -296,8 +302,8 @@ class FairfaxFile {
         return sorted
     }
 
-    static List<FairfaxFile> fromSourceFolder(Path sourceFolder,
-                                              String pattern = PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN) {
+    static List<FairfaxFile> fromSourceFolder(Path sourceFolder) {
+        String pattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
@@ -309,7 +315,7 @@ class FairfaxFile {
                 isRegexNotGlob, matchFilenameOnly, sortFiles, pattern, null, false, true)
         List<FairfaxFile> onlyFairfaxFiles = [ ]
         allFiles.each { Path file ->
-            FairfaxFile fairfaxFile = new FairfaxFile(file)
+            FairfaxFile fairfaxFile = new FairfaxFile(file, publicationType)
             // TODO We have no checks here for FairfaxFile validity -- the pattern supposedly selects only validly named ones.
             onlyFairfaxFiles.add(fairfaxFile)
         }
@@ -330,8 +336,9 @@ class FairfaxFile {
         }
     }
 
-    FairfaxFile(Path file) {
+    FairfaxFile(Path file, PublicationType publicationType) {
         this.file = file
+        this.publicationType = publicationType
         populate()
     }
 
@@ -341,8 +348,11 @@ class FairfaxFile {
 
     private populate() {
         this.filename = file.fileName.toString()
+        this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN())
+//        this.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = this.publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()
+//        this.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = this.publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
         // TODO Maybe the pattern comes from a resource or properties file?
-        Matcher matcher = filename =~ /${PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
+        Matcher matcher = filename =~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}/
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
             this.sectionCode = matcher.group('sectionCode')
