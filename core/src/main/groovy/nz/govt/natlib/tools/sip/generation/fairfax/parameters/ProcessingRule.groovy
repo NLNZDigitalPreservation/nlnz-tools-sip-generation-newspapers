@@ -42,7 +42,10 @@ enum ProcessingRule {
     ZeroLengthPdfSkipped("zero_length_pdf_skipped"),
 
     NumericStartsInHundredsConsideredSequenceSkips("numeric_starts_in_hundreds_considered_sequence_skips"),
-    NumericStartsInHundredsNotConsideredSequenceSkips("numeric_starts_in_hundreds_not_considered_sequence_skips")
+    NumericStartsInHundredsNotConsideredSequenceSkips("numeric_starts_in_hundreds_not_considered_sequence_skips"),
+
+    UseFileNameForMetsLabel("use_filename_for_mets_label"),
+    UseNumberForMetsLabel("use_number_for_mets_label")
 
     private static final Map<String, ProcessingRule> LOOKUP_BY_FIELD_VALUE = [ : ]
     private static final Map<ProcessingRule, List<ProcessingRule>> OVERRIDES_MAP = [ : ]
@@ -89,6 +92,9 @@ enum ProcessingRule {
 
             OVERRIDES_MAP.put(NumericStartsInHundredsConsideredSequenceSkips, [ NumericStartsInHundredsNotConsideredSequenceSkips ])
             OVERRIDES_MAP.put(NumericStartsInHundredsNotConsideredSequenceSkips, [ NumericStartsInHundredsConsideredSequenceSkips ])
+
+            OVERRIDES_MAP.put(UseFileNameForMetsLabel, [UseNumberForMetsLabel])
+            OVERRIDES_MAP.put(UseNumberForMetsLabel, [UseFileNameForMetsLabel])
         }
     }
 

@@ -32,6 +32,7 @@ import nz.govt.natlib.tools.sip.state.SipProcessingState
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
+import org.apache.commons.io.FilenameUtils
 
 /**
  * The main processing class. Takes a given set of processing parameters and
@@ -310,9 +311,14 @@ class FairfaxFilesProcessor {
         }
         int sequenceNumber = 1
         fileWrappers.each { Sip.FileWrapper fileWrapper ->
-            String label = String.format("%04d", sequenceNumber)
+            String label
+            if (processingParameters.rules.contains(ProcessingRule.UseFileNameForMetsLabel)) {
+                label = FilenameUtils.removeExtension(fileWrapper.fileOriginalName)
+            } else {
+                label = String.format("%04d", sequenceNumber)
+                sequenceNumber += 1
+            }
             fileWrapper.label = label
-            sequenceNumber += 1
         }
         sip.fileWrappers = fileWrappers
         SipXmlGenerator sipXmlGenerator = new SipXmlGenerator(sip)

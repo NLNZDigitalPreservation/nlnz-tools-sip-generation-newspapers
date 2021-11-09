@@ -93,6 +93,7 @@ class PreProcessProcessor {
         String titleCodeFolderName = targetFile.titleCode
         String folderPath
         Set<String> allNameKeys = fairfaxSpreadsheet.allTitleCodeKeys
+        Map supplements = publicationType.getSUPPLEMENTS()
 
         if (allNameKeys.contains(targetFile.titleCode)) {
             // There's an entry in the spreadsheet for this titleCode
@@ -102,6 +103,21 @@ class PreProcessProcessor {
                 GeneralUtils.printAndFlush("\n")
                 log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${targetFile.titleCode}")
             }
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else if (supplements != null && supplements[targetFile.titleCode]) {
+            GeneralUtils.printAndFlush("\n")
+            log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
+
+            // Get the parent publication name of the supplement
+            titleCodeFolderName = supplements.get(targetFile.titleCode)
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
             folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
         } else {
             // There is no entry in the spreadsheet for this titleCode
