@@ -78,7 +78,7 @@ class FairfaxFileTest {
     }
 
     @Test
-    void createsCorrectlyWithLetterSequence() {
+    void createsCorrectlyWithWMMALetterSequence() {
         String originalFilename = "WMMA22Oct18B024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
         PublicationType publicationType = new PublicationType("WMMA")
@@ -94,6 +94,23 @@ class FairfaxFileTest {
         assertThat("Prefix parsed correctly", testFairfaxFile.sequenceNumberString, is("024"))
         assertThat("Prefix parsed correctly", testFairfaxFile.sequenceNumber, is(24))
         assertThat("Qualifier parsed correctly", testFairfaxFile.qualifier, is(""))
+        assertTrue("FairfaxFile is valid", testFairfaxFile.isValidName())
+    }
+
+    @Test
+    void createsCorrectlyWithAPLetterSequence() {
+        String originalFilename = "CluthaLeader-21Oct2021-Thu.pdf"
+        when(mockFile.fileName).thenReturn(Path.of(originalFilename))
+        PublicationType publicationType = new PublicationType("alliedPress")
+        println(publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN())
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
+        assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
+        assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("CluthaLeader"))
+        assertNotNull("Year extracted", testFairfaxFile.dateYear)
+        assertThat("dateYear parsed correctly", testFairfaxFile.dateYear, is(new Integer(2021)))
+        assertThat("dateMonthOfYear parsed correctly", testFairfaxFile.dateMonthOfYear, is(new Integer(10)))
+        assertThat("dateDayOfMonth parsed correctly", testFairfaxFile.dateDayOfMonth, is(new Integer(21)))
+        assertThat("Qualifier parsed correctly", testFairfaxFile.qualifier, is("Thu"))
         assertTrue("FairfaxFile is valid", testFairfaxFile.isValidName())
     }
 

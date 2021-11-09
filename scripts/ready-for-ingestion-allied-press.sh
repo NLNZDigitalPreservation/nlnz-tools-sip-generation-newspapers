@@ -1,17 +1,17 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/wairarapa_times_age/wairarapa-times-processing/pre-processing_Nov_2021"
-export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/wairarapa_times_age/wairarapa-times-processing/latest-batch-ready-ingestion"
+export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/pre-processing_Oct_2021"
+export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
-export publicationType="WMMA"
+export publicationType="alliedPress"
 
-export startingDate="2021-11-01"
-export endingDate="2021-11-30"
+export startingDate="2021-10-01"
+export endingDate="2021-10-30"
 
 export forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,supplement_grouping,create_sip_for_folder"
 export forIngestionProcessingOptions="use_command_line_pdf_to_thumbnail_generation"
-
+export forIngestionProcessingRules="missing_sequence_is_ignored"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4

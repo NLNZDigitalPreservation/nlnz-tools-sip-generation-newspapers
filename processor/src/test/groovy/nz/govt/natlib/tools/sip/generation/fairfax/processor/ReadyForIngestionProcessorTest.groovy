@@ -1,5 +1,6 @@
 package nz.govt.natlib.tools.sip.generation.fairfax.processor
 
+import nz.govt.natlib.tools.sip.generation.fairfax.PublicationType
 import org.junit.Test
 
 import java.time.LocalDate

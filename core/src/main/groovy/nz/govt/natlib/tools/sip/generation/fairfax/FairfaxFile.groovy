@@ -357,10 +357,10 @@ class FairfaxFile {
             this.titleCode = matcher.group('titleCode')
             this.sectionCode = matcher.group('sectionCode')
             // In some situations the titleCode will take too many characters
-            if ((this.titleCode.length() == 4) && (this.sectionCode.length() == 2)) {
-                this.sectionCode = "${this.titleCode.substring(3, 4)}${this.sectionCode}"
-                this.titleCode = this.titleCode.substring(0, 3)
-             }
+//            if ((this.titleCode.length() == 4) && (this.sectionCode.length() == 2)) {
+//                this.sectionCode = "${this.titleCode.substring(3, 4)}${this.sectionCode}"
+//                this.titleCode = this.titleCode.substring(0, 3)
+//             }
             String dateString = matcher.group('date')
             // Will not parse if the month is all in caps
             dateString = dateString.substring(0,3) + dateString.substring(3, 5).toLowerCase() + dateString.substring(5)
@@ -370,7 +370,7 @@ class FairfaxFile {
             this.dateDayOfMonth = date.dayOfMonth
             this.sequenceLetter = matcher.group('sequenceLetter')
             this.sequenceNumberString = matcher.group('sequenceNumber')
-            this.sequenceNumber = Integer.parseInt(sequenceNumberString)
+            this.sequenceNumber = sequenceNumberString.length() > 0 ? Integer.parseInt(sequenceNumberString) : 0
             this.qualifier = matcher.group('qualifier')
         }
     }
