@@ -38,7 +38,7 @@ class ReadyForIngestionProcessorTest {
     }
 
     void validateParsingSipAndFilesFolderName(String sipAndFilesFolderName, String expectedTitleCode, LocalDate expectedDate) {
-        Tuple2<String, LocalDate> actualTitleCodeAndDate = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(sipAndFilesFolderName)
+        Tuple2<String, LocalDate> actualTitleCodeAndDate = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(sipAndFilesFolderName, "ddMMMyy")
         Tuple2<String, LocalDate> expectedTitleCodeAndDate = new Tuple2<>(expectedTitleCode, expectedDate)
 
         assertThat("Correctly parses titleCodeAndDate", actualTitleCodeAndDate, is(expectedTitleCodeAndDate))

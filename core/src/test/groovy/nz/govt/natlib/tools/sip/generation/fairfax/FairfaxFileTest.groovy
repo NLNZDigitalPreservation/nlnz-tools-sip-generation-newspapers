@@ -27,53 +27,51 @@ class FairfaxFileTest {
 
     @Mock
     Path mockFile, mockFile1, mockFile2, mockFile3
-    @Mock
-    PublicationType mockPublicationType
 
     @Test
     void correctlyMatchesFilenamesUsingDifferentRegexPatterns() {
-        checkRegexFilenamePatternMatches("abcD25Apr18A1.pDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25APR18A1.pDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcd25Apr18A01.pDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcd25APR18A001.PDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25apr18A0001.PDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18001.PDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18A1some-qualifier.pDF", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18A1-another-qualifier.pDF", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25Apr18A1.pDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25APR18A1.pDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcd25Apr18A01.pDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcd25APR18A001.PDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25apr18A0001.PDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25Apr18001.PDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25Apr18A1some-qualifier.pDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25Apr18A1-another-qualifier.pDF", "WMMA", true, true, true)
         // NOTE: This does match, but the '1' at the end is included in the qualifier.
-        checkRegexFilenamePatternMatches("abcD25Apr18A0001.pdf", true, true, true)
+        checkRegexFilenamePatternMatches("abcD25Apr18A0001.pdf", "WMMA", true, true, true)
 
-        checkRegexFilenamePatternMatches("abcDnodateA001.PDF", false, false, false)
-        checkRegexFilenamePatternMatches("abcDEFGH-20180425-A001.PDF", false, false, false)
-        checkRegexFilenamePatternMatches("abcD25Apr18A001", false, false, false)
-        checkRegexFilenamePatternMatches("abcD25Apr18A001.pdf2", false, false, false)
-        checkRegexFilenamePatternMatches("ab25Apr18A001.pdf", false, false, false)
-        checkRegexFilenamePatternMatches("", false, false, false)
+        checkRegexFilenamePatternMatches("abcDnodateA001.PDF", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("abcDEFGH-20180425-A001.PDF", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD25Apr18A001", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD25Apr18A001.pdf2", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("ab25Apr18A001.pdf", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("", "WMMA", false, false, false)
     }
 
-    void checkRegexFilenamePatternMatches(String valueToCheck, boolean matchesWithGroupingRegex,
+    void checkRegexFilenamePatternMatches(String valueToCheck, String publication, boolean matchesWithGroupingRegex,
                                           boolean matchesWithDateSequencePattern, boolean matchesWithDateOnlyPattern) {
-
+        PublicationType publicationType = new PublicationType(publication)
         if (matchesWithGroupingRegex) {
-            assertTrue("value=${valueToCheck} matches pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
-                    valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
+            assertTrue("value=${valueToCheck} matches pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}",
+                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
-                    valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}",
+                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}/)
         }
         if (matchesWithDateSequencePattern) {
-            assertTrue("value=${valueToCheck} matches pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
-                    valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
+            assertTrue("value=${valueToCheck} matches pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}",
+                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
-                    valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}",
+                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}/)
         }
         if (matchesWithDateOnlyPattern) {
-            assertTrue("value=${valueToCheck} matches pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}",
-                    valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}/)
+            assertTrue("value=${valueToCheck} matches pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}",
+                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}",
-                    valueToCheck ==~ /${FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}}",
+                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}}/)
         }
     }
 
@@ -119,7 +117,8 @@ class FairfaxFileTest {
         String originalFilename = "t2022Oct18024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("t20"))
@@ -137,7 +136,8 @@ class FairfaxFileTest {
         String originalFilename = "TST22Oct18B024a qualifier.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("TST"))
@@ -157,7 +157,8 @@ class FairfaxFileTest {
         String originalFilename = "TST22Oct18B024a qualifier.pDf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("TST"))
@@ -177,7 +178,8 @@ class FairfaxFileTest {
         String originalFilename = "TST22Oct18B024a qualifier.PDF"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("TST"))
@@ -197,7 +199,8 @@ class FairfaxFileTest {
         String originalFilename = "JAZZ22Oct18B024a qualifier.pDf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("JAZZ"))
@@ -217,7 +220,8 @@ class FairfaxFileTest {
         String originalFilename = "t2022Oct18024crop.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("t20"))
@@ -235,7 +239,8 @@ class FairfaxFileTest {
         String originalFilename = "abcde22Oct18024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile)
+        PublicationType publicationType = new PublicationType("WMMA")
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
 
         assertThat("filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertFalse("FairfaxFile is invalid", testFairfaxFile.isValidName())
@@ -248,8 +253,10 @@ class FairfaxFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
 
         assertTrue("Same prefix and date in filename matches", fairfaxFile1.matches(fairfaxFile2))
         assertFalse("Same prefix and date but different sequence does not sequence match",
@@ -263,8 +270,10 @@ class FairfaxFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
 
         assertTrue("Same prefix and date in filename matches", fairfaxFile1.matches(fairfaxFile2))
         assertTrue("Matches with sequence", fairfaxFile1.matchesWithSequence(fairfaxFile2))
@@ -277,8 +286,10 @@ class FairfaxFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
 
         assertFalse("Same prefix but different dates does not match", fairfaxFile1.matches(fairfaxFile2))
     }
@@ -290,8 +301,10 @@ class FairfaxFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
 
         assertFalse("Different prefixes does not match", fairfaxFile1.matches(fairfaxFile2))
     }
@@ -305,9 +318,11 @@ class FairfaxFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3, publicationType)
 
         assertEquals("Sorts correctly with same date but different sequence numbers",
                 [fairfaxFile1, fairfaxFile2, fairfaxFile3].sort(), [fairfaxFile3, fairfaxFile2, fairfaxFile1])
@@ -322,9 +337,11 @@ class FairfaxFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3, publicationType)
 
         assertEquals("Sorts correctly with same date but different sequence numbers",
                 [fairfaxFile1, fairfaxFile2, fairfaxFile3].sort(), [fairfaxFile3, fairfaxFile2, fairfaxFile1])
@@ -339,9 +356,11 @@ class FairfaxFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3, publicationType)
 
         assertEquals("Sorts correctly with same date and sequence string but different sequence numbers",
                 [fairfaxFile1, fairfaxFile2, fairfaxFile3].sort(), [fairfaxFile3, fairfaxFile2, fairfaxFile1])
@@ -356,9 +375,11 @@ class FairfaxFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3, publicationType)
 
         assertEquals("Sorts correctly with same date but different sequence numbers",
                 [fairfaxFile1, fairfaxFile2, fairfaxFile3].sort(), [fairfaxFile3, fairfaxFile2, fairfaxFile1])
@@ -373,9 +394,11 @@ class FairfaxFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(mockFile1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(mockFile2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(mockFile3, publicationType)
 
         LocalDate january12018 = LocalDate.of(2018, 1, 1)
         LocalDate june302018 = LocalDate.of(2018, 6, 30)
@@ -395,13 +418,15 @@ class FairfaxFileTest {
         Path file6 = Path.of("NAMe31Jan18C1.pdf")
         Path file7 = Path.of("NAMe31Jan18C2.pdf")
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(file1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(file2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(file3)
-        FairfaxFile fairfaxFile4 = new FairfaxFile(file4)
-        FairfaxFile fairfaxFile5 = new FairfaxFile(file5)
-        FairfaxFile fairfaxFile6 = new FairfaxFile(file6)
-        FairfaxFile fairfaxFile7 = new FairfaxFile(file7)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(file1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(file2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(file3, publicationType)
+        FairfaxFile fairfaxFile4 = new FairfaxFile(file4, publicationType)
+        FairfaxFile fairfaxFile5 = new FairfaxFile(file5, publicationType)
+        FairfaxFile fairfaxFile6 = new FairfaxFile(file6, publicationType)
+        FairfaxFile fairfaxFile7 = new FairfaxFile(file7, publicationType)
 
         List<FairfaxFile> unsorted = [ fairfaxFile1, fairfaxFile2, fairfaxFile3, fairfaxFile4, fairfaxFile5,
                                        fairfaxFile6, fairfaxFile7 ]
@@ -421,13 +446,15 @@ class FairfaxFileTest {
         Path file6 = Path.of("NAMe31Jan18C1.pdf")
         Path file7 = Path.of("NAMe31Jan18C2.pdf")
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(file1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(file2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(file3)
-        FairfaxFile fairfaxFile4 = new FairfaxFile(file4)
-        FairfaxFile fairfaxFile5 = new FairfaxFile(file5)
-        FairfaxFile fairfaxFile6 = new FairfaxFile(file6)
-        FairfaxFile fairfaxFile7 = new FairfaxFile(file7)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(file1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(file2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(file3, publicationType)
+        FairfaxFile fairfaxFile4 = new FairfaxFile(file4, publicationType)
+        FairfaxFile fairfaxFile5 = new FairfaxFile(file5, publicationType)
+        FairfaxFile fairfaxFile6 = new FairfaxFile(file6, publicationType)
+        FairfaxFile fairfaxFile7 = new FairfaxFile(file7, publicationType)
 
         List<FairfaxFile> unsorted = [ fairfaxFile1, fairfaxFile2, fairfaxFile3, fairfaxFile4, fairfaxFile5,
                                        fairfaxFile6, fairfaxFile7 ]
@@ -449,15 +476,17 @@ class FairfaxFileTest {
         Path file8 = Path.of("NAMe31Jan18501.pdf")
         Path file9 = Path.of("NAMe31Jan18502.pdf")
 
-        FairfaxFile fairfaxFile1 = new FairfaxFile(file1)
-        FairfaxFile fairfaxFile2 = new FairfaxFile(file2)
-        FairfaxFile fairfaxFile3 = new FairfaxFile(file3)
-        FairfaxFile fairfaxFile4 = new FairfaxFile(file4)
-        FairfaxFile fairfaxFile5 = new FairfaxFile(file5)
-        FairfaxFile fairfaxFile6 = new FairfaxFile(file6)
-        FairfaxFile fairfaxFile7 = new FairfaxFile(file7)
-        FairfaxFile fairfaxFile8 = new FairfaxFile(file8)
-        FairfaxFile fairfaxFile9 = new FairfaxFile(file9)
+        PublicationType publicationType = new PublicationType("WMMA")
+
+        FairfaxFile fairfaxFile1 = new FairfaxFile(file1, publicationType)
+        FairfaxFile fairfaxFile2 = new FairfaxFile(file2, publicationType)
+        FairfaxFile fairfaxFile3 = new FairfaxFile(file3, publicationType)
+        FairfaxFile fairfaxFile4 = new FairfaxFile(file4, publicationType)
+        FairfaxFile fairfaxFile5 = new FairfaxFile(file5, publicationType)
+        FairfaxFile fairfaxFile6 = new FairfaxFile(file6, publicationType)
+        FairfaxFile fairfaxFile7 = new FairfaxFile(file7, publicationType)
+        FairfaxFile fairfaxFile8 = new FairfaxFile(file8, publicationType)
+        FairfaxFile fairfaxFile9 = new FairfaxFile(file9, publicationType)
 
         assertTrue("file=${fairfaxFile5.file} is isAHundredsSequenceStart", fairfaxFile5.isAHundredsSequenceStart())
         assertTrue("file=${fairfaxFile6.file} is isAHundredsSequenceStart", fairfaxFile6.isAHundredsSequenceStart())

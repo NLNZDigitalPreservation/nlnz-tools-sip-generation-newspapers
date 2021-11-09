@@ -58,14 +58,14 @@ class ReadyForIngestionProcessor {
     AtomicInteger processingCount = new AtomicInteger(0)
 
     // Since the ReadyForIngestionProcessor creates this name, it can also parse it for other consumers.
-    static Tuple2<String, LocalDate> parseFolderNameForTitleCodeAndDate(String folderName) {
+    static Tuple2<String, LocalDate> parseFolderNameForTitleCodeAndDate(String folderName, String dateTimePattern) {
         List<String> folderNameComponents = folderName.split(Pattern.quote("_"))
         LocalDate date = null
         String titleCode = null
         if (folderNameComponents.size() > 0) {
             String dateString = folderNameComponents.get(0)
             try {
-                date = LocalDate.parse(dateString, FairfaxFile.LOCAL_DATE_TIME_FORMATTER)
+                date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(dateTimePattern))
             } catch (DateTimeParseException e) {
                 log.warn("Unable to parse dateString=${dateString} to LocalDate. Using null.")
             }
