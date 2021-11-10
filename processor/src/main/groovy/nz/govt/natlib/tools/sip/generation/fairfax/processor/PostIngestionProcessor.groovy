@@ -151,7 +151,7 @@ class PostIngestionProcessor {
                 try {
                     if (continueProcessing) {
                         // We use the ReadyForIngestionProcessor to get the titleCode and date of the parent folder
-                        Tuple2<String, LocalDate> parentFolderTitleCode = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(doneFolder.fileName.toString(), publicationType.getDATE_TIME_PATTERN())
+                        Tuple2<String, LocalDate> parentFolderTitleCode = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(doneFolder.fileName.toString(), publicationType.DATE_TIME_PATTERN)
                         String titleCode = parentFolderTitleCode.first
                         LocalDate folderDate = parentFolderTitleCode.second
                         if (processorConfiguration.startingDate <= folderDate && folderDate <= processorConfiguration.endingDate) {

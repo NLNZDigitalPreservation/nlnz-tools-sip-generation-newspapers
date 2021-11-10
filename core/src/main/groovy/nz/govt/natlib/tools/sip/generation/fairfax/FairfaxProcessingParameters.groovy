@@ -50,8 +50,6 @@ class FairfaxProcessingParameters {
                                                    List<ProcessingRule> overrideRules = [],
                                                    List<ProcessingOption> overrideOptions = []) {
         List<FairfaxProcessingParameters> parametersList = [ ]
-//        PublicationType publicationType = new PublicationType(publication)
-//        String fileFindPattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
 
         processingTypes.sort().each { ProcessingType processingType ->
             List<Map<String, String>> matchingRows = matchingRowsFor(titleCode, processingType, sourceFolder, processingDate, spreadsheet)

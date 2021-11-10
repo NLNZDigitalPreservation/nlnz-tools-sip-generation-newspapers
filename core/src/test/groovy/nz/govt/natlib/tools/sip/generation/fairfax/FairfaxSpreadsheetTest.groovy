@@ -18,7 +18,7 @@ class FairfaxSpreadsheetTest {
     @Test
     void loadsTheWMMASpreadsheetCorrectly() {
         PublicationType publicationType = new PublicationType("WMMA")
-        FairfaxSpreadsheet fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.getPATH_TO_SPREADSHEET())
+        FairfaxSpreadsheet fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
 
         assertTrue("Spreadsheet is valid", fairfaxSpreadsheet.spreadsheet.isValid(false, false))
         List<Map<String, String>> mapsForWairarapaTimesList =
@@ -37,7 +37,7 @@ class FairfaxSpreadsheetTest {
     @Test
     void loadsTheAlliedPressSpreadsheetCorrectly() {
         PublicationType publicationType = new PublicationType("alliedPress")
-        FairfaxSpreadsheet fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.getPATH_TO_SPREADSHEET())
+        FairfaxSpreadsheet fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
 
         assertTrue("Spreadsheet is valid", fairfaxSpreadsheet.spreadsheet.isValid(false, false))
         List<Map<String, String>> mapsForAlliedPressList =

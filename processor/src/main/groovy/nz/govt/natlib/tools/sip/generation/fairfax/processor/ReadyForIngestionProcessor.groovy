@@ -287,7 +287,7 @@ class ReadyForIngestionProcessor {
         boolean matchFilenameOnly = true
         boolean sortFiles = true
         // Only process PDF files
-        String pattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
+        String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
 
         log.info("Processing for pattern=${pattern}, titleCodeFolder=${processingParameters.sourceFolder.normalize()}")
 
@@ -319,7 +319,7 @@ class ReadyForIngestionProcessor {
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
         this.publicationType = new PublicationType(processorConfiguration.publicationType)
-        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.getPATH_TO_SPREADSHEET())
+        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
 
         // First, collect all the directories to process
         List<Tuple2<Path, String>> titleCodeFoldersAndDates = [ ]
@@ -328,7 +328,7 @@ class ReadyForIngestionProcessor {
         List<LocalDate> datesInRange = GeneralUtils.datesInRange(processorConfiguration.startingDate,
                 processorConfiguration.endingDate)
         datesInRange.each { LocalDate currentDate ->
-            String currentDateString = DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN()).format(currentDate)
+            String currentDateString = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN).format(currentDate)
             Path dateFolder = processorConfiguration.sourceFolder.resolve(currentDateString)
             if (Files.exists(dateFolder) && Files.isDirectory(dateFolder)) {
                 dateFolder.toFile().listFiles().each { File subFile ->
@@ -373,7 +373,7 @@ class ReadyForIngestionProcessor {
                         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at start of ${titleCodeFolderMessage}",
                                 false, true, true, false, true, false, true)
                         // we want to process this directory, which should be a <titleCode>
-                        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN()))
+                        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN))
 
                         // Avoid issue when multiple threads iterating through this list.
                         List<ProcessingType> perThreadProcessingTypes = (List<ProcessingType>) this.processingTypes.clone()

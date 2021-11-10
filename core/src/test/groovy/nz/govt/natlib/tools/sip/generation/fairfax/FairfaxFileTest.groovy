@@ -53,25 +53,25 @@ class FairfaxFileTest {
                                           boolean matchesWithDateSequencePattern, boolean matchesWithDateOnlyPattern) {
         PublicationType publicationType = new PublicationType(publication)
         if (matchesWithGroupingRegex) {
-            assertTrue("value=${valueToCheck} matches pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}",
-                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}/)
+            assertTrue("value=${valueToCheck} matches pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
+                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}",
-                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
+                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
         }
         if (matchesWithDateSequencePattern) {
-            assertTrue("value=${valueToCheck} matches pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}",
-                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}/)
+            assertTrue("value=${valueToCheck} matches pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
+                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}",
-                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
+                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
         }
         if (matchesWithDateOnlyPattern) {
-            assertTrue("value=${valueToCheck} matches pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}",
-                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}/)
+            assertTrue("value=${valueToCheck} matches pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}",
+                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}}",
-                    valueToCheck ==~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN()}}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}}",
+                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}}/)
         }
     }
 
@@ -100,7 +100,7 @@ class FairfaxFileTest {
         String originalFilename = "CluthaLeader-21Oct2021-Thu.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
         PublicationType publicationType = new PublicationType("alliedPress")
-        println(publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN())
+        println(publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
         FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
         assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("CluthaLeader"))

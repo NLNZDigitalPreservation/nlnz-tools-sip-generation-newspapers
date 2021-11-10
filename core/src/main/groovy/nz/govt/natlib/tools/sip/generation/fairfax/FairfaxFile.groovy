@@ -303,7 +303,7 @@ class FairfaxFile {
     }
 
     static List<FairfaxFile> fromSourceFolder(Path sourceFolder) {
-        String pattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
+        String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
@@ -348,11 +348,9 @@ class FairfaxFile {
 
     private populate() {
         this.filename = file.fileName.toString()
-        this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN())
-//        this.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = this.publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()
-//        this.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = this.publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
+        this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN)
         // TODO Maybe the pattern comes from a resource or properties file?
-        Matcher matcher = filename =~ /${publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN()}/
+        Matcher matcher = filename =~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
             this.sectionCode = matcher.group('sectionCode')

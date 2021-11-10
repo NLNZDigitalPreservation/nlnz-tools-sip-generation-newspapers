@@ -21,28 +21,4 @@ class PublicationType {
         PATH_TO_SPREADSHEET = publicationTypes[publicationType]["PATH_TO_SPREADSHEET"]
         SUPPLEMENTS = publicationTypes[publicationType]["SUPPLEMENTS"] != null ? publicationTypes[publicationType]["SUPPLEMENTS"] as Map : null
     }
-
-    String getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN() {
-        return PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN
-    }
-
-    String getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN() {
-        return PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
-    }
-
-    String getPDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN() {
-        return PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN
-    }
-
-    String getDATE_TIME_PATTERN() {
-        return DATE_TIME_PATTERN
-    }
-
-    String getPATH_TO_SPREADSHEET() {
-        return PATH_TO_SPREADSHEET
-    }
-
-    Map getSUPPLEMENTS() {
-        return SUPPLEMENTS
-    }
 }

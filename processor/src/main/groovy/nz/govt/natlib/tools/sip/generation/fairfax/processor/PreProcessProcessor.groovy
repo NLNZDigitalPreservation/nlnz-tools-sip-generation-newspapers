@@ -93,7 +93,7 @@ class PreProcessProcessor {
         String titleCodeFolderName = targetFile.titleCode
         String folderPath
         Set<String> allNameKeys = fairfaxSpreadsheet.allTitleCodeKeys
-        Map supplements = publicationType.getSUPPLEMENTS()
+        Map supplements = publicationType.SUPPLEMENTS
 
         if (allNameKeys.contains(targetFile.titleCode)) {
             // There's an entry in the spreadsheet for this titleCode
@@ -236,14 +236,14 @@ class PreProcessProcessor {
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
         this.publicationType = new PublicationType(processorConfiguration.publicationType)
-        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.getPATH_TO_SPREADSHEET())
+        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
 
-        String pattern = publicationType.getPDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN()
-        DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(publicationType.getDATE_TIME_PATTERN())
+        String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+        DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN)
 //        String pattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
         // get them all at once
