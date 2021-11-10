@@ -1,7 +1,6 @@
 package nz.govt.natlib.tools.sip.generation.fairfax
 
 import groovy.json.JsonSlurper
-import nz.govt.natlib.tools.sip.generation.parameters.Spreadsheet;
 
 class PublicationType {
     String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN

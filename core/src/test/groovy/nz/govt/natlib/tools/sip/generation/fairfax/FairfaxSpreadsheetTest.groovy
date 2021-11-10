@@ -52,4 +52,23 @@ class FairfaxSpreadsheetTest {
         assertFalse("isMagazine is false for The Ashburton courier",
                 FairfaxSpreadsheet.extractBooleanValue(mapsForAlliedPress, FairfaxSpreadsheet.IS_MAGAZINE_KEY))
     }
+
+    @Test
+    void loadsTheWptNewsSpreadsheetCorrectly() {
+        PublicationType publicationType = new PublicationType("wptNews")
+        FairfaxSpreadsheet wptNewsSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+
+        assertTrue("Spreadsheet is valid", wptNewsSpreadsheet.spreadsheet.isValid(false, false))
+        List<Map<String, String>> mapsForWptNewsList =
+                wptNewsSpreadsheet.spreadsheet.mapsForColumn(FairfaxSpreadsheet.MMSID_COLUMN_NAME,
+                        "9918190341702836")
+
+        assertThat("The Westport news has 1 entry", mapsForWptNewsList.size(), is(new Integer(1)))
+        Map<String, String> mapsForAlliedPress = mapsForWptNewsList.first()
+        assertThat("'title_parent' is 'The news Westport'", mapsForAlliedPress.get("title_parent"), is("The news Westport"))
+        assertThat("'MMSID' is 9918190341702836", mapsForAlliedPress.get("MMSID"), is("9918190341702836"))
+        assertThat("'title_code' is 'WptNews'", mapsForAlliedPress.get("title_code"), is("WptNews"))
+        assertFalse("isMagazine is false for The Westport news",
+                FairfaxSpreadsheet.extractBooleanValue(mapsForAlliedPress, FairfaxSpreadsheet.IS_MAGAZINE_KEY))
+    }
 }

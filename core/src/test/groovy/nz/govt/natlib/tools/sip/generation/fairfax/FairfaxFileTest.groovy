@@ -113,6 +113,23 @@ class FairfaxFileTest {
     }
 
     @Test
+    void createsCorrectlyWithWptNewsLetterSequence() {
+        String originalFilename = "211021WptNews01.pdf"
+        when(mockFile.fileName).thenReturn(Path.of(originalFilename))
+        PublicationType publicationType = new PublicationType("wptNews")
+        println(publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
+        FairfaxFile testFairfaxFile = new FairfaxFile(mockFile, publicationType)
+        assertThat("Filename extracted correctly", testFairfaxFile.filename, is(originalFilename))
+        assertThat("TitleCode parsed correctly", testFairfaxFile.titleCode, is("WptNews"))
+        assertNotNull("Year extracted", testFairfaxFile.dateYear)
+        assertThat("dateYear parsed correctly", testFairfaxFile.dateYear, is(new Integer(2021)))
+        assertThat("dateMonthOfYear parsed correctly", testFairfaxFile.dateMonthOfYear, is(new Integer(10)))
+        assertThat("dateDayOfMonth parsed correctly", testFairfaxFile.dateDayOfMonth, is(new Integer(21)))
+        assertThat("Qualifier parsed correctly", testFairfaxFile.qualifier, is(""))
+        assertTrue("FairfaxFile is valid", testFairfaxFile.isValidName())
+    }
+
+    @Test
     void createsCorrectlyWithNumberOnlySequence() {
         String originalFilename = "t2022Oct18024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))

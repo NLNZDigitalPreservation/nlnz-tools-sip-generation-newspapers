@@ -45,4 +45,22 @@ class PublicationTypeTest {
         assertThat("SUPPLEMENTS has a UBet key", publicationType.SUPPLEMENTS.containsKey("UBet"), is(true))
         assert publicationType.SUPPLEMENTS instanceof Map
     }
+
+    @Test
+    void loadsTheWptNewsSpreadsheet() {
+        PublicationType publicationType = new PublicationType("wptNews")
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
+                publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN,
+                is("(?<date>\\d{6})(?<titleCode>[a-zA-Z0-9]{7})(?<sectionCode>)(?<sequenceLetter>)(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
+                publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN,
+                is("\\d{6}\\w{6,7}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN is set correctly",
+                publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN,
+                is("\\d{6}\\w{6,7}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("DATE_TIME_PATTERN is set correctly",
+                publicationType.DATE_TIME_PATTERN,
+                is("ddMMyy"))
+        assertThat("SUPPLEMENTS is null", publicationType.SUPPLEMENTS, is(null))
+    }
 }
