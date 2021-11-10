@@ -35,16 +35,19 @@ class TestHelper {
         String idColumnName
         String resourcesFolder
         String importParametersFilename
+        String importParametersPublicationType
         SipProcessingState sipProcessingState
         ProcessOutputInterceptor processOutputInterceptor
         String localPath
         String resourcePath
+        PublicationType publicationType
         FairfaxSpreadsheet fairfaxSpreadsheet
 
-        TestMethodState(String idColumnName, String resourcesFolder, String importParametersFilename) {
+        TestMethodState(String idColumnName, String resourcesFolder, String importParametersFilename, String publicationType) {
             this.idColumnName = idColumnName
             this.resourcesFolder = resourcesFolder
             this.importParametersFilename = importParametersFilename
+            this.importParametersPublicationType = publicationType
         }
     }
 
@@ -67,9 +70,10 @@ class TestHelper {
         } else {
             testMethodState.resourcePath = "${testMethodState.resourcesFolder}"
             testMethodState.localPath = "src/test/resources/${testMethodState.resourcesFolder}"
-
+            testMethodState.publicationType = new PublicationType(testMethodState.importParametersPublicationType,
+                    "${testMethodState.localPath}/${testMethodState.importParametersFilename}")
             testMethodState.fairfaxSpreadsheet = loadSpreadsheet(testMethodState.resourcePath, testMethodState.localPath,
-                    testMethodState.importParametersFilename, testMethodState.idColumnName)
+                    testMethodState.publicationType.PATH_TO_SPREADSHEET, testMethodState.idColumnName)
         }
     }
 

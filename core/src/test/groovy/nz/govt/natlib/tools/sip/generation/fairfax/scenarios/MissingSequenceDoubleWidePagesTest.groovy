@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 import static org.hamcrest.core.Is.is
 import static org.junit.Assert.*
@@ -44,13 +45,14 @@ class MissingSequenceDoubleWidePagesTest {
     static String ID_COLUMN_NAME = "MMSID"
 
     static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-missing-sequence-with-double-wide-pages"
-    static final String IMPORT_PARAMETERS_FILENAME = "test-fairfax-import-parameters.json"
+    static final String IMPORT_PARAMETERS_FILENAME = "test-publication-types.json"
+    static final String PUBLICATION_TYPE = "WMMA"
 
     TestMethodState testMethodState
 
     @Before
     void setup() {
-        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME)
+        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, PUBLICATION_TYPE)
     }
 
     /**
@@ -103,7 +105,7 @@ class MissingSequenceDoubleWidePagesTest {
 
     void processFiles(List<Path> filesForProcessing, List<ProcessingRule> overrideRules) {
         String dateString = "23Nov18"
-        LocalDate processingDate = LocalDate.parse(dateString, FairfaxFile.LOCAL_DATE_TIME_FORMATTER)
+        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.publicationType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build("TSTP",
@@ -119,7 +121,7 @@ class MissingSequenceDoubleWidePagesTest {
                 processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage))
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
-        FairfaxFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing)
+        FairfaxFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, PUBLICATION_TYPE)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
         log.info("${System.lineSeparator()}FairfaxProcessingParameters and SipProcessingState:")
