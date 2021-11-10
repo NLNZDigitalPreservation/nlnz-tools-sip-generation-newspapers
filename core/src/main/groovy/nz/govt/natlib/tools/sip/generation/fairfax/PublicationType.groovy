@@ -11,23 +11,17 @@ class PublicationType {
     String PATH_TO_SPREADSHEET
     Map SUPPLEMENTS
 
+    //Use default spreadsheet
     PublicationType(String publicationType) {
         InputStream inputStream = PublicationType.getResourceAsStream("publication-types.json")
-        def slurper = new JsonSlurper()
-        def publicationTypes = slurper.parseText(inputStream.text)
-        PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = publicationTypes[publicationType]["PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN"]
-        PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = publicationTypes[publicationType]["PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN"]
-        PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = publicationTypes[publicationType]["PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN"]
-        DATE_TIME_PATTERN = publicationTypes[publicationType]["DATE_TIME_PATTERN"]
-        PATH_TO_SPREADSHEET = publicationTypes[publicationType]["PATH_TO_SPREADSHEET"]
-        SUPPLEMENTS = publicationTypes[publicationType]["SUPPLEMENTS"] != null ? publicationTypes[publicationType]["SUPPLEMENTS"] as Map : null
+        def publicationTypes = new JsonSlurper().parseText(inputStream.text)
+        process(publicationTypes[publicationType])
     }
 
+    //Specify spreadsheet
     PublicationType(String publicationType, String pathToSpreadsheet) {
-        println(pathToSpreadsheet)
         File spreadsheetFile = new File("${pathToSpreadsheet}")
-        def slurper = new JsonSlurper()
-        def publicationTypes = slurper.parseText(spreadsheetFile.text)
+        def publicationTypes = new JsonSlurper().parseText(spreadsheetFile.text)
         process(publicationTypes[publicationType])
     }
 
