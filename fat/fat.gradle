@@ -27,7 +27,7 @@ java {
 setVersion(project.ext.versionNumber)
 
 dependencies {
-    compile project(':sip-generation-fairfax-processor')
+    compile project(':sip-generation-newspapers-processor')
 
     // Required by FilesFinder
     compile 'org.apache.ant:ant:1.10.5'
@@ -49,7 +49,7 @@ shadowJar {
     classifier = null
     version = project.ext.versionNumber
     manifest {
-        attributes 'Main-Class': 'nz.govt.natlib.tools.sip.generation.fairfax.processor.ProcessorRunnerWrapper'
+        attributes 'Main-Class': 'nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorRunnerWrapper'
     }
 }
 

@@ -43,7 +43,7 @@ apply plugin: 'pmd' // source code analyzer
 setVersion(project.ext.versionNumber)
 
 dependencies {
-    compile project(':sip-generation-fairfax-core')
+    compile project(':sip-generation-newspapers-core')
 
     compile gradleApi()
 }
