@@ -99,7 +99,7 @@ class CreateSipForFolderTest {
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build("TSTP",
-                [ ProcessingType.CreateSipForFolder ], sourceFolder, processingDate, testMethodState.fairfaxSpreadsheet)
+                [ ProcessingType.CreateSipForFolder ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet)
 
         assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))

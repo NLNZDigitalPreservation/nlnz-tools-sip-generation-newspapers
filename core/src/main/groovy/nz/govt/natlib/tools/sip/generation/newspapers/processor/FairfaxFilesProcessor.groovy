@@ -9,7 +9,7 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOptio
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxProcessingParameters
-import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxSpreadsheet
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.PublicationType
 import nz.govt.natlib.tools.sip.generation.newspapers.SipFactory
@@ -102,7 +102,7 @@ class FairfaxFilesProcessor {
                     break
                 case ProcessingType.CreateSipForFolder:
                     sortedFilesForProcessing = SipForFolderProcessor.selectAndSort(processingParameters, validNamedFiles)
-                    if (processingParameters.spreadsheetRow == FairfaxSpreadsheet.BLANK_ROW) {
+                    if (processingParameters.spreadsheetRow == NewspaperSpreadsheet.BLANK_ROW) {
                         String detailedReason = "No matching spreadsheet row for titleCode=${processingParameters.titleCode}, " +
                                 "date=${processingParameters.date}, folder=${processingParameters.sourceFolder.normalize()}."
                         SipProcessingExceptionReason exceptionReason = new SipProcessingExceptionReason(

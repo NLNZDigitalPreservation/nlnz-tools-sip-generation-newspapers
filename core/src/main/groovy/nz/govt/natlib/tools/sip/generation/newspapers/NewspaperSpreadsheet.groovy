@@ -11,7 +11,7 @@ import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
  * Wraps a {@link Spreadsheet} with Fairfax-specific functionality.
  */
 @Log4j2
-class FairfaxSpreadsheet {
+class NewspaperSpreadsheet {
     // Note that the CSV 'standard' generally only allows 1 character as a separator
     static String DEFAULT_FIELD_SEPARATOR = "|"
     static String MMSID_COLUMN_NAME = "MMSID"
@@ -46,16 +46,16 @@ class FairfaxSpreadsheet {
     ].asImmutable()
 
     /**
-     * Load and return the FairfaxSpreadsheet from default resources.
+     * Load and return the NewspaperSpreadsheet from default resources.
      */
-    static FairfaxSpreadsheet defaultInstance(String pathToSpreadsheet) {
+    static NewspaperSpreadsheet defaultInstance(String pathToSpreadsheet) {
         // TODO Either a root class to get resourceAsStream, move the json file to the same package or do ../../.. etc
         // or do what SipTestHelper does.
-//        InputStream defaultSpreadsheetInputStream = FairfaxSpreadsheet.getResourceAsStream("default-WMMA-import-parameters.json")
-        InputStream defaultSpreadsheetInputStream = FairfaxSpreadsheet.getResourceAsStream(pathToSpreadsheet)
+//        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream("default-WMMA-import-parameters.json")
+        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream(pathToSpreadsheet)
         Spreadsheet spreadsheet = Spreadsheet.fromJson(Spreadsheet.GENERATE_ID_VALUE, defaultSpreadsheetInputStream.text, true, true)
 
-        return new FairfaxSpreadsheet(spreadsheet)
+        return new NewspaperSpreadsheet(spreadsheet)
     }
 
     static boolean extractBooleanValue(Map<String, String> spreadsheetRow, String columnId) {
@@ -69,7 +69,7 @@ class FairfaxSpreadsheet {
         return "1" == columnValue || "y".equalsIgnoreCase(columnValue) || "yes".equalsIgnoreCase(columnValue)
     }
 
-    FairfaxSpreadsheet(Spreadsheet spreadsheet) {
+    NewspaperSpreadsheet(Spreadsheet spreadsheet) {
         this.spreadsheet = spreadsheet
         index()
     }

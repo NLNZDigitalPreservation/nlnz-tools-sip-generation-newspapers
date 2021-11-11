@@ -41,7 +41,7 @@ class TestHelper {
         String localPath
         String resourcePath
         PublicationType publicationType
-        FairfaxSpreadsheet fairfaxSpreadsheet
+        NewspaperSpreadsheet newspaperSpreadsheet
 
         TestMethodState(String idColumnName, String resourcesFolder, String importParametersFilename, String publicationType) {
             this.idColumnName = idColumnName
@@ -66,13 +66,13 @@ class TestHelper {
             File spreadsheetFile = new File(convertedPath)
 
             Spreadsheet spreadsheet = Spreadsheet.fromJson(testMethodState.idColumnName, spreadsheetFile.text, true, true)
-            testMethodState.fairfaxSpreadsheet = new FairfaxSpreadsheet(spreadsheet)
+            testMethodState.newspaperSpreadsheet = new NewspaperSpreadsheet(spreadsheet)
         } else {
             testMethodState.resourcePath = "${testMethodState.resourcesFolder}"
             testMethodState.localPath = "src/test/resources/${testMethodState.resourcesFolder}"
             testMethodState.publicationType = new PublicationType(testMethodState.importParametersPublicationType,
                     "${testMethodState.localPath}/${testMethodState.importParametersFilename}")
-            testMethodState.fairfaxSpreadsheet = loadSpreadsheet(testMethodState.resourcePath, testMethodState.localPath,
+            testMethodState.newspaperSpreadsheet = loadSpreadsheet(testMethodState.resourcePath, testMethodState.localPath,
                     testMethodState.publicationType.PATH_TO_SPREADSHEET, testMethodState.idColumnName)
         }
     }
@@ -204,18 +204,18 @@ class TestHelper {
         }
     }
 
-    static FairfaxSpreadsheet loadSpreadsheet(String resourcePath, String localPath, String importParametersFilename, String idColumnName) {
+    static NewspaperSpreadsheet loadSpreadsheet(String resourcePath, String localPath, String importParametersFilename, String idColumnName) {
         Spreadsheet spreadsheet
-        InputStream defaultSpreadsheetInputStream = FairfaxSpreadsheet.getResourceAsStream(resourcePath)
+        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream(resourcePath)
         if (defaultSpreadsheetInputStream == null) {
             File spreadsheetFile = new File("${localPath}/${importParametersFilename}")
             spreadsheet = Spreadsheet.fromJson(idColumnName, spreadsheetFile.text, true, true)
         } else {
             spreadsheet = Spreadsheet.fromJson(idColumnName, defaultSpreadsheetInputStream.text, true, true)
         }
-        FairfaxSpreadsheet fairfaxSpreadsheet = new FairfaxSpreadsheet(spreadsheet)
+        NewspaperSpreadsheet newspaperSpreadsheet = new NewspaperSpreadsheet(spreadsheet)
 
-        return fairfaxSpreadsheet
+        return newspaperSpreadsheet
     }
 
     // TODO Could handle more than one pattern (see https://www.javacodegeeks.com/2012/11/java-7-file-filtering-using-nio-2-part-2.html)

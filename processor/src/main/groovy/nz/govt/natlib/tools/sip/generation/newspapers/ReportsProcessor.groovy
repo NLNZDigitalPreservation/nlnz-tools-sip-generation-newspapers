@@ -31,9 +31,9 @@ class ReportsProcessor {
 
         log.info("sourceFolder=${processorConfiguration.sourceFolder}")
 
-        FairfaxSpreadsheet fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance()
-        Set<String> allNameKeys = fairfaxSpreadsheet.allTitleCodeKeys
-        Set<FairfaxFileTitleEditionKey> allNameEditionKeys = fairfaxSpreadsheet.allTitleCodeSectionCodeKeys
+        NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance()
+        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
+        Set<FairfaxFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
@@ -137,9 +137,9 @@ class ReportsProcessor {
 
         log.info("sourceFolder=${processorConfiguration.sourceFolder}")
 
-        FairfaxSpreadsheet fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance()
-        Set<String> allNameKeys = fairfaxSpreadsheet.allTitleCodeKeys
-        Set<FairfaxFileTitleEditionKey> allNameEditionKeys = fairfaxSpreadsheet.allTitleCodeSectionCodeKeys
+        NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance()
+        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
+        Set<FairfaxFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true

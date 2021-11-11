@@ -23,7 +23,7 @@ class PreProcessProcessor {
 
     ProcessorConfiguration processorConfiguration
     PublicationType publicationType
-    FairfaxSpreadsheet fairfaxSpreadsheet
+    NewspaperSpreadsheet newspaperSpreadsheet
     Set<String> recognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<String> unrecognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<Path> inProcessDestinationFiles = new ConcurrentHashMap().newKeySet()
@@ -89,7 +89,7 @@ class PreProcessProcessor {
                                                      String dateFolderName, boolean moveFile) {
         String titleCodeFolderName = targetFile.titleCode
         String folderPath
-        Set<String> allNameKeys = fairfaxSpreadsheet.allTitleCodeKeys
+        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
         Map supplements = publicationType.SUPPLEMENTS
 
         if (allNameKeys.contains(targetFile.titleCode)) {
@@ -233,7 +233,7 @@ class PreProcessProcessor {
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
         this.publicationType = new PublicationType(processorConfiguration.publicationType)
-        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true

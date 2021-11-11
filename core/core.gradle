@@ -1,4 +1,3 @@
-import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import nz.govt.natlib.tools.sip.generation.parameters.Spreadsheet
 import nz.govt.natlib.tools.sip.generation.parameters.SpreadsheetImporter
@@ -39,27 +38,27 @@ project.ext {
             'class'      : 0.0  // currently at 0.0%
     ]
 
-    String coreResourcePath = "core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/".replace("/", File.separator)
+    String coreResourcePath = "core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/".replace("/", File.separator)
     // Command-line variables used for specific tasks
-    // Task updateDefaultFairfaxImportParameters
-    doUpdateDefaultFairfaxImportParameters = ProjectHelper.hasAnyTasks(project, [ "updateDefaultFairfaxImportParameters" ])
-    fairfaxSpreadsheetImportFilenameValue = project.hasProperty('fairfaxSpreadsheetImportFilename') ?
+    // Task updateDefaultNewspaperImportParameters
+    doUpdateDefaultNewspaperImportParameters = ProjectHelper.hasAnyTasks(project, [ "updateDefaultNewspaperImportParameters" ])
+    fairfaxSpreadsheetImportFilenameValue = project.hasProperty('newspaperSpreadsheetImportFilename') ?
             project.fairfaxSpreadsheetImportFilename : null
-    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('fairfaxSpreadsheetExportFilename') ?
-            project.fairfaxSpreadsheetExportFilename : "${coreResourcePath}default-fairfax-import-parameters.json"
+    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
+            project.fairfaxSpreadsheetExportFilename : null
 
-    // Task updateDefaultFairfaxImportParameters
-    doExportDefaultFairfaxImportParameters = ProjectHelper.hasAnyTasks(project, [ "exportDefaultFairfaxImportParameters" ])
-    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('fairfaxSpreadsheetExportFilename') ?
+    // Task updateDefaultNewspaperImportParameters
+    doExportDefaultNewspaperImportParameters = ProjectHelper.hasAnyTasks(project, [ "exportDefaultNewspaperImportParameters" ])
+    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
             project.fairfaxSpreadsheetExportFilename : null
 
     fairfaxSpreadsheetImportFilenameValue = null
     defaultExportFilename = ""
-    if (doUpdateDefaultFairfaxImportParameters) {
+    if (doUpdateDefaultNewspaperImportParameters) {
         defaultExportFilename = "default-fairfax-import-parameters.json"
         fairfaxSpreadsheetImportFilenameValue = project.hasProperty('fairfaxSpreadsheetImportFilename') ?
                 project.fairfaxSpreadsheetImportFilename : null
-    } else if (doExportDefaultFairfaxImportParameters) {
+    } else if (doExportDefaultNewspaperImportParameters) {
         defaultExportFilename = "fairfax-export-parameters.csv"
         fairfaxSpreadsheetImportFilenameValue = project.hasProperty('fairfaxSpreadsheetImportFilename') ?
                 project.fairfaxSpreadsheetImportFilename :
@@ -138,11 +137,11 @@ task jarSources(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-task updateDefaultFairfaxImportParameters() {
+task updateDefaultNewspaperImportParameters() {
     java.nio.file.Path spreadsheetImportFile
-    if (project.doUpdateDefaultFairfaxImportParameters) {
+    if (project.doUpdateDefaultNewspaperImportParameters) {
         if (project.fairfaxSpreadsheetImportFilenameValue == null) {
-            throw new BuildException("fairfaxSpreadsheetImportFilename=${project.fairfaxSpreadsheetImportFilenameValue} must be set when calling task 'updateDefaultFairfaxImportParameters'.".toString())
+            throw new BuildException("fairfaxSpreadsheetImportFilename=${project.fairfaxSpreadsheetImportFilenameValue} must be set when calling task 'updateDefaultNewspaperImportParameters'.".toString())
         } else {
             spreadsheetImportFile = java.nio.file.Path.of((String) project.fairfaxSpreadsheetImportFilenameValue)
         }
@@ -177,11 +176,11 @@ task updateDefaultFairfaxImportParameters() {
 }
 
 // Export the fairfax import parameters JSON as a CSV spreadsheet
-task exportDefaultFairfaxImportParameters() {
+task exportDefaultNewspaperImportParameters() {
     java.nio.file.Path spreadsheetImportFile
-    if (project.doExportDefaultFairfaxImportParameters) {
+    if (project.doExportDefaultNewspaperImportParameters) {
         if (project.fairfaxSpreadsheetImportFilenameValue == null) {
-            throw new BuildException("fairfaxSpreadsheetImportFilename=${project.fairfaxSpreadsheetImportFilenameValue} must be set when calling task 'exportDefaultFairfaxImportParameters'.".toString())
+            throw new BuildException("fairfaxSpreadsheetImportFilename=${project.fairfaxSpreadsheetImportFilenameValue} must be set when calling task 'exportDefaultNewspaperImportParameters'.".toString())
         } else {
             spreadsheetImportFile = java.nio.file.Path.of((String) project.fairfaxSpreadsheetImportFilenameValue)
         }

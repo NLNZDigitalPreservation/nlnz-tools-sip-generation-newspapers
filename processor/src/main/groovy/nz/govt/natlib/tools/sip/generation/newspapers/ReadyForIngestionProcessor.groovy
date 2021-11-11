@@ -40,7 +40,7 @@ class ReadyForIngestionProcessor {
     static final String KILL_FILE_NAME = "ready-for-ingestion-STOP"
 
     PublicationType publicationType
-    FairfaxSpreadsheet fairfaxSpreadsheet
+    NewspaperSpreadsheet newspaperSpreadsheet
     ProcessorConfiguration processorConfiguration
     List<ProcessingType> processingTypes
     List<ProcessingRule> overrideProcessingRules = [ ]
@@ -316,7 +316,7 @@ class ReadyForIngestionProcessor {
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
         this.publicationType = new PublicationType(processorConfiguration.publicationType)
-        this.fairfaxSpreadsheet = FairfaxSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
 
         // First, collect all the directories to process
         List<Tuple2<Path, String>> titleCodeFoldersAndDates = [ ]
@@ -378,7 +378,7 @@ class ReadyForIngestionProcessor {
                         List<ProcessingOption> perThreadOverrideOptions = (List<ProcessingOption>) this.overrideProcessingOptions.clone()
 
                         List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build(titleCode,
-                                perThreadProcessingTypes, titleCodeFolder, processingDate, fairfaxSpreadsheet,
+                                perThreadProcessingTypes, titleCodeFolder, processingDate, newspaperSpreadsheet,
                                 perThreadOverrideRules, perThreadOverrideOptions)
 
                         parametersList.each { FairfaxProcessingParameters processingParameters ->

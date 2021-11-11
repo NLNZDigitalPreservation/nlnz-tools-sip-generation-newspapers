@@ -1,7 +1,7 @@
 package nz.govt.natlib.tools.sip.generation.newspapers.processor.type
 
 import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxProcessingParameters
-import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxSpreadsheet
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 
 /**
@@ -14,7 +14,7 @@ class SipForFolderProcessor {
         List<String> sectionCodes = NewspaperFile.allSectionCodes(allPossibleFiles).toList()
         processingParameters.sectionCodes = sectionCodes
         if (processingParameters.spreadsheetRow.isEmpty()) {
-            processingParameters.spreadsheetRow = FairfaxSpreadsheet.BLANK_ROW
+            processingParameters.spreadsheetRow = NewspaperSpreadsheet.BLANK_ROW
         }
         List<NewspaperFile> selectedAndSorted = null
         // Sort list in ascending order if it doesn't contain a section code

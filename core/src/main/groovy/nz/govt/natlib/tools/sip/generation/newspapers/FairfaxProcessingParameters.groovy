@@ -46,7 +46,7 @@ class FairfaxProcessingParameters {
     String thumbnailPageFileFinalName
 
     static List<FairfaxProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
-                                                   LocalDate processingDate, FairfaxSpreadsheet spreadsheet,
+                                                   LocalDate processingDate, NewspaperSpreadsheet spreadsheet,
                                                    List<ProcessingRule> overrideRules = [],
                                                    List<ProcessingOption> overrideOptions = []) {
         List<FairfaxProcessingParameters> parametersList = [ ]
@@ -184,20 +184,20 @@ class FairfaxProcessingParameters {
         } else {
             // matchingRows.size() == 1
             Map<String, String> matchingRow = matchingRows.first()
-            String rules = matchingRow.get(FairfaxSpreadsheet.PROCESSING_RULES_KEY)
-            String options = matchingRow.get(FairfaxSpreadsheet.PROCESSING_OPTIONS_KEY)
+            String rules = matchingRow.get(NewspaperSpreadsheet.PROCESSING_RULES_KEY)
+            String options = matchingRow.get(NewspaperSpreadsheet.PROCESSING_OPTIONS_KEY)
             return new FairfaxProcessingParameters(titleCode: titleCode, type: processingType,
                     rules: ProcessingRule.extract(rules, ",", processingType.defaultRules),
                     options: ProcessingOption.extract(options, ",", processingType.defaultOptions),
                     sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: matchingRow,
-                    sectionCodes: extractSeparatedValues(matchingRow, FairfaxSpreadsheet.SECTION_CODE_KEY),
-                    editionDiscriminators: extractSeparatedValues(matchingRow, FairfaxSpreadsheet.EDITION_DISCRIMINATOR_KEY),
-                    isMagazine: FairfaxSpreadsheet.extractBooleanValue(matchingRow, FairfaxSpreadsheet.IS_MAGAZINE_KEY))
+                    sectionCodes: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SECTION_CODE_KEY),
+                    editionDiscriminators: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY),
+                    isMagazine: NewspaperSpreadsheet.extractBooleanValue(matchingRow, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
         }
     }
 
     static List<Map<String, String>> matchingRowsFor(String titleCode, ProcessingType processingType, Path sourceFolder,
-                                                     LocalDate processingDate, FairfaxSpreadsheet spreadsheet) {
+                                                     LocalDate processingDate, NewspaperSpreadsheet spreadsheet) {
         List<Map<String, String>> matchingRows = spreadsheet.matchingProcessingTypeParameterMaps(
                 processingType.fieldValue, titleCode)
         if (!matchingRows.isEmpty() && processingType == ProcessingType.ParentGroupingWithEdition) {
@@ -208,7 +208,7 @@ class FairfaxProcessingParameters {
 
             // Step 2: Based on the section_code pick the right spreadsheet row
             List<Map<String, String>> editionMatchingRows = matchingRows.findAll { Map<String, String> row ->
-                List<String> editionDiscriminators = extractSeparatedValues(row, FairfaxSpreadsheet.EDITION_DISCRIMINATOR_KEY)
+                List<String> editionDiscriminators = extractSeparatedValues(row, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY)
                 editionDiscriminators.any { String discriminator ->
                     uniqueSectionCodes.contains(discriminator)
                 }
@@ -249,7 +249,7 @@ class FairfaxProcessingParameters {
     }
 
     String getTitleParent() {
-        String titleParent = spreadsheetRow.get(FairfaxSpreadsheet.TITLE_PARENT_KEY)
+        String titleParent = spreadsheetRow.get(NewspaperSpreadsheet.TITLE_PARENT_KEY)
         if (titleParent == null || titleParent.strip().isEmpty()) {
             titleParent = "NO-TITLE-GIVEN"
         }
@@ -257,7 +257,7 @@ class FairfaxProcessingParameters {
     }
 
     String getTitleMets() {
-        String titleMets = spreadsheetRow.get(FairfaxSpreadsheet.TITLE_METS_KEY)
+        String titleMets = spreadsheetRow.get(NewspaperSpreadsheet.TITLE_METS_KEY)
         if (titleMets == null || titleMets.strip().isEmpty()) {
             titleMets = "NO-TITLE-METS-GIVEN"
         }
@@ -265,7 +265,7 @@ class FairfaxProcessingParameters {
     }
 
     String getMmsid() {
-        String mmsId = spreadsheetRow.get(FairfaxSpreadsheet.MMSID_COLUMN_NAME)
+        String mmsId = spreadsheetRow.get(NewspaperSpreadsheet.MMSID_COLUMN_NAME)
         if (mmsId == null || mmsId.strip().isEmpty()) {
             mmsId = "NO-MMSID-GIVEN"
         }
@@ -273,7 +273,7 @@ class FairfaxProcessingParameters {
     }
 
     String getSectionCodesString() {
-        String sectionCodesString = spreadsheetRow.get(FairfaxSpreadsheet.SECTION_CODE_KEY)
+        String sectionCodesString = spreadsheetRow.get(NewspaperSpreadsheet.SECTION_CODE_KEY)
         if (sectionCodesString == null || sectionCodesString.strip().isEmpty()) {
             sectionCodesString = ""
         }

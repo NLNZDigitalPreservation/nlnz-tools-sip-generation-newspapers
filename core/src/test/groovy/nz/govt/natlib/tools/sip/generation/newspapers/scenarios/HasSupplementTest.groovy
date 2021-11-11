@@ -61,7 +61,7 @@ class HasSupplementTest {
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build("Newspaper",
-                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.fairfaxSpreadsheet,
+                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
                 [ProcessingRule.MissingSequenceIgnored, ProcessingRule.UseFileNameForMetsLabel])
 
         assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
