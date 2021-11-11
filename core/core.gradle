@@ -42,31 +42,26 @@ project.ext {
     // Command-line variables used for specific tasks
     // Task updateDefaultNewspaperImportParameters
     doUpdateDefaultNewspaperImportParameters = ProjectHelper.hasAnyTasks(project, [ "updateDefaultNewspaperImportParameters" ])
-    fairfaxSpreadsheetImportFilenameValue = project.hasProperty('newspaperSpreadsheetImportFilename') ?
-            project.fairfaxSpreadsheetImportFilename : null
-    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
-            project.fairfaxSpreadsheetExportFilename : null
+    newspaperSpreadsheetImportFilenameValue = project.hasProperty('newspaperSpreadsheetImportFilename') ?
+            project.newspaperSpreadsheetImportFilename : null
+    newspaperSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
+            project.newspaperSpreadsheetExportFilename : null
 
     // Task updateDefaultNewspaperImportParameters
     doExportDefaultNewspaperImportParameters = ProjectHelper.hasAnyTasks(project, [ "exportDefaultNewspaperImportParameters" ])
-    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
-            project.fairfaxSpreadsheetExportFilename : null
+    newspaperSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
+            project.newspaperSpreadsheetExportFilename : null
 
-    fairfaxSpreadsheetImportFilenameValue = null
-    defaultExportFilename = ""
+    newspaperSpreadsheetImportFilenameValue = null
     if (doUpdateDefaultNewspaperImportParameters) {
-        defaultExportFilename = "default-fairfax-import-parameters.json"
-        fairfaxSpreadsheetImportFilenameValue = project.hasProperty('fairfaxSpreadsheetImportFilename') ?
-                project.fairfaxSpreadsheetImportFilename : null
+        newspaperSpreadsheetImportFilenameValue = project.hasProperty('newspaperSpreadsheetImportFilename') ?
+                project.newspaperSpreadsheetImportFilename : null
     } else if (doExportDefaultNewspaperImportParameters) {
-        defaultExportFilename = "fairfax-export-parameters.csv"
-        fairfaxSpreadsheetImportFilenameValue = project.hasProperty('fairfaxSpreadsheetImportFilename') ?
-                project.fairfaxSpreadsheetImportFilename :
-                "${coreResourcePath}default-fairfax-import-parameters.json"
+        newspaperSpreadsheetImportFilenameValue = project.hasProperty('newspaperSpreadsheetImportFilename') ?
+                project.newspaperSpreadsheetImportFilename : null
     }
-    fairfaxSpreadsheetExportFilenameValue = project.hasProperty('fairfaxSpreadsheetExportFilename') ?
-            project.fairfaxSpreadsheetExportFilename :
-            "${coreResourcePath}${defaultExportFilename}"
+    newspaperSpreadsheetExportFilenameValue = project.hasProperty('newspaperSpreadsheetExportFilename') ?
+            project.newspaperSpreadsheetExportFilename : null
 }
 
 apply plugin: 'groovy'
@@ -139,11 +134,12 @@ task jarSources(type: Jar, dependsOn: classes) {
 
 task updateDefaultNewspaperImportParameters() {
     java.nio.file.Path spreadsheetImportFile
+    java.nio.file.Path spreadsheetExportFile
     if (project.doUpdateDefaultNewspaperImportParameters) {
-        if (project.fairfaxSpreadsheetImportFilenameValue == null) {
-            throw new BuildException("fairfaxSpreadsheetImportFilename=${project.fairfaxSpreadsheetImportFilenameValue} must be set when calling task 'updateDefaultNewspaperImportParameters'.".toString())
+        if (project.newspaperSpreadsheetImportFilenameValue == null) {
+            throw new BuildException("newspaperSpreadsheetImportFilename=${project.newspaperSpreadsheetImportFilenameValue} must be set when calling task 'updateDefaultNewspaperImportParameters'.".toString())
         } else {
-            spreadsheetImportFile = java.nio.file.Path.of((String) project.fairfaxSpreadsheetImportFilenameValue)
+            spreadsheetImportFile = java.nio.file.Path.of((String) project.newspaperSpreadsheetImportFilenameValue)
         }
         if (!Files.exists(spreadsheetImportFile)) {
             throw new BuildException("File=${spreadsheetImportFile.normalize().toString()} must exist.".toString())
@@ -151,9 +147,19 @@ task updateDefaultNewspaperImportParameters() {
         if (!Files.isRegularFile(spreadsheetImportFile)) {
             throw new BuildException("File=${spreadsheetImportFile.normalize().toString()} must be a file.".toString())
         }
+        if (project.newspaperSpreadsheetExportFilenameValue == null) {
+            throw new BuildException("newspaperSpreadsheetExportFilename=${project.newspaperSpreadsheetExportFilenameValue} must be set when calling task 'updateDefaultNewspaperImportParameters'.".toString())
+        } else {
+            spreadsheetExportFile = java.nio.file.Path.of((String) project.newspaperSpreadsheetExportFilenameValue)
+        }
+        if (!Files.exists(spreadsheetExportFile)) {
+            throw new BuildException("File=${spreadsheetExportFile.normalize().toString()} must exist.".toString())
+        }
+        if (!Files.isRegularFile(spreadsheetExportFile)) {
+            throw new BuildException("File=${spreadsheetExportFile.normalize().toString()} must be a file.".toString())
+        }
     }
     doLast {
-        java.nio.file.Path spreadsheetExportFile = java.nio.file.Path.of((String) project.fairfaxSpreadsheetExportFilenameValue)
         logger.info("Writing spreadsheet-import-file=${spreadsheetImportFile.normalize().toString()} to spreadsheet-export-file=${spreadsheetExportFile.normalize().toString()}")
         boolean allowDuplicateIds = true
         boolean allowRowsWithoutIds = true
@@ -175,14 +181,15 @@ task updateDefaultNewspaperImportParameters() {
     }
 }
 
-// Export the fairfax import parameters JSON as a CSV spreadsheet
+// Export the newspaper import parameters JSON as a CSV spreadsheet
 task exportDefaultNewspaperImportParameters() {
     java.nio.file.Path spreadsheetImportFile
+    java.nio.file.Path spreadsheetExportFile
     if (project.doExportDefaultNewspaperImportParameters) {
-        if (project.fairfaxSpreadsheetImportFilenameValue == null) {
-            throw new BuildException("fairfaxSpreadsheetImportFilename=${project.fairfaxSpreadsheetImportFilenameValue} must be set when calling task 'exportDefaultNewspaperImportParameters'.".toString())
+        if (project.newspaperSpreadsheetImportFilenameValue == null) {
+            throw new BuildException("newspaperSpreadsheetImportFilename=${project.newspaperSpreadsheetImportFilenameValue} must be set when calling task 'exportDefaultNewspaperImportParameters'.".toString())
         } else {
-            spreadsheetImportFile = java.nio.file.Path.of((String) project.fairfaxSpreadsheetImportFilenameValue)
+            spreadsheetImportFile = java.nio.file.Path.of((String) project.newspaperSpreadsheetImportFilenameValue)
         }
         if (!Files.exists(spreadsheetImportFile)) {
             throw new BuildException("File=${spreadsheetImportFile.normalize().toString()} must exist.".toString())
@@ -190,9 +197,19 @@ task exportDefaultNewspaperImportParameters() {
         if (!Files.isRegularFile(spreadsheetImportFile)) {
             throw new BuildException("File=${spreadsheetImportFile.normalize().toString()} must be a file.".toString())
         }
+        if (project.newspaperSpreadsheetExportFilenameValue == null) {
+            throw new BuildException("newspaperSpreadsheetExportFilename=${project.newspaperSpreadsheetExportFilenameValue} must be set when calling task 'exportDefaultNewspaperImportParameters'.".toString())
+        } else {
+            spreadsheetExportFile = java.nio.file.Path.of((String) project.newspaperSpreadsheetExportFilenameValue)
+        }
+        if (!Files.exists(spreadsheetExportFile)) {
+            throw new BuildException("File=${spreadsheetExportFile.normalize().toString()} must exist.".toString())
+        }
+        if (!Files.isRegularFile(spreadsheetExportFile)) {
+            throw new BuildException("File=${spreadsheetExportFile.normalize().toString()} must be a file.".toString())
+        }
     }
     doLast {
-        java.nio.file.Path spreadsheetExportFile = java.nio.file.Path.of((String) project.fairfaxSpreadsheetExportFilenameValue)
         logger.info("Writing spreadsheet-import-file=${spreadsheetImportFile.normalize().toString()} to spreadsheet-export-file=${spreadsheetExportFile.normalize().toString()}")
         boolean allowDuplicateIds = true
         boolean allowRowsWithoutIds = true

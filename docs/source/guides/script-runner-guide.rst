@@ -957,7 +957,7 @@ Converting the csv spreadsheet to JSON
        to a JSON file, which is then used for the actual processing::
 
             gradle updateDefaultFairfaxImportParameters \
-              -PfairfaxSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv" \
+              -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv" \
               -PfairfaxSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-parameters.json"
 
 Note that there is no requirement to use the filenames given in the example. The given filenames are the ones the code
@@ -968,7 +968,7 @@ Converting the JSON parameters to csv spreadsheet
 The JSON file can be converted to a csv spreadsheet using the build task ``exportDefaultFairfaxImportParameters``::
 
     gradle exportDefaultFairfaxImportParameters \
-      -PfairfaxSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-parameters.json" \
+      -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-parameters.json" \
       -PfairfaxSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv"
 
 Note that there is no requirement to use the filenames given in the example. The given filenames are the ones the code
