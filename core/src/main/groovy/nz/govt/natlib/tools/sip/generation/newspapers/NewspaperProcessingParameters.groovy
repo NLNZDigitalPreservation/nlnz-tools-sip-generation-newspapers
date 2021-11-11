@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 @ToString(includeNames=true, includePackage=false, excludes=[ 'spreadsheetRow', 'sipProcessingState' ])
 @AutoClone(excludes = [ 'currentEdition' ])
 @Log4j2
-class FairfaxProcessingParameters {
+class NewspaperProcessingParameters {
     static DateTimeFormatter READABLE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     static final List<String> IGNORE_EDITIONS_FOR_DC_COVERAGE = [ 'TAB', 'NEL', 'MEX' ]
 
@@ -45,17 +45,17 @@ class FairfaxProcessingParameters {
     Path thumbnailPageFile
     String thumbnailPageFileFinalName
 
-    static List<FairfaxProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
-                                                   LocalDate processingDate, NewspaperSpreadsheet spreadsheet,
-                                                   List<ProcessingRule> overrideRules = [],
-                                                   List<ProcessingOption> overrideOptions = []) {
-        List<FairfaxProcessingParameters> parametersList = [ ]
+    static List<NewspaperProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
+                                                     LocalDate processingDate, NewspaperSpreadsheet spreadsheet,
+                                                     List<ProcessingRule> overrideRules = [],
+                                                     List<ProcessingOption> overrideOptions = []) {
+        List<NewspaperProcessingParameters> parametersList = [ ]
 
         processingTypes.sort().each { ProcessingType processingType ->
             List<Map<String, String>> matchingRows = matchingRowsFor(titleCode, processingType, sourceFolder, processingDate, spreadsheet)
             if (processingType == ProcessingType.ParentGroupingWithEdition) {
                 matchingRows.each { Map<String, String> singleRow ->
-                    FairfaxProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
+                    NewspaperProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
                             processingDate, [ singleRow ])
                     candidate.rules = ProcessingRule.mergeOverrides(candidate.rules, overrideRules)
                     candidate.options = ProcessingOption.mergeOverrides(candidate.options, overrideOptions)
@@ -63,14 +63,14 @@ class FairfaxProcessingParameters {
                 }
             } else if (processingType == ProcessingType.SupplementGrouping) {
                 matchingRows.each { Map<String, String> singleRow ->
-                    FairfaxProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
+                    NewspaperProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
                             processingDate, [ singleRow ])
                     candidate.rules = ProcessingRule.mergeOverrides(candidate.rules, overrideRules)
                     candidate.options = ProcessingOption.mergeOverrides(candidate.options, overrideOptions)
                     parametersList.add(candidate)
                 }
             } else {
-                FairfaxProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder, processingDate, matchingRows)
+                NewspaperProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder, processingDate, matchingRows)
                 candidate.rules = ProcessingRule.mergeOverrides(candidate.rules, overrideRules)
                 candidate.options = ProcessingOption.mergeOverrides(candidate.options, overrideOptions)
                 if (candidate.valid) {
@@ -112,11 +112,11 @@ class FairfaxProcessingParameters {
                 }
             }
         }
-        parametersList.each { FairfaxProcessingParameters parameters ->
+        parametersList.each { NewspaperProcessingParameters parameters ->
             parameters.applyOverrides(overrideRules, overrideOptions)
         }
-        List<FairfaxProcessingParameters> editionExpandedList = [ ]
-        parametersList.each { FairfaxProcessingParameters processingParameters ->
+        List<NewspaperProcessingParameters> editionExpandedList = [ ]
+        parametersList.each { NewspaperProcessingParameters processingParameters ->
             boolean hasMultipleEditions = processingParameters.editionDiscriminators.size() > 0
             if (hasMultipleEditions) {
                 processingParameters.editionDiscriminators.each { String editionDiscriminator ->
@@ -128,7 +128,7 @@ class FairfaxProcessingParameters {
                         }
                     }
                     if (hasMatchingEdition) {
-                        FairfaxProcessingParameters clonedParameters = (FairfaxProcessingParameters) processingParameters.clone()
+                        NewspaperProcessingParameters clonedParameters = (NewspaperProcessingParameters) processingParameters.clone()
                         clonedParameters.currentEdition = editionDiscriminator
                         editionExpandedList.add(clonedParameters)
                     }
@@ -140,9 +140,9 @@ class FairfaxProcessingParameters {
         return editionExpandedList
     }
 
-    static FairfaxProcessingParameters buildForRows(String titleCode, ProcessingType processingType,
-                                                    Path sourceFolder, LocalDate processingDate,
-                                                    List<Map<String, String>> matchingRows) {
+    static NewspaperProcessingParameters buildForRows(String titleCode, ProcessingType processingType,
+                                                      Path sourceFolder, LocalDate processingDate,
+                                                      List<Map<String, String>> matchingRows) {
         if (matchingRows.size() > 1) {
             String message = "Multiple spreadsheet rows for processingType=${processingType.fieldValue} and titleCode=${titleCode}. Unable to generate parameters".toString()
             SipProcessingExceptionReason exceptionReason = new SipProcessingExceptionReason(
@@ -150,13 +150,13 @@ class FairfaxProcessingParameters {
             SipProcessingState replacementSipProcessingState = new SipProcessingState()
             replacementSipProcessingState.exceptions = [ SipProcessingException.createWithReason(exceptionReason) ]
             log.warn(message)
-            return new FairfaxProcessingParameters(valid: false, titleCode: titleCode, type: processingType,
+            return new NewspaperProcessingParameters(valid: false, titleCode: titleCode, type: processingType,
                     rules: processingType.defaultRules, options: processingType.defaultOptions,
                     sourceFolder: sourceFolder, date: processingDate, sipProcessingState: replacementSipProcessingState)
         } else if (matchingRows.size() == 0) {
             if (ProcessingType.CreateSipForFolder == processingType) {
                 Map<String, String> blankRow = [ : ]
-                return new FairfaxProcessingParameters(titleCode: titleCode, type: processingType,
+                return new NewspaperProcessingParameters(titleCode: titleCode, type: processingType,
                         rules: processingType.defaultRules, options: processingType.defaultOptions,
                         sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: blankRow)
             } else {
@@ -166,7 +166,7 @@ class FairfaxProcessingParameters {
                 SipProcessingState replacementSipProcessingState = new SipProcessingState()
                 replacementSipProcessingState.exceptions = [ SipProcessingException.createWithReason(exceptionReason) ]
                 log.warn(message)
-                return new FairfaxProcessingParameters(valid: false, titleCode: titleCode, type: processingType,
+                return new NewspaperProcessingParameters(valid: false, titleCode: titleCode, type: processingType,
                         rules: processingType.defaultRules, options: processingType.defaultOptions,
                         sourceFolder: sourceFolder, date: processingDate,
                         sipProcessingState: replacementSipProcessingState)
@@ -178,7 +178,7 @@ class FairfaxProcessingParameters {
             SipProcessingState replacementSipProcessingState = new SipProcessingState()
             replacementSipProcessingState.exceptions = [ SipProcessingException.createWithReason(exceptionReason) ]
             log.warn(message)
-            return new FairfaxProcessingParameters(valid: false, titleCode: titleCode, type: processingType,
+            return new NewspaperProcessingParameters(valid: false, titleCode: titleCode, type: processingType,
                     rules: processingType.defaultRules, options: processingType.defaultOptions,
                     sourceFolder: sourceFolder, date: processingDate, sipProcessingState: replacementSipProcessingState)
         } else {
@@ -186,7 +186,7 @@ class FairfaxProcessingParameters {
             Map<String, String> matchingRow = matchingRows.first()
             String rules = matchingRow.get(NewspaperSpreadsheet.PROCESSING_RULES_KEY)
             String options = matchingRow.get(NewspaperSpreadsheet.PROCESSING_OPTIONS_KEY)
-            return new FairfaxProcessingParameters(titleCode: titleCode, type: processingType,
+            return new NewspaperProcessingParameters(titleCode: titleCode, type: processingType,
                     rules: ProcessingRule.extract(rules, ",", processingType.defaultRules),
                     options: ProcessingOption.extract(options, ",", processingType.defaultOptions),
                     sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: matchingRow,

@@ -6,7 +6,7 @@ import org.junit.Test
 import static org.hamcrest.core.Is.is
 import static org.junit.Assert.assertThat
 
-class FairfaxProcessingParametersTest {
+class NewspaperProcessingParametersTest {
 
     @Test
     void correctExtractsParametersFromString() {
@@ -30,6 +30,6 @@ class FairfaxProcessingParametersTest {
 
     void makeAndCheckExtraction(String candidateString, List<String> expectedExtraction) {
         assertThat("Expect extract of string='${candidateString}' is=${expectedExtraction}",
-                FairfaxProcessingParameters.splitColumnValue(candidateString), is(expectedExtraction))
+                NewspaperProcessingParameters.splitColumnValue(candidateString), is(expectedExtraction))
     }
 }

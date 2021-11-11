@@ -5,7 +5,7 @@ import nz.govt.natlib.tools.sip.IEEntityType
 import nz.govt.natlib.tools.sip.extraction.SipXmlExtractor
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.FairfaxFilesProcessor
-import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxProcessingParameters
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper.TestMethodState
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
@@ -100,19 +100,19 @@ class InvalidPdfTest {
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.publicationType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
-        List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build("TSTP",
+        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TSTP",
                 [ ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet)
 
-        assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
+        assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))
 
-        FairfaxProcessingParameters processingParameters = parametersList.first()
+        NewspaperProcessingParameters processingParameters = parametersList.first()
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
         FairfaxFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, PUBLICATION_TYPE)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
-        log.info("${System.lineSeparator()}FairfaxProcessingParameters and SipProcessingState:")
+        log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")
         log.info(processingParameters.detailedDisplay(0, true))
         log.info(System.lineSeparator())
 

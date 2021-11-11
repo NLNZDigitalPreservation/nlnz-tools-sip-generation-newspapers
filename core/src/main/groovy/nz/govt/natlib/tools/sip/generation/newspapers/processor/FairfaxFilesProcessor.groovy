@@ -8,7 +8,7 @@ import nz.govt.natlib.tools.sip.generation.SipXmlGenerator
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
-import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxProcessingParameters
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.PublicationType
@@ -40,7 +40,7 @@ import org.apache.commons.io.FilenameUtils
  */
 @Log4j2
 class FairfaxFilesProcessor {
-    FairfaxProcessingParameters processingParameters
+    NewspaperProcessingParameters processingParameters
     List<Path> filesForProcessing
     PublicationType publicationType
 
@@ -57,7 +57,7 @@ class FairfaxFilesProcessor {
         return sip
     }
 
-    static void processCollectedFiles(FairfaxProcessingParameters processingParameters,
+    static void processCollectedFiles(NewspaperProcessingParameters processingParameters,
                                       List<Path> filesForProcessing,
                                       String publicationType) {
         FairfaxFilesProcessor newspaperFilesProcessor = new FairfaxFilesProcessor(processingParameters,
@@ -71,7 +71,7 @@ class FairfaxFilesProcessor {
         newspaperFilesProcessor.process()
     }
 
-    FairfaxFilesProcessor(FairfaxProcessingParameters processingParameters, List<Path> filesForProcessing, String publication) {
+    FairfaxFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String publication) {
         this.processingParameters = processingParameters
         this.filesForProcessing = filesForProcessing
         this.publicationType = new PublicationType(publication)

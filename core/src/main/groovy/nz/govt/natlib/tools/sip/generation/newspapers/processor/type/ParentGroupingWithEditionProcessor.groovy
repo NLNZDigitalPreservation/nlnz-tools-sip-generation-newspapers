@@ -1,8 +1,8 @@
 package nz.govt.natlib.tools.sip.generation.newspapers.processor.type
 
 import groovy.util.logging.Log4j2
-import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 
 /**
@@ -11,7 +11,7 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
  */
 @Log4j2
 class ParentGroupingWithEditionProcessor {
-    static List<NewspaperFile> selectAndSort(FairfaxProcessingParameters processingParameters,
+    static List<NewspaperFile> selectAndSort(NewspaperProcessingParameters processingParameters,
                                              List<NewspaperFile> allPossibleFiles) {
         // We need to make adjustments to the processing parameters
         // currentEdition will have been set when iterating through editionDiscriminators

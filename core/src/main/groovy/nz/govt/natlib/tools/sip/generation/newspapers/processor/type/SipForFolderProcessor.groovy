@@ -1,6 +1,7 @@
 package nz.govt.natlib.tools.sip.generation.newspapers.processor.type
 
-import nz.govt.natlib.tools.sip.generation.newspapers.FairfaxProcessingParameters
+
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 
@@ -9,7 +10,7 @@ import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
  * {@link nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType#CreateSipForFolder}
  */
 class SipForFolderProcessor {
-    static List<NewspaperFile> selectAndSort(FairfaxProcessingParameters processingParameters,
+    static List<NewspaperFile> selectAndSort(NewspaperProcessingParameters processingParameters,
                                              List<NewspaperFile> allPossibleFiles) {
         List<String> sectionCodes = NewspaperFile.allSectionCodes(allPossibleFiles).toList()
         processingParameters.sectionCodes = sectionCodes

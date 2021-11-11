@@ -105,7 +105,7 @@ class NewspaperFile {
     // Except in the case of a substitution, where the original sectionCode and the substitute sectionCode are treated
     // as if they are the same.
     static List<NewspaperFile> sortWithSameTitleCodeAndDate(List<NewspaperFile> files,
-                                                            FairfaxProcessingParameters processingParameters) {
+                                                            NewspaperProcessingParameters processingParameters) {
         // FIRST: Order by sectionCode as per processingParameters
         Map<String, List<NewspaperFile>> filesBySection = [: ]
         processingParameters.sectionCodes.each { String sectionCode ->
@@ -136,7 +136,7 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> postMissingSequenceFiles(List<NewspaperFile> files,
-                                                        FairfaxProcessingParameters processingParameters) {
+                                                        NewspaperProcessingParameters processingParameters) {
         List<NewspaperFile> sorted = null;
         // Sort list in ascending order if it doesn't contain a section code
         if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) sorted = files.sort()
@@ -228,7 +228,7 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> filterSubstituteAndSort(List<NewspaperFile> allPossibleFiles,
-                                                       FairfaxProcessingParameters processingParameters) {
+                                                       NewspaperProcessingParameters processingParameters) {
         List<NewspaperFile> filteredSubstitutedAndSorted
         if (processingParameters.currentEdition != null && !processingParameters.editionDiscriminators.isEmpty()) {
             // First we filter so we only have the files we want to process

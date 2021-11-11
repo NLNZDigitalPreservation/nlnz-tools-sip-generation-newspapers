@@ -100,7 +100,7 @@ class ReadyForIngestionProcessor {
                 ",", [ ], true)
     }
 
-    SipProcessingState processTitleCodeFolder(FairfaxProcessingParameters processingParameters, Path destinationFolder,
+    SipProcessingState processTitleCodeFolder(NewspaperProcessingParameters processingParameters, Path destinationFolder,
                                               Path forReviewFolder, String dateString) {
         // Process the files in the titleCode folder
 
@@ -125,7 +125,7 @@ class ReadyForIngestionProcessor {
             }
 
             log.info("END Processing sourceFolder=${processingParameters.sourceFolderPath()}")
-            log.info("${System.lineSeparator()}FairfaxProcessingParameters and SipProcessingState:")
+            log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")
             log.info(processingParameters.detailedDisplay(0, true))
             log.info(System.lineSeparator())
 
@@ -147,7 +147,7 @@ class ReadyForIngestionProcessor {
         return processingParameters.sipProcessingState
     }
 
-    Path postProcess(FairfaxProcessingParameters processingParameters, Path destinationFolder, Path forReviewFolder,
+    Path postProcess(NewspaperProcessingParameters processingParameters, Path destinationFolder, Path forReviewFolder,
                      String dateString) {
         Path sipAndFilesFolder
         SipProcessingState sipProcessingState = processingParameters.sipProcessingState
@@ -257,7 +257,7 @@ class ReadyForIngestionProcessor {
             }
         }
 
-        // Write out the FairfaxProcessingParameters and SipProcessingState
+        // Write out the NewspaperProcessingParameters and SipProcessingState
         Date now = new Date()
         // We will assume that millisecond timestamps ensures that the filename will be unique
         Path processingStateFile = processingParameters.sourceFolder.resolve(
@@ -279,7 +279,7 @@ class ReadyForIngestionProcessor {
         sipAndFilesFolder
     }
 
-    void processValidTitleCodeFolder(FairfaxProcessingParameters processingParameters) {
+    void processValidTitleCodeFolder(NewspaperProcessingParameters processingParameters) {
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
@@ -377,11 +377,11 @@ class ReadyForIngestionProcessor {
                         List<ProcessingRule> perThreadOverrideRules = (List<ProcessingRule>) this.overrideProcessingRules.clone()
                         List<ProcessingOption> perThreadOverrideOptions = (List<ProcessingOption>) this.overrideProcessingOptions.clone()
 
-                        List<FairfaxProcessingParameters> parametersList = FairfaxProcessingParameters.build(titleCode,
+                        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build(titleCode,
                                 perThreadProcessingTypes, titleCodeFolder, processingDate, newspaperSpreadsheet,
                                 perThreadOverrideRules, perThreadOverrideOptions)
 
-                        parametersList.each { FairfaxProcessingParameters processingParameters ->
+                        parametersList.each { NewspaperProcessingParameters processingParameters ->
                             if (!processingParameters.valid) {
                                 invalidFolders.add(titleCodeFolder)
                             }
