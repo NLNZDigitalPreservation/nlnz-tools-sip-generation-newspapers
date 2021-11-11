@@ -16,7 +16,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../fat/build/libs/sip-generation-fairfax-fat-all-1.0.0-WMMA-SNAPSHOT.jar \
+    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.0-WMMA-SNAPSHOT.jar \
     --preProcess \
     --publicationType="${publicationType}" \
     --startingDate="${startingDate}" \

@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter
 import java.util.regex.Matcher
 
 /**
- * Encapsulates the characteristics of Fairfax file. Includes methods for operating on lists of such files.
+ * Encapsulates the characteristics of Newspaper file. Includes methods for operating on lists of such files.
  */
 @Canonical
 @Sortable(includes = ['titleCode', 'sectionCode', 'dateYear', 'dateMonthOfYear', 'dateDayOfMonth', 'sequenceLetter',

@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue
  */
 @Log4j2
 class TestHelper {
-    static final String RESOURCES_FOLDER = "nz/govt/natlib/tools/sip/generation/fairfax"
+    static final String RESOURCES_FOLDER = "nz/govt/natlib/tools/sip/generation/newspapers"
 
 
     static class TestMethodState {

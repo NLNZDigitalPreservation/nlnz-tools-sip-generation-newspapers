@@ -168,7 +168,7 @@ class NewspaperFilesProcessor {
             processFile(fileForProcessing)
         }
         // TODO We are converting back and forth between NewspaperFile and File for different processing stages to
-        // ensure that the sip-generation-core classes don't get polluted with Fairfax-specific functionality.
+        // ensure that the sip-generation-core classes don't get polluted with Newspaper-specific functionality.
         // At some point we need to look at finding a better way. Perhaps there's an interface that might expose
         // a wrapper so that it can be processed through implementation-specific processing.
         // For the moment we do the conversion. This is something to consider when refactoring/redesigning this
@@ -217,7 +217,7 @@ class NewspaperFilesProcessor {
         boolean includeInThumbnailPage = true
         if (processedNewspaperFiles.containsKey(newspaperFile)) {
             // We have a duplicate file -- possibly a different qualifier
-            // We use the fairfax file as a key, but we'll get the duplicate back
+            // We use the newspaper file as a key, but we'll get the duplicate back
             NewspaperFile firstVersion = processedNewspaperFiles.get(newspaperFile)
             SipProcessingExceptionReason exceptionReason = new SipProcessingExceptionReason(
                     SipProcessingExceptionReasonType.DUPLICATE_FILE, null,
@@ -415,9 +415,9 @@ class NewspaperFilesProcessor {
         return doGenerate
     }
 
-    void generateThumbnailPage(List<NewspaperFile> fairfaxPdfFiles) {
+    void generateThumbnailPage(List<NewspaperFile> newspaperPdfFiles) {
         if (doGenerateThumbnailPage()) {
-            if (!fairfaxPdfFiles.isEmpty()) {
+            if (!newspaperPdfFiles.isEmpty()) {
                 String processingDifferentiator = processingParameters.processingDifferentiator()
                 String thumbnailPagePrefix = "${processingDifferentiator}_thumbnail_page"
                 String thumbnailPageTitle = "${processingDifferentiator}_thumbnail_page.jpeg"
@@ -432,7 +432,7 @@ class NewspaperFilesProcessor {
                 boolean useCommandLine = processingParameters.options.contains(ProcessingOption.UseCommandLinePdfToThumbnailGeneration)
                 thumbnailParameters.generateWithPdftoppm = useCommandLine
 
-                List<Path> pdfFiles = fairfaxPdfFiles.collect { NewspaperFile sortedFile ->
+                List<Path> pdfFiles = newspaperPdfFiles.collect { NewspaperFile sortedFile ->
                     sortedFile.file
                 }
                 processingParameters.thumbnailPageFile = thumbnailPageFile.toPath()

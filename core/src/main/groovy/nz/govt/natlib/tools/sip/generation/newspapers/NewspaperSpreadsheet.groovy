@@ -8,7 +8,7 @@ import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
 
 /**
- * Wraps a {@link Spreadsheet} with Fairfax-specific functionality.
+ * Wraps a {@link Spreadsheet} with Newspaper-specific functionality.
  */
 @Log4j2
 class NewspaperSpreadsheet {
