@@ -26,9 +26,9 @@ class NewspaperSpreadsheet {
     static String IS_MAGAZINE_KEY = "Magazine"
 
     Spreadsheet spreadsheet
-    Map<FairfaxFileTitleEditionKey, List<Map<String, String>>> titleCodeSectionCodeToRowsMap = [ : ]
+    Map<NewspaperFileTitleEditionKey, List<Map<String, String>>> titleCodeSectionCodeToRowsMap = [: ]
     Map<String, List<Map<String, String>>> titleCodeToRowsMap = [ : ]
-    Set<FairfaxFileTitleEditionKey> allTitleCodeSectionCodeKeys = [ ]
+    Set<NewspaperFileTitleEditionKey> allTitleCodeSectionCodeKeys = [ ]
     Set<String> allTitleCodeKeys = [ ]
 
     static final Map<String, String> BLANK_ROW = [
@@ -120,15 +120,15 @@ class NewspaperSpreadsheet {
         spreadsheet.rows.each { Map<String, String> rowMap ->
             String titleCode = rowMap.get(TITLE_CODE_KEY)
             String sectionCode = rowMap.get(SECTION_CODE_KEY)
-            FairfaxFileTitleEditionKey fairfaxFileTitleEditionKey = new FairfaxFileTitleEditionKey(
+            NewspaperFileTitleEditionKey newspaperFileTitleEditionKey = new NewspaperFileTitleEditionKey(
                     titleCode: titleCode, sectionCode: sectionCode)
-            if (titleCodeSectionCodeToRowsMap.containsKey(fairfaxFileTitleEditionKey)) {
-                List<Map<String, String>> rowsForNameEdition = titleCodeSectionCodeToRowsMap.get(fairfaxFileTitleEditionKey)
+            if (titleCodeSectionCodeToRowsMap.containsKey(newspaperFileTitleEditionKey)) {
+                List<Map<String, String>> rowsForNameEdition = titleCodeSectionCodeToRowsMap.get(newspaperFileTitleEditionKey)
                 rowsForNameEdition.add(rowMap)
             } else {
-                titleCodeSectionCodeToRowsMap.put(fairfaxFileTitleEditionKey, [rowMap ])
+                titleCodeSectionCodeToRowsMap.put(newspaperFileTitleEditionKey, [rowMap ])
             }
-            allTitleCodeSectionCodeKeys.add(fairfaxFileTitleEditionKey)
+            allTitleCodeSectionCodeKeys.add(newspaperFileTitleEditionKey)
             if (titleCodeToRowsMap.containsKey(titleCode)) {
                 List<Map<String, String>> rowsForName = titleCodeToRowsMap.get(titleCode)
                 rowsForName.add(rowMap)

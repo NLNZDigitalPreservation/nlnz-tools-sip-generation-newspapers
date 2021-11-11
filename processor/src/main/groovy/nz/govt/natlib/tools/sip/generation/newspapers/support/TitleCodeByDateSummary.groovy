@@ -17,29 +17,29 @@ class TitleCodeByDateSummary {
     Set<nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile> files = [ ]
     List<nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile> duplicateFiles = [ ]
 
-    void addFile(nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile fairfaxFile) {
-        if (files.contains(fairfaxFile)) {
-            duplicateFiles.add(fairfaxFile)
+    void addFile(nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile newspaperFile) {
+        if (files.contains(newspaperFile)) {
+            duplicateFiles.add(newspaperFile)
         } else {
-            files.add(fairfaxFile)
+            files.add(newspaperFile)
         }
     }
 
     List<nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile> outOfSequenceFiles() {
         List<nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile> outOfSequenceFiles = [ ]
         List<nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile> sortedFiles = files.sort()
-        nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile lastFairfaxFile
-        sortedFiles.each { nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile fairfaxFile ->
-            if (lastFairfaxFile == null) {
-                if (fairfaxFile.sequenceNumber != 1) {
-                    outOfSequenceFiles.add(fairfaxFile)
+        nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile lastNewspaperFile
+        sortedFiles.each { nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile newspaperFile ->
+            if (lastNewspaperFile == null) {
+                if (newspaperFile.sequenceNumber != 1) {
+                    outOfSequenceFiles.add(newspaperFile)
                 }
             } else {
-                if (!fairfaxFile.canComeDirectlyAfter(lastFairfaxFile)) {
-                    outOfSequenceFiles.addAll([ lastFairfaxFile, fairfaxFile ])
+                if (!newspaperFile.canComeDirectlyAfter(lastNewspaperFile)) {
+                    outOfSequenceFiles.addAll([ lastNewspaperFile, newspaperFile ])
                 }
             }
-            lastFairfaxFile = fairfaxFile
+            lastNewspaperFile = newspaperFile
         }
 
         return outOfSequenceFiles
@@ -54,21 +54,21 @@ class TitleCodeByDateSummary {
         stringBuilder.append(separator)
 
         boolean firstFile = true
-        outOfSequenceFiles().each { nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile fairfaxFile ->
+        outOfSequenceFiles().each { nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile newspaperFile ->
             if (!firstFile) {
                 stringBuilder.append(',')
             }
-            stringBuilder.append(fairfaxFile.filename)
+            stringBuilder.append(newspaperFile.filename)
             firstFile = false
         }
         stringBuilder.append(separator)
 
         firstFile = true
-        duplicateFiles.each { nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile fairfaxFile ->
+        duplicateFiles.each { nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile newspaperFile ->
             if (!firstFile) {
                 stringBuilder.append(',')
             }
-            stringBuilder.append(fairfaxFile.filename)
+            stringBuilder.append(newspaperFile.filename)
             firstFile = false
         }
 

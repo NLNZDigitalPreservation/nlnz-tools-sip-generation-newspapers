@@ -5,7 +5,7 @@ import groovyx.gpars.GParsExecutorsPool
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
-import nz.govt.natlib.tools.sip.generation.newspapers.processor.FairfaxFilesProcessor
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.NewspaperFilesProcessor
 import nz.govt.natlib.tools.sip.logging.DefaultTimekeeper
 import nz.govt.natlib.tools.sip.logging.JvmPerformanceLogger
 import nz.govt.natlib.tools.sip.logging.Timekeeper
@@ -294,7 +294,7 @@ class ReadyForIngestionProcessor {
         // Process the folder as a single collection of files
         // Note that the folder is processed for a single processingType (so there could be multiple passes, one for
         // each processingType).
-        FairfaxFilesProcessor.processCollectedFiles(processingParameters, allFiles, processorConfiguration.publicationType)
+        NewspaperFilesProcessor.processCollectedFiles(processingParameters, allFiles, processorConfiguration.publicationType)
     }
 
     // See README.md for folder descriptions and structures.

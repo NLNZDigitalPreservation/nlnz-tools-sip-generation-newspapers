@@ -241,7 +241,7 @@ class PreProcessProcessor {
 
         String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN)
-//        String pattern = FairfaxFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+//        String pattern = NewspaperFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
         // get them all at once
         List<Path> allFiles = PathUtils.findFiles(processorConfiguration.sourceFolder.normalize().toString(),

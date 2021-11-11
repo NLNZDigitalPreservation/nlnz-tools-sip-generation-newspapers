@@ -11,7 +11,7 @@ import groovy.util.logging.Log4j2
 @Sortable(includes = ['titleCode', 'sectionCode' ])
 @ToString
 @Log4j2
-class FairfaxFileTitleEditionKey {
+class NewspaperFileTitleEditionKey {
     String titleCode
     String sectionCode
 }

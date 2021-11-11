@@ -122,8 +122,8 @@ class NewspaperProcessingParameters {
                 processingParameters.editionDiscriminators.each { String editionDiscriminator ->
                     boolean hasMatchingEdition = true
                     if (processingParameters.rules.contains(ProcessingRule.IgnoreEditionsWithoutMatchingFiles)) {
-                        List<NewspaperFile> allFairfaxFiles = NewspaperFile.fromSourceFolder(sourceFolder)
-                        hasMatchingEdition = allFairfaxFiles.any { NewspaperFile newspaperFile ->
+                        List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder)
+                        hasMatchingEdition = allNewspaperFiles.any { NewspaperFile newspaperFile ->
                             editionDiscriminator == newspaperFile.sectionCode
                         }
                     }
@@ -202,9 +202,9 @@ class NewspaperProcessingParameters {
                 processingType.fieldValue, titleCode)
         if (!matchingRows.isEmpty() && processingType == ProcessingType.ParentGroupingWithEdition) {
             // Step 1: Find all the files, get the different section_codes
-//            List<FairfaxFile> allFairfaxFiles = FairfaxFile.fromSourceFolder(sourceFolder, fileFindPattern)
-            List<NewspaperFile> allFairfaxFiles = NewspaperFile.fromSourceFolder(sourceFolder)
-            List<String> uniqueSectionCodes = NewspaperFile.uniqueSectionCodes(allFairfaxFiles)
+//            List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder, fileFindPattern)
+            List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder)
+            List<String> uniqueSectionCodes = NewspaperFile.uniqueSectionCodes(allNewspaperFiles)
 
             // Step 2: Based on the section_code pick the right spreadsheet row
             List<Map<String, String>> editionMatchingRows = matchingRows.findAll { Map<String, String> row ->

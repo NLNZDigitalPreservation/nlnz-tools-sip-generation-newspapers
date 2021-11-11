@@ -90,10 +90,10 @@ class NewspaperFile {
 
     static List<String> allSectionCodes(List<NewspaperFile> files) {
         List<String> sectionCodes = [ ]
-        files.each { NewspaperFile fairfaxFile ->
-            if (fairfaxFile.sectionCode != null && !fairfaxFile.sectionCode.isEmpty()) {
-                if (!sectionCodes.contains(fairfaxFile.sectionCode)) {
-                    sectionCodes.add(fairfaxFile.sectionCode)
+        files.each { NewspaperFile newspaperFile ->
+            if (newspaperFile.sectionCode != null && !newspaperFile.sectionCode.isEmpty()) {
+                if (!sectionCodes.contains(newspaperFile.sectionCode)) {
+                    sectionCodes.add(newspaperFile.sectionCode)
                 }
             }
         }
@@ -111,10 +111,10 @@ class NewspaperFile {
         processingParameters.sectionCodes.each { String sectionCode ->
             List<NewspaperFile> sectionFiles = [ ]
             filesBySection.put(sectionCode, sectionFiles)
-            files.each { NewspaperFile fairfaxFile ->
-                if (sectionCode == fairfaxFile.sectionCode ||
-                        processingParameters.matchesCurrentSection(sectionCode, fairfaxFile.sectionCode)) {
-                    sectionFiles.add(fairfaxFile)
+            files.each { NewspaperFile newspaperFile ->
+                if (sectionCode == newspaperFile.sectionCode ||
+                        processingParameters.matchesCurrentSection(sectionCode, newspaperFile.sectionCode)) {
+                    sectionFiles.add(newspaperFile)
                 }
             }
         }
@@ -167,29 +167,29 @@ class NewspaperFile {
         return postMissingFiles
     }
 
-    static NewspaperFile substituteFor(String sourceSectionCode, String replacementSectionCode, NewspaperFile fairfaxFile,
+    static NewspaperFile substituteFor(String sourceSectionCode, String replacementSectionCode, NewspaperFile newspaperFile,
                                        List<NewspaperFile> possibleFiles) {
-        if (fairfaxFile.sectionCode == sourceSectionCode) {
+        if (newspaperFile.sectionCode == sourceSectionCode) {
             NewspaperFile replacementFile = possibleFiles.find { NewspaperFile candidateFile ->
                 if (candidateFile.sectionCode == replacementSectionCode) {
-                    candidateFile.canSubstituteFor(fairfaxFile)
+                    candidateFile.canSubstituteFor(newspaperFile)
                 } else {
                     false
                 }
             }
-            return replacementFile == null ? fairfaxFile : replacementFile
-        } else if (fairfaxFile.sectionCode == replacementSectionCode) {
+            return replacementFile == null ? newspaperFile : replacementFile
+        } else if (newspaperFile.sectionCode == replacementSectionCode) {
             // We add it if the substitution does not exist (in other words, the substitute doesn't map to the source
             NewspaperFile replacementFile = possibleFiles.find { NewspaperFile candidateFile ->
                 if (candidateFile.sectionCode == sourceSectionCode) {
-                    candidateFile.canSubstituteFor(fairfaxFile)
+                    candidateFile.canSubstituteFor(newspaperFile)
                 } else {
                     false
                 }
             }
-            return replacementFile == null ? fairfaxFile : null
+            return replacementFile == null ? newspaperFile : null
         } else {
-            return fairfaxFile
+            return newspaperFile
         }
     }
 
@@ -199,9 +199,9 @@ class NewspaperFile {
         List<String> otherSectionCodes = allSectionCodes.findAll { String sectionCode ->
             sectionCode != sourceSectionCode && sectionCode != replacementSectionCode
         }
-        possibleFiles.each { NewspaperFile fairfaxFile ->
-            if (!otherSectionCodes.contains(fairfaxFile.sectionCode)) {
-                NewspaperFile replacementFile = substituteFor(sourceSectionCode, replacementSectionCode, fairfaxFile,
+        possibleFiles.each { NewspaperFile newspaperFile ->
+            if (!otherSectionCodes.contains(newspaperFile.sectionCode)) {
+                NewspaperFile replacementFile = substituteFor(sourceSectionCode, replacementSectionCode, newspaperFile,
                         possibleFiles)
                 if (replacementFile != null) {
                     substituted.add(replacementFile)
@@ -212,14 +212,14 @@ class NewspaperFile {
     }
 
     static boolean hasSubstitutions(String replacementSectionCode, List<NewspaperFile> possibleFiles) {
-        return possibleFiles.any { NewspaperFile fairfaxFile ->
-            fairfaxFile.sectionCode == replacementSectionCode
+        return possibleFiles.any { NewspaperFile newspaperFile ->
+            newspaperFile.sectionCode == replacementSectionCode
         }
     }
 
     static List<NewspaperFile> filterAllFor(List<String> sectionCodes, List<NewspaperFile> possibleFiles) {
-        List<NewspaperFile> filtered = possibleFiles.findAll { NewspaperFile fairfaxFile ->
-            sectionCodes.contains(fairfaxFile.sectionCode)
+        List<NewspaperFile> filtered = possibleFiles.findAll { NewspaperFile newspaperFile ->
+            sectionCodes.contains(newspaperFile.sectionCode)
         }
         if (possibleFiles.size() != filtered.size()) {
             log.warn("Not all filtered files exist in final list, differences=${differences(possibleFiles, filtered)}")
@@ -313,26 +313,26 @@ class NewspaperFile {
         // Note that we only want the current directory and we don't want info messages
         List<Path> allFiles = PathUtils.findFiles(sourceFolder.normalize().toString(),
                 isRegexNotGlob, matchFilenameOnly, sortFiles, pattern, null, false, true)
-        List<NewspaperFile> onlyFairfaxFiles = [ ]
+        List<NewspaperFile> onlyNewspaperFiles = [ ]
         allFiles.each { Path file ->
-            NewspaperFile fairfaxFile = new NewspaperFile(file, publicationType)
-            // TODO We have no checks here for FairfaxFile validity -- the pattern supposedly selects only validly named ones.
-            onlyFairfaxFiles.add(fairfaxFile)
+            NewspaperFile newspaperFile = new NewspaperFile(file, publicationType)
+            // TODO We have no checks here for NewspaperFile validity -- the pattern supposedly selects only validly named ones.
+            onlyNewspaperFiles.add(newspaperFile)
         }
-        return onlyFairfaxFiles
+        return onlyNewspaperFiles
     }
 
-    static List<String> uniqueSectionCodes(List<NewspaperFile> fairfaxFiles) {
+    static List<String> uniqueSectionCodes(List<NewspaperFile> newspaperFiles) {
         Set<String> uniqueCodes = [ ]
-        fairfaxFiles.each { NewspaperFile file ->
+        newspaperFiles.each { NewspaperFile file ->
             uniqueCodes.add(file.sectionCode)
         }
         return uniqueCodes.toList()
     }
 
     static List<String> asFilenames(List<NewspaperFile> files) {
-        return files.collect { NewspaperFile fairfaxFile ->
-            fairfaxFile.file.fileName.toString()
+        return files.collect { NewspaperFile newspaperFile ->
+            newspaperFile.file.fileName.toString()
         }
     }
 
@@ -378,9 +378,9 @@ class NewspaperFile {
                 this.dateMonthOfYear != null && this.dateDayOfMonth != null && this.sequenceNumber != null
     }
 
-    boolean matches(NewspaperFile fairfaxFile) {
-        return this.matches(fairfaxFile.titleCode, fairfaxFile.sectionCode, fairfaxFile.dateYear, fairfaxFile.dateMonthOfYear,
-            fairfaxFile.dateDayOfMonth)
+    boolean matches(NewspaperFile newspaperFile) {
+        return this.matches(newspaperFile.titleCode, newspaperFile.sectionCode, newspaperFile.dateYear, newspaperFile.dateMonthOfYear,
+            newspaperFile.dateDayOfMonth)
     }
 
     boolean matches(String comparisonTitleCode, String comparisonSectionCode, Integer comparisonYear,
@@ -397,22 +397,22 @@ class NewspaperFile {
         }
     }
 
-    boolean matchesWithSequence(NewspaperFile fairfaxFile) {
-        if (matches(fairfaxFile)) {
-            return (this.sequenceLetter == fairfaxFile.sequenceLetter) &&
-                    (this.sequenceNumber == fairfaxFile.sequenceNumber)
+    boolean matchesWithSequence(NewspaperFile newspaperFile) {
+        if (matches(newspaperFile)) {
+            return (this.sequenceLetter == newspaperFile.sequenceLetter) &&
+                    (this.sequenceNumber == newspaperFile.sequenceNumber)
         } else {
             return false
         }
     }
 
-    boolean canComeDirectlyAfter(NewspaperFile fairfaxFile, List<String> editionDiscriminators = [ ]) {
+    boolean canComeDirectlyAfter(NewspaperFile newspaperFile, List<String> editionDiscriminators = [ ]) {
         // this file's sequence number must be greater (or a letter starting at 1)
-        int sequenceDifference = this.sequenceNumber - fairfaxFile.sequenceNumber
-        if (this.sequenceLetter == fairfaxFile.sequenceLetter) {
-            boolean sameSectionCode = this.sectionCode == fairfaxFile.sectionCode ||
+        int sequenceDifference = this.sequenceNumber - newspaperFile.sequenceNumber
+        if (this.sequenceLetter == newspaperFile.sequenceLetter) {
+            boolean sameSectionCode = this.sectionCode == newspaperFile.sectionCode ||
                     (editionDiscriminators.contains(this.sectionCode) &&
-                            editionDiscriminators.contains(fairfaxFile.sectionCode))
+                            editionDiscriminators.contains(newspaperFile.sectionCode))
             if (sameSectionCode) {
                 return sequenceDifference == 1
             } else {
@@ -424,9 +424,9 @@ class NewspaperFile {
     }
 
     // Substitutions can happen if the file has the same date, sequence letter and sequence number
-    boolean canSubstituteFor(NewspaperFile fairfaxFile) {
-        return this.date == fairfaxFile.date && this.sequenceLetter == fairfaxFile.sequenceLetter &&
-                this.sequenceNumber == fairfaxFile.sequenceNumber
+    boolean canSubstituteFor(NewspaperFile newspaperFile) {
+        return this.date == newspaperFile.date && this.sequenceLetter == newspaperFile.sequenceLetter &&
+                this.sequenceNumber == newspaperFile.sequenceNumber
     }
 
     boolean isDimensioned() {

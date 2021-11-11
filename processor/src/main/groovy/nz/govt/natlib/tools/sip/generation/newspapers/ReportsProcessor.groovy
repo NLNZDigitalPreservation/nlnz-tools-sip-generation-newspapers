@@ -25,15 +25,15 @@ class ReportsProcessor {
         // Clear the set of recognized and unrecognized names before processing begins
         recognizedTitleCodes = []
         unrecognizedTitleCodes = []
-        Set<FairfaxFileTitleEditionKey> recognizedTitleCodeSectionCodes = []
-        Set<FairfaxFileTitleEditionKey> unrecognizedTitleCodeSectionCodes = []
+        Set<NewspaperFileTitleEditionKey> recognizedTitleCodeSectionCodes = []
+        Set<NewspaperFileTitleEditionKey> unrecognizedTitleCodeSectionCodes = []
         Set<Path> invalidFiles = []
 
         log.info("sourceFolder=${processorConfiguration.sourceFolder}")
 
         NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance()
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
-        Set<FairfaxFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
+        Set<NewspaperFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
@@ -59,7 +59,7 @@ class ReportsProcessor {
                         log.info("listFiles adding unrecognizedTitleCode=${newspaperFile.titleCode}")
                     }
                 }
-                FairfaxFileTitleEditionKey newspaperFileTitleEditionKey = new FairfaxFileTitleEditionKey(
+                NewspaperFileTitleEditionKey newspaperFileTitleEditionKey = new NewspaperFileTitleEditionKey(
                         titleCode: newspaperFile.titleCode, sectionCode: newspaperFile.sectionCode)
                 if (allNameEditionKeys.contains(newspaperFileTitleEditionKey)) {
                     if (!recognizedTitleCodeSectionCodes.contains(newspaperFileTitleEditionKey)) {
@@ -99,7 +99,7 @@ class ReportsProcessor {
         }
         log.info("* * * *")
         log.info("Recognized titleCodes and sectionCodes:")
-        recognizedTitleCodeSectionCodes.each { FairfaxFileTitleEditionKey newspaperFileNameEditionKey ->
+        recognizedTitleCodeSectionCodes.each { NewspaperFileTitleEditionKey newspaperFileNameEditionKey ->
             log.info("    ${newspaperFileNameEditionKey}")
         }
         log.info("* * * *")
@@ -109,7 +109,7 @@ class ReportsProcessor {
         }
         log.info("* * * *")
         log.info("UNRECOGNIZED titleCodes and sectionCodes:")
-        unrecognizedTitleCodeSectionCodes.each { FairfaxFileTitleEditionKey newspaperFileNameEditionKey ->
+        unrecognizedTitleCodeSectionCodes.each { NewspaperFileTitleEditionKey newspaperFileNameEditionKey ->
             log.info("    ${newspaperFileNameEditionKey}")
         }
         log.info("* * * *")
@@ -130,8 +130,8 @@ class ReportsProcessor {
         // Clear the set of recognized and unrecognized names before processing begins
         recognizedTitleCodes = []
         unrecognizedTitleCodes = []
-        Set<FairfaxFileTitleEditionKey> recognizedTitleCodeSectionCodes = []
-        Set<FairfaxFileTitleEditionKey> unrecognizedTitleCodeSectionCodes = []
+        Set<NewspaperFileTitleEditionKey> recognizedTitleCodeSectionCodes = []
+        Set<NewspaperFileTitleEditionKey> unrecognizedTitleCodeSectionCodes = []
         Set<Path> invalidFiles = []
         List<Tuple2<LocalDate, Integer>> totalsByDateList = [ ]
 
@@ -139,7 +139,7 @@ class ReportsProcessor {
 
         NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance()
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
-        Set<FairfaxFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
+        Set<NewspaperFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
@@ -162,7 +162,7 @@ class ReportsProcessor {
                         log.info("listFiles adding unrecognizedTitleCode=${newspaperFile.titleCode}")
                     }
                 }
-                FairfaxFileTitleEditionKey newspaperFileTitleEditionKey = new FairfaxFileTitleEditionKey(
+                NewspaperFileTitleEditionKey newspaperFileTitleEditionKey = new NewspaperFileTitleEditionKey(
                         titleCode: newspaperFile.titleCode, sectionCode: newspaperFile.sectionCode)
                 if (allNameEditionKeys.contains(newspaperFileTitleEditionKey)) {
                     if (!recognizedTitleCodeSectionCodes.contains(newspaperFileTitleEditionKey)) {
@@ -205,7 +205,7 @@ class ReportsProcessor {
         }
         log.info("* * * *")
         logAndAppend(summaryTextBuilder, "Recognized titleCode/sectionCode:")
-        recognizedTitleCodeSectionCodes.each { FairfaxFileTitleEditionKey newspaperFileNameEditionKey ->
+        recognizedTitleCodeSectionCodes.each { NewspaperFileTitleEditionKey newspaperFileNameEditionKey ->
             logAndAppend(summaryTextBuilder, "${newspaperFileNameEditionKey.titleCode}/" +
                     "${newspaperFileNameEditionKey.sectionCode}")
         }
@@ -216,7 +216,7 @@ class ReportsProcessor {
         }
         log.info("* * * *")
         logAndAppend(summaryTextBuilder, "UNRECOGNIZED titleCode/sectionCode:")
-        unrecognizedTitleCodeSectionCodes.each { FairfaxFileTitleEditionKey newspaperFileNameEditionKey ->
+        unrecognizedTitleCodeSectionCodes.each { NewspaperFileTitleEditionKey newspaperFileNameEditionKey ->
             logAndAppend(summaryTextBuilder, "${newspaperFileNameEditionKey.titleCode}/" +
                     "${newspaperFileNameEditionKey.sectionCode}")
         }
