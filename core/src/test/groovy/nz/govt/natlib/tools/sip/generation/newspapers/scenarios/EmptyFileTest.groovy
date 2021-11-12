@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue
  * Note that this test is complicated by the files either being part of a directory structure or in a resource file (jar),
  * so the {@link TestHelper} class is used to handle both scenarios. In real-life processing the files would be on the
  * filesystem and not in a resource. We explicitly use only filesystem files in
- * {@link #correctlyAssembleSipFromFilesOnFilesystem} (as an example to script writers), but this unit test is
+ * {@link #correctlyAssembleSipFromFiles} (as an example to script writers), but this unit test is
  * ignored for builds.
  */
 @RunWith(MockitoJUnitRunner.class)
