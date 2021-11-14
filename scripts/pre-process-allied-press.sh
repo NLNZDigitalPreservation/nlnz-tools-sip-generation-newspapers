@@ -4,7 +4,7 @@ export sourceFolder="$HOME/workspace/testdata/allpress/"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Oct_2021"
 export forReviewFolder="${targetBaseFolder}/for-review_Oct_2021"
-export publicationType="alliedPress"
+export newspaperType="alliedPress"
 
 export startingDate="2021-10-01"
 export endingDate="2021-10-30"
@@ -18,7 +18,7 @@ export maxMemory="8G"
 java -Xms${minMemory} -Xmx${maxMemory} \
     -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.0-SNAPSHOT.jar \
     --preProcess \
-    --publicationType="${publicationType}" \
+    --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \
     --endingDate="${endingDate}" \
     --sourceFolder="${sourceFolder}" \

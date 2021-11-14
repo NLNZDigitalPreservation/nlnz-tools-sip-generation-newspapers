@@ -4,7 +4,7 @@ export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/westportne
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/westportnews/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
-export publicationType="wptNews"
+export newspaperType="wptNews"
 
 export startingDate="2021-10-01"
 export endingDate="2021-10-30"
@@ -22,7 +22,7 @@ export maxMemory="8G"
 java -Xms${minMemory} -Xmx${maxMemory} \
     -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.0-SNAPSHOT.jar \
     --readyForIngestion \
-    --publicationType="${publicationType}" \
+    --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \
     --endingDate="${endingDate}" \
     --sourceFolder="${sourceFolder}" \

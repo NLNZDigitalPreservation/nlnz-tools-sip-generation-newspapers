@@ -22,7 +22,7 @@ class PreProcessProcessor {
 //    static final DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
 
     ProcessorConfiguration processorConfiguration
-    PublicationType publicationType
+    NewspaperType newspaperType
     NewspaperSpreadsheet newspaperSpreadsheet
     Set<String> recognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<String> unrecognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
@@ -90,7 +90,7 @@ class PreProcessProcessor {
         String titleCodeFolderName = targetFile.titleCode
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
-        Map supplements = publicationType.SUPPLEMENTS
+        Map supplements = newspaperType.SUPPLEMENTS
 
         if (allNameKeys.contains(targetFile.titleCode)) {
             // There's an entry in the spreadsheet for this titleCode
@@ -200,7 +200,7 @@ class PreProcessProcessor {
                                       boolean sortByDate) {
         List<NewspaperFile> filteredList = new ArrayList<>()
         allFilesList.each { Path theFile ->
-            NewspaperFile newspaperFile = new NewspaperFile(theFile, this.publicationType)
+            NewspaperFile newspaperFile = new NewspaperFile(theFile, this.newspaperType)
             if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
                 filteredList.add(newspaperFile)
             }
@@ -221,7 +221,7 @@ class PreProcessProcessor {
         ProcessLogger processLogger = new ProcessLogger()
         processLogger.startSplit()
 
-        log.info("START process for publicationType=${processorConfiguration.publicationType}, " +
+        log.info("START process for newspaperType=${processorConfiguration.newspaperType}, " +
                 "startindDate=${processorConfiguration.startingDate}, " +
                 "endingDate=${processorConfiguration.endingDate}, " +
                 "sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}, " +
@@ -232,15 +232,15 @@ class PreProcessProcessor {
             Files.createDirectories(processorConfiguration.targetPreProcessingFolder)
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
-        this.publicationType = new PublicationType(processorConfiguration.publicationType)
-        this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        this.newspaperType = new NewspaperType(processorConfiguration.newspaperType)
+        this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
 
-        String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
-        DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN)
+        String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+        DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
 //        String pattern = NewspaperFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
         // get them all at once
@@ -294,7 +294,7 @@ class PreProcessProcessor {
             foundFiles.each { Path foundFile ->
                 String dateString = "UNKNOWN-DATE"
                 copyOrMoveFileToPreProcessingDestination(processorConfiguration.targetPreProcessingFolder,
-                        processorConfiguration.forReviewFolder, new NewspaperFile(foundFile, publicationType), dateString,
+                        processorConfiguration.forReviewFolder, new NewspaperFile(foundFile, newspaperType), dateString,
                         processorConfiguration.moveFiles)
             }
         }

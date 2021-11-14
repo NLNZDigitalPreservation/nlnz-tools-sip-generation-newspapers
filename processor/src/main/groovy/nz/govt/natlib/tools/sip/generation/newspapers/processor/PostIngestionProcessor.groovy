@@ -27,7 +27,7 @@ class PostIngestionProcessor {
     static final String DONE_FILE_PATTERN = Pattern.quote("done")
 
     ProcessorConfiguration processorConfiguration
-    PublicationType publicationType
+    NewspaperType newspaperType
 
     List<Tuple2<Path, String>> failureFolderAndReasons = Collections.synchronizedList([ ])
     List<Tuple2<Path, String>> skippedFolderAndReasons = Collections.synchronizedList([ ])
@@ -114,7 +114,7 @@ class PostIngestionProcessor {
     // See documentation for folder descriptions and structures.
     void process() {
         log.info("START post-ingestion processor with parameters:")
-        log.info("    publicationType=${processorConfiguration.publicationType}")
+        log.info("    newspaperType=${processorConfiguration.newspaperType}")
         log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")
@@ -125,7 +125,7 @@ class PostIngestionProcessor {
         processorConfiguration.timekeeper.logElapsed()
         Timekeeper processingTimekeeper = new DefaultTimekeeper()
 
-        publicationType = new PublicationType(processorConfiguration.publicationType)
+        newspaperType = new NewspaperType(processorConfiguration.newspaperType)
 
         if (processorConfiguration.createDestination) {
             Files.createDirectories(processorConfiguration.targetPostProcessedFolder)
@@ -150,7 +150,7 @@ class PostIngestionProcessor {
                 try {
                     if (continueProcessing) {
                         // We use the ReadyForIngestionProcessor to get the titleCode and date of the parent folder
-                        Tuple2<String, LocalDate> parentFolderTitleCode = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(doneFolder.fileName.toString(), publicationType.DATE_TIME_PATTERN)
+                        Tuple2<String, LocalDate> parentFolderTitleCode = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(doneFolder.fileName.toString(), newspaperType.DATE_TIME_PATTERN)
                         String titleCode = parentFolderTitleCode.first
                         LocalDate folderDate = parentFolderTitleCode.second
                         if (processorConfiguration.startingDate <= folderDate && folderDate <= processorConfiguration.endingDate) {

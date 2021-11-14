@@ -179,9 +179,9 @@ See the class ProcessorOption for a list of what those options are.""")
 For processing exceptions, depending on processor.""")
     Path forReviewFolder
 
-    @Option(names=['--publicationType'], paramLabel = "PUBlICATION_TYPE",
+    @Option(names=['--newspaperType'], paramLabel = "PUBlICATION_TYPE",
             description = """The publication type to be processed, e.g. AlliedPress""")
-    String publicationType
+    String newspaperType
 
 
     static void main(String[] args) {
@@ -218,7 +218,7 @@ For processing exceptions, depending on processor.""")
         log.info("        statisticalAudit=${statisticalAudit}")
         log.info("        extractMetadata=${extractMetadata}")
         log.info("    Publication type:")
-        log.info("        publicationType=${publicationType}")
+        log.info("        newspaperType=${newspaperType}")
         log.info("    Source and target folders:")
         log.info("        sourceFolder=${sourceFolder}")
         log.info("        targetFolder=${targetFolder}")
@@ -356,8 +356,8 @@ For processing exceptions, depending on processor.""")
             commandExecuted = true
         }
         if (preProcess) {
-            if (publicationType == null) {
-                String message = "preProcess requires publicationType"
+            if (newspaperType == null) {
+                String message = "preProcess requires newspaperType"
                 log.error(message)
                 throw new ProcessorException(message)
             }
@@ -382,8 +382,8 @@ For processing exceptions, depending on processor.""")
             commandExecuted = true
         }
         if (readyForIngestion) {
-            if (publicationType == null) {
-                String message = "preProcess requires publicationType"
+            if (newspaperType == null) {
+                String message = "preProcess requires newspaperType"
                 log.error(message)
                 throw new ProcessorException(message)
             }

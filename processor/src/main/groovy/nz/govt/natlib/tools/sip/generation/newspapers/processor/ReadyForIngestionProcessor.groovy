@@ -39,7 +39,7 @@ class ReadyForIngestionProcessor {
     // TODO This might be better configurable or as a general option in ProcessorRunner.
     static final String KILL_FILE_NAME = "ready-for-ingestion-STOP"
 
-    PublicationType publicationType
+    NewspaperType newspaperType
     NewspaperSpreadsheet newspaperSpreadsheet
     ProcessorConfiguration processorConfiguration
     List<ProcessingType> processingTypes
@@ -284,7 +284,7 @@ class ReadyForIngestionProcessor {
         boolean matchFilenameOnly = true
         boolean sortFiles = true
         // Only process PDF files
-        String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+        String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
 
         log.info("Processing for pattern=${pattern}, titleCodeFolder=${processingParameters.sourceFolder.normalize()}")
 
@@ -294,13 +294,13 @@ class ReadyForIngestionProcessor {
         // Process the folder as a single collection of files
         // Note that the folder is processed for a single processingType (so there could be multiple passes, one for
         // each processingType).
-        NewspaperFilesProcessor.processCollectedFiles(processingParameters, allFiles, processorConfiguration.publicationType)
+        NewspaperFilesProcessor.processCollectedFiles(processingParameters, allFiles, processorConfiguration.newspaperType)
     }
 
     // See README.md for folder descriptions and structures.
     void process() {
         log.info("START ready-for-ingestion with parameters:")
-        log.info("    publicationType=${processorConfiguration.publicationType}")
+        log.info("    newspaperType=${processorConfiguration.newspaperType}")
         log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")
@@ -315,8 +315,8 @@ class ReadyForIngestionProcessor {
             Files.createDirectories(processorConfiguration.targetForIngestionFolder)
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
-        this.publicationType = new PublicationType(processorConfiguration.publicationType)
-        this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        this.newspaperType = new NewspaperType(processorConfiguration.newspaperType)
+        this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         // First, collect all the directories to process
         List<Tuple2<Path, String>> titleCodeFoldersAndDates = [ ]
@@ -325,7 +325,7 @@ class ReadyForIngestionProcessor {
         List<LocalDate> datesInRange = GeneralUtils.datesInRange(processorConfiguration.startingDate,
                 processorConfiguration.endingDate)
         datesInRange.each { LocalDate currentDate ->
-            String currentDateString = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN).format(currentDate)
+            String currentDateString = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN).format(currentDate)
             Path dateFolder = processorConfiguration.sourceFolder.resolve(currentDateString)
             if (Files.exists(dateFolder) && Files.isDirectory(dateFolder)) {
                 dateFolder.toFile().listFiles().each { File subFile ->
@@ -370,7 +370,7 @@ class ReadyForIngestionProcessor {
                         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at start of ${titleCodeFolderMessage}",
                                 false, true, true, false, true, false, true)
                         // we want to process this directory, which should be a <titleCode>
-                        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN))
+                        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN))
 
                         // Avoid issue when multiple threads iterating through this list.
                         List<ProcessingType> perThreadProcessingTypes = (List<ProcessingType>) this.processingTypes.clone()

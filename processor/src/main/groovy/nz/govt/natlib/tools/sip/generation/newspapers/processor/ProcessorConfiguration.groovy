@@ -48,7 +48,7 @@ trait ProcessorConfiguration {
     Path targetPostProcessedFolder
     Path forReviewFolder
 
-    String publicationType
+    String newspaperType
     String forIngestionProcessingTypes
     String forIngestionProcessingRules
     String forIngestionProcessingOptions
