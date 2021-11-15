@@ -12,14 +12,15 @@ Introduction
 ============
 
 This guide, designed for non-technical users, provides a background and history of National Library of New Zealand
-(NLNZ) Tools SIP Generation Fairfax, which is what NLNZ Tools Sip Generation Wairarapa Times is based on.
+(NLNZ) Tools SIP Generation Newspapers, and National Library of New Zealand
+(NLNZ) Tools SIP Generation Fairfax, which is what NLNZ Tools Sip Generation Newspapers is based on.
 
 Contents of this document
 -------------------------
 
 Following this introduction, this Overview and History Guide includes the following sections:
 
--   **Overview** - Covers what the NLNZ Tools SIP Generation Fairfax is and what it is not.
+-   **Overview** - Covers what the NLNZ Tools SIP Generation Newspapers is and what it is not.
 
 -   **History** - Covers the history of the tool from its inception to today.
 
@@ -33,13 +34,15 @@ Following this introduction, this Overview and History Guide includes the follow
 Overview
 ========
 
-NLNZ Tools SIP Generation Fairfax is designed to prepare Fairfax-specific SIPs for ingestion into the Rosetta
-archiving system. Its purpose is to automate the generation of Fairfax SIPs from Fairfax files.
+NLNZ Tools SIP Generation Newspapers is an adaptation of NLNZ Tools SIP Generation Fairfax. It has been adapted to be
+configurable for different newspaper types other than just Fairfax.
+It prepares SIPs for ingestion into the Rosetta archiving system. Its purpose is to automate the generation of
+SIPs from Newspaper files.
 
 What it is *NOT*
 ----------------
 
--   It is *NOT* specific to any other ingestion besides Fairfax publications.
+-   It is *NOT* specific to any other ingestion besides the newspaper publications it is configured for.
 
 
 History
@@ -52,8 +55,17 @@ convenient, but its impermanence, lack of clear ownership, and dynamic nature po
 institution that attempts to acquire and preserve it.
 
 NLNZ Tools SIP Generation Fairfax is a set of functionality for use in ingesting Fairfax-specific content. This
-*fairfax* ingestion, which is a feed from Fairfax of their digital print publications. This code does the custom
+*fairfax* ingestion, which is a feed from Fairfax of their digital print publications. The Fairfax code does the custom
 processing involved with processing the Fairfax files.
+
+Since the Fairfax code was written, more digital newspaper print publications have required processing.
+NLNZ Tools SIP Generation Newspapers is adapted from NLNZ Tools SIP Generation Fairfax.
+Its main difference is that it can be configured to process different newspaper file types other than Fairfax,
+and new publications can be added to it.
+Digital newspaper files are fed from various publishers which need to need ingested into Rosetta.
+This code does the custom processing involved with processing the newspaper files.
+
+
 
 Project objectives
 ------------------
@@ -67,7 +79,7 @@ The tool is open-source software and is freely available for the benefit of the 
 Documentation corrections
 =========================
 This documentation is generated from ``.rst`` files in the ``docs`` folder of the codebase, found at
-https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-fairfax .
+https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-newspapers .
 
 There are two approaches to making documentation corrections. Both approaches require a Github account.
 
@@ -81,9 +93,10 @@ Annotate a PDF with changes and suggestions
 -------------------------------------------
 Some readers might not be willing to edit those files directly and submit changes via Github. Another way to document
 desired changes in the documentation is to download the documentation as a ``pdf`` from its location on readthedocs,
-namely, https://nlnz-tools-sip-generation-fairfax.readthedocs.io , annotate that pdf with the desired changes, and then
+namely, https://nlnz-tools-sip-generation-newspapers.readthedocs.io , annotate that pdf with the desired changes, and then
 submit that annotated pdf in a github issue. Github describes the process of creating an issue here:
 https://help.github.com/en/articles/creating-an-issue .
+
 
 
 License

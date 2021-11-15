@@ -11,22 +11,22 @@ Additional TODO
 Introduction
 ============
 
-About NLNZ Tools SIP Generation Wairarapa Times (and Fairfax)
+About NLNZ Tools SIP Generation Newspapers
 ---------------------------------------
 
-NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing Wairarapa Times-specific content. The ultimate output
-of these tools are SIPs for ingestion into the Rosetta archiving system.
+NLNZ Tools SIP Generation Newspapers is specific set of tools for processing digital newspaper file content.
+The ultimate output of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 Most of the operations are run on the command line using a set of parameters and a spreadsheet of values that when
 combined together with the operational code produce an output that is ready for ingestion into Rosetta.
 
-The purpose of these tools is to process the Wairarapa Timaes files. The long-term goal would be to wrap these tools into a
-user interface. See the **Future milestones** section of the :doc:`developer-guide` for more details.
+The purpose of these tools is to process the digital newspaper files. The long-term goal would be to wrap these tools
+into a user interface. See the **Future milestones** section of the :doc:`developer-guide` for more details.
 
 About this document
 -------------------
 
-This document is the NLNZ Tools SIP Generation Wairarapa Times Script Runner Guide. It describes how to use the command-line
+This document is the NLNZ Tools SIP Generation Newspapers Script Runner Guide. It describes how to use the command-line
 tools provided by the project to perform various workflow operations.
 
 The manual is divided into chapters, each of which deals with a particular scripting operation.
@@ -55,6 +55,8 @@ Following this introduction, this User Guide includes the following sections:
 -   **Copying ingested loads to ingested folder** - Covers copying ingested loads to their final ingested folder.
 
 -   **Additional tools** - Covers additional scripting tools.
+
+-   **Adding new newspaper types** - Covers adding new newspaper types.
 
 -   **Converting the spreadsheet to JSON and vice-versa** - Covers converting the parameters spreadsheet between formats.
 
@@ -154,6 +156,10 @@ General parameters
 +--------------------------------------------------------------+--------------------------------------------------------+
 | Parameters - General                                         | Description                                            |
 +==============================================================+========================================================+
+| --newspaperType=NEWSPAPER_TYPE                               | The newspaper type to be processed. Current options    |
+|                                                              | are WMMA (Wairarapa Time Age), alliedPress and wptNews |
+|                                                              | (Westport News)                                        |
++--------------------------------------------------------------+--------------------------------------------------------+
 | -b, --startingDate=STARTING_DATE                             | Starting date in the format yyyy-MM-dd (inclusive).    |
 |                                                              | Dates are usually based on file name (not timestamp).  |
 |                                                              | Default is 2015-01-01.                                 |
@@ -205,6 +211,10 @@ Ready-for-ingestion parameters
 +--------------------------------------------------------+-------------------------------------------------------------+
 | Parameters - Ready-for-ingestion                       | Description                                                 |
 +========================================================+=============================================================+
+| --newspaperType=NEWSPAPER_TYPE                         | The newspaper type to be processed. Current options         |
+|                                                        | are WMMA (Wairarapa Time Age), alliedPress and wptNews      |
+|                                                        | (Westport News)                                             |
++--------------------------------------------------------+-------------------------------------------------------------+
 | --targetForIngestionFolder=TARGET_FOR_INGESTION_FOLDER | Target for-ingestion folder in the format /path/to/folder   |
 |                                                        | Use --createDestination to force its creation.              |
 +--------------------------------------------------------+-------------------------------------------------------------+
@@ -309,8 +319,9 @@ This file structure prepares the files for ready-for-ingestion processing.
 
 Example processing command
 --------------------------
-The ``sip-generation-WMMA-fat-all`` jar is executed with arguments as shown in the following example::
+The ``sip-generation-fat-all`` jar is executed with arguments as shown in the following example::
 
+    newspaperType="WMMA"
     sourceFolder="/path/to/ftp/folder"
     targetBaseFolder="/path/to/LD_Sched/wairarapa-times-processing"
     targetPreProcessingFolder="${targetBaseFolder}/pre-processing"
@@ -326,8 +337,9 @@ The ``sip-generation-WMMA-fat-all`` jar is executed with arguments as shown in t
     minMemory="2048m"
 
     java -Xms${minMemory} -Xmx${maxMemory} \
-        -jar fat/build/libs/sip-generation-WMMA-all-<VERSION>.jar \
+        -jar fat/build/libs/sip-generation-all-<VERSION>.jar \
         --preProcess \
+        --newspaperType="${newspaperType}" \
         --startingDate="${startingDate}" \
         --endingDate="${endingDate}" \
         --sourceFolder="${sourceFolder}" \
@@ -378,25 +390,96 @@ of files.
 The *Ready-for-ingestion* folder structure is how Rosetta ingests the files. Magazines and newspapers have different
 *Material Flows*, so ingestion of those different IEEntity types must be in different folders.
 
+Newspaper type configuration
+----------------------------
+The newspaper types are stored in a JSON file and have the following structure::
+
+    {
+      "alliedPress": {
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "DATE_TIME_PATTERN": "ddMMMyyyy",
+        "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
+        "SUPPLEMENTS": {
+          "Signal": "OtagoDailyTimes",
+          "UBet": "OtagoDailyTimes"
+        }
+      }
+    }
+
+::
+The  key is the name of the newspaper type (in this case alliedPress) which will need to be used when running the
+scripts.
+
+The three fields beginning ``PDF_FILE_WITH...`` are the regular expressions required by the code to validate the names of
+the file being processed for that newspaper type.
+
+``DATE_TIME_PATTERN`` is the pattern used in the filenames for that newspaper type.
+
+``PATH_TO_SPREADSHEET`` is the name of the processing spreadsheet required to process the individual titles of that type.
+
+``SUPPLEMENTS`` is used when a newspaper has supplements that belong to a parent newspaper, but their title codes do
+not match their parent title. In the example above Signal and UBet need to be processed with the OtagoDailyTimes.
+They differ from other supplements which have the same title code as their parent and do not need to be included here.
+This field only needs to be present if the newspaper type has such supplements.
+
+Adding new newspaper types
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a new newspaper type needs to be added, an entry with the exact format above needs to added to the json file.
+The regular expressions need to match the format of the filename patterns for the new newspaper type.
+
+The ``SUPPLEMENTS`` field can have the value ``null`` or be left off if the new newspaper type doesn't have such
+supplements.
+
+A processing spreadsheet will also need to be added to the codebase and referred to in the ``PATH_TO_SPREADSHEET`` field.
+See below for information on the processing spreadsheet.
+
+
 Processing spreadsheet
 ----------------------
-The processing spreadsheet is used in the ready-for-ingestion stage to determine how a particular set of files
+A processing spreadsheet is used in the ready-for-ingestion stage to determine how a particular set of files
 associated with a title code are processed.
+
+Each newspaper type has its own processing spreadsheet.
 
 Default spreadsheet
 ~~~~~~~~~~~~~~~~~~~
-A spreadsheet exists that determines how a given title code is processed for a given processing type. A default
-spreadsheet exists in the codebase under
-``src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv``. This
-spreadsheet uses a column delimiter of ``|``.
+A spreadsheet exists for each newspaper type. The spreadsheet determines how a given title code is processed for a given
+processing type. A default spreadsheet exists for each newspaper type in the codebase under
+``src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/``.
+These spreadsheets use a column delimiter of ``|``.
 
 Spreadsheet conversion to JSON
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Build script tasks exist to conver a ``.csv`` spreadsheet to a ``.json`` file. See the section
+Build script tasks exist to convert a ``.csv`` spreadsheet to a ``.json`` file. See the section
 `Converting the spreadsheet to JSON and vice-versa`_ for an explanation on how that conversion is done.
 
 The ready-for-ingestion processing operates on the JSON version of the spreadsheet information. For this reason, any
 changes to the csv spreadsheet **must** be converted to JSON for the processing to use those changes.
+
+Newspaper type config file structure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The newspaper types are stored in a JSON file and have the following structure::
+
+    {
+      "alliedPress": {
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "DATE_TIME_PATTERN": "ddMMMyyyy",
+        "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
+        "SUPPLEMENTS": {
+          "Signal": "OtagoDailyTimes",
+          "UBet": "OtagoDailyTimes"
+        }
+      }
+    }
+
+::
+The  key is the name of the newspaper type and this will need to be used running the scripts.
+
 
 Spreadsheet structure
 ~~~~~~~~~~~~~~~~~~~~~
@@ -681,6 +764,10 @@ that can be used to override its value.
     Sequence numbering skips that start with 400 or 401 or 500 or 501 and so on are still treated as a sequence
     numbering skip. Override is ``numeric_starts_in_hundreds_not_considered_sequence_skips``.
 
+``use_filename_for_mets_label``
+    Use the name of the file as its label within the mets.xml file rather than the default page number. Useful for
+    single page pdfs such as Allied Press. Override is ``use_number_for_mets_label``.
+
 Processing options
 ------------------
 Processing options determine how certain aspects of the workflow take place. Each processing option has an opposite
@@ -748,6 +835,7 @@ Example processing command
 --------------------------
 The following snippet illustrates a ready-for-ingestion processing command::
 
+    newspaperType="WMMA"
     sourceFolder="path/to/LD_Sched/wairarapa-times-processing/pre-processing"
     targetBaseFolder="/path/to/LD_Sched/wairarapa-times-processing"
     targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
@@ -769,6 +857,7 @@ The following snippet illustrates a ready-for-ingestion processing command::
     java -Xms${minMemory} -Xmx${maxMemory} \
         -jar fat/build/libs/sip-generation-WMMA-fat-all-<VERSION>.jar \
         --readyForIngestion \
+        --newspaperType="${newspaperType}" \
         --startingDate="${startingDate}" \
         --endingDate="${endingDate}" \
         --sourceFolder="${sourceFolder}" \
@@ -941,35 +1030,60 @@ These structures provide for testing the processor, to see if its outputs match 
         --targetFolder="/path/to/target/folder" \
         --createDestination
 
+Adding new newspaper types
+=================================================
+
+From time to time a new newspaper publication type will need to be added to the configurations. The newspaper types
+are configured in the json file located at
+``core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json``
+Within this file a newspaper type has the following structure:
+
+    {
+      "alliedPress": {
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "DATE_TIME_PATTERN": "ddMMMyyyy",
+        "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
+        "SUPPLEMENTS": {
+          "Signal": "OtagoDailyTimes",
+          "UBet": "OtagoDailyTimes"
+        }
+      }
+    }
+
+
 Converting the spreadsheet to JSON and vice-versa
 =================================================
 
-From time to time the spreadsheet that defines how the files are ingested will changed based on new information.
-When this happens, the json file found at ``core/src/main/resources/default-fairfax-import-parameters.json`` needs
-updating to reflect the changes in the source spreadsheet.
+From time to time the spreadsheets that defines how the files are ingested will be changed based on new information.
+When this happens, the json file for the particular newspaper type found at ``core/src/main/resources/`` needs updating
+to reflect the changes in the source spreadsheet.
 
 Converting the csv spreadsheet to JSON
 --------------------------------------
     1. First, export the original spreadsheet in ``.csv`` format with the file separator as ``|`` and save it.
     2. Copy the exported csv spreadsheet to:
-       ``core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv``.
-    3. Execute the gradle task ``updateDefaultFairfaxImportParameters``, which takes the csv spreadsheet and converts it
+       ``core/src/main/resources/nz/govt/natlib/tools/sip/generation/``.
+        with the filename in the pattern: ``default-<newspapertype>-import-spreadsheet.csv``
+        e.g ``default-WMMA-import-spreadsheet.csv``
+    3. Execute the gradle task ``updateDefaultNewspaperImportParameters``, which takes the csv spreadsheet and converts it
        to a JSON file, which is then used for the actual processing::
 
-            gradle updateDefaultFairfaxImportParameters \
-              -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv" \
-              -PfairfaxSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-parameters.json"
+            ./gradlew updateDefaultNewspaperImportParameters \
+              -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-spreadsheet.csv" \
+              -PnewspaperSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-parameters.json"
 
 Note that there is no requirement to use the filenames given in the example. The given filenames are the ones the code
 uses.
 
 Converting the JSON parameters to csv spreadsheet
 -------------------------------------------------
-The JSON file can be converted to a csv spreadsheet using the build task ``exportDefaultFairfaxImportParameters``::
+The JSON file can be converted to a csv spreadsheet using the build task ``exportDefaultNewspaperImportParameters``::
 
-    gradle exportDefaultFairfaxImportParameters \
-      -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-parameters.json" \
-      -PfairfaxSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv"
+    gradle exportDefaultNewspaperImportParameters \
+      -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-parameters.json" \
+      -PnewspaperSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-spreadsheet.csv"
 
 Note that there is no requirement to use the filenames given in the example. The given filenames are the ones the code
 uses.

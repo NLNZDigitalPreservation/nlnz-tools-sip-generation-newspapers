@@ -46,7 +46,7 @@ class SeriesSequentialTest {
     static String ID_COLUMN_NAME = "MMSID"
 
     static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-series-sequential"
-    static final String IMPORT_PARAMETERS_FILENAME = "test-publication-types.json"
+    static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
     static final String PUBLICATION_TYPE = "WMMA"
 
     TestMethodState testMethodState
@@ -126,7 +126,7 @@ class SeriesSequentialTest {
 
     void processFiles(List<Path> filesForProcessing, List<ProcessingRule> overrideRules) {
         String dateString = "23Nov18"
-        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.publicationType.DATE_TIME_PATTERN))
+        LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TSTP",

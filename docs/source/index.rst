@@ -1,6 +1,6 @@
 
 
-National Library of New Zealand Tools SIP Generation Wairarapa Times Documentation
+National Library of New Zealand Tools SIP Generation Newspaper Documentation
 ==================================================================================
 
 .. toctree::

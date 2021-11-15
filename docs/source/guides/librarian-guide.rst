@@ -11,17 +11,17 @@ Additional TODO
 Introduction
 ============
 
-About NLNZ Tools SIP Generation Wairarapa Times 
+About NLNZ Tools SIP Generation Newspapers
 -----------------------------------------------
 
-NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing Wairarapa Times-specific content. The ultimate output
-of these tools are SIPs for ingestion into the Rosetta archiving system.
+NLNZ Tools SIP Generation Newspapers is specific set of tools for processing digital newspaper files. The ultimate
+output of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 About this document
 -------------------
 
-This document is the NLNZ Tools SIP Generation Wairarapa Times Librarian Guide. It describes how a librarian works helps in
-processing Wairarapa Times files from when they are dropped into a FTP folder to the point they are ingested into Rosetta
+This document is the NLNZ Tools SIP Generation Newspapers Librarian Guide. It describes how a librarian helps in
+processing newspaper files from when they are dropped into a FTP folder to the point they are ingested into Rosetta
 archiving system.
 
 The manual is divided into chapters, each of which deals with a particular aspect of the role.
@@ -49,8 +49,9 @@ Following this introduction, this User Guide includes the following sections:
 
 PDF filenames
 =============
+The PDF files produced by each newspaper type have a particular filename structure which can be broken up into parts.
 
-The PDF files produced by Wairarapa Times have the following filename structure::
+For example Wairarapa Times Age has the following filename structure::
 
     <title_code>-ddmmmyy-<optional-sequence-letter><optional-sequence-number><optional-qualifier>.pdf
 
@@ -76,18 +77,27 @@ As an example, `WMM20210101A001.pdf` is an invalid filename.  It does not have a
 long enough title_code block, and the second's date is not the correct format.
 
 
-Processing spreadsheet
-======================
+Processing spreadsheets
+=======================
+
+Each Newspaper Type has a processing spreadsheet which lists all titles associated with that type.
 
 The processing spreadsheet is used in the ready-for-ingestion stage to determine how a particular set of files
 associated with a title code are processed.
 
-Default spreadsheet
--------------------
-A spreadsheet exists that determines how a given title code is processed for a given processing type. A default
-spreadsheet exists in the codebase under
-``src/main/resources/nz/govt/natlib/tools/sip/generation/fairfax/default-fairfax-import-spreadsheet.csv``. This
-spreadsheet uses a column delimiter of ``|``.
+
+Default spreadsheets
+--------------------
+A spreadsheet exists for each newspaper type that determines how a given title code is processed for a given processing
+type. Default spreadsheets exist in the codebase for each newspaper type
+Wairarapa Timeas Age::
+``src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-spreadsheet.csv``.
+Allied Press::
+``src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-allied-press-import-spreadsheet.csv``.
+Westport News::
+``src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-wptnews-import-spreadsheet.csv``.
+
+These spreadsheets use a column delimiter of ``|``.
 
 Spreadsheet structure
 ---------------------

@@ -17,8 +17,8 @@ class NewspaperSpreadsheetTest {
 
     @Test
     void loadsTheWMMASpreadsheetCorrectly() {
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         assertTrue("Spreadsheet is valid", newspaperSpreadsheet.spreadsheet.isValid(false, false))
         List<Map<String, String>> mapsForWairarapaTimesList =
@@ -36,8 +36,8 @@ class NewspaperSpreadsheetTest {
 
     @Test
     void loadsTheAlliedPressSpreadsheetCorrectly() {
-        PublicationType publicationType = new PublicationType("alliedPress")
-        NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        NewspaperType newspaperType = new NewspaperType("alliedPress")
+        NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         assertTrue("Spreadsheet is valid", newspaperSpreadsheet.spreadsheet.isValid(false, false))
         List<Map<String, String>> mapsForAlliedPressList =
@@ -55,8 +55,8 @@ class NewspaperSpreadsheetTest {
 
     @Test
     void loadsTheWptNewsSpreadsheetCorrectly() {
-        PublicationType publicationType = new PublicationType("wptNews")
-        NewspaperSpreadsheet wptNewsSpreadsheet = NewspaperSpreadsheet.defaultInstance(publicationType.PATH_TO_SPREADSHEET)
+        NewspaperType newspaperType = new NewspaperType("wptNews")
+        NewspaperSpreadsheet wptNewsSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         assertTrue("Spreadsheet is valid", wptNewsSpreadsheet.spreadsheet.isValid(false, false))
         List<Map<String, String>> mapsForWptNewsList =

@@ -59,7 +59,7 @@ class NewspaperFile {
     DateTimeFormatter LOCAL_DATE_TIME_FORMATTER
 
     Path file
-    static PublicationType publicationType
+    static NewspaperType newspaperType
     // This is for when the file gets replaced, such as when a zero-length pdf is replaced by another file.
     Path originalFile
     String filename
@@ -303,7 +303,7 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> fromSourceFolder(Path sourceFolder) {
-        String pattern = publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
+        String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
         boolean sortFiles = true
@@ -315,7 +315,7 @@ class NewspaperFile {
                 isRegexNotGlob, matchFilenameOnly, sortFiles, pattern, null, false, true)
         List<NewspaperFile> onlyNewspaperFiles = [ ]
         allFiles.each { Path file ->
-            NewspaperFile newspaperFile = new NewspaperFile(file, publicationType)
+            NewspaperFile newspaperFile = new NewspaperFile(file, newspaperType)
             // TODO We have no checks here for NewspaperFile validity -- the pattern supposedly selects only validly named ones.
             onlyNewspaperFiles.add(newspaperFile)
         }
@@ -336,9 +336,9 @@ class NewspaperFile {
         }
     }
 
-    NewspaperFile(Path file, PublicationType publicationType) {
+    NewspaperFile(Path file, NewspaperType newspaperType) {
         this.file = file
-        this.publicationType = publicationType
+        this.newspaperType = newspaperType
         populate()
     }
 
@@ -348,9 +348,9 @@ class NewspaperFile {
 
     private populate() {
         this.filename = file.fileName.toString()
-        this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(publicationType.DATE_TIME_PATTERN)
+        this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
         // TODO Maybe the pattern comes from a resource or properties file?
-        Matcher matcher = filename =~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
+        Matcher matcher = filename =~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
             this.sectionCode = matcher.group('sectionCode')

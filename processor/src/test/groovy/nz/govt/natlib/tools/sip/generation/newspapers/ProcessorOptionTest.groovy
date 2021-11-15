@@ -1,5 +1,7 @@
 package nz.govt.natlib.tools.sip.generation.newspapers
 
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorException
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorOption
 import org.junit.Test
 
 import static org.hamcrest.core.Is.is

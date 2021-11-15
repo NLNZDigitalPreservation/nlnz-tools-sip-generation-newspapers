@@ -1,4 +1,4 @@
-package nz.govt.natlib.tools.sip.generation.newspapers.support
+package nz.govt.natlib.tools.sip.generation.newspapers.processor.support
 
 import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode

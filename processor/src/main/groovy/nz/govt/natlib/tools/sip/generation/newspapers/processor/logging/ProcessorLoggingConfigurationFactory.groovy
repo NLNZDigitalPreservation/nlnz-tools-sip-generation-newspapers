@@ -1,4 +1,4 @@
-package nz.govt.natlib.tools.sip.generation.newspapers.logging
+package nz.govt.natlib.tools.sip.generation.newspapers.processor.logging
 
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.core.Filter

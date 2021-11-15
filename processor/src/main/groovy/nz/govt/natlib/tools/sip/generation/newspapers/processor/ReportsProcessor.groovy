@@ -1,7 +1,10 @@
-package nz.govt.natlib.tools.sip.generation.newspapers
+package nz.govt.natlib.tools.sip.generation.newspapers.processor
 
 import groovy.util.logging.Log4j2
-import nz.govt.natlib.tools.sip.generation.newspapers.support.TitleCodeByDateSummary
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFileTitleEditionKey
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.support.TitleCodeByDateSummary
 import nz.govt.natlib.tools.sip.pdf.PdfInformationExtractor
 import nz.govt.natlib.tools.sip.utils.PathUtils
 

@@ -35,19 +35,19 @@ class TestHelper {
         String idColumnName
         String resourcesFolder
         String importParametersFilename
-        String importParametersPublicationType
+        String importParametersnewspaperType
         SipProcessingState sipProcessingState
         ProcessOutputInterceptor processOutputInterceptor
         String localPath
         String resourcePath
-        PublicationType publicationType
+        NewspaperType newspaperType
         NewspaperSpreadsheet newspaperSpreadsheet
 
-        TestMethodState(String idColumnName, String resourcesFolder, String importParametersFilename, String publicationType) {
+        TestMethodState(String idColumnName, String resourcesFolder, String importParametersFilename, String newspaperType) {
             this.idColumnName = idColumnName
             this.resourcesFolder = resourcesFolder
             this.importParametersFilename = importParametersFilename
-            this.importParametersPublicationType = publicationType
+            this.importParametersnewspaperType = newspaperType
         }
     }
 
@@ -70,10 +70,10 @@ class TestHelper {
         } else {
             testMethodState.resourcePath = "${testMethodState.resourcesFolder}"
             testMethodState.localPath = "src/test/resources/${testMethodState.resourcesFolder}"
-            testMethodState.publicationType = new PublicationType(testMethodState.importParametersPublicationType,
+            testMethodState.newspaperType = new NewspaperType(testMethodState.importParametersnewspaperType,
                     "${testMethodState.localPath}/${testMethodState.importParametersFilename}")
             testMethodState.newspaperSpreadsheet = loadSpreadsheet(testMethodState.resourcePath, testMethodState.localPath,
-                    testMethodState.publicationType.PATH_TO_SPREADSHEET, testMethodState.idColumnName)
+                    testMethodState.newspaperType.PATH_TO_SPREADSHEET, testMethodState.idColumnName)
         }
     }
 

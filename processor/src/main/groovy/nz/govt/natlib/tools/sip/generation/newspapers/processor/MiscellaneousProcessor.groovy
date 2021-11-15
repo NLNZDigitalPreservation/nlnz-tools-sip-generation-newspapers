@@ -1,7 +1,8 @@
-package nz.govt.natlib.tools.sip.generation.newspapers
+package nz.govt.natlib.tools.sip.generation.newspapers.processor
 
 import groovy.util.logging.Log4j2
 import groovyx.gpars.GParsExecutorsPool
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.utils.FilesFinder
 import nz.govt.natlib.tools.sip.logging.ThreadedTimekeeper
 import nz.govt.natlib.tools.sip.logging.Timekeeper

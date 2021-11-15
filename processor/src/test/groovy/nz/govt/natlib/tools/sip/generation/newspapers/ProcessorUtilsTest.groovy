@@ -1,5 +1,7 @@
 package nz.govt.natlib.tools.sip.generation.newspapers
 
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorOption
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorUtils
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang.SystemUtils
 
@@ -28,7 +30,7 @@ class ProcessorUtilsTest {
 
     @Test
     void verifyThatFilePathAsSafeStringWorksForDirectoryOnly() {
-        List<ProcessorOption> testOptions = [ ProcessorOption.ShowDirectoryOnly ]
+        List<ProcessorOption> testOptions = [ProcessorOption.ShowDirectoryOnly ]
 
         String expected = "filename.txt"
         String osPrefix = getOsPrefix()

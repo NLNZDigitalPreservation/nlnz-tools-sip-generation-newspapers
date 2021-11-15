@@ -49,27 +49,27 @@ class NewspaperFileTest {
 
     void checkRegexFilenamePatternMatches(String valueToCheck, String publication, boolean matchesWithGroupingRegex,
                                           boolean matchesWithDateSequencePattern, boolean matchesWithDateOnlyPattern) {
-        PublicationType publicationType = new PublicationType(publication)
+        NewspaperType newspaperType = new NewspaperType(publication)
         if (matchesWithGroupingRegex) {
-            assertTrue("value=${valueToCheck} matches pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
-                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
+            assertTrue("value=${valueToCheck} matches pattern=${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
+                    valueToCheck ==~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
-                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}",
+                    valueToCheck ==~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/)
         }
         if (matchesWithDateSequencePattern) {
-            assertTrue("value=${valueToCheck} matches pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
-                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
+            assertTrue("value=${valueToCheck} matches pattern=${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
+                    valueToCheck ==~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
-                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}",
+                    valueToCheck ==~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN}/)
         }
         if (matchesWithDateOnlyPattern) {
-            assertTrue("value=${valueToCheck} matches pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}",
-                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}/)
+            assertTrue("value=${valueToCheck} matches pattern=${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}",
+                    valueToCheck ==~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}/)
         } else {
-            assertFalse("value=${valueToCheck} does NOT match pattern=${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}}",
-                    valueToCheck ==~ /${publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}}/)
+            assertFalse("value=${valueToCheck} does NOT match pattern=${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}}",
+                    valueToCheck ==~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN}}/)
         }
     }
 
@@ -77,8 +77,8 @@ class NewspaperFileTest {
     void createsCorrectlyWithWMMALetterSequence() {
         String originalFilename = "WMMA22Oct18B024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WMMA"))
@@ -97,9 +97,9 @@ class NewspaperFileTest {
     void createsCorrectlyWithAPLetterSequence() {
         String originalFilename = "CluthaLeader-21Oct2021-Thu.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
-        PublicationType publicationType = new PublicationType("alliedPress")
-        println(publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("alliedPress")
+        println(newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("CluthaLeader"))
         assertNotNull("Year extracted", testNewspaperFile.dateYear)
@@ -114,9 +114,9 @@ class NewspaperFileTest {
     void createsCorrectlyWithWptNewsLetterSequence() {
         String originalFilename = "211021WptNews01.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
-        PublicationType publicationType = new PublicationType("wptNews")
-        println(publicationType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("wptNews")
+        println(newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WptNews"))
         assertNotNull("Year extracted", testNewspaperFile.dateYear)
@@ -132,8 +132,8 @@ class NewspaperFileTest {
         String originalFilename = "t2022Oct18024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("t20"))
@@ -151,8 +151,8 @@ class NewspaperFileTest {
         String originalFilename = "TST22Oct18B024a qualifier.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("TST"))
@@ -172,8 +172,8 @@ class NewspaperFileTest {
         String originalFilename = "TST22Oct18B024a qualifier.pDf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("TST"))
@@ -193,8 +193,8 @@ class NewspaperFileTest {
         String originalFilename = "TST22Oct18B024a qualifier.PDF"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("TST"))
@@ -214,8 +214,8 @@ class NewspaperFileTest {
         String originalFilename = "JAZZ22Oct18B024a qualifier.pDf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("JAZZ"))
@@ -235,8 +235,8 @@ class NewspaperFileTest {
         String originalFilename = "t2022Oct18024crop.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("t20"))
@@ -254,8 +254,8 @@ class NewspaperFileTest {
         String originalFilename = "abcde22Oct18024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        PublicationType publicationType = new PublicationType("WMMA")
-        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, publicationType)
+        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertFalse("NewspaperFile is invalid", testNewspaperFile.isValidName())
@@ -268,10 +268,10 @@ class NewspaperFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
 
         assertTrue("Same prefix and date in filename matches", newspaperFile1.matches(newspaperFile2))
         assertFalse("Same prefix and date but different sequence does not sequence match",
@@ -285,10 +285,10 @@ class NewspaperFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
 
         assertTrue("Same prefix and date in filename matches", newspaperFile1.matches(newspaperFile2))
         assertTrue("Matches with sequence", newspaperFile1.matchesWithSequence(newspaperFile2))
@@ -301,10 +301,10 @@ class NewspaperFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
 
         assertFalse("Same prefix but different dates does not match", newspaperFile1.matches(newspaperFile2))
     }
@@ -316,10 +316,10 @@ class NewspaperFileTest {
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
 
         assertFalse("Different prefixes does not match", newspaperFile1.matches(newspaperFile2))
     }
@@ -333,11 +333,11 @@ class NewspaperFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, newspaperType)
 
         assertEquals("Sorts correctly with same date but different sequence numbers",
                 [newspaperFile1, newspaperFile2, newspaperFile3].sort(), [newspaperFile3, newspaperFile2, newspaperFile1])
@@ -352,11 +352,11 @@ class NewspaperFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, newspaperType)
 
         assertEquals("Sorts correctly with same date but different sequence numbers",
                 [newspaperFile1, newspaperFile2, newspaperFile3].sort(), [newspaperFile3, newspaperFile2, newspaperFile1])
@@ -371,11 +371,11 @@ class NewspaperFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, newspaperType)
 
         assertEquals("Sorts correctly with same date and sequence string but different sequence numbers",
                 [newspaperFile1, newspaperFile2, newspaperFile3].sort(), [newspaperFile3, newspaperFile2, newspaperFile1])
@@ -390,11 +390,11 @@ class NewspaperFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, newspaperType)
 
         assertEquals("Sorts correctly with same date but different sequence numbers",
                 [newspaperFile1, newspaperFile2, newspaperFile3].sort(), [newspaperFile3, newspaperFile2, newspaperFile1])
@@ -409,11 +409,11 @@ class NewspaperFileTest {
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(mockFile3, newspaperType)
 
         LocalDate january12018 = LocalDate.of(2018, 1, 1)
         LocalDate june302018 = LocalDate.of(2018, 6, 30)
@@ -433,15 +433,15 @@ class NewspaperFileTest {
         Path file6 = Path.of("NAMe31Jan18C1.pdf")
         Path file7 = Path.of("NAMe31Jan18C2.pdf")
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(file1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(file2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(file3, publicationType)
-        NewspaperFile newspaperFile4 = new NewspaperFile(file4, publicationType)
-        NewspaperFile newspaperFile5 = new NewspaperFile(file5, publicationType)
-        NewspaperFile newspaperFile6 = new NewspaperFile(file6, publicationType)
-        NewspaperFile newspaperFile7 = new NewspaperFile(file7, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(file1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(file2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(file3, newspaperType)
+        NewspaperFile newspaperFile4 = new NewspaperFile(file4, newspaperType)
+        NewspaperFile newspaperFile5 = new NewspaperFile(file5, newspaperType)
+        NewspaperFile newspaperFile6 = new NewspaperFile(file6, newspaperType)
+        NewspaperFile newspaperFile7 = new NewspaperFile(file7, newspaperType)
 
         List<NewspaperFile> unsorted = [newspaperFile1, newspaperFile2, newspaperFile3, newspaperFile4, newspaperFile5,
                                         newspaperFile6, newspaperFile7 ]
@@ -461,15 +461,15 @@ class NewspaperFileTest {
         Path file6 = Path.of("NAMe31Jan18C1.pdf")
         Path file7 = Path.of("NAMe31Jan18C2.pdf")
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(file1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(file2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(file3, publicationType)
-        NewspaperFile newspaperFile4 = new NewspaperFile(file4, publicationType)
-        NewspaperFile newspaperFile5 = new NewspaperFile(file5, publicationType)
-        NewspaperFile newspaperFile6 = new NewspaperFile(file6, publicationType)
-        NewspaperFile newspaperFile7 = new NewspaperFile(file7, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(file1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(file2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(file3, newspaperType)
+        NewspaperFile newspaperFile4 = new NewspaperFile(file4, newspaperType)
+        NewspaperFile newspaperFile5 = new NewspaperFile(file5, newspaperType)
+        NewspaperFile newspaperFile6 = new NewspaperFile(file6, newspaperType)
+        NewspaperFile newspaperFile7 = new NewspaperFile(file7, newspaperType)
 
         List<NewspaperFile> unsorted = [newspaperFile1, newspaperFile2, newspaperFile3, newspaperFile4, newspaperFile5,
                                         newspaperFile6, newspaperFile7 ]
@@ -491,17 +491,17 @@ class NewspaperFileTest {
         Path file8 = Path.of("NAMe31Jan18501.pdf")
         Path file9 = Path.of("NAMe31Jan18502.pdf")
 
-        PublicationType publicationType = new PublicationType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WMMA")
 
-        NewspaperFile newspaperFile1 = new NewspaperFile(file1, publicationType)
-        NewspaperFile newspaperFile2 = new NewspaperFile(file2, publicationType)
-        NewspaperFile newspaperFile3 = new NewspaperFile(file3, publicationType)
-        NewspaperFile newspaperFile4 = new NewspaperFile(file4, publicationType)
-        NewspaperFile newspaperFile5 = new NewspaperFile(file5, publicationType)
-        NewspaperFile newspaperFile6 = new NewspaperFile(file6, publicationType)
-        NewspaperFile newspaperFile7 = new NewspaperFile(file7, publicationType)
-        NewspaperFile newspaperFile8 = new NewspaperFile(file8, publicationType)
-        NewspaperFile newspaperFile9 = new NewspaperFile(file9, publicationType)
+        NewspaperFile newspaperFile1 = new NewspaperFile(file1, newspaperType)
+        NewspaperFile newspaperFile2 = new NewspaperFile(file2, newspaperType)
+        NewspaperFile newspaperFile3 = new NewspaperFile(file3, newspaperType)
+        NewspaperFile newspaperFile4 = new NewspaperFile(file4, newspaperType)
+        NewspaperFile newspaperFile5 = new NewspaperFile(file5, newspaperType)
+        NewspaperFile newspaperFile6 = new NewspaperFile(file6, newspaperType)
+        NewspaperFile newspaperFile7 = new NewspaperFile(file7, newspaperType)
+        NewspaperFile newspaperFile8 = new NewspaperFile(file8, newspaperType)
+        NewspaperFile newspaperFile9 = new NewspaperFile(file9, newspaperType)
 
         assertTrue("file=${newspaperFile5.file} is isAHundredsSequenceStart", newspaperFile5.isAHundredsSequenceStart())
         assertTrue("file=${newspaperFile6.file} is isAHundredsSequenceStart", newspaperFile6.isAHundredsSequenceStart())

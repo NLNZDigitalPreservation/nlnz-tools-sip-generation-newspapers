@@ -11,7 +11,7 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
-import nz.govt.natlib.tools.sip.generation.newspapers.PublicationType
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperType
 import nz.govt.natlib.tools.sip.generation.newspapers.SipFactory
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.type.SipForFolderProcessor
 import nz.govt.natlib.tools.sip.generation.newspapers.special.PageUnavailableWriter
@@ -42,7 +42,7 @@ import org.apache.commons.io.FilenameUtils
 class NewspaperFilesProcessor {
     NewspaperProcessingParameters processingParameters
     List<Path> filesForProcessing
-    PublicationType publicationType
+    NewspaperType newspaperType
 
     Map<NewspaperFile, NewspaperFile> processedNewspaperFiles
 
@@ -59,9 +59,9 @@ class NewspaperFilesProcessor {
 
     static void processCollectedFiles(NewspaperProcessingParameters processingParameters,
                                       List<Path> filesForProcessing,
-                                      String publicationType) {
+                                      String newspaperType) {
         NewspaperFilesProcessor newspaperFilesProcessor = new NewspaperFilesProcessor(processingParameters,
-                filesForProcessing, publicationType)
+                filesForProcessing, newspaperType)
         if (processingParameters.rules.contains(ProcessingRule.ForceSkip)) {
             log.info("Skipping processing sourceFolder=${processingParameters.sourceFolder.normalize()} as processing rules include=${ProcessingRule.ForceSkip.fieldValue}")
             processingParameters.skip = true
@@ -74,7 +74,7 @@ class NewspaperFilesProcessor {
     NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String publication) {
         this.processingParameters = processingParameters
         this.filesForProcessing = filesForProcessing
-        this.publicationType = new PublicationType(publication)
+        this.newspaperType = new NewspaperType(publication)
     }
 
     void process() {
@@ -85,7 +85,7 @@ class NewspaperFilesProcessor {
 
         if (this.processingParameters.valid) {
             List<NewspaperFile> newspaperFilesForProcessing = filesForProcessing.collect { Path rawFile ->
-                new NewspaperFile(rawFile, this.publicationType)
+                new NewspaperFile(rawFile, this.newspaperType)
             }
             List<NewspaperFile> validNamedFiles = extractValidNamedFiles(newspaperFilesForProcessing)
 
@@ -147,7 +147,7 @@ class NewspaperFilesProcessor {
             // Strip the ignored of any editionDiscriminator files
             List<NewspaperFile> withoutEditionFiles = processingParameters.sipProcessingState.ignoredFiles.findAll {
                 Path file ->
-                    NewspaperFile newspaperFile = new NewspaperFile(file, this.publicationType)
+                    NewspaperFile newspaperFile = new NewspaperFile(file, this.newspaperType)
                     !processingParameters.editionDiscriminators.contains(newspaperFile.sectionCode)
             }
             if (!withoutEditionFiles.isEmpty()) {
@@ -174,7 +174,7 @@ class NewspaperFilesProcessor {
         // For the moment we do the conversion. This is something to consider when refactoring/redesigning this
         // application.
         List<NewspaperFile> sipFiles = processingParameters.sipProcessingState.sipFiles.collect { Path file ->
-            new NewspaperFile(file, this.publicationType)
+            new NewspaperFile(file, this.newspaperType)
         }
         checkForMissingSequenceFiles(sipFiles)
 
@@ -182,7 +182,7 @@ class NewspaperFilesProcessor {
 
         // See the note above about converting back and forth.
         List<NewspaperFile> thumbnailPageFiles = processingParameters.sipProcessingState.thumbnailPageFiles.collect { Path file ->
-            new NewspaperFile(file, this.publicationType)
+            new NewspaperFile(file, this.newspaperType)
         }
         generateThumbnailPage(thumbnailPageFiles)
         // TODO If we are generating a thumbnail page when there are errors we may want to consider generating a

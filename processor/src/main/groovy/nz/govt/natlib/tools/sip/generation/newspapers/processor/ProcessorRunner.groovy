@@ -1,4 +1,4 @@
-package nz.govt.natlib.tools.sip.generation.newspapers
+package nz.govt.natlib.tools.sip.generation.newspapers.processor
 
 import nz.govt.natlib.tools.sip.logging.DefaultTimekeeper
 import picocli.CommandLine

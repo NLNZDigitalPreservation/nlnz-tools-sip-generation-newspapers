@@ -6,9 +6,9 @@ Release Notes
 Introduction
 ============
 
-This guide, designed for a NLNZ Tools SIP Generation Wairarapa Times developer, covers release notes from `1.0.0-SNAPSHOT`.
+This guide, designed for a NLNZ Tools SIP Generation Newspapers developer, covers release notes from `1.0.0-SNAPSHOT`.
 Versions are in reverse chronological order, with the most recent version first. While the
-*NLNZ Tools SIP Generation Wairarapa Times Developer Guide* and *NLNZ Tools SIP Generation Wairarapa Times User Guide* are accurate for
+*NLNZ Tools SIP Generation Newspapers Developer Guide* and *NLNZ Tools SIP Generation Newspapers User Guide* are accurate for
 the current release, the *Release Notes* can give some idea of how things have changed since the last major release.
 
 Contents of this document
@@ -39,4 +39,12 @@ TODO Major features of this release
 1.0.0-SNAPSHOT
 ==============
 
-Created from NLNZ Tools SIP Generation Fairfax with modifications to the way that files are processed based on filenames.  New date format was used and checks for nulls on the Section Code, which isn't used by Wairarapa Times. 
+Created from NLNZ Tools SIP Generation Fairfax. Added the concept of a NewspaperType.
+
+NewspaperTypes replace the hardcoded filename patterns etc for Fairfax and can be configured within
+`resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json`
+
+Each NewspaperType requires a corresponding NewspaperSpreadsheet which lists each publication for that type
+(the same as the FairfaxSpreadsheet).
+
+newspaperType is a required parameter when running the processing.

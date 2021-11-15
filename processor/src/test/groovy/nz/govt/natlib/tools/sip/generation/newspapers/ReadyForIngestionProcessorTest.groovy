@@ -1,6 +1,6 @@
 package nz.govt.natlib.tools.sip.generation.newspapers
 
-
+import nz.govt.natlib.tools.sip.generation.newspapers.processor.ReadyForIngestionProcessor
 import org.junit.Test
 
 import java.time.LocalDate

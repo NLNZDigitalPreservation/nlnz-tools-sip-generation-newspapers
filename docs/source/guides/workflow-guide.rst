@@ -11,11 +11,11 @@ Additional TODO
 Introduction
 ============
 
-About NLNZ Tools SIP Generation Wairarapa Times 
+About NLNZ Tools SIP Generation Newspapers
 -----------------------------------------------
 
-NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing Wairarapa Times-specific content. The ultimate output
-of these tools are SIPs for ingestion into the Rosetta archiving system.
+NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing digital newspaper file-specific
+content. The ultimate output of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 This guide documents the workflows involved that move files from being dropped in an FTP folder through to being
 ingested into the Rosetta archiving system.
@@ -23,7 +23,8 @@ ingested into the Rosetta archiving system.
 About this document
 -------------------
 
-This document is the NLNZ Tools SIP Generation Workflow Wairarapa Times Guide and it is based on the NLNZ Tools SIP Generation Fairfax Guide.
+This document is the NLNZ Tools SIP Generation Workflow Newspapers Guide and it is based on the NLNZ Tools SIP
+Generation Fairfax Guide.
 
 The manual is divided into chapters, each of which deals with a particular workflow.
 
