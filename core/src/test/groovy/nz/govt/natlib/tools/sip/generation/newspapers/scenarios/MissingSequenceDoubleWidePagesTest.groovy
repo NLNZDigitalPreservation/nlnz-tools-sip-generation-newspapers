@@ -109,15 +109,12 @@ class MissingSequenceDoubleWidePagesTest {
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TSTP",
                 [ ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
-                [ ], [ ProcessingOption.AlwaysGenerateThumbnailPage ])
+                [ ], [ ])
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))
 
         NewspaperProcessingParameters processingParameters = parametersList.first()
-
-        assertTrue("Processing parameters always generates thumbnail page setting=${processingParameters.options}",
-                processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage))
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
         NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, PUBLICATION_TYPE)
@@ -129,26 +126,13 @@ class MissingSequenceDoubleWidePagesTest {
 
         int expectedNumberOfFilesProcessed = 10
         int expectedNumberOfSipFiles = 10
-        int expectedNumberOfThumbnailPageFiles = 10
         int expectedNumberOfValidFiles = 10
         int expectedNumberOfInvalidFiles = 0
         int expectedNumberOfIgnoredFiles = 0
         int expectedNumberOfUnrecognizedFiles = 0
         TestHelper.assertSipProcessingStateFileNumbers(expectedNumberOfFilesProcessed, expectedNumberOfSipFiles,
-                expectedNumberOfThumbnailPageFiles, expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
+                expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
                 expectedNumberOfIgnoredFiles, expectedNumberOfUnrecognizedFiles, testMethodState.sipProcessingState)
-
-        if (processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage) &&
-                processingParameters.options.contains(ProcessingOption.AlwaysGenerateThumbnailPage)) {
-            assertTrue("Thumbnail page exists, file=${processingParameters.thumbnailPageFile.normalize()}",
-                    Files.exists(processingParameters.thumbnailPageFile))
-            // We delete the file because we don't want it sticking around after the test
-            // Comment out the following line if you want to view the file
-            Files.deleteIfExists(processingParameters.thumbnailPageFile)
-        } else {
-            assertNull("Thumbnail page DOES NOT exist, file=${processingParameters.thumbnailPageFile}",
-                    processingParameters.thumbnailPageFile)
-        }
 
         log.info("STARTING SIP validation")
         sipConstructedCorrectly(sipAsXml, processingParameters.rules.contains(ProcessingRule.Manual))

@@ -13,9 +13,7 @@ enum ProcessingType {
               ProcessingRule.MissingSequenceDoubleWideIgnored, ProcessingRule.IgnoreEditionsWithoutMatchingFiles,
               ProcessingRule.ZeroLengthPdfReplacedWithPageUnavailablePdf, ProcessingRule.DoNotForceSkip,
               ProcessingRule.NumericStartsInHundredsNotConsideredSequenceSkips ],
-            [ ProcessingOption.NumericBeforeAlphaSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage,
-              ProcessingOption.SkipThumbnailPageGenerationWhenNoErrors,
-              ProcessingOption.UseInMemoryPdfToThumbnailGeneration ]),
+            [ ProcessingOption.NumericBeforeAlphaSequencing ]),
     ParentGrouping("parent_grouping",
             [ ProcessingRule.SkipIgnored, ProcessingRule.SkipUnrecognised, ProcessingRule.SkipInvalid,
               ProcessingRule.Automatic, ProcessingRule.FirstSectionCodeNotRequiredForMatch,
@@ -23,9 +21,7 @@ enum ProcessingType {
               ProcessingRule.MissingSequenceDoubleWideIgnored, ProcessingRule.IgnoreEditionsWithoutMatchingFiles,
               ProcessingRule.ZeroLengthPdfReplacedWithPageUnavailablePdf, ProcessingRule.DoNotForceSkip,
               ProcessingRule.NumericStartsInHundredsNotConsideredSequenceSkips ],
-            [ ProcessingOption.NumericBeforeAlphaSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage,
-              ProcessingOption.SkipThumbnailPageGenerationWhenNoErrors,
-              ProcessingOption.UseInMemoryPdfToThumbnailGeneration ]),
+            [ ProcessingOption.NumericBeforeAlphaSequencing ]),
     SupplementGrouping("supplement_grouping",
             [ ProcessingRule.SkipIgnored, ProcessingRule.SkipUnrecognised, ProcessingRule.SkipInvalid,
               ProcessingRule.Automatic, ProcessingRule.FirstSectionCodeRequiredForMatch,
@@ -33,9 +29,7 @@ enum ProcessingType {
               ProcessingRule.MissingSequenceDoubleWideIgnored, ProcessingRule.IgnoreEditionsWithoutMatchingFiles,
               ProcessingRule.ZeroLengthPdfReplacedWithPageUnavailablePdf, ProcessingRule.DoNotForceSkip,
               ProcessingRule.NumericStartsInHundredsNotConsideredSequenceSkips ],
-            [ ProcessingOption.NumericBeforeAlphaSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage,
-              ProcessingOption.SkipThumbnailPageGenerationWhenNoErrors,
-              ProcessingOption.UseInMemoryPdfToThumbnailGeneration ]),
+            [ ProcessingOption.NumericBeforeAlphaSequencing ]),
     CreateSipForFolder("create_sip_for_folder",
             [ ProcessingRule.SkipIgnored, ProcessingRule.SkipUnrecognised, ProcessingRule.SkipInvalid,
               ProcessingRule.Automatic, ProcessingRule.FirstSectionCodeNotRequiredForMatch,
@@ -43,8 +37,7 @@ enum ProcessingType {
               ProcessingRule.MissingSequenceDoubleWideIgnored, ProcessingRule.IgnoreEditionsWithoutMatchingFiles,
               ProcessingRule.ZeroLengthPdfReplacedWithPageUnavailablePdf, ProcessingRule.DoNotForceSkip,
               ProcessingRule.NumericStartsInHundredsNotConsideredSequenceSkips ],
-            [ ProcessingOption.NumericBeforeAlphaSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage,
-              ProcessingOption.AlwaysGenerateThumbnailPage, ProcessingOption.UseInMemoryPdfToThumbnailGeneration ])
+            [ ProcessingOption.NumericBeforeAlphaSequencing ])
 
     private static final Map<String, ProcessingType> LOOKUP_BY_FIELD_VALUE = [ : ]
     private final String fieldValue

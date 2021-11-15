@@ -32,7 +32,7 @@ Output is ready for ingestion by Rosetta.
 Requires sourceFolder, targetForIngestionFolder, forReviewFolder, processingType.
 Uses startingDate, endingDate.
 Optional createDestination. Note that moveFiles is not supported at this time.
-Optional parallelizeProcessing, numberOfThreads, maximumThumbnailPageThreads.
+Optional parallelizeProcessing, numberOfThreads.
 This is a processing operation and must run exclusively of other processing operations.""")
     boolean readyForIngestion = false
 
@@ -50,13 +50,6 @@ This is a reporting operation and cannot be run with any processing operations."
 Requires sourceFolder.
 This is a reporting operation and cannot be run with any other processing operations.""")
     boolean extractMetadata = false
-
-    @Option(names = ["--generateThumbnailPageFromPdfs" ], description = """Generate a thumbnail page from the PDFs in the given folder.
-Requires sourceFolder, targetFolder.
-Optional startingDate and endingDate will select directories that match dates in yyyyMMdd format.
-Generates a thumbnail page using the PDFs in the source folder. The name of the jpeg is based on the source folder.
-This is a processing operation and must run exclusively of other processing operations.""")
-    boolean generateThumbnailPageFromPdfs = false
 
     @Option(names = ["--copyIngestedLoadsToIngestedFolder" ], description = """Copy the ingested loads to ingested folder.
 Requires sourceFolder, targetPostProcessedFolder, forReviewFolder.
@@ -81,19 +74,13 @@ Default is no creation (false).""")
 
     @Option(names = ["--parallelizeProcessing" ], description = """Run operations in parallel (if possible).
 Operations that have components that can run in parallel currently are:
-    --preProcess, --readyForIngestion, --generateThumbnailPageFromPdfs""")
+    --preProcess, --readyForIngestion""")
     boolean parallelizeProcessing = false
 
     @Option(names = ["--numberOfThreads"], paramLabel = "NUMBER_OF_THREADS",
             description = """Number of threads when running operations in parallel.
 The default is 1.""")
     int numberOfThreads = 1
-
-    @Option(names = ["--maximumThumbnailPageThreads"], paramLabel = "MAXIMUM_THUMBNAIL_PAGE_THREADS",
-            description = """Maximum of threads that can be used to generate thumbnail pages when running operations in parallel.
-The default is 1.
-This limit is in place because in-memory thumbnail page generation can be quite resource intensive and can overload the JVM.""")
-    int maximumThumbnailPageThreads = 1
 
     @Option(names = ["--moveOrCopyEvenIfNoRosettaDoneFile" ],
             description = """Whether the move or copy takes place even if there is no Rosetta done file.
@@ -212,7 +199,6 @@ For processing exceptions, depending on processor.""")
         log.info("        copyIngestedLoadsToIngestedFolder=${copyIngestedLoadsToIngestedFolder}")
         log.info("    Other types of processing:")
         log.info("        copyProdLoadToTestStructures=${copyProdLoadToTestStructures}")
-        log.info("        generateThumbnailPageFromPdfs=${generateThumbnailPageFromPdfs}")
         log.info("    Reporting:")
         log.info("        listFiles=${listFiles}")
         log.info("        statisticalAudit=${statisticalAudit}")
@@ -238,7 +224,6 @@ For processing exceptions, depending on processor.""")
         log.info("        createDestination=${createDestination}")
         log.info("        parallelizeProcessing=${parallelizeProcessing}")
         log.info("        numberOfThreads=${numberOfThreads}")
-        log.info("        maximumThumbnailPageThreads=${maximumThumbnailPageThreads}")
         log.info("        generalProcessingOptions=${generalProcessingOptions}")
         log.info("        moveOrCopyEvenIfNoRosettaDoneFile=${moveOrCopyEvenIfNoRosettaDoneFile}")
         log.info("        includeDetailedTimings=${includeDetailedTimings}")
@@ -337,22 +322,6 @@ For processing exceptions, depending on processor.""")
             displayProcessingLegend()
             MiscellaneousProcessor miscellaneousProcessor = new MiscellaneousProcessor(this)
             miscellaneousProcessor.copyProdLoadToTestStructures()
-            commandExecuted = true
-        }
-        if (generateThumbnailPageFromPdfs) {
-            if (sourceFolder == null) {
-                String message = "generateThumbnailPageFromPdfs requires sourceFolder"
-                log.error(message)
-                throw new ProcessorException(message)
-            }
-            if (targetFolder == null) {
-                String message = "generateThumbnailPageFromPdfs requires targetFolder"
-                log.error(message)
-                throw new ProcessorException(message)
-            }
-            displayProcessingLegend()
-            MiscellaneousProcessor miscellaneousProcessor = new MiscellaneousProcessor(this)
-            miscellaneousProcessor.generateThumbnailPageFromPdfs()
             commandExecuted = true
         }
         if (preProcess) {

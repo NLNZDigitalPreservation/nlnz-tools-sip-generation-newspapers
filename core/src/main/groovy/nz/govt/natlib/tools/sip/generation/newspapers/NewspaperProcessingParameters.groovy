@@ -42,8 +42,6 @@ class NewspaperProcessingParameters {
     boolean isMagazine = false
     String currentEdition
     SipProcessingState sipProcessingState = new SipProcessingState()
-    Path thumbnailPageFile
-    String thumbnailPageFileFinalName
 
     static List<NewspaperProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
                                                      LocalDate processingDate, NewspaperSpreadsheet spreadsheet,

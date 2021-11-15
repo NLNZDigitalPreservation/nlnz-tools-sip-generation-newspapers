@@ -22,8 +22,6 @@ import nz.govt.natlib.tools.sip.logging.JvmPerformanceLogger
 import nz.govt.natlib.tools.sip.pdf.PdfValidator
 import nz.govt.natlib.tools.sip.pdf.PdfValidatorFactory
 import nz.govt.natlib.tools.sip.pdf.PdfValidatorType
-import nz.govt.natlib.tools.sip.pdf.thumbnail.ThreadedThumbnailGenerator
-import nz.govt.natlib.tools.sip.pdf.thumbnail.ThumbnailParameters
 import nz.govt.natlib.tools.sip.state.SipProcessingException
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
@@ -177,16 +175,8 @@ class NewspaperFilesProcessor {
             new NewspaperFile(file, this.newspaperType)
         }
         checkForMissingSequenceFiles(sipFiles)
-
         checkForManualProcessing()
 
-        // See the note above about converting back and forth.
-        List<NewspaperFile> thumbnailPageFiles = processingParameters.sipProcessingState.thumbnailPageFiles.collect { Path file ->
-            new NewspaperFile(file, this.newspaperType)
-        }
-        generateThumbnailPage(thumbnailPageFiles)
-        // TODO If we are generating a thumbnail page when there are errors we may want to consider generating a
-        // TODO thumbnail page for ALL the files (this could help in understanding the problem).
         return sipFiles
     }
 
@@ -214,7 +204,6 @@ class NewspaperFilesProcessor {
         SipProcessingState sipProcessingState = processingParameters.sipProcessingState
 
         boolean includeFileInSip = true
-        boolean includeInThumbnailPage = true
         if (processedNewspaperFiles.containsKey(newspaperFile)) {
             // We have a duplicate file -- possibly a different qualifier
             // We use the newspaper file as a key, but we'll get the duplicate back
@@ -257,9 +246,6 @@ class NewspaperFilesProcessor {
         }
         if (includeFileInSip) {
             sipProcessingState.sipFiles.add(newspaperFile.file)
-        }
-        if (includeInThumbnailPage) {
-            sipProcessingState.thumbnailPageFiles.add(newspaperFile.file)
         }
     }
 
@@ -401,44 +387,6 @@ class NewspaperFilesProcessor {
             SipProcessingException sipProcessingException = SipProcessingException.createWithReason(exceptionReason)
             processingParameters.sipProcessingState.addException(sipProcessingException)
             log.warn(exceptionReason.toString())
-        }
-    }
-
-    boolean doGenerateThumbnailPage() {
-        boolean doGenerate = false
-        if (processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage)) {
-            boolean alwaysGenerate = processingParameters.options.contains(ProcessingOption.AlwaysGenerateThumbnailPage)
-            boolean skipWhenErrorFree = processingParameters.options.contains(ProcessingOption.SkipThumbnailPageGenerationWhenNoErrors)
-            doGenerate = alwaysGenerate ||
-                    (skipWhenErrorFree && processingParameters.sipProcessingState.hasExceptions())
-        }
-        return doGenerate
-    }
-
-    void generateThumbnailPage(List<NewspaperFile> newspaperPdfFiles) {
-        if (doGenerateThumbnailPage()) {
-            if (!newspaperPdfFiles.isEmpty()) {
-                String processingDifferentiator = processingParameters.processingDifferentiator()
-                String thumbnailPagePrefix = "${processingDifferentiator}_thumbnail_page"
-                String thumbnailPageTitle = "${processingDifferentiator}_thumbnail_page.jpeg"
-                processingParameters.thumbnailPageFileFinalName = thumbnailPageTitle
-                File thumbnailPageFile = File.createTempFile("${thumbnailPagePrefix}_", ".jpeg")
-                // We want this temporary file to be deleted on exit. It will be copied to its final destination.
-                thumbnailPageFile.deleteOnExit()
-                ThumbnailParameters thumbnailParameters = new ThumbnailParameters(thumbnailHeight: 240,
-                        useAffineTransformation: false, textJustification: ThumbnailParameters.TextJustification.RIGHT,
-                        maximumPageWidth: 1200, pageTitleText: thumbnailPageTitle,
-                        pageTitleFontJustification: ThumbnailParameters.TextJustification.RIGHT)
-                boolean useCommandLine = processingParameters.options.contains(ProcessingOption.UseCommandLinePdfToThumbnailGeneration)
-                thumbnailParameters.generateWithPdftoppm = useCommandLine
-
-                List<Path> pdfFiles = newspaperPdfFiles.collect { NewspaperFile sortedFile ->
-                    sortedFile.file
-                }
-                processingParameters.thumbnailPageFile = thumbnailPageFile.toPath()
-                log.info("Generating thumbnail page file=${thumbnailPageTitle} (created as temp file=${thumbnailPageFile.getCanonicalPath()})   ")
-                ThreadedThumbnailGenerator.writeThumbnailPage(pdfFiles, thumbnailParameters, thumbnailPageFile.toPath())
-            }
         }
     }
 }

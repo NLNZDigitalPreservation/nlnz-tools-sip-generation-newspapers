@@ -116,25 +116,13 @@ class CreateSipForFolderTest {
 
         int expectedNumberOfFilesProcessed = 10
         int expectedNumberOfSipFiles = 10
-        int expectedNumberOfThumbnailPageFiles = 10
         int expectedNumberOfValidFiles = 10
         int expectedNumberOfInvalidFiles = 0
         int expectedNumberOfIgnoredFiles = 0
         int expectedNumberOfUnrecognizedFiles = 0
         TestHelper.assertSipProcessingStateFileNumbers(expectedNumberOfFilesProcessed, expectedNumberOfSipFiles,
-                expectedNumberOfThumbnailPageFiles, expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
+                expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
                 expectedNumberOfIgnoredFiles, expectedNumberOfUnrecognizedFiles, testMethodState.sipProcessingState)
-
-        if (processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage)) {
-            assertTrue("Thumbnail page exists, file=${processingParameters.thumbnailPageFile.normalize()}",
-                    Files.exists(processingParameters.thumbnailPageFile))
-            // We delete the file because we don't want it sticking around after the test
-            // Comment out the following line if you want to view the file
-            Files.deleteIfExists(processingParameters.thumbnailPageFile)
-        } else {
-            assertNull("Thumbnail page DOES NOT exist, file=${processingParameters.thumbnailPageFile}",
-                    processingParameters.thumbnailPageFile)
-        }
 
         log.info("SIP validation")
         sipConstructedCorrectly(sipAsXml)

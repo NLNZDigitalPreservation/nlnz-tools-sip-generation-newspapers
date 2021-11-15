@@ -11,7 +11,6 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.logging.DefaultTimekeeper
 import nz.govt.natlib.tools.sip.logging.JvmPerformanceLogger
 import nz.govt.natlib.tools.sip.logging.Timekeeper
-import nz.govt.natlib.tools.sip.pdf.thumbnail.ThreadedThumbnailGenerator
 import nz.govt.natlib.tools.sip.processing.PerThreadLogFileAppender
 import nz.govt.natlib.tools.sip.state.SipProcessingException
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
@@ -271,13 +270,6 @@ class ReadyForIngestionProcessor {
             PathUtils.copyOrMoveFiles(false, [ processingStateFile ], sipAndFilesFolder)
         }
 
-        // Move the thumbnail page file to the sipAndFilesFolder
-        if (processingParameters.thumbnailPageFile != null && Files.exists(processingParameters.thumbnailPageFile)) {
-            Path thumbnailPageFileNewFile = processingParameters.thumbnailPageFile.parent.resolve(
-                    processingParameters.thumbnailPageFileFinalName)
-            Files.move(processingParameters.thumbnailPageFile, thumbnailPageFileNewFile)
-            PathUtils.copyOrMoveFiles(true, [ thumbnailPageFileNewFile ], sipAndFilesFolder)
-        }
         sipAndFilesFolder
     }
 
@@ -348,8 +340,6 @@ class ReadyForIngestionProcessor {
                 "process=${GeneralUtils.TOTAL_FORMAT.format(titleCodeFoldersAndDates.size())}")
         int numberOfThreads = processorConfiguration.parallelizeProcessing ? processorConfiguration.numberOfThreads : 1
         log.info("Processing over numberOfThreads=${numberOfThreads}")
-        ThreadedThumbnailGenerator.changeMaximumConcurrentThreads(processorConfiguration.maximumThumbnailPageThreads)
-        log.info("Maximum number of threads processing thumbnails=${processorConfiguration.maximumThumbnailPageThreads}")
 
         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at start of ALL processing",
                 true, true, true, false, true, true, true)
@@ -403,7 +393,6 @@ class ReadyForIngestionProcessor {
                     failureFolderAndReasons.add(fileAndReason)
                 } catch (OutOfMemoryError e) {
                     log.error("Exception processing ${titleCodeFolderMessage}, note that Processing WILL continue", e)
-                    log.error("Number of threads currently generating thumbnails queue length=${ThreadedThumbnailGenerator.numberThreadsGeneratingThumbnails()}")
                     JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at end of ${titleCodeFolderMessage}",
                             false, true, true, false, true, true, true)
                     Tuple2<Path, String> fileAndReason = new Tuple2(titleCodeFolder, e.toString())
@@ -433,7 +422,6 @@ class ReadyForIngestionProcessor {
         log.info("${System.lineSeparator()}${System.lineSeparator()}Summary:")
         log.info("    Total folders processed=${GeneralUtils.TOTAL_FORMAT.format(titleCodeFoldersAndDates.size())}")
         log.info("    Processed with numberOfThreads=${GeneralUtils.TOTAL_FORMAT.format(numberOfThreads)}")
-        log.info("    Maximum number of threads processing thumbnails=${GeneralUtils.TOTAL_FORMAT.format(processorConfiguration.maximumThumbnailPageThreads)}")
         processingTimekeeper.stop()
         processingTimekeeper.logElapsed(false, titleCodeFoldersAndDates.size(), true)
         log.info("${System.lineSeparator()}Total elapsed:")

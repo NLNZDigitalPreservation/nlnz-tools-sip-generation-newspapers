@@ -10,37 +10,37 @@ class ProcessingOptionTest {
 
     @Test
     void correctlyMergesOverridesWhenOverrideExists() {
-        List<ProcessingOption> current = [ ProcessingOption.AlphaBeforeNumericSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage ]
+        List<ProcessingOption> current = [ ProcessingOption.AlphaBeforeNumericSequencing ]
         List<ProcessingOption> overrides = [ ProcessingOption.NumericBeforeAlphaSequencing ]
         List<ProcessingOption> merged = ProcessingOption.mergeOverrides(current, overrides)
 
-        List<ProcessingOption> expected = [ ProcessingOption.NumericBeforeAlphaSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage ]
+        List<ProcessingOption> expected = [ ProcessingOption.NumericBeforeAlphaSequencing ]
         assertThat("ProcessingOption merges correctly", merged, is(expected))
     }
 
     @Test
     void correctlyMergesOverridesWhenOverrideDoesNotExist() {
-        List<ProcessingOption> current = [ ProcessingOption.GenerateProcessedPdfThumbnailsPage ]
+        List<ProcessingOption> current = [ ]
         List<ProcessingOption> overrides = [ ProcessingOption.NumericBeforeAlphaSequencing ]
         List<ProcessingOption> merged = ProcessingOption.mergeOverrides(current, overrides)
 
-        List<ProcessingOption> expected = [ ProcessingOption.GenerateProcessedPdfThumbnailsPage, ProcessingOption.NumericBeforeAlphaSequencing ]
+        List<ProcessingOption> expected = [ ProcessingOption.NumericBeforeAlphaSequencing ]
         assertThat("ProcessingOption merges correctly", merged, is(expected))
     }
 
     @Test
     void extractsCorrectlyWithoutDefaults() {
-        List<ProcessingOption> options = ProcessingOption.extract("alpha_before_numeric,generate_processed_pdf_thumbnails_page",
+        List<ProcessingOption> options = ProcessingOption.extract("alpha_before_numeric",
                 ",", [ ], true)
-        List<ProcessingOption> expected = [ ProcessingOption.AlphaBeforeNumericSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage ]
+        List<ProcessingOption> expected = [ ProcessingOption.AlphaBeforeNumericSequencing ]
         assertThat("ProcessingOption extracted correctly", options, is(expected))
     }
 
     @Test
     void extractsCorrectlyWithDefaults() {
-        List<ProcessingOption> options = ProcessingOption.extract("generate_processed_pdf_thumbnails_page",
+        List<ProcessingOption> options = ProcessingOption.extract("",
                 ",", [ ProcessingOption.NumericBeforeAlphaSequencing ], true)
-        List<ProcessingOption> expected = [ ProcessingOption.NumericBeforeAlphaSequencing, ProcessingOption.GenerateProcessedPdfThumbnailsPage ]
+        List<ProcessingOption> expected = [ ProcessingOption.NumericBeforeAlphaSequencing ]
         assertThat("ProcessingOption extracted correctly", options, is(expected))
     }
 

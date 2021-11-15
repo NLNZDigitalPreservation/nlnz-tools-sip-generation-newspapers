@@ -242,7 +242,7 @@ class TestHelper {
     }
 
     static void assertSipProcessingStateFileNumbers(int expectedTotalFilesProcessed, int expectedSipFiles,
-                                                    int expectedThumbnailPageFiles, int expectedValidFiles,
+                                                    int expectedValidFiles,
                                                     int expectedInvalidFiles, int expectedIgnoredFiles,
                                                     int expectedUnrecognizedFiles, SipProcessingState sipProcessingState) {
         assertThat("expectedTotalFilesProcessed=${expectedTotalFilesProcessed}",
@@ -257,8 +257,6 @@ class TestHelper {
                 sipProcessingState.ignoredFiles.size(), is(expectedIgnoredFiles))
         assertThat("expectedUnrecognizedFiles=${expectedUnrecognizedFiles}",
                 sipProcessingState.unrecognizedFiles.size(), is(expectedUnrecognizedFiles))
-        assertThat("expectedThumbnailPageFiles=${expectedThumbnailPageFiles}",
-                sipProcessingState.thumbnailPageFiles.size(), is(expectedThumbnailPageFiles))
     }
 
     static void assertExpectedSipMetadataValues(SipXmlExtractor sipForValidation, String title, String dcDate,

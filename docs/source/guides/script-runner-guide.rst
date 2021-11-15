@@ -100,7 +100,7 @@ Processing stages are discussed in more detail in :doc:`workflow-guide`.
 |                                     | processingType.                                                                |
 |                                     | Uses startingDate, endingDate.                                                 |
 |                                     | Optional createDestination. Note that moveFiles is not supported at this time. |
-|                                     | Optional parallelizeProcessing, numberOfThreads, maximumThumbnailPageThreads.  |
+|                                     | Optional parallelizeProcessing, numberOfThreads.                               |
 |                                     | This is a processing operation and must run exclusively of other processing    |
 |                                     | operations.                                                                    |
 +-------------------------------------+--------------------------------------------------------------------------------+
@@ -108,7 +108,7 @@ Processing stages are discussed in more detail in :doc:`workflow-guide`.
 |                                     | Requires sourceFolder, targetPostProcessedFolder, forReviewFolder.             |
 |                                     | Uses startingDate, endingDate.                                                 |
 |                                     | Optional createDestination, moveFiles, moveOrCopyEvenIfNoRosettaDoneFile.      |
-|                                     | Optional parallelizeProcessing, numberOfThreads, maximumThumbnailPageThreads.  |
+|                                     | Optional parallelizeProcessing, numberOfThreads.                               |
 |                                     | This is a processing operation and must run exclusively of other processing    |
 |                                     | operations.                                                                    |
 +-------------------------------------+--------------------------------------------------------------------------------+
@@ -120,15 +120,6 @@ Other types of processing
 +=================================+====================================================================================+
 | --copyProdLoadToTestStructures  | Copy the production load to test structures.                                       |
 |                                 | Uses startingDate, endingDate.                                                     |
-|                                 | This is a processing operation and must run exclusively of other processing        |
-|                                 | operations.                                                                        |
-+---------------------------------+------------------------------------------------------------------------------------+
-| --generateThumbnailPageFromPdfs | Generate a thumbnail page from the PDFs in the given folder.                       |
-|                                 | Requires sourceFolder, targetFolder.                                               |
-|                                 | Optional startingDate and endingDate will select directories that match dates in   |
-|                                 | yyyyMMdd format.                                                                   |
-|                                 | Generates a thumbnail page using the PDFs in the source folder. The name of the    |
-|                                 | jpeg is based on the source folder.                                                |
 |                                 | This is a processing operation and must run exclusively of other processing        |
 |                                 | operations.                                                                        |
 +---------------------------------+------------------------------------------------------------------------------------+
@@ -190,13 +181,6 @@ General parameters
 | --numberOfThreads=NUMBER_OF_THREADS                          | Number of threads when running operations in parallel. |
 |                                                              | The default is 1.                                      |
 +--------------------------------------------------------------+--------------------------------------------------------+
-| --maximumThumbnailPageThreads=MAXIMUM_THUMBNAIL_PAGE_THREADS | Maximum of threads that can be used to generate        |
-|                                                              | thumbnail pages when running operations in parallel    |
-|                                                              | The default is 1.                                      |
-|                                                              | This limit is in place because in-memory thumbnail     |
-|                                                              | pagegeneration can be quite resource intensive and can |
-|                                                              | overload the JVM.                                      |
-+--------------------------------------------------------------+--------------------------------------------------------+
 | --generalProcessingOptions=GENERAL_PROCESSING_OPTIONS        | General processing options.                            |
 |                                                              | A comma-separated list of options. These options will  |
 |                                                              | override any contradictory options.                    |
@@ -242,10 +226,6 @@ Options
 |                                     | Default is no creation (false).                                                |
 +-------------------------------------+--------------------------------------------------------------------------------+
 | --moveFiles                         | Whether files will be moved or copied. Default is copy (false).                |
-+-------------------------------------+--------------------------------------------------------------------------------+
-| --parallelizeProcessing             | Run operations in parallel (if possible).                                      |
-|                                     | Operations that have components that can run in parallel currently are:        |
-|                                     | --preProcess, --readyForIngestion, --generateThumbnailPageFromPdfs             |
 +-------------------------------------+--------------------------------------------------------------------------------+
 | --detailedTimings                   | Include detailed timings (for specific operations).                            |
 +-------------------------------------+--------------------------------------------------------------------------------+
@@ -570,8 +550,7 @@ publications where this is the case. One example is the title code ``ADM``, whic
     ``numeric_starts_in_hundreds_not_considered_sequence_skips``, ``do_not_require_first_section_code_for_match``.
 
 ``parent_grouping_with_edition`` default options:
-    ``numeric_before_alpha``, ``generate_processed_pdf_thumbnails_page``,
-    ``skip_generation_thumbnail_page_when_error_free``, ``use_in_memory_pdf_to_thumbnail_generation``.
+    ``numeric_before_alpha``.
 
 parent_grouping
 ~~~~~~~~~~~~~~~
@@ -588,8 +567,7 @@ This is the most common grouping where the title code by itself is enough to det
     ``numeric_starts_in_hundreds_not_considered_sequence_skips``, ``do_not_require_first_section_code_for_match``.
 
 ``parent_grouping`` default options:
-    ``numeric_before_alpha``, ``generate_processed_pdf_thumbnails_page``,
-    ``skip_generation_thumbnail_page_when_error_free``, ``use_in_memory_pdf_to_thumbnail_generation``.
+    ``numeric_before_alpha``.
 
 supplement_grouping
 ~~~~~~~~~~~~~~~~~~~
@@ -625,8 +603,7 @@ ordering is required. This would likely require an additional rule so that order
     ``numeric_starts_in_hundreds_not_considered_sequence_skips``, ``require_first_section_code_for_match``.
 
 ``supplement_grouping`` default options:
-    ``numeric_before_alpha``, ``generate_processed_pdf_thumbnails_page``,
-    ``skip_generation_thumbnail_page_when_error_free``, ``use_in_memory_pdf_to_thumbnail_generation``.
+    ``numeric_before_alpha``.
 
 create_sip_for_folder
 ~~~~~~~~~~~~~~~~~~~~~
@@ -647,8 +624,7 @@ can be done automatically without having to make changes to the parameters sprea
     ``numeric_starts_in_hundreds_not_considered_sequence_skips``, ``do_not_require_first_section_code_for_match``.
 
 ``create_sip_for_folder`` default options:
-    ``numeric_before_alpha``, ``generate_processed_pdf_thumbnails_page``,
-    ``skip_generation_thumbnail_page_when_error_free``, ``use_in_memory_pdf_to_thumbnail_generation``.
+    ``numeric_before_alpha``.
 
 Processing rules
 ----------------
@@ -780,29 +756,6 @@ option that can be used to override its value. In general options don't have sid
     Sequences are sorted with sequence numbers only sorted before sequence letters only. So, we would have ordering
     ``01, 02, A01, A02, B01, B02``. Override is ``alpha_before_numeric``.
 
-``generate_processed_pdf_thumbnails_page``
-    Generates a thumbnail page of each PDF that is included in the SIP. This can be a resource (memory and CPU)
-    intensive operation. Override is ``do_not_generate_processed_pdf_thumbnails_page``.
-
-``do_not_generate_processed_pdf_thumbnails_page``
-    Does not generate a thumbnail page of each PDF that is included in the SIP. Override is
-    ``generate_processed_pdf_thumbnails_page``.
-
-``skip_generation_thumbnail_page_when_error_free``
-    Skip thumbnail page generation when there are no processing errors. Override is ``always_generate_thumbnail_page``.
-
-``always_generate_thumbnail_page``
-    Always generate thumbnail page. Override is ``skip_generation_thumbnail_page_when_error_free``.
-
-``use_in_memory_pdf_to_thumbnail_generation``
-    Use the in-memory pdf to thumbnail page generation. This can be a resource (memory and CPU) intensive operation.
-    Override is ``use_command_line_pdf_to_thumbnail_generation``.
-
-``use_command_line_pdf_to_thumbnail_generation``
-    On linux-based systems, this option will use the command-line tool ``pdftoppm`` to generate the pdf thumbnails.
-    This is a much faster (and much higher quality) operation. Override is
-    ``use_in_memory_pdf_to_thumbnail_generation``.
-
 Overrides for rules and options
 -------------------------------
 Processing rules and options can be overridden on several different levels.
@@ -844,11 +797,8 @@ The following snippet illustrates a ready-for-ingestion processing command::
     endingDate="2019-06-09"
 
     forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,create_sip_for_folder"
-    forIngestionProcessingOptions="use_command_line_pdf_to_thumbnail_generation"
 
     numberOfThreads=60
-    # Note we ware using command-line pdf-to-thumbnail generation, which can handle higher throughput
-    maximumThumbnailPageThreads=60
 
     maxMemory="3048m"
     minMemory="3048m"
@@ -865,7 +815,6 @@ The following snippet illustrates a ready-for-ingestion processing command::
         --createDestination \
         --parallelizeProcessing \
         --numberOfThreads=${numberOfThreads} \
-        --maximumThumbnailPageThreads=${maximumThumbnailPageThreads} \
         --forIngestionProcessingTypes="${forIngestionProcessingTypes}" \
         --forIngestionProcessingRules="${forIngestionProcessingRules}" \
         --forIngestionProcessingOptions="${forIngestionProcessingOptions}"

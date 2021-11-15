@@ -118,13 +118,12 @@ class InvalidPdfTest {
 
         int expectedNumberOfFilesProcessed = 10
         int expectedNumberOfSipFiles = 10
-        int expectedNumberOfThumbnailPageFiles = 10
         int expectedNumberOfValidFiles = 7
         int expectedNumberOfInvalidFiles = 3
         int expectedNumberOfIgnoredFiles = 0
         int expectedNumberOfUnrecognizedFiles = 0
         TestHelper.assertSipProcessingStateFileNumbers(expectedNumberOfFilesProcessed, expectedNumberOfSipFiles,
-                expectedNumberOfThumbnailPageFiles, expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
+                expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
                 expectedNumberOfIgnoredFiles, expectedNumberOfUnrecognizedFiles, testMethodState.sipProcessingState)
 
         assertThat("First invalid file is 'TSTP23Nov18003.pdf'",
@@ -133,18 +132,6 @@ class InvalidPdfTest {
                 testMethodState.sipProcessingState.invalidFiles.get(1).fileName.toString(), is("TSTP23Nov18006.pdf"))
         assertThat("Third invalid file is 'TSTP23Nov18009.pdf'",
                 testMethodState.sipProcessingState.invalidFiles.get(2).fileName.toString(), is("TSTP23Nov18009.pdf"))
-
-        // If a thumbnail page will be generated, then it will always generate because invalid pdf is a processing exception.
-        if (processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage)) {
-            assertTrue("Thumbnail page exists, file=${processingParameters.thumbnailPageFile.normalize()}",
-                    Files.exists(processingParameters.thumbnailPageFile))
-            // We delete the file because we don't want it sticking around after the test
-            // Comment out the following line if you want to view the file
-            Files.deleteIfExists(processingParameters.thumbnailPageFile)
-        } else {
-            assertNull("Thumbnail page DOES NOT exist, file=${processingParameters.thumbnailPageFile}",
-                    processingParameters.thumbnailPageFile)
-        }
 
         log.info("SIP validation")
         sipConstructedCorrectly(sipAsXml)

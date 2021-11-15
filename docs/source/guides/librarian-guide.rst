@@ -220,7 +220,6 @@ This file contains the following information:
     - A list of exceptions and their detail (if there are exceptions).
     - A list of files:
         - sipFiles - the files included in the SIP.
-        - thumbnailPageFiles - the files used in the thumbnail page jpeg.
         - valid files - a list of all valid files.
         - invalid files - a list of all invalid files.
         - ignored files - a list of all ignored files.
@@ -239,20 +238,6 @@ name is of the format::
 For example::
 
     2015-07-02_DPT_parent_grouping_ED1_processing-log_2019-06-21_07-41-02-769.log
-
-
-Thumbnail page jpeg file
-------------------------
-An optional thumbnail page jpeg file can be generated. While it is not generated for the processing backlog, regular
-processing may include it because it can be useful to visually check what is included in the SIP. It is not included
-when processing the backlog because pdf-to-thumbnail generation can be resource intensive. The files included in the
-page are the ``thumbnailPageFiles`` list in the ``parameters-and-state`` file. The file name is of the format::
-
-    <date-in-yyyy-MM-dd-format>_<title_code>_<processing_type>_<optional-edition_code>_thumbnail_page.jpeg
-
-For example::
-
-    2015-07-17_DPT_parent_grouping_ED1_thumbnail_page.jpeg
 
 Ready-for-ingestion For-review
 ==============================
@@ -297,8 +282,7 @@ TODO Perhaps we have a section to track exceptions like these.
 
 ``invalid-pdfs``
     The PDF files when checked with the PDF validator (currently Jhove) finds PDF file or files to be invalid. Note that
-    this does not necessarily mean the PDF will not render. The PDF thumbnail page may show the PDF as properly
-    rendered. The librarian needs to validate that the PDF is in fact invalid and if so, perform some corrective actions
+    this does not necessarily mean the PDF will not render. The librarian needs to validate that the PDF is in fact invalid and if so, perform some corrective actions
     so the content can be ingested into Rosetta. That corrective action could involve replacing the invalid PDF with a
     *page unavailable* PDF.
 
@@ -338,7 +322,7 @@ Ready-for-ingestion for-review workflow
 ---------------------------------------
 The various for-review exceptions are dealt with in different ways, depending on the exception. Sometimes it involves
 renaming files, sometimes it involves deleting files, sometimes it involves editing the ``mets.xml`` file. The
-``parameters-and-state`` file, the ``thumbnail_page`` jpeg file and even the ``processing-log`` file can all help in
+``parameters-and-state`` file and even the ``processing-log`` file can all help in
 determining what actions the librarian needs to take to prepare the given content for ingestion.
 
 Once the content has been corrected the files can either be reprocessed or the processed files can be moved to a

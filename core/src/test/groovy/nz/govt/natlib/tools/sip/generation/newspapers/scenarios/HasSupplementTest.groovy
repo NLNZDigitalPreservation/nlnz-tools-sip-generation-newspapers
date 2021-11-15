@@ -79,13 +79,12 @@ class HasSupplementTest {
 
         int expectedNumberOfFilesProcessed = 2
         int expectedNumberOfSipFiles = 2
-        int expectedNumberOfThumbnailPageFiles = 2
         int expectedNumberOfValidFiles = 2
         int expectedNumberOfInvalidFiles = 0
         int expectedNumberOfIgnoredFiles = 0
         int expectedNumberOfUnrecognizedFiles = 0
         TestHelper.assertSipProcessingStateFileNumbers(expectedNumberOfFilesProcessed, expectedNumberOfSipFiles,
-                expectedNumberOfThumbnailPageFiles, expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
+                expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
                 expectedNumberOfIgnoredFiles, expectedNumberOfUnrecognizedFiles, testMethodState.sipProcessingState)
 
         log.info("SIP validation")
