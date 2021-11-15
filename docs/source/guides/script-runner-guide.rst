@@ -46,6 +46,8 @@ Following this introduction, this User Guide includes the following sections:
 
 -   **ProcessorRunner general usage** - Covers general processing parameters.
 
+-   **Newspaper type configuration** - Covers the configuration of different newspaper types.
+
 -   **FTP stage**  - Covers the FTP stage.
 
 -   **Pre-processing stage**  - Covers the pre-processing stage.
@@ -55,8 +57,6 @@ Following this introduction, this User Guide includes the following sections:
 -   **Copying ingested loads to ingested folder** - Covers copying ingested loads to their final ingested folder.
 
 -   **Additional tools** - Covers additional scripting tools.
-
--   **Adding new newspaper types** - Covers adding new newspaper types.
 
 -   **Converting the spreadsheet to JSON and vice-versa** - Covers converting the parameters spreadsheet between formats.
 
@@ -300,6 +300,52 @@ The options are as follows:
     ``show_directory_only``, ``show_directory_and_one_parent``, ``show_directory_and_two_parents``,
     ``show_directory_and_three_parents``.
 
+Newspaper type configuration
+----------------------------
+The newspaper types are stored in a JSON file and have the following structure::
+
+    {
+      "alliedPress": {
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+        "DATE_TIME_PATTERN": "ddMMMyyyy",
+        "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
+        "SUPPLEMENTS": {
+          "Signal": "OtagoDailyTimes",
+          "UBet": "OtagoDailyTimes"
+        }
+      }
+    }
+
+::
+The  key is the name of the newspaper type (in this case alliedPress) which will need to be used when running the
+scripts.
+
+The three fields beginning ``PDF_FILE_WITH...`` are the regular expressions required by the code to validate the names of
+the file being processed for that newspaper type.
+
+``DATE_TIME_PATTERN`` is the pattern used in the filenames for that newspaper type.
+
+``PATH_TO_SPREADSHEET`` is the name of the processing spreadsheet required to process the individual titles of that type.
+
+``SUPPLEMENTS`` is used when a newspaper has supplements that belong to a parent newspaper, but their title codes do
+not match their parent title. In the example above Signal and UBet need to be processed with the OtagoDailyTimes.
+They differ from other supplements which have the same title code as their parent and do not need to be included here.
+This field only needs to be present if the newspaper type has such supplements.
+
+Adding new newspaper types
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a new newspaper type needs to be added, an entry with the exact format above needs to added to the json file.
+The regular expressions need to match the format of the filename patterns for the new newspaper type.
+
+The ``SUPPLEMENTS`` field can have the value ``null`` or be left off if the new newspaper type doesn't have such
+supplements.
+
+A processing spreadsheet will also need to be added to the codebase and referred to in the ``PATH_TO_SPREADSHEET`` field.
+See below for information on the processing spreadsheet.
+
 
 FTP stage
 =========
@@ -389,53 +435,6 @@ of files.
 
 The *Ready-for-ingestion* folder structure is how Rosetta ingests the files. Magazines and newspapers have different
 *Material Flows*, so ingestion of those different IEEntity types must be in different folders.
-
-Newspaper type configuration
-----------------------------
-The newspaper types are stored in a JSON file and have the following structure::
-
-    {
-      "alliedPress": {
-        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
-        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-        "DATE_TIME_PATTERN": "ddMMMyyyy",
-        "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
-        "SUPPLEMENTS": {
-          "Signal": "OtagoDailyTimes",
-          "UBet": "OtagoDailyTimes"
-        }
-      }
-    }
-
-::
-The  key is the name of the newspaper type (in this case alliedPress) which will need to be used when running the
-scripts.
-
-The three fields beginning ``PDF_FILE_WITH...`` are the regular expressions required by the code to validate the names of
-the file being processed for that newspaper type.
-
-``DATE_TIME_PATTERN`` is the pattern used in the filenames for that newspaper type.
-
-``PATH_TO_SPREADSHEET`` is the name of the processing spreadsheet required to process the individual titles of that type.
-
-``SUPPLEMENTS`` is used when a newspaper has supplements that belong to a parent newspaper, but their title codes do
-not match their parent title. In the example above Signal and UBet need to be processed with the OtagoDailyTimes.
-They differ from other supplements which have the same title code as their parent and do not need to be included here.
-This field only needs to be present if the newspaper type has such supplements.
-
-Adding new newspaper types
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If a new newspaper type needs to be added, an entry with the exact format above needs to added to the json file.
-The regular expressions need to match the format of the filename patterns for the new newspaper type.
-
-The ``SUPPLEMENTS`` field can have the value ``null`` or be left off if the new newspaper type doesn't have such
-supplements.
-
-A processing spreadsheet will also need to be added to the codebase and referred to in the ``PATH_TO_SPREADSHEET`` field.
-See below for information on the processing spreadsheet.
-
 
 Processing spreadsheet
 ----------------------
