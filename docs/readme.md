@@ -1,6 +1,6 @@
 # nlnz-tools-sip-generation documentation
-### https://nlnz-tools-sip-generation-fairfax.readthedocs.io/en/latest/
-NLNZ Tools Sip Generation Fairfax documentation is written using the ReStructuredText format and hosted on
+### https://nlnz-tools-sip-generation-newspapers.readthedocs.io/en/latest/
+NLNZ Tools Sip Generation Newspapers documentation is written using the ReStructuredText format and hosted on
 readthedocs.org.
 
 ## Read the Docs (https://readthedocs.org/)

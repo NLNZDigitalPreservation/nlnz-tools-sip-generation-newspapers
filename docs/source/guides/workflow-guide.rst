@@ -14,7 +14,7 @@ Introduction
 About NLNZ Tools SIP Generation Newspapers
 -----------------------------------------------
 
-NLNZ Tools SIP Generation Wairarapa Times is specific set of tools for processing digital newspaper file-specific
+NLNZ Tools SIP Generation Newspapers is a specific set of tools for processing digital newspaper file-specific
 content. The ultimate output of these tools are SIPs for ingestion into the Rosetta archiving system.
 
 This guide documents the workflows involved that move files from being dropped in an FTP folder through to being

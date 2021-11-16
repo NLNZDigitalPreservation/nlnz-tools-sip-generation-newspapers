@@ -60,11 +60,14 @@ processing involved with processing the Fairfax files.
 
 Since the Fairfax code was written, more digital newspaper print publications have required processing.
 NLNZ Tools SIP Generation Newspapers is adapted from NLNZ Tools SIP Generation Fairfax.
-Its main difference is that it can be configured to process different newspaper file types other than Fairfax,
-and new publications can be added to it.
+Its main difference is that it can be configured to process different newspaper file types from publishers other than
+Fairfax, and new publications can be added to it in the
+``resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json`` config file.
 Digital newspaper files are fed from various publishers which need to need ingested into Rosetta.
-This code does the custom processing involved with processing the newspaper files.
+This code does the custom processing involved with processing these files.
 
+See the Newspaper type configuration section of the :doc:`Script Runner Guide<script-runner-guide>` for more information
+on configuring newspaper types.
 
 
 Project objectives

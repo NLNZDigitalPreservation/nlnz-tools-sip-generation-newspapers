@@ -298,20 +298,20 @@ The newspaper types are stored in a JSON file and have the following structure::
       }
     }
 
-::
-The  key is the name of the newspaper type (in this case alliedPress) which will need to be used when running the
+
+The  key (in this case alliedPress) is the name of the newspaper type which will need to be used when running the
 scripts.
 
-The three fields beginning ``PDF_FILE_WITH...`` are the regular expressions required by the code to validate the names of
-the file being processed for that newspaper type.
+The three fields beginning ``PDF_FILE_WITH...`` are the regular expression (regex) patterns required by the code to
+validate the filenames being processed.
 
 ``DATE_TIME_PATTERN`` is the pattern used in the filenames for that newspaper type.
 
 ``PATH_TO_SPREADSHEET`` is the name of the processing spreadsheet required to process the individual titles of that type.
 
-``SUPPLEMENTS`` is used when a newspaper has supplements that belong to a parent newspaper, but their title codes do
-not match their parent title. In the example above Signal and UBet need to be processed with the OtagoDailyTimes.
-They differ from other supplements which have the same title code as their parent and do not need to be included here.
+``SUPPLEMENTS`` is used when a newspaper has supplements whose title codes do not match the parent title.
+In the example above Signal and UBet need to be processed with the OtagoDailyTimes. They differ from other supplements
+which have the same title code as their parent and do not need to be included here.
 This field only needs to be present if the newspaper type has such supplements.
 
 Adding new newspaper types
@@ -319,12 +319,13 @@ Adding new newspaper types
 
 If a new newspaper type needs to be added, an entry with the exact format above needs to added to the json file.
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
+For help with regular expressions (regex) see https://regex101.com/ for example.
 
 The ``SUPPLEMENTS`` field can have the value ``null`` or be left off if the new newspaper type doesn't have such
 supplements.
 
 A processing spreadsheet will also need to be added to the codebase and referred to in the ``PATH_TO_SPREADSHEET`` field.
-See below for information on the processing spreadsheet.
+See the section `Processing spreadsheet`_ for more information.
 
 
 FTP stage
