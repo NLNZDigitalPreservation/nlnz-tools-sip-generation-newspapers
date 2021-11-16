@@ -2,7 +2,7 @@
 
 # Parameters needed to correctly process allied press:
 # - newspaperType="alliedPress"
-# - forIngestionProcessingRules="missing_sequence_is_ignored,use_filename_for_mets_label"
+# - forIngestionProcessingRules="is_single_pdf_file,use_filename_for_mets_label"
 
 export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/pre-processing_Oct_2021"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/latest-batch-ready-ingestion"
