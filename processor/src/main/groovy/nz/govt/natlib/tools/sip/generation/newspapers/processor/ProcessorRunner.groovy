@@ -166,7 +166,7 @@ See the class ProcessorOption for a list of what those options are.""")
 For processing exceptions, depending on processor.""")
     Path forReviewFolder
 
-    @Option(names=['--newspaperType'], paramLabel = "PUBlICATION_TYPE",
+    @Option(names=['--newspaperType'], paramLabel = "NEWSPAPER_TYPE",
             description = """The publication type to be processed, e.g. AlliedPress""")
     String newspaperType
 

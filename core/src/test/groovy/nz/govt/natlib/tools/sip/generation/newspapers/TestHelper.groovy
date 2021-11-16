@@ -35,7 +35,7 @@ class TestHelper {
         String idColumnName
         String resourcesFolder
         String importParametersFilename
-        String importParametersnewspaperType
+        String importParametersNewspaperType
         SipProcessingState sipProcessingState
         ProcessOutputInterceptor processOutputInterceptor
         String localPath
@@ -47,7 +47,7 @@ class TestHelper {
             this.idColumnName = idColumnName
             this.resourcesFolder = resourcesFolder
             this.importParametersFilename = importParametersFilename
-            this.importParametersnewspaperType = newspaperType
+            this.importParametersNewspaperType = newspaperType
         }
     }
 
@@ -70,7 +70,7 @@ class TestHelper {
         } else {
             testMethodState.resourcePath = "${testMethodState.resourcesFolder}"
             testMethodState.localPath = "src/test/resources/${testMethodState.resourcesFolder}"
-            testMethodState.newspaperType = new NewspaperType(testMethodState.importParametersnewspaperType,
+            testMethodState.newspaperType = new NewspaperType(testMethodState.importParametersNewspaperType,
                     "${testMethodState.localPath}/${testMethodState.importParametersFilename}")
             testMethodState.newspaperSpreadsheet = loadSpreadsheet(testMethodState.resourcePath, testMethodState.localPath,
                     testMethodState.newspaperType.PATH_TO_SPREADSHEET, testMethodState.idColumnName)

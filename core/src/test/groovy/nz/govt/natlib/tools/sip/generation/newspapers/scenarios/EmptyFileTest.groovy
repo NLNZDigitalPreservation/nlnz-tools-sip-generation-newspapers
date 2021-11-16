@@ -47,13 +47,13 @@ class EmptyFileTest {
 
     static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-empty-file"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
-    static final String PUBLICATION_TYPE = "WMMA"
+    static final String NEWSPAPER_TYPE = "WMMA"
 
     TestMethodState testMethodState
 
     @Before
     void setup() {
-        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, PUBLICATION_TYPE)
+        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, NEWSPAPER_TYPE)
     }
 
     /**
@@ -145,7 +145,7 @@ class EmptyFileTest {
         }
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
-        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, PUBLICATION_TYPE)
+        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
         log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")

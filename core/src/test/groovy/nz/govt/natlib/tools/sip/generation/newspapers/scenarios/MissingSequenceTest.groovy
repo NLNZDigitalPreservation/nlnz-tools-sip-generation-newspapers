@@ -6,7 +6,6 @@ import nz.govt.natlib.tools.sip.extraction.SipXmlExtractor
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper.TestMethodState
-import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.NewspaperFilesProcessor
 import nz.govt.natlib.tools.sip.state.SipProcessingException
@@ -18,13 +17,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import static org.hamcrest.core.Is.is
-import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
 
@@ -48,13 +45,13 @@ class MissingSequenceTest {
 
     static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-missing-sequence"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
-    static final String PUBLICATION_TYPE = "WMMA"
+    static final String NEWSPAPER_TYPE = "WMMA"
 
     TestMethodState testMethodState
 
     @Before
     void setup() {
-        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, PUBLICATION_TYPE)
+        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, NEWSPAPER_TYPE)
     }
 
     /**
@@ -109,9 +106,8 @@ class MissingSequenceTest {
                 parametersList.size(), is(1))
 
         NewspaperProcessingParameters processingParameters = parametersList.first()
-
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
-        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, PUBLICATION_TYPE)
+        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
         log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")

@@ -44,6 +44,9 @@ enum ProcessingRule {
     NumericStartsInHundredsConsideredSequenceSkips("numeric_starts_in_hundreds_considered_sequence_skips"),
     NumericStartsInHundredsNotConsideredSequenceSkips("numeric_starts_in_hundreds_not_considered_sequence_skips"),
 
+    IsSinglePdfFile("is_single_pdf_file"),
+    IsMultiPdfFiles("is_multi_pdf_files"),
+
     UseFileNameForMetsLabel("use_filename_for_mets_label"),
     UseNumberForMetsLabel("use_number_for_mets_label")
 
@@ -95,6 +98,9 @@ enum ProcessingRule {
 
             OVERRIDES_MAP.put(UseFileNameForMetsLabel, [UseNumberForMetsLabel])
             OVERRIDES_MAP.put(UseNumberForMetsLabel, [UseFileNameForMetsLabel])
+
+            OVERRIDES_MAP.put(IsSinglePdfFile, [IsMultiPdfFiles])
+            OVERRIDES_MAP.put(IsMultiPdfFiles, [IsSinglePdfFile])
         }
     }
 

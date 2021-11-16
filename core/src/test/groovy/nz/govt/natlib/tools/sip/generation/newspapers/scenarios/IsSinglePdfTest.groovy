@@ -7,6 +7,9 @@ import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.NewspaperFilesProcessor
+import nz.govt.natlib.tools.sip.state.SipProcessingException
+import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
+import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,10 +22,11 @@ import java.time.format.DateTimeFormatter
 import static org.hamcrest.core.Is.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
+import static org.junit.Assert.assertTrue
 
 @RunWith(MockitoJUnitRunner.class)
 @Log4j2
-class HasSupplementTest {
+class IsSinglePdfTest {
     // TODO Make this processing simpler
     // - given a starting folder
     // - and a set of selection criteria
@@ -62,7 +66,7 @@ class HasSupplementTest {
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("Newspaper",
                 [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
-                [ProcessingRule.IsSinglePdfFile, ProcessingRule.UseFileNameForMetsLabel])
+                [ProcessingRule.UseFileNameForMetsLabel, ProcessingRule.IsSinglePdfFile])
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))
@@ -105,6 +109,8 @@ class HasSupplementTest {
 
         assertTrue("SipProcessingState is complete", testMethodState.sipProcessingState.isComplete())
 
+        assertTrue("SipProcessingState has exceptions", testMethodState.sipProcessingState.exceptions.size() == 0)
+
         TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "Newspaper-26Oct2021-Tue.pdf", "Newspaper-26Oct2021-Tue.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "Newspaper-26Oct2021-Tue", "application/pdf")
 
@@ -112,5 +118,4 @@ class HasSupplementTest {
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "Supplement-26Oct2021-Tue", "application/pdf")
 
     }
-
 }

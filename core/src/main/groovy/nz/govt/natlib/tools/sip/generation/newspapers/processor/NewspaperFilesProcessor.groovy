@@ -69,10 +69,10 @@ class NewspaperFilesProcessor {
         newspaperFilesProcessor.process()
     }
 
-    NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String publication) {
+    NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String type) {
         this.processingParameters = processingParameters
         this.filesForProcessing = filesForProcessing
-        this.newspaperType = new NewspaperType(publication)
+        this.newspaperType = new NewspaperType(type)
     }
 
     void process() {
@@ -335,7 +335,8 @@ class NewspaperFilesProcessor {
     }
 
     void checkForMissingSequenceFiles(List<NewspaperFile> checkList) {
-        if (processingParameters.rules.contains(ProcessingRule.MissingSequenceError)) {
+        if (processingParameters.rules.contains(ProcessingRule.MissingSequenceError) &&
+            processingParameters.rules.contains(ProcessingRule.IsMultiPdfFiles)) {
             List<NewspaperFile> postMissingSequenceFiles = NewspaperFile.postMissingSequenceFiles(checkList,
                     processingParameters)
             if (postMissingSequenceFiles.size() > 0) {
