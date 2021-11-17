@@ -40,7 +40,7 @@ StructuredText and Setext lightweight markup systems.
 
 ## Structure
 
-The following is the structure committed to the nlnz-tools-sip-generation-fairfax git project. There are additional
+The following is the structure committed to the nlnz-tools-sip-generation-newspapers git project. There are additional
 folders/files generated in building and testing the documentation that should not be committed to the repository.
 
 - resources-other  

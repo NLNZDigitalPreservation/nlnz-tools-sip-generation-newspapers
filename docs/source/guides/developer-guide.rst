@@ -39,7 +39,7 @@ These guidelines can be found at https://nlnz-developer-guidelines.readthedocs.i
 Source Code Repository
 ----------------------
 
-Source code for the NLNZ Tools SIP Generation Fairfax is stored in github at:
+Source code for the NLNZ Tools SIP Generation Newspapers is stored in github at:
 https://github.com/NLNZDigitalPreservation/nlnz-tools-sip-generation-newspapers/
 Contributors to the codebase will require a github account.
 
@@ -102,7 +102,7 @@ Requirements
 
 Build requirements
 ~~~~~~~~~~~~~~~~~~
-Building the NLNZ Tools SIP Generation Fairfax from source requires the following:
+Building the NLNZ Tools SIP Generation Newspapers from source requires the following:
 
 -   Java 11 JDK or above (64bit recommended). Current development assumes the use of OpenJDK.
 

@@ -105,7 +105,7 @@ https://help.github.com/en/articles/creating-an-issue .
 License
 =======
 
-All contributions to the NLNZ Tools SIP Generation Fairfax must be under the MIT (2019) License, which can be found at:
+All contributions to the NLNZ Tools SIP Generation Newspapers must be under the MIT (2019) License, which can be found at:
 https://mit-license.org/
 
 The code is open-source software and is freely available for the benefit of the international archiving community.
