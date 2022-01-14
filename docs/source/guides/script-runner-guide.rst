@@ -282,7 +282,9 @@ The options are as follows:
 
 Newspaper type configuration
 ----------------------------
-The newspaper types are stored in a JSON file and have the following structure::
+The newspaper types are stored in a JSON file located at
+``resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json``
+A newspaper type the following structure::
 
     {
       "alliedPress": {

@@ -66,6 +66,12 @@ Fairfax, and new publications can be added to it in the
 Digital newspaper files are fed from various publishers which need to need ingested into Rosetta.
 This code does the custom processing involved with processing these files.
 
+The current configured newspaper types are:
+
+- Allied Press (alliedPress)
+- Wairarapa Times Age (WMMA)
+- Westport News (wptNews)
+
 See the Newspaper type configuration section of the :doc:`Script Runner Guide<script-runner-guide>` for more information
 on configuring newspaper types.
 

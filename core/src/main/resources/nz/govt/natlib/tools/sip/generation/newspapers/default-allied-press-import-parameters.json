@@ -486,8 +486,8 @@
     },
     {
         "row-0012": {
-            "MMSID": "9918164268202836",
-            "title_parent": "The news: Central Otago",
+            "MMSID": "9919159336602836",
+            "title_parent": "The news: Central Otago & Wanaka",
             "processing_type": "parent_grouping",
             "processing_rules": "",
             "processing_options": "numeric_before_alpha",
@@ -500,7 +500,7 @@
             "ingest_status": "STA",
             "Frequency": "",
             "entity_type": "PER",
-            "title_mets": "The news: Central Otago",
+            "title_mets": "The news: Central Otago & Wanaka",
             "ISSN online": "",
             "Bib ID": "",
             "Access condition": "",

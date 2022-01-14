@@ -2,12 +2,12 @@
 
 export sourceFolder="$HOME/workspace/testdata/allpress/"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Oct_2021"
-export forReviewFolder="${targetBaseFolder}/for-review_Oct_2021"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Dec_2021"
+export forReviewFolder="${targetBaseFolder}/for-review_Dec_2021"
 export newspaperType="alliedPress"
 
-export startingDate="2021-10-01"
-export endingDate="2021-10-30"
+export startingDate="2021-12-01"
+export endingDate="2021-12-31"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4
