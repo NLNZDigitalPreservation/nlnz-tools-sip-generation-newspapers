@@ -1,7 +1,7 @@
 [
     {
         "COMMENTS": [
-            
+            "# 9918164268302836|The news: Wanaka|parent_grouping||numeric_before_alpha|title_code|TheNewsWanaka|||200|0|STA||PER|The news: Wanaka|||||TBC|||||0|0|0|||||||||"
         ]
     },
     {
@@ -487,7 +487,7 @@
     {
         "row-0012": {
             "MMSID": "9919159336602836",
-            "title_parent": "The news: Central Otago and Wanaka",
+            "title_parent": "The news Central Otago and Wanaka",
             "processing_type": "parent_grouping",
             "processing_rules": "",
             "processing_options": "numeric_before_alpha",
@@ -526,46 +526,6 @@
     },
     {
         "row-0013": {
-            "MMSID": "9918164268302836",
-            "title_parent": "The news: Wanaka",
-            "processing_type": "parent_grouping",
-            "processing_rules": "",
-            "processing_options": "numeric_before_alpha",
-            "publication_key": "title_code",
-            "title_code": "TheNewsWanaka",
-            "edition_discriminators": "",
-            "section_codes": "",
-            "Access": "200",
-            "Magazine": "0",
-            "ingest_status": "STA",
-            "Frequency": "",
-            "entity_type": "PER",
-            "title_mets": "The news: Wanaka",
-            "ISSN online": "",
-            "Bib ID": "",
-            "Access condition": "",
-            "Date catalogued": "",
-            "Collector_folder": "TBC",
-            "Cataloguer": "",
-            "Notes": "",
-            "first_issue_starting_page": "",
-            "last_issue_starting_page": "",
-            "has_volume_md": "0",
-            "has_issue_md": "0",
-            "has_number_md": "0",
-            "previous_volume": "",
-            "previous_volume_date": "",
-            "previous_volume_frequency": "",
-            "previous_issue": "",
-            "previous_issue_date": "",
-            "previous_issue_frequency": "",
-            "previous_number": "",
-            "previous_number_date": "",
-            "previous_number_frequency": ""
-        }
-    },
-    {
-        "row-0014": {
             "MMSID": "9918591569402836",
             "title_parent": "The Star",
             "processing_type": "parent_grouping",
