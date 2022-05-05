@@ -79,7 +79,6 @@ class NewspaperFileTest {
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
         NewspaperType newspaperType = new NewspaperType("WMMA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
-
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WMMA"))
         assertNotNull("Year extracted", testNewspaperFile.dateYear)
@@ -98,7 +97,6 @@ class NewspaperFileTest {
         String originalFilename = "CluthaLeader-21Oct2021-Thu.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
         NewspaperType newspaperType = new NewspaperType("alliedPress")
-        println(newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("CluthaLeader"))
@@ -115,7 +113,6 @@ class NewspaperFileTest {
         String originalFilename = "211021WptNews01.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
         NewspaperType newspaperType = new NewspaperType("wptNews")
-        println(newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN)
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
         assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WptNews"))
@@ -124,6 +121,23 @@ class NewspaperFileTest {
         assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(new Integer(10)))
         assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(new Integer(21)))
         assertThat("Qualifier parsed correctly", testNewspaperFile.qualifier, is(""))
+        assertTrue("NewspaperFile is valid", testNewspaperFile.isValidName())
+    }
+
+    @Test
+    void createsCorrectlyWithAreMediaLetterSequence() {
+        String originalFilename = "acpDZ1522p071_R1_FD3-040522.pdf"
+        when(mockFile.fileName).thenReturn(Path.of(originalFilename))
+        NewspaperType newspaperType = new NewspaperType("areMedia")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
+        assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
+        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("DZ"))
+        assertNotNull("Year extracted", testNewspaperFile.dateYear)
+        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(new Integer(2022)))
+        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(new Integer(05)))
+        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(new Integer(04)))
+        assertThat("Qualifier parsed correctly", testNewspaperFile.qualifier, is("FD3"))
+        assertThat("Revision parsed correctly", testNewspaperFile.revision, is("R1"))
         assertTrue("NewspaperFile is valid", testNewspaperFile.isValidName())
     }
 

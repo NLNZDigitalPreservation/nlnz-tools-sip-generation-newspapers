@@ -90,10 +90,10 @@ class NewspaperFilesProcessor {
             List<NewspaperFile> sortedFilesForProcessing
             switch (processingParameters.type) {
                 case ProcessingType.ParentGrouping:
-                    sortedFilesForProcessing = ParentGroupingProcessor.selectAndSort(processingParameters, validNamedFiles)
+                    sortedFilesForProcessing = ParentGroupingProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.ParentGroupingWithEdition:
-                    sortedFilesForProcessing = ParentGroupingWithEditionProcessor.selectAndSort(processingParameters, validNamedFiles)
+                    sortedFilesForProcessing = ParentGroupingWithEditionProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.SupplementGrouping:
                     sortedFilesForProcessing = SupplementGroupingProcessor.selectAndSort(processingParameters, validNamedFiles)

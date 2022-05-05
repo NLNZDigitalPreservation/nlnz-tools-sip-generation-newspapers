@@ -9,6 +9,8 @@ class NewspaperType {
     String DATE_TIME_PATTERN
     String PATH_TO_SPREADSHEET
     Map SUPPLEMENTS
+    ArrayList IGNORE
+    String REVISIONS
 
     //Use default spreadsheet
     NewspaperType(String newspaperType) {
@@ -31,5 +33,7 @@ class NewspaperType {
         DATE_TIME_PATTERN = newspaperType["DATE_TIME_PATTERN"]
         PATH_TO_SPREADSHEET = newspaperType["PATH_TO_SPREADSHEET"]
         SUPPLEMENTS = newspaperType["SUPPLEMENTS"] != null ? newspaperType["SUPPLEMENTS"] as Map : null
+        IGNORE = newspaperType["IGNORE"] != null ? newspaperType["IGNORE"] as ArrayList : null
+        REVISIONS = newspaperType["REVISIONS"]
     }
 }

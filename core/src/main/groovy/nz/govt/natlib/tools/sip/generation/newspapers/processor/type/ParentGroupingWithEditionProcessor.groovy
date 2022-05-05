@@ -3,6 +3,7 @@ package nz.govt.natlib.tools.sip.generation.newspapers.processor.type
 import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperType
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 
 /**
@@ -12,7 +13,7 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 @Log4j2
 class ParentGroupingWithEditionProcessor {
     static List<NewspaperFile> selectAndSort(NewspaperProcessingParameters processingParameters,
-                                             List<NewspaperFile> allPossibleFiles) {
+                                             List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
         // We need to make adjustments to the processing parameters
         // currentEdition will have been set when iterating through editionDiscriminators
         boolean smartSubstitution = processingParameters.rules.contains(ProcessingRule.EditionDiscriminatorsUsingSmartSubstitute)
@@ -41,7 +42,7 @@ class ParentGroupingWithEditionProcessor {
             }
         }
 
-        List<NewspaperFile> newspaperFiles = NewspaperFile.filterSubstituteAndSort(allPossibleFiles, processingParameters)
+        List<NewspaperFile> newspaperFiles = NewspaperFile.filterSubstituteAndSort(allPossibleFiles, processingParameters, newspaperType)
 
         if (processingParameters.rules.contains(ProcessingRule.FirstSectionCodeRequiredForMatch)) {
             List<String> sectionCodes = NewspaperFile.allSectionCodes(newspaperFiles)

@@ -205,7 +205,9 @@ class PreProcessProcessor {
         allFilesList.each { Path theFile ->
             NewspaperFile newspaperFile = new NewspaperFile(theFile, this.newspaperType)
             if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
-                filteredList.add(newspaperFile)
+                if (!this.newspaperType.IGNORE.contains(newspaperFile.qualifier.toUpperCase())) {
+                    filteredList.add(newspaperFile)
+                }
             }
         }
 
@@ -225,7 +227,7 @@ class PreProcessProcessor {
         processLogger.startSplit()
 
         log.info("START process for newspaperType=${processorConfiguration.newspaperType}, " +
-                "startindDate=${processorConfiguration.startingDate}, " +
+                "startingDate=${processorConfiguration.startingDate}, " +
                 "endingDate=${processorConfiguration.endingDate}, " +
                 "sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}, " +
                 "forReviewFolder=${processorConfiguration.forReviewFolder.normalize().toString()}")
@@ -304,7 +306,7 @@ class PreProcessProcessor {
         processorConfiguration.timekeeper.logElapsed(false, filesProcessedCounter.total, true)
 
         log.info("END processing for parameters:")
-        log.info("    startindDate=${processorConfiguration.startingDate}")
+        log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")
         log.info("    targetPreProcessingFolder=${processorConfiguration.targetPreProcessingFolder.normalize().toString()}")

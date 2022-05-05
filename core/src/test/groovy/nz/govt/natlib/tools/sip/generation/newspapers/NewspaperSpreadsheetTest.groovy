@@ -71,4 +71,23 @@ class NewspaperSpreadsheetTest {
         assertFalse("isMagazine is false for The Westport news",
                 NewspaperSpreadsheet.extractBooleanValue(mapsForAlliedPress, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
     }
+
+    @Test
+    void loadsTheAreMediaSpreadsheetCorrectly() {
+        NewspaperType newspaperType = new NewspaperType("areMedia")
+        NewspaperSpreadsheet areMediaSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
+
+        assertTrue("Spreadsheet is valid", areMediaSpreadsheet.spreadsheet.isValid(false, false))
+        List<Map<String, String>> mapsForAreMediaList =
+                areMediaSpreadsheet.spreadsheet.mapsForColumn(NewspaperSpreadsheet.MMSID_COLUMN_NAME,
+                        "9918967969402836")
+
+        assertThat("Woman's Day has 1 entry", mapsForAreMediaList.size(), is(new Integer(1)))
+        Map<String, String> mapsForAreMedia = mapsForAreMediaList.first()
+        assertThat("'title_parent' is 'Woman's day'", mapsForAreMedia.get("title_parent"), is("Woman's day"))
+        assertThat("'MMSID' is 9918967969402836", mapsForAreMedia.get("MMSID"), is("9918967969402836"))
+        assertThat("'title_code' is 'DZ'", mapsForAreMedia.get("title_code"), is("DZ"))
+        assertTrue("isMagazine is true for Woman's Day",
+                NewspaperSpreadsheet.extractBooleanValue(mapsForAreMedia, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
+    }
 }

@@ -30,32 +30,9 @@ import java.util.regex.Matcher
 @EqualsAndHashCode(includes = [ 'titleCode', 'sectionCode', 'date', 'sequenceLetter', 'sequenceNumber' ])
 @Log4j2
 class NewspaperFile {
-    // Note that the titleCode appears to be, in some cases 4 characters long (eg. JAZZTAB), but for most cases it is 3.
-    // The populate() method attempts to correct any issues with the titleCode/sectionCode grouping.
-    // Note that the pdf extension can be upper or lower case (and we handle the mixed case as well
-
-    // Normal Fairfax Processing
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
-//            "(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})" +
-//            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{5,7}-\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{5,7}-\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
-
-
-    // Wairarapa Times Processing
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
-//            "(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,2})" +
-//            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
 
     static final Point UNDIMENSIONED = new Point(-1, -1)
 
-//    String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN
-//    String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
-//    String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN
     DateTimeFormatter LOCAL_DATE_TIME_FORMATTER
 
     Path file
@@ -73,6 +50,7 @@ class NewspaperFile {
     String sequenceNumberString
     Integer sequenceNumber
     String qualifier
+    String revision
     boolean validForProcessing
     boolean validPdf
     Point dimensionsInPoints = UNDIMENSIONED
@@ -137,7 +115,7 @@ class NewspaperFile {
 
     static List<NewspaperFile> postMissingSequenceFiles(List<NewspaperFile> files,
                                                         NewspaperProcessingParameters processingParameters) {
-        List<NewspaperFile> sorted = null;
+        List<NewspaperFile> sorted = null
         // Sort list in ascending order if it doesn't contain a section code
         if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) sorted = files.sort()
         else sorted = sortWithSameTitleCodeAndDate(files, processingParameters)
@@ -227,8 +205,43 @@ class NewspaperFile {
         return filtered
     }
 
+    static List<NewspaperFile> replaceRevisions(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
+        def revisions = [:]
+        allPossibleFiles.forEach {newspaperFile ->
+            if (newspaperFile.revision.length() > 0) {
+                if (!revisions[newspaperFile.sequenceNumber]) {
+                    revisions[newspaperFile.sequenceNumber] = newspaperFile.revision
+                } else if (getRevisionNumber(newspaperFile.revision, newspaperType) >
+                        getRevisionNumber(revisions[newspaperFile.sequenceNumber] as String, newspaperType)) {
+                    revisions[newspaperFile.sequenceNumber] = newspaperFile.revision
+                }
+            }
+        }
+        
+        List<NewspaperFile> filesWithRevisions = [ ]
+        allPossibleFiles.forEach { newspaperFile ->
+            if (!revisions[newspaperFile.sequenceNumber]) {
+                filesWithRevisions.push(newspaperFile)
+            } else if (revisions[newspaperFile.sequenceNumber] == newspaperFile.revision) {
+                filesWithRevisions.push(newspaperFile)
+            }
+        }
+
+        return filesWithRevisions
+    }
+
+    static Integer getRevisionNumber(String revisionString, NewspaperType newspaperType) {
+        return revisionString.replace(newspaperType.REVISIONS, "").toInteger()
+    }
+
+    static boolean hasRevisions(List<NewspaperFile> possibleFiles) {
+        return possibleFiles.any { NewspaperFile newspaperFile ->
+            newspaperFile.revision.length() > 0
+        }
+    }
+
     static List<NewspaperFile> filterSubstituteAndSort(List<NewspaperFile> allPossibleFiles,
-                                                       NewspaperProcessingParameters processingParameters) {
+                                                       NewspaperProcessingParameters processingParameters, NewspaperType newspaperType) {
         List<NewspaperFile> filteredSubstitutedAndSorted
         if (processingParameters.currentEdition != null && !processingParameters.editionDiscriminators.isEmpty()) {
             // First we filter so we only have the files we want to process
@@ -249,11 +262,14 @@ class NewspaperFile {
                 // If there are no substitutions (including the first for itself) then there is nothing to process
                 filteredSubstitutedAndSorted = [ ]
             }
+        } else if (newspaperType.REVISIONS != null && hasRevisions(allPossibleFiles)) {
+            filteredSubstitutedAndSorted = replaceRevisions(allPossibleFiles, newspaperType)
         } else {
             // Sort list in ascending order if it doesn't contain a section code
             if (allPossibleFiles[0].getSectionCode() || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
-            else filteredSubstitutedAndSorted =  sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
+            else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
         }
+
         return filteredSubstitutedAndSorted
     }
 
@@ -302,7 +318,7 @@ class NewspaperFile {
         return sorted
     }
 
-    static List<NewspaperFile> fromSourceFolder(Path sourceFolder) {
+    static List<NewspaperFile> fromSourceFolder(Path sourceFolder, NewspaperType newspaperType) {
         String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
@@ -349,7 +365,6 @@ class NewspaperFile {
     private populate() {
         this.filename = file.fileName.toString()
         this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
-        // TODO Maybe the pattern comes from a resource or properties file?
         Matcher matcher = filename =~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
@@ -370,6 +385,7 @@ class NewspaperFile {
             this.sequenceNumberString = matcher.group('sequenceNumber')
             this.sequenceNumber = sequenceNumberString.length() > 0 ? Integer.parseInt(sequenceNumberString) : 0
             this.qualifier = matcher.group('qualifier')
+            this.revision = matcher.group('revision')
         }
     }
 

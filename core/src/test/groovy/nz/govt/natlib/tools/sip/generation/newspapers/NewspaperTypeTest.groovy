@@ -64,4 +64,22 @@ class NewspaperTypeTest {
                 is("ddMMyy"))
         assertThat("SUPPLEMENTS is null", newspaperType.SUPPLEMENTS, is(null))
     }
+
+    @Test
+    void loadsTheAreMediaSpreadsheet() {
+        NewspaperType newspaperType = new NewspaperType("areMedia")
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
+                newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN,
+                is("(?<publisherCode>[a-z]{3})(?<titleCode>[a-zA-Z0-9]{2})(?<issue>\\d{4})(?<sequenceLetter>\\w{1})(?<sequenceNumber>\\d{3})([_])?(?<sectionCode>[a-zA-Z0-9]{2})?_(?<qualifier>.*?)-(?<date>\\d{6}).[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
+                newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN,
+                is(".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN is set correctly",
+                newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN,
+                is(".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("DATE_TIME_PATTERN is set correctly",
+                newspaperType.DATE_TIME_PATTERN,
+                is("ddMMyy"))
+        assertThat("SUPPLEMENTS is null", newspaperType.SUPPLEMENTS, is(null))
+    }
 }
