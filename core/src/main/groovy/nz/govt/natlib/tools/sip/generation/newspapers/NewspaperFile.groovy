@@ -57,8 +57,14 @@ class NewspaperFile {
     boolean zeroLengthFile = false
 
     static List<NewspaperFile> differences(List<NewspaperFile> list1, List<NewspaperFile> list2) {
-        List<NewspaperFile> list1MinusList2 = CollectionUtils.subtract(list1, list2)
-        List<NewspaperFile> list2MinusList1 = CollectionUtils.subtract(list2, list1)
+//        List<NewspaperFile> list1MinusList2 = CollectionUtils.subtract(list1, list2)
+        List<NewspaperFile> list1MinusList2 = new ArrayList<NewspaperFile>(list1)
+        list1MinusList2.removeIf {nf -> list2.stream().anyMatch {nf2 -> nf.filename == nf2.filename }}
+
+//        List<NewspaperFile> list2MinusList1 = CollectionUtils.subtract(list2, list1)
+        List<NewspaperFile> list2MinusList1 = new ArrayList<NewspaperFile>(list2)
+        list2MinusList1.removeIf {nf -> list1.stream().anyMatch {nf2 -> nf.filename == nf2.filename }}
+
         List<NewspaperFile> differences = [ ]
         differences.addAll(list1MinusList2)
         differences.addAll(list2MinusList1)
@@ -217,13 +223,16 @@ class NewspaperFile {
                 }
             }
         }
-        
+
         List<NewspaperFile> filesWithRevisions = [ ]
-        allPossibleFiles.forEach { newspaperFile ->
-            if (!revisions[newspaperFile.sequenceNumber]) {
-                filesWithRevisions.push(newspaperFile)
-            } else if (revisions[newspaperFile.sequenceNumber] == newspaperFile.revision) {
-                filesWithRevisions.push(newspaperFile)
+
+        if (revisions.size() > 0) {
+            allPossibleFiles.forEach { newspaperFile ->
+                if (!revisions[newspaperFile.sequenceNumber]) {
+                    filesWithRevisions.push(newspaperFile)
+                } else if (revisions[newspaperFile.sequenceNumber] == newspaperFile.revision) {
+                    filesWithRevisions.push(newspaperFile)
+                }
             }
         }
 
@@ -234,15 +243,12 @@ class NewspaperFile {
         return revisionString.replace(newspaperType.REVISIONS, "").toInteger()
     }
 
-    static boolean hasRevisions(List<NewspaperFile> possibleFiles) {
-        return possibleFiles.any { NewspaperFile newspaperFile ->
-            newspaperFile.revision.length() > 0
-        }
-    }
-
     static List<NewspaperFile> filterSubstituteAndSort(List<NewspaperFile> allPossibleFiles,
                                                        NewspaperProcessingParameters processingParameters, NewspaperType newspaperType) {
         List<NewspaperFile> filteredSubstitutedAndSorted
+        if (newspaperType.IGNORE != null) {
+            allPossibleFiles.removeIf {newspaperType.IGNORE.contains(it.qualifier)}
+        }
         if (processingParameters.currentEdition != null && !processingParameters.editionDiscriminators.isEmpty()) {
             // First we filter so we only have the files we want to process
             List<NewspaperFile> filtered = filterAllFor(processingParameters.validSectionCodes(), allPossibleFiles)
@@ -262,8 +268,10 @@ class NewspaperFile {
                 // If there are no substitutions (including the first for itself) then there is nothing to process
                 filteredSubstitutedAndSorted = [ ]
             }
-        } else if (newspaperType.REVISIONS != null && hasRevisions(allPossibleFiles)) {
-            filteredSubstitutedAndSorted = replaceRevisions(allPossibleFiles, newspaperType)
+        } else if (newspaperType.REVISIONS != null) {
+            List<NewspaperFile> filtered = replaceRevisions(allPossibleFiles, newspaperType)
+            if (filtered[0].getSectionCode() || filtered[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
+            else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(filtered, processingParameters)
         } else {
             // Sort list in ascending order if it doesn't contain a section code
             if (allPossibleFiles[0].getSectionCode() || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()

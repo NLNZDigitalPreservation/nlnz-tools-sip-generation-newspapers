@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Parameters needed to correctly process Are Media:
+# - newspaperType="areMedia"
+# - forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip"
+
 export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/pre-processing_Apr_2022"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
@@ -10,7 +14,7 @@ export startingDate="2022-04-04"
 export endingDate="2022-04-04"
 
 export forIngestionProcessingTypes="parent_grouping,create_sip_for_folder"
-# export forIngestionProcessingRules="edition_discriminators_using_smart_substitute"
+export forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4

@@ -205,9 +205,7 @@ class PreProcessProcessor {
         allFilesList.each { Path theFile ->
             NewspaperFile newspaperFile = new NewspaperFile(theFile, this.newspaperType)
             if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
-                if (!this.newspaperType.IGNORE.contains(newspaperFile.qualifier.toUpperCase())) {
-                    filteredList.add(newspaperFile)
-                }
+                filteredList.add(newspaperFile)
             }
         }
 
