@@ -10,11 +10,11 @@ export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
 export newspaperType="areMedia"
 
-export startingDate="2022-04-04"
-export endingDate="2022-04-04"
+export startingDate="2022-05-01"
+export endingDate="2022-05-01"
 
 export forIngestionProcessingTypes="parent_grouping,create_sip_for_folder"
-export forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip"
+export forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip,handle_invalid"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4

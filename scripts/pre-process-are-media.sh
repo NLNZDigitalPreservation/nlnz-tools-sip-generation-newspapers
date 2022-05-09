@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/are-media3/"
+export sourceFolder="$HOME/workspace/testdata/are-media/"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Apr_2022"
 export forReviewFolder="${targetBaseFolder}/for-review_Apr_2021"
 export newspaperType="areMedia"
 
-export startingDate="2022-04-25"
-export endingDate="2022-04-25"
+export startingDate="2022-05-01"
+export endingDate="2022-05-01"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4
