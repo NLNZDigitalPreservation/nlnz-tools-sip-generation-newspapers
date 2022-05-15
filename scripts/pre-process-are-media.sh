@@ -1,9 +1,9 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/are-media/"
-export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/"
+export sourceFolder="/media/sf_Y_DRIVE/ndha/legaldep-ftp/bauernz/"
+export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/NDHA_submission_Rosetta/are-media-processing/testing"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Apr_2022"
-export forReviewFolder="${targetBaseFolder}/for-review_Apr_2021"
+export forReviewFolder="${targetBaseFolder}/for-review_Apr_2022"
 export newspaperType="areMedia"
 
 export startingDate="2022-05-01"
