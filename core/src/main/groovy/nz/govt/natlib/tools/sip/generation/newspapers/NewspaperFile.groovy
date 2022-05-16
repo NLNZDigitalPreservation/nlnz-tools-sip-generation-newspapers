@@ -234,6 +234,8 @@ class NewspaperFile {
                     filesWithRevisions.push(newspaperFile)
                 }
             }
+        } else {
+            filesWithRevisions = allPossibleFiles
         }
 
         return filesWithRevisions
@@ -243,12 +245,43 @@ class NewspaperFile {
         return revisionString.replace(newspaperType.REVISIONS, "").toInteger()
     }
 
+    static List<NewspaperFile> removeIgnored(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
+        // Check that the there is more one occurrence of the page before removing it - it's possible an ignore
+        // string could be in the qualifier unrelatedly
+        def occurrences = [:]
+        allPossibleFiles.forEach {newspaperFile ->
+            if (!occurrences[newspaperFile.sequenceNumber]) {
+                occurrences[newspaperFile.sequenceNumber] = 1
+            } else {
+                occurrences[newspaperFile.sequenceNumber] += 1
+            }
+        }
+
+        List<NewspaperFile> filesWithIgnoredRemoved = [ ]
+
+        allPossibleFiles.forEach {newspaperFile ->
+            if (occurrences[newspaperFile.sequenceNumber] > 1) {
+                boolean containsIgnore = false
+                newspaperType.IGNORE.forEach { String ignore ->
+                    if (newspaperFile.qualifier.toUpperCase().contains(ignore)) {
+                        containsIgnore = true
+                    }
+                }
+                if (!containsIgnore) {
+                    filesWithIgnoredRemoved.push(newspaperFile)
+                }
+            } else {
+                filesWithIgnoredRemoved.push(newspaperFile)
+            }
+        }
+
+        return filesWithIgnoredRemoved
+    }
+
     static List<NewspaperFile> filterSubstituteAndSort(List<NewspaperFile> allPossibleFiles,
                                                        NewspaperProcessingParameters processingParameters, NewspaperType newspaperType) {
         List<NewspaperFile> filteredSubstitutedAndSorted
-        if (newspaperType.IGNORE != null) {
-            allPossibleFiles.removeIf {newspaperType.IGNORE.contains(it.qualifier)}
-        }
+
         if (processingParameters.currentEdition != null && !processingParameters.editionDiscriminators.isEmpty()) {
             // First we filter so we only have the files we want to process
             List<NewspaperFile> filtered = filterAllFor(processingParameters.validSectionCodes(), allPossibleFiles)
@@ -276,6 +309,10 @@ class NewspaperFile {
             // Sort list in ascending order if it doesn't contain a section code
             if (allPossibleFiles[0].getSectionCode() || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
             else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
+        }
+
+        if (newspaperType.IGNORE != null) {
+            filteredSubstitutedAndSorted = removeIgnored(filteredSubstitutedAndSorted, newspaperType)
         }
 
         return filteredSubstitutedAndSorted

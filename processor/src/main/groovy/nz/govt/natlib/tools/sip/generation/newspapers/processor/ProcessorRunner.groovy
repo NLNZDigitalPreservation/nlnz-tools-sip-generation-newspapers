@@ -6,6 +6,7 @@ import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import groovy.util.logging.Log4j2
 
+import java.nio.channels.ScatteringByteChannel
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
@@ -171,11 +172,11 @@ For processing exceptions, depending on processor.""")
     String newspaperType
 
 
-    static void main(String[] args) {
+    static void main(String[] args) throws Exception {
         ProcessorRunner processorRunner = new ProcessorRunner()
         CommandLine.call(processorRunner, args)
         if (!processorRunner.commandExecuted) {
-            String[] helpArgs = [ '-h' ]
+            String[] helpArgs = ['-h']
             CommandLine.call(processorRunner, helpArgs)
         }
     }

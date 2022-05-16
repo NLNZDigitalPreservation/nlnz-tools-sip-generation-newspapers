@@ -61,7 +61,7 @@ class HasSupplementTest {
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("Newspaper",
-                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
+                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
                 [ProcessingRule.IsSinglePdfFile, ProcessingRule.UseFileNameForMetsLabel])
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",

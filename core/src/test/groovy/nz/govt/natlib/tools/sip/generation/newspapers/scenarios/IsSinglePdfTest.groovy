@@ -65,7 +65,7 @@ class IsSinglePdfTest {
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("Newspaper",
-                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
+                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
                 [ProcessingRule.UseFileNameForMetsLabel, ProcessingRule.IsSinglePdfFile])
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
