@@ -18,12 +18,6 @@ import java.util.concurrent.locks.ReentrantLock
 
 @Log4j2
 class PreProcessProcessor {
-    // Normal Fairfax Processing
-//    static final DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
-
-    // Wairarapa Times Processing
-//    static final DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
-
     ProcessorConfiguration processorConfiguration
     NewspaperType newspaperType
     NewspaperSpreadsheet newspaperSpreadsheet
@@ -225,7 +219,7 @@ class PreProcessProcessor {
         processLogger.startSplit()
 
         log.info("START process for newspaperType=${processorConfiguration.newspaperType}, " +
-                "startindDate=${processorConfiguration.startingDate}, " +
+                "startingDate=${processorConfiguration.startingDate}, " +
                 "endingDate=${processorConfiguration.endingDate}, " +
                 "sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}, " +
                 "forReviewFolder=${processorConfiguration.forReviewFolder.normalize().toString()}")

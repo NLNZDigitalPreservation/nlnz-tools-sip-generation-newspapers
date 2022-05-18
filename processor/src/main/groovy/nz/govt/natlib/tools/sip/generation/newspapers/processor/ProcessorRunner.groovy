@@ -36,6 +36,9 @@ Optional parallelizeProcessing, numberOfThreads.
 This is a processing operation and must run exclusively of other processing operations.""")
     boolean readyForIngestion = false
 
+    @Option(names = ["--cleanUpFtp"], description = """Delete files from an FTP folder""")
+    boolean cleaUpFtp = false
+
     @Option(names = ["-l", "--listFiles" ], description = """List the source files in an organized way.
 Requires sourceFolder.
 This is a reporting operation and cannot be run with any other processing operations.""")
@@ -197,6 +200,7 @@ For processing exceptions, depending on processor.""")
         log.info("        preProcess=${preProcess}")
         log.info("        readyForIngestion=${readyForIngestion}")
         log.info("        copyIngestedLoadsToIngestedFolder=${copyIngestedLoadsToIngestedFolder}")
+        log.info("        cleanUpFtp=${cleaUpFtp}")
         log.info("    Other types of processing:")
         log.info("        copyProdLoadToTestStructures=${copyProdLoadToTestStructures}")
         log.info("    Reporting:")
@@ -257,10 +261,10 @@ For processing exceptions, depending on processor.""")
         this.processorOptions = ProcessorOption.extract(this.generalProcessingOptions, ",", [ ], true)
 
         int totalProcessingOperations = (copyProdLoadToTestStructures ? 1 : 0) + (preProcess ? 1 : 0) +
-                (readyForIngestion ? 1 : 0) + (copyIngestedLoadsToIngestedFolder ? 1 : 0)
+                (readyForIngestion ? 1 : 0) + (copyIngestedLoadsToIngestedFolder ? 1 : 0) + (cleaUpFtp ? 1 : 0)
         if (totalProcessingOperations > 1) {
             String message = "Only 1 processing operation (copyProdLoadToTestStructures, preProcess, " +
-                    "readyForIngestion or copyIngestedLoadsToIngestedFolder) can run at a time. " +
+                    "readyForIngestion, cleanUpFtp or copyIngestedLoadsToIngestedFolder) can run at a time. " +
                     "Your command requests total processing operations=${totalProcessingOperations}. Please change your command."
             log.error(message)
             throw new ProcessorException(message)
@@ -405,6 +409,22 @@ For processing exceptions, depending on processor.""")
             displayProcessingLegend()
             PostIngestionProcessor postIngestionProcessor = new PostIngestionProcessor(this)
             postIngestionProcessor.process()
+            commandExecuted = true
+        }
+        if (cleaUpFtp) {
+            if (newspaperType == null) {
+                String message = "cleanUpFtp requires newspaperType"
+                log.error(message)
+                throw new ProcessorException(message)
+            }
+            if (sourceFolder == null) {
+                String message = "cleanUpFtp requires sourceFolder"
+                log.error(message)
+                throw new ProcessorException(message)
+            }
+            displayProcessingLegend()
+            CleanUpFtpProcessor cleanUpFtpProcessor = new CleanUpFtpProcessor(this)
+            cleanUpFtpProcessor.process()
             commandExecuted = true
         }
     }
