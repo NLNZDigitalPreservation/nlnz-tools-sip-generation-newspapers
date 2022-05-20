@@ -12,18 +12,14 @@ import nz.govt.natlib.tools.sip.utils.PathUtils
 import java.nio.file.Files;
 import java.nio.file.Path
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Log4j2
-class CleanUpFtpProcessor {
+class CleanUpFTPProcessor {
     ProcessorConfiguration processorConfiguration
     NewspaperType newspaperType
     NewspaperSpreadsheet newspaperSpreadsheet
 
-    CleanUpFtpProcessor(ProcessorConfiguration processorConfiguration) {
+    CleanUpFTPProcessor(ProcessorConfiguration processorConfiguration) {
         this.processorConfiguration = processorConfiguration
     }
 
@@ -44,29 +40,22 @@ class CleanUpFtpProcessor {
         processLogger.startSplit()
 
         if (processorConfiguration.startingDate != null && processorConfiguration.endingDate != null) {
-            print("\n\n\n\n\n\n\n\n\n\n\n")
-            print("#######################################\n")
-            print("##                                   ##\n")
-            print("##           ACTION REQUIRED         ##\n")
-            print("##                                   ##\n")
-            print("#######################################\n")
-            print("\n\n")
-            print("#############################################################\n")
-            print("##                                                         ##\n")
-            print("## This process will permanently delete all matching files ##\n")
-            print("##                                                         ##\n")
-            print("#############################################################\n")
-            print("\n\n")
-            print("################################################################################\n")
-            print("##                                                                            ##\n")
-            print("## Please carefully review the date range and source folder before continuing ##\n")
-            print("##                                                                            ##\n")
-            print("################################################################################\n")
+            log.info("Action required. Waiting for user to review details before continuing")
+            print("\n\n\n\n\n\n\n\n")
+            print("##################################################################################\n")
+            print("##                                                                              ##\n")
+            print("##                             ACTION REQUIRED                                  ##\n")
+            print("##                                                                              ##\n")
+            print("##  This process will permanently delete all matching files                     ##\n")
+            print("##                                                                              ##\n")
+            print("##  Please carefully review the date range and source folder before continuing  ##\n")
+            print("##                                                                              ##\n")
+            print("##################################################################################\n")
             print("\n\n")
             print("Are you sure you wish to permanently delete these files?\n")
             print("\n\n")
-            print("From: ${processorConfiguration.startingDate}\n")
-            print("To: ${processorConfiguration.endingDate}\n")
+            print("Starting date: ${processorConfiguration.startingDate}\n")
+            print("Ending date: ${processorConfiguration.endingDate}\n")
             print("From the folder: ${processorConfiguration.sourceFolder.normalize().toString()}\n")
             print("\n\n")
             print("Type 'confirm' to confirm and begin deleting\n")
@@ -76,6 +65,7 @@ class CleanUpFtpProcessor {
 
             if (confirm == "confirm") {
                 print("\n\n")
+                log.info("User has confirmed they wish to continue")
                 log.info("START process for newspaperType=${processorConfiguration.newspaperType}, " +
                         "startingDate=${processorConfiguration.startingDate}, " +
                         "endingDate=${processorConfiguration.endingDate}, " +
@@ -90,8 +80,6 @@ class CleanUpFtpProcessor {
                 boolean sortFiles = false
 
                 String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
-                DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
-//        String pattern = NewspaperFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
                 // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
                 // get them all at once
                 List<Path> allFiles = PathUtils.findFiles(processorConfiguration.sourceFolder.normalize().toString(),

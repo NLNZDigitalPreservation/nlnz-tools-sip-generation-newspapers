@@ -16,35 +16,31 @@ Contents of this document
 
 Following this introduction, the Release Notes includes the following sections:
 
--   **Changes since 1.0.0** - Changes since the last official release *1.0.0*.
+-   **1.0.1-SNAPSHOT** - Current 1.0.1 development.
 
--   **1.0.0** - Release 1.0.0.
-
--   **1.0.0-SNAPSHOT** - Current 1.0.0 development.
+-   **1.0.0-SNAPSHOT**
 
 
-Changes since 1.0.0
-===================
+1.0.1-SNAPSHOT
+==============
 
-This is a placeholder for changes since the official *2.0.1* release. Please add notes here for changes and fixes as
-they are released into the master branch.
+-   Adds a Clean Up FTP Processor. This allows the user to delete files in a batch from an FTP source folder, within a
+    date range.
 
-
-1.0.0
-=====
-
-TODO Major features of this release
-
+-   Removes starting and ending dates being set be default by all processors, they now default to null. This is an extra
+    safety check to avoid deleting files accidentally with the new CleanUpFTPProcessor.
 
 1.0.0-SNAPSHOT
 ==============
 
-Created from NLNZ Tools SIP Generation Fairfax. Added the concept of a NewspaperType.
+Created from the code for NLNZ Tools SIP Generation Fairfax. Added the concept of a NewspaperType.
 
-NewspaperTypes replace the hardcoded filename patterns etc for Fairfax and can be configured within
+NewspaperTypes replaces the hardcoded filename patterns etc for Fairfax and can be configured within
 `resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json`
 
 Each NewspaperType requires a corresponding NewspaperSpreadsheet which lists each publication for that type
 (the same as the FairfaxSpreadsheet).
 
 newspaperType is a required parameter when running the processing.
+
+

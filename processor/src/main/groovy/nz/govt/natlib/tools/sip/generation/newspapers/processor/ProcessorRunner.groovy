@@ -21,7 +21,7 @@ class ProcessorRunner implements ProcessorConfiguration, Callable<Void> {
 
     @Option(names = ["--preProcess"], description = """Group source files by date and titleCode.
 Output is used by readyForIngestion.
-Requires sourceFolder, targetPreProcessingFolder, forReviewFolder.
+Requires sourceFolder, targetPreProcessingFolder, forReviewFolder, newspaperType.
 Uses startingDate, endingDate.
 Optional createDestination, moveFiles, parallelizeProcessing, numberOfThreads.
 This is a processing operation and must run exclusively of other processing operations.""")
@@ -29,14 +29,17 @@ This is a processing operation and must run exclusively of other processing oper
 
     @Option(names = ["--readyForIngestion"], description = """Process the source files.
 Output is ready for ingestion by Rosetta.
-Requires sourceFolder, targetForIngestionFolder, forReviewFolder, processingType.
+Requires sourceFolder, targetForIngestionFolder, forReviewFolder, processingType, newspaperType.
 Uses startingDate, endingDate.
 Optional createDestination. Note that moveFiles is not supported at this time.
 Optional parallelizeProcessing, numberOfThreads.
 This is a processing operation and must run exclusively of other processing operations.""")
     boolean readyForIngestion = false
 
-    @Option(names = ["--cleanUpFtp"], description = """Delete files from an FTP folder""")
+    @Option(names = ["--cleanUpFTP"], description = """Delete files from an FTP folder
+Requires sourceFolder, newspaperType, startingDate, endingDate
+This is a processing operation and must run exclusively of other processing operations.
+PERMANENTLY DELETES ALL MATCHING FILES.""")
     boolean cleaUpFtp = false
 
     @Option(names = ["-l", "--listFiles" ], description = """List the source files in an organized way.
@@ -105,12 +108,12 @@ Default is no move or copy unless there IS a Rosetta done file (false).""")
 Dates are usually based on file name (not timestamp).
 Default is 2015-01-01.""")
     // TODO Need a custom converter
-    LocalDate startingDate = DEFAULT_STARTING_DATE
+    LocalDate startingDate
 
     @Option(names = ["-e", "--endingDate"], paramLabel = "ENDING_DATE",
             description = """Ending date in the format yyyy-MM-dd (inclusive).
 Default is today. Files after this date are ignored.""")
-    LocalDate endingDate = DEFAULT_ENDING_DATE
+    LocalDate endingDate
 
     @Option(names = ["-s", "--sourceFolder"], paramLabel = "SOURCE_FOLDER",
             description = """Source folder in the format /path/to/folder.
@@ -200,7 +203,7 @@ For processing exceptions, depending on processor.""")
         log.info("        preProcess=${preProcess}")
         log.info("        readyForIngestion=${readyForIngestion}")
         log.info("        copyIngestedLoadsToIngestedFolder=${copyIngestedLoadsToIngestedFolder}")
-        log.info("        cleanUpFtp=${cleaUpFtp}")
+        log.info("        cleanUpFTP=${cleaUpFtp}")
         log.info("    Other types of processing:")
         log.info("        copyProdLoadToTestStructures=${copyProdLoadToTestStructures}")
         log.info("    Reporting:")
@@ -264,7 +267,7 @@ For processing exceptions, depending on processor.""")
                 (readyForIngestion ? 1 : 0) + (copyIngestedLoadsToIngestedFolder ? 1 : 0) + (cleaUpFtp ? 1 : 0)
         if (totalProcessingOperations > 1) {
             String message = "Only 1 processing operation (copyProdLoadToTestStructures, preProcess, " +
-                    "readyForIngestion, cleanUpFtp or copyIngestedLoadsToIngestedFolder) can run at a time. " +
+                    "readyForIngestion, cleanUpFTP or copyIngestedLoadsToIngestedFolder) can run at a time. " +
                     "Your command requests total processing operations=${totalProcessingOperations}. Please change your command."
             log.error(message)
             throw new ProcessorException(message)
@@ -413,18 +416,17 @@ For processing exceptions, depending on processor.""")
         }
         if (cleaUpFtp) {
             if (newspaperType == null) {
-                String message = "cleanUpFtp requires newspaperType"
+                String message = "cleanUpFTP requires newspaperType"
                 log.error(message)
                 throw new ProcessorException(message)
             }
             if (sourceFolder == null) {
-                String message = "cleanUpFtp requires sourceFolder"
+                String message = "cleanUpFTP requires sourceFolder"
                 log.error(message)
                 throw new ProcessorException(message)
             }
-            displayProcessingLegend()
-            CleanUpFtpProcessor cleanUpFtpProcessor = new CleanUpFtpProcessor(this)
-            cleanUpFtpProcessor.process()
+            CleanUpFTPProcessor cleanUpFTPProcessor = new CleanUpFTPProcessor(this)
+            cleanUpFTPProcessor.process()
             commandExecuted = true
         }
     }
