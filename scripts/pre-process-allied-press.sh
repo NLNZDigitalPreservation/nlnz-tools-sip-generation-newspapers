@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/allpress/"
+export sourceFolder="$HOME/workspace/testdata/allied-press/"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Dec_2021"
 export forReviewFolder="${targetBaseFolder}/for-review_Dec_2021"
 export newspaperType="alliedPress"
 
-export startingDate="2021-12-01"
-export endingDate="2021-12-31"
+export startingDate="2022-04-06"
+export endingDate="2022-04-06"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4
@@ -26,4 +26,4 @@ java -Xms${minMemory} -Xmx${maxMemory} \
     --forReviewFolder="${forReviewFolder}" \
     --createDestination \
     --parallelizeProcessing \
-    --numberOfThreads ${numberOfThreads}
+    --numberOfThreads=${numberOfThreads}

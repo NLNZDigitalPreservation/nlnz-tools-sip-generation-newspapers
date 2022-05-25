@@ -5,6 +5,7 @@ import groovyx.gpars.GParsExecutorsPool
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperType
+import nz.govt.natlib.tools.sip.generation.newspapers.special.FindFiles
 import nz.govt.natlib.tools.sip.processing.ProcessLogger
 import nz.govt.natlib.tools.sip.utils.GeneralUtils
 import nz.govt.natlib.tools.sip.utils.PathUtils
@@ -247,8 +248,15 @@ class PreProcessProcessor {
 //        String pattern = NewspaperFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
         // get them all at once
-        List<Path> allFiles = PathUtils.findFiles(processorConfiguration.sourceFolder.normalize().toString(),
+        List<Path> allFiles
+        if (processorConfiguration.processorOptions.contains(ProcessorOption.SearchWithoutDirectoryStream)) {
+            allFiles = FindFiles.findFiles(processorConfiguration.sourceFolder.normalize().toString(),
+                    isRegexNotGlob, pattern, processorConfiguration.timekeeper)
+        } else {
+              allFiles = PathUtils.findFiles(processorConfiguration.sourceFolder.normalize().toString(),
                 isRegexNotGlob, matchFilenameOnly, sortFiles, pattern, processorConfiguration.timekeeper)
+        }
+
         int allFilesFoundSize = allFiles.size()
 
         int numberOfThreads = processorConfiguration.parallelizeProcessing ? processorConfiguration.numberOfThreads : 1
