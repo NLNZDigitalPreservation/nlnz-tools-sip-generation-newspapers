@@ -19,7 +19,7 @@ export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
     -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.1-SNAPSHOT.jar \
-    --cleanUpFtp \
+    --cleanUpFTP \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \
     --endingDate="${endingDate}" \
