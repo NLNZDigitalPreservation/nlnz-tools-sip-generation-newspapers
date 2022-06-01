@@ -460,7 +460,8 @@ The newspaper types are stored in a JSON file and have the following structure::
     }
 
 ::
-The  key is the name of the newspaper type and this will need to be used running the scripts.
+The key is the name of the newspaper type and this will need to be used when running the scripts. In this example the key is
+alliedPress.
 
 
 Spreadsheet structure
@@ -938,12 +939,27 @@ After an ingestion takes place the ingested folders (those containing the ``done
 
 Additional tools
 ================
+cleanUpFTP: delete files from the source folder
+-----------------------------------------------
+This process permanently deletes all matching files from the source FTP folder. It requires a date range and a newspaper
+type. Because it permanently deletes all matching files, it should be run with caution. A one month buffer should be
+kept in the FTP folder at all times. So for example if the process is being run in March, the ending date for the
+process should be no later than January::
+
+    java -Xms${minMemory} -Xmx${maxMemory} \
+        -jar ../fat/build/libs/sip-generation-newspapers-fat-all-<VERSION>.jar \
+        --cleanUpFTP \
+        --newspaperType="${newspaperType}" \
+        --startingDate="${startingDate}" \
+        --endingDate="${endingDate}" \
+        --sourceFolder="${sourceFolder}"
+
 
 listFiles: list files based on source folder
 --------------------------------------------
 ``listFiles`` simply lists files by title code, section code and date::
 
-    java -jar sip-generation-WMMA-fat-all-<VERSION>.jar \
+    java -jar sip-generation-newspapers-fat-all-<VERSION>.jar \
         --listFiles \
         --startingDate="yyyy-MM-dd" \
         --endingDate="yyyy-MM-dd" \
@@ -987,7 +1003,7 @@ Adding new newspaper types
 From time to time a new newspaper publication type will need to be added to the configurations. The newspaper types
 are configured in the json file located at
 ``core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json``
-Within this file a newspaper type has the following structure:
+Within this file a newspaper type has the following structure::
 
     {
       "alliedPress": {
@@ -1002,7 +1018,6 @@ Within this file a newspaper type has the following structure:
         }
       }
     }
-
 
 Converting the spreadsheet to JSON and vice-versa
 =================================================

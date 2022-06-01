@@ -122,7 +122,7 @@ See the *Contributing* section of the :doc:`Developer Guide <developer-guide>` f
 Copyright
 =========
 
-|copyright| 2018—2019 National Library of New Zealand. All rights reserved. MIT license.
+|copyright| 2018—2022 National Library of New Zealand. All rights reserved. MIT license.
 
 Contributors
 ============
