@@ -90,7 +90,7 @@ class PreProcessProcessor {
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
         Map supplements = newspaperType.SUPPLEMENTS
 
-        if (allNameKeys.contains(targetFile.titleCode)) {
+        if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
             // There's an entry in the spreadsheet for this titleCode
             // Goes to '<date>/<titleCode>/<file>'
             if (!recognizedTitleCodes.contains(targetFile.titleCode)) {
