@@ -13,6 +13,7 @@ import nz.govt.natlib.tools.sip.utils.PathUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
@@ -85,7 +86,8 @@ class PreProcessProcessor {
 
     boolean copyOrMoveFileToPreProcessingDestination(Path destinationFolder, Path forReviewFolder, NewspaperFile targetFile,
                                                      String dateFolderName, boolean moveFile) {
-        String titleCodeFolderName = targetFile.titleCode
+
+        String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
         Map supplements = newspaperType.SUPPLEMENTS
@@ -199,7 +201,7 @@ class PreProcessProcessor {
         List<NewspaperFile> filteredList = new ArrayList<>()
         allFilesList.each { Path theFile ->
             NewspaperFile newspaperFile = new NewspaperFile(theFile, this.newspaperType)
-            if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
+             if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
                 filteredList.add(newspaperFile)
             }
         }

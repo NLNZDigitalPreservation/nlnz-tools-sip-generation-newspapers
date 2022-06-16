@@ -17,6 +17,8 @@ import java.awt.Point
 import java.awt.geom.Point2D
 import java.nio.file.Path
 import java.time.LocalDate
+import java.time.Year
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.regex.Matcher
 
@@ -34,6 +36,7 @@ class NewspaperFile {
     static final Point UNDIMENSIONED = new Point(-1, -1)
 
     DateTimeFormatter LOCAL_DATE_TIME_FORMATTER
+    DateTimeFormatter LOCAL_ISSUE_DATE_TIME_FORMATTER
 
     Path file
     static NewspaperType newspaperType
@@ -46,6 +49,9 @@ class NewspaperFile {
     Integer dateMonthOfYear
     Integer dateDayOfMonth
     LocalDate date
+    Integer issueNumber
+    Integer issueYear
+    Integer issue
     String sequenceLetter
     String sequenceNumberString
     Integer sequenceNumber
@@ -120,10 +126,18 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> postMissingSequenceFiles(List<NewspaperFile> files,
-                                                        NewspaperProcessingParameters processingParameters) {
+                                                        NewspaperProcessingParameters processingParameters,
+                                                        NewspaperType newspaperType) {
         List<NewspaperFile> sorted = null
         // Sort list in ascending order if it doesn't contain a section code
-        if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) sorted = files.sort()
+        if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) {
+            if (newspaperType.CASE_SENSITIVE) {
+                sorted = files.sort()
+            } else {
+                sorted = files.sort {it.filename.toLowerCase()}
+            }
+        }
+
         else sorted = sortWithSameTitleCodeAndDate(files, processingParameters)
 
         NewspaperFile previousFile = null
@@ -279,7 +293,8 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> filterSubstituteAndSort(List<NewspaperFile> allPossibleFiles,
-                                                       NewspaperProcessingParameters processingParameters, NewspaperType newspaperType) {
+                                                       NewspaperProcessingParameters processingParameters,
+                                                       NewspaperType newspaperType) {
         List<NewspaperFile> filteredSubstitutedAndSorted
 
         if (processingParameters.currentEdition != null && !processingParameters.editionDiscriminators.isEmpty()) {
@@ -410,6 +425,10 @@ class NewspaperFile {
     private populate() {
         this.filename = file.fileName.toString()
         this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
+        if (newspaperType.ISSUE_DATE_TIME_PATTERN != null) {
+            this.LOCAL_ISSUE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.ISSUE_DATE_TIME_PATTERN)
+        }
+
         Matcher matcher = filename =~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
@@ -426,6 +445,14 @@ class NewspaperFile {
             this.dateYear = date.year
             this.dateMonthOfYear = date.monthValue
             this.dateDayOfMonth = date.dayOfMonth
+
+            String issueString = matcher.group('issue')
+            if (issueString.length() > 0) {
+                this.issue = Integer.parseInt(issueString)
+                this.issueNumber = Integer.parseInt(issueString.substring(0,2))
+                Year year = Year.parse(issueString.substring(2,4), "yy")
+                this.issueYear = year.getValue()
+            }
             this.sequenceLetter = matcher.group('sequenceLetter')
             this.sequenceNumberString = matcher.group('sequenceNumber')
             this.sequenceNumber = sequenceNumberString.length() > 0 ? Integer.parseInt(sequenceNumberString) : 0
