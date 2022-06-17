@@ -38,7 +38,6 @@
     "PATH_TO_SPREADSHEET": "default-are-media-import-parameters.json",
     "SUPPLEMENTS": null,
     "IGNORE": ["POSTER", "POS"],
-    "SORT_BY_ISSUE_DATE": ["WZ"],
     "REVISIONS": "R",
     "CASE_SENSITIVE": false
   }

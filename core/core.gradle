@@ -14,7 +14,7 @@ buildscript {
     }
     dependencies {
         classpath 'nz.govt.natlib.m11n.tools:gradle-plugin:1.0.0-SNAPSHOT'
-        classpath 'nz.govt.natlib.tools:sip-generation-gradle-plugin:1.0.1-SNAPSHOT'
+        classpath 'nz.govt.natlib.tools:sip-generation-gradle-plugin:1.0.2-SNAPSHOT'
     }
 }
 
@@ -109,7 +109,7 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
     compile 'org.apache.logging.log4j:log4j-jcl:2.17.0'
 
-    compile 'nz.govt.natlib.tools:sip-generation-core:1.0.1-SNAPSHOT'
+    compile 'nz.govt.natlib.tools:sip-generation-core:1.0.2-SNAPSHOT'
 
     // latest version
     testCompile 'junit:junit:4.12'

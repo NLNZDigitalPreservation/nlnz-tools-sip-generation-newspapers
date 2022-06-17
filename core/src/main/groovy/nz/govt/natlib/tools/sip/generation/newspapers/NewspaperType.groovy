@@ -11,7 +11,6 @@ class NewspaperType {
     String PATH_TO_SPREADSHEET
     Map SUPPLEMENTS
     ArrayList IGNORE
-    ArrayList SORT_BY_ISSUE_DATE
     String REVISIONS
     boolean CASE_SENSITIVE
 
@@ -37,7 +36,6 @@ class NewspaperType {
         ISSUE_DATE_TIME_PATTERN = newspaperType["ISSUE_DATE_TIME_PATTERN"] != null ? newspaperType["ISSUE_DATE_TIME_PATTERN"] : null
         PATH_TO_SPREADSHEET = newspaperType["PATH_TO_SPREADSHEET"]
         SUPPLEMENTS = newspaperType["SUPPLEMENTS"] != null ? newspaperType["SUPPLEMENTS"] as Map : null
-        SORT_BY_ISSUE_DATE = newspaperType["SORT_BY_ISSUE_DATE"] != null ? newspaperType["SORT_BY_ISSUE_DATE"] as ArrayList : null
         IGNORE = newspaperType["IGNORE"] != null ? newspaperType["IGNORE"] as ArrayList : null
         REVISIONS = newspaperType["REVISIONS"]
         CASE_SENSITIVE = newspaperType["CASE_SENSITIVE"]

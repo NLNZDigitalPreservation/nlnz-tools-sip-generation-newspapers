@@ -120,7 +120,7 @@ class UseIssueInSipTest {
                 IEEntityType.MagazineIE, "ALMAMMS", "test-mms-id-one",
                 "200", "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "acpWZ0522p001_[Ab]-210422.pdf", "acpWZ0522p001_%5BAb%5D-210422.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "acpWZ0522p001_[Ab]-210422.pdf", "acpWZ0522p001_[Ab]-210422.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
         TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "acpWZ0522p002_A-210422.pdf", "acpWZ0522p002_A-210422.pdf",
