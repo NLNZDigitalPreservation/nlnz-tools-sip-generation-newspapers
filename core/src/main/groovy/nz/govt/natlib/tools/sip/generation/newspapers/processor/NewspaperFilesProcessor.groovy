@@ -30,7 +30,6 @@ import nz.govt.natlib.tools.sip.state.SipProcessingState
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
-import java.net.URI
 import org.apache.commons.io.FilenameUtils
 
 /**

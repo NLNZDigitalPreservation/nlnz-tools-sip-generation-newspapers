@@ -51,7 +51,7 @@ class ReportsProcessor {
         NewspaperFile previousFile
         newspaperFiles.each { NewspaperFile newspaperFile ->
             if (newspaperFile.isValidName()) {
-                if (allNameKeys.contains(newspaperFile.titleCode)) {
+                if (allNameKeys.contains(newspaperFile.titleCode.toUpperCase())) {
                     if (!recognizedTitleCodes.contains(newspaperFile.titleCode)) {
                         recognizedTitleCodes.add(newspaperFile.titleCode)
                         log.info("listFiles adding recognizedTitleCode=${newspaperFile.titleCode}")
@@ -154,7 +154,7 @@ class ReportsProcessor {
         foundFiles.each { Path file ->
             NewspaperFile newspaperFile = new NewspaperFile(file)
             if (newspaperFile.isValidName()) {
-                if (allNameKeys.contains(newspaperFile.titleCode)) {
+                if (allNameKeys.contains(newspaperFile.titleCode.toUpperCase())) {
                     if (!recognizedTitleCodes.contains(newspaperFile.titleCode)) {
                         recognizedTitleCodes.add(newspaperFile.titleCode)
                         log.info("listFiles adding recognizedTitleCode=${newspaperFile.titleCode}")

@@ -7,7 +7,6 @@ class NewspaperType {
     String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
     String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN
     String DATE_TIME_PATTERN
-    String ISSUE_DATE_TIME_PATTERN
     String PATH_TO_SPREADSHEET
     Map SUPPLEMENTS
     ArrayList IGNORE
@@ -33,7 +32,6 @@ class NewspaperType {
         PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = newspaperType["PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN"]
         PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = newspaperType["PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN"]
         DATE_TIME_PATTERN = newspaperType["DATE_TIME_PATTERN"]
-        ISSUE_DATE_TIME_PATTERN = newspaperType["ISSUE_DATE_TIME_PATTERN"] != null ? newspaperType["ISSUE_DATE_TIME_PATTERN"] : null
         PATH_TO_SPREADSHEET = newspaperType["PATH_TO_SPREADSHEET"]
         SUPPLEMENTS = newspaperType["SUPPLEMENTS"] != null ? newspaperType["SUPPLEMENTS"] as Map : null
         IGNORE = newspaperType["IGNORE"] != null ? newspaperType["IGNORE"] as ArrayList : null

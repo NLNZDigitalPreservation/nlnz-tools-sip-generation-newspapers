@@ -11,14 +11,12 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOptio
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.pdf.PdfDimensionFinder
 import nz.govt.natlib.tools.sip.utils.PathUtils
-import org.apache.commons.collections4.CollectionUtils
 
 import java.awt.Point
 import java.awt.geom.Point2D
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.Year
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.regex.Matcher
 
@@ -36,7 +34,6 @@ class NewspaperFile {
     static final Point UNDIMENSIONED = new Point(-1, -1)
 
     DateTimeFormatter LOCAL_DATE_TIME_FORMATTER
-    DateTimeFormatter LOCAL_ISSUE_DATE_TIME_FORMATTER
 
     Path file
     static NewspaperType newspaperType
@@ -226,6 +223,7 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> replaceRevisions(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
+        // Find all pages with a revision
         def revisions = [:]
         allPossibleFiles.forEach {newspaperFile ->
             if (newspaperFile.revision.length() > 0) {
@@ -238,8 +236,8 @@ class NewspaperFile {
             }
         }
 
+        // Add all pages to a new list, if there are revisions add only the latest revision to the list
         List<NewspaperFile> filesWithRevisions = [ ]
-
         if (revisions.size() > 0) {
             allPossibleFiles.forEach { newspaperFile ->
                 if (!revisions[newspaperFile.sequenceNumber]) {
@@ -260,7 +258,7 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> removeIgnored(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
-        // Check that the there is more one occurrence of the page before removing it - it's possible an ignore
+        // Check that the there is more than one occurrence of the page before removing it - it's possible an ignore
         // string could be in the qualifier unrelatedly
         def occurrences = [:]
         allPossibleFiles.forEach {newspaperFile ->
@@ -425,9 +423,6 @@ class NewspaperFile {
     private populate() {
         this.filename = file.fileName.toString()
         this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
-        if (newspaperType.ISSUE_DATE_TIME_PATTERN != null) {
-            this.LOCAL_ISSUE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.ISSUE_DATE_TIME_PATTERN)
-        }
 
         Matcher matcher = filename =~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
         if (matcher.matches()) {

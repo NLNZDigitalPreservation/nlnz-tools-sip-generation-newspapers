@@ -6,6 +6,8 @@
     "DATE_TIME_PATTERN": "ddMMMyy",
     "PATH_TO_SPREADSHEET": "default-WMMA-import-parameters.json",
     "SUPPLEMENTS": null,
+    "IGNORE": null,
+    "REVISIONS": null,
     "CASE_SENSITIVE": false
   },
   "alliedPress": {
@@ -18,6 +20,8 @@
       "Signal": "OtagoDailyTimes",
       "UBet": "OtagoDailyTimes"
     },
+    "IGNORE": null,
+    "REVISIONS": null,
     "CASE_SENSITIVE": true
   },
   "wptNews": {
@@ -27,6 +31,8 @@
     "DATE_TIME_PATTERN": "ddMMyy",
     "PATH_TO_SPREADSHEET": "default-wptnews-import-parameters.json",
     "SUPPLEMENTS": null,
+    "IGNORE": null,
+    "REVISIONS": null,
     "CASE_SENSITIVE": true
   },
   "areMedia": {
@@ -34,7 +40,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": ".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}",
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": ".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "ddMMyy",
-    "ISSUE_DATE_TIME_PATTERN": "MMyy",
     "PATH_TO_SPREADSHEET": "default-are-media-import-parameters.json",
     "SUPPLEMENTS": null,
     "IGNORE": ["POSTER", "POS"],
