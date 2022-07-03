@@ -9,7 +9,7 @@ export newspaperType="areMedia"
 export startingDate="2022-05-01"
 export endingDate="2022-05-01"
 
-export generalProcessingOptions="search_without_directory_stream"
+# export generalProcessingOptions="search_without_directory_stream"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4
@@ -28,5 +28,5 @@ java -Xms${minMemory} -Xmx${maxMemory} \
     --forReviewFolder="${forReviewFolder}" \
     --createDestination \
     --parallelizeProcessing \
-    --numberOfThreads=${numberOfThreads} \
-    --generalProcessingOptions=${generalProcessingOptions} 
+    --numberOfThreads=${numberOfThreads}
+   # --generalProcessingOptions=${generalProcessingOptions}
