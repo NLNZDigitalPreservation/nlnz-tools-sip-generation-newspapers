@@ -4,14 +4,14 @@
 # - newspaperType="areMedia"
 # - forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip"
 
-export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/pre-processing_May_2022"
+export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/pre-processing_April_2022"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
 export newspaperType="areMedia"
 
-export startingDate="2022-05-01"
-export endingDate="2022-05-31"
+export startingDate="2022-04-01"
+export endingDate="2022-04-30"
 
 export forIngestionProcessingTypes="parent_grouping,create_sip_for_folder"
 export forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip,handle_invalid"

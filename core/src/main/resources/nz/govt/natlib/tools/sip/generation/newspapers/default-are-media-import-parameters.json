@@ -170,7 +170,7 @@
             "title_parent": "Your Home and Garden",
             "processing_type": "parent_grouping",
             "processing_rules": "",
-            "processing_options": "numeric_before_alpha",
+            "processing_options": "numeric_before_alpha,issue_only_in_sip",
             "publication_key": "title_code",
             "title_code": "YH",
             "edition_discriminators": "",

@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/WZ/"
+export sourceFolder="$HOME/workspace/testdata/DZ/"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_May_2022"
-export forReviewFolder="${targetBaseFolder}/for-review_May_2022"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_April_2022"
+export forReviewFolder="${targetBaseFolder}/for-review_April_2022"
 export newspaperType="areMedia"
 
-export startingDate="2022-05-01"
-export endingDate="2022-05-31"
+export startingDate="2022-04-01"
+export endingDate="2022-04-30"
 
 #export generalProcessingOptions="search_without_directory_stream"
 
