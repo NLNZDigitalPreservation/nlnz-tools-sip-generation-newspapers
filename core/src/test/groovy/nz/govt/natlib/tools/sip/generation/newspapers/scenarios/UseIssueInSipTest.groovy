@@ -1,16 +1,16 @@
 package nz.govt.natlib.tools.sip.generation.newspapers.scenarios
 
 import groovy.util.logging.Log4j2
+import nz.govt.natlib.tools.sip.IEEntityType
 import nz.govt.natlib.tools.sip.extraction.SipXmlExtractor
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
-import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
+import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper.TestMethodState
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.NewspaperFilesProcessor
-import nz.govt.natlib.tools.sip.state.SipProcessingException
-import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -22,27 +22,35 @@ import java.time.format.DateTimeFormatter
 import static org.hamcrest.core.Is.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertTrue
 
 @RunWith(MockitoJUnitRunner.class)
 @Log4j2
-class IsSinglePdfTest {
+class UseIssueInSipTest {
     // TODO Make this processing simpler
     // - given a starting folder
     // - and a set of selection criteria
     // - create SIPs for the given files
     static String ID_COLUMN_NAME = "MMSID"
 
-    static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-has-supplement"
+    static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-use-issue-in-sip"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
-    static final String NEWSPAPER_TYPE = "alliedPress"
+    static final String NEWSPAPER_TYPE = "areMedia"
 
-    TestHelper.TestMethodState testMethodState
+    TestMethodState testMethodState
 
     @Before
     void setup() {
-        testMethodState = new TestHelper.TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, NEWSPAPER_TYPE)
+        testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, NEWSPAPER_TYPE)
     }
+
+    /**
+     * Note to developers: Ensure that this is exactly the same test as {@link #correctlyAssembleSipFromFiles()}, except
+     * that this test only reads from the file system, not a resource file.
+     *
+     * This test should use the local filesystem when running from within an IDE.
+     *
+     * This test then becomes a starting point for scripts that create and process SIPs.
+     */
 
     @Test
     void correctlyAssembleSipFromFiles() {
@@ -60,13 +68,12 @@ class IsSinglePdfTest {
     }
 
     void processFiles(List<Path> filesForProcessing) {
-        String dateString = "26Oct2021"
+        String dateString = "210422"
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
-        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("Newspaper",
-                [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
-                [ProcessingRule.UseFileNameForMetsLabel, ProcessingRule.IsSinglePdfFile])
+        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("WZ",
+                [ ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType)
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))
@@ -109,13 +116,14 @@ class IsSinglePdfTest {
 
         assertTrue("SipProcessingState is complete", testMethodState.sipProcessingState.isComplete())
 
-        assertTrue("SipProcessingState has exceptions", testMethodState.sipProcessingState.exceptions.size() == 0)
+        TestHelper.assertExpectedSipMetadataValues(sipForValidation, "Test Publication One", "2022", "05", null,
+                IEEntityType.MagazineIE, "ALMAMMS", "test-mms-id-one",
+                "200", "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "Newspaper-26Oct2021-Tue.pdf", "Newspaper-26Oct2021-Tue.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "Newspaper-26Oct2021-Tue", "application/pdf")
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "acpWZ0522p001_%5BAb%5D-210422.pdf", "acpWZ0522p001_%5BAb%5D-210422.pdf",
+                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "Supplement-26Oct2021-Tue.pdf", "Supplement-26Oct2021-Tue.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "Supplement-26Oct2021-Tue", "application/pdf")
-
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "acpWZ0522p002_A-210422.pdf", "acpWZ0522p002_A-210422.pdf",
+                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
     }
 }

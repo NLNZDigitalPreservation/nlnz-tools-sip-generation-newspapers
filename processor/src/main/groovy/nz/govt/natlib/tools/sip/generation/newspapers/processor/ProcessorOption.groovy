@@ -11,7 +11,9 @@ enum ProcessorOption {
     ShowDirectoryAndOneParent("show_directory_and_one_parent"),
     ShowDirectoryAndTwoParents("show_directory_and_two_parents"),
     ShowDirectoryAndThreeParents("show_directory_and_three_parents"),
-    ShowFullPath("show_full_path")
+    ShowFullPath("show_full_path"),
+    SearchWithDirectoryStream("use_directory_stream"),
+    SearchWithoutDirectoryStream("search_without_directory_stream")
 
     private static final Map<String, ProcessorOption> LOOKUP_BY_FIELD_VALUE = [ : ]
     private static final Map<ProcessorOption, List<ProcessorOption>> OVERRIDES_MAP = [ : ]
@@ -33,6 +35,8 @@ enum ProcessorOption {
                                                           ShowDirectoryAndTwoParents, ShowFullPath ])
         OVERRIDES_MAP.put(ShowFullPath, [ ShowDirectoryOnly, ShowDirectoryAndOneParent, ShowDirectoryAndTwoParents,
                                           ShowDirectoryAndTwoParents ])
+        OVERRIDES_MAP.put(SearchWithDirectoryStream, [SearchWithoutDirectoryStream])
+        OVERRIDES_MAP.put(SearchWithoutDirectoryStream, [SearchWithDirectoryStream])
     }
 
     static List<ProcessorOption> extract(String list, String separator = ",", List<ProcessorOption> defaults = [ ],

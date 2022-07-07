@@ -1,13 +1,15 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/allied-press/"
-export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Dec_2021"
-export forReviewFolder="${targetBaseFolder}/for-review_Dec_2021"
-export newspaperType="alliedPress"
+export sourceFolder="$HOME/workspace/testdata/DZ/"
+export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/are-media-processing/"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_April_2022"
+export forReviewFolder="${targetBaseFolder}/for-review_April_2022"
+export newspaperType="areMedia"
 
-export startingDate="2022-04-06"
-export endingDate="2022-04-06"
+export startingDate="2022-04-01"
+export endingDate="2022-04-30"
+
+#export generalProcessingOptions="search_without_directory_stream"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance
 export numberOfThreads=4
@@ -16,7 +18,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.1-SNAPSHOT.jar \
+    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.0.1-SNAPSHOT.jar \
     --preProcess \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \
@@ -27,3 +29,4 @@ java -Xms${minMemory} -Xmx${maxMemory} \
     --createDestination \
     --parallelizeProcessing \
     --numberOfThreads=${numberOfThreads}
+#    --generalProcessingOptions=${generalProcessingOptions}

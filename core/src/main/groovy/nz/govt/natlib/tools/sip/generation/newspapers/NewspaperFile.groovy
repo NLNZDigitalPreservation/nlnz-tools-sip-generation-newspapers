@@ -11,12 +11,12 @@ import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOptio
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.pdf.PdfDimensionFinder
 import nz.govt.natlib.tools.sip.utils.PathUtils
-import org.apache.commons.collections4.CollectionUtils
 
 import java.awt.Point
 import java.awt.geom.Point2D
 import java.nio.file.Path
 import java.time.LocalDate
+import java.time.Year
 import java.time.format.DateTimeFormatter
 import java.util.regex.Matcher
 
@@ -30,32 +30,9 @@ import java.util.regex.Matcher
 @EqualsAndHashCode(includes = [ 'titleCode', 'sectionCode', 'date', 'sequenceLetter', 'sequenceNumber' ])
 @Log4j2
 class NewspaperFile {
-    // Note that the titleCode appears to be, in some cases 4 characters long (eg. JAZZTAB), but for most cases it is 3.
-    // The populate() method attempts to correct any issues with the titleCode/sectionCode grouping.
-    // Note that the pdf extension can be upper or lower case (and we handle the mixed case as well
-
-    // Normal Fairfax Processing
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
-//            "(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})" +
-//            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{5,7}-\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{5,7}-\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
-
-
-    // Wairarapa Times Processing
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN = "(?<titleCode>[a-zA-Z0-9]{3,4})" +
-//            "(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,2})" +
-//            "(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = '\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}'
-//    static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("ddMMMyy")
 
     static final Point UNDIMENSIONED = new Point(-1, -1)
 
-//    String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN
-//    String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
-//    String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN
     DateTimeFormatter LOCAL_DATE_TIME_FORMATTER
 
     Path file
@@ -69,18 +46,28 @@ class NewspaperFile {
     Integer dateMonthOfYear
     Integer dateDayOfMonth
     LocalDate date
+    Integer issueNumber
+    Integer issueYear
+    Integer issue
     String sequenceLetter
     String sequenceNumberString
     Integer sequenceNumber
     String qualifier
+    String revision
     boolean validForProcessing
     boolean validPdf
     Point dimensionsInPoints = UNDIMENSIONED
     boolean zeroLengthFile = false
 
     static List<NewspaperFile> differences(List<NewspaperFile> list1, List<NewspaperFile> list2) {
-        List<NewspaperFile> list1MinusList2 = CollectionUtils.subtract(list1, list2)
-        List<NewspaperFile> list2MinusList1 = CollectionUtils.subtract(list2, list1)
+//        List<NewspaperFile> list1MinusList2 = CollectionUtils.subtract(list1, list2)
+        List<NewspaperFile> list1MinusList2 = new ArrayList<NewspaperFile>(list1)
+        list1MinusList2.removeIf {nf -> list2.stream().anyMatch {nf2 -> nf.filename == nf2.filename }}
+
+//        List<NewspaperFile> list2MinusList1 = CollectionUtils.subtract(list2, list1)
+        List<NewspaperFile> list2MinusList1 = new ArrayList<NewspaperFile>(list2)
+        list2MinusList1.removeIf {nf -> list1.stream().anyMatch {nf2 -> nf.filename == nf2.filename }}
+
         List<NewspaperFile> differences = [ ]
         differences.addAll(list1MinusList2)
         differences.addAll(list2MinusList1)
@@ -136,10 +123,18 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> postMissingSequenceFiles(List<NewspaperFile> files,
-                                                        NewspaperProcessingParameters processingParameters) {
-        List<NewspaperFile> sorted = null;
+                                                        NewspaperProcessingParameters processingParameters,
+                                                        NewspaperType newspaperType) {
+        List<NewspaperFile> sorted = null
         // Sort list in ascending order if it doesn't contain a section code
-        if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) sorted = files.sort()
+        if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) {
+            if (newspaperType.CASE_SENSITIVE) {
+                sorted = files.sort()
+            } else {
+                sorted = files.sort {it.filename.toLowerCase()}
+            }
+        }
+
         else sorted = sortWithSameTitleCodeAndDate(files, processingParameters)
 
         NewspaperFile previousFile = null
@@ -227,9 +222,79 @@ class NewspaperFile {
         return filtered
     }
 
+    static List<NewspaperFile> replaceRevisions(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
+        // Find all pages with a revision
+        def revisions = [:]
+        allPossibleFiles.forEach {newspaperFile ->
+            if (newspaperFile.revision.length() > 0) {
+                if (!revisions[newspaperFile.sequenceNumber]) {
+                    revisions[newspaperFile.sequenceNumber] = newspaperFile.revision
+                } else if (getRevisionNumber(newspaperFile.revision, newspaperType) >
+                        getRevisionNumber(revisions[newspaperFile.sequenceNumber] as String, newspaperType)) {
+                    revisions[newspaperFile.sequenceNumber] = newspaperFile.revision
+                }
+            }
+        }
+
+        // Add all pages to a new list, if there are revisions add only the latest revision to the list
+        List<NewspaperFile> filesWithRevisions = [ ]
+        if (revisions.size() > 0) {
+            allPossibleFiles.forEach { newspaperFile ->
+                if (!revisions[newspaperFile.sequenceNumber]) {
+                    filesWithRevisions.push(newspaperFile)
+                } else if (revisions[newspaperFile.sequenceNumber] == newspaperFile.revision) {
+                    filesWithRevisions.push(newspaperFile)
+                }
+            }
+        } else {
+            filesWithRevisions = allPossibleFiles
+        }
+
+        return filesWithRevisions
+    }
+
+    static Integer getRevisionNumber(String revisionString, NewspaperType newspaperType) {
+        return revisionString.replace(newspaperType.REVISIONS, "").toInteger()
+    }
+
+    static List<NewspaperFile> removeIgnored(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
+        // Check that the there is more than one occurrence of the page before removing it - it's possible an ignore
+        // string could be in the qualifier unrelatedly
+        def occurrences = [:]
+        allPossibleFiles.forEach {newspaperFile ->
+            if (!occurrences[newspaperFile.sequenceNumber]) {
+                occurrences[newspaperFile.sequenceNumber] = 1
+            } else {
+                occurrences[newspaperFile.sequenceNumber] += 1
+            }
+        }
+
+        List<NewspaperFile> filesWithIgnoredRemoved = [ ]
+
+        allPossibleFiles.forEach {newspaperFile ->
+            if (occurrences[newspaperFile.sequenceNumber] > 1) {
+                boolean containsIgnore = false
+                newspaperType.IGNORE.forEach { String ignore ->
+                    if (newspaperFile.qualifier.toUpperCase().contains(ignore)) {
+                        containsIgnore = true
+                    }
+                }
+                if (!containsIgnore) {
+                    filesWithIgnoredRemoved.push(newspaperFile)
+                }
+            } else {
+                filesWithIgnoredRemoved.push(newspaperFile)
+            }
+        }
+
+        return filesWithIgnoredRemoved
+    }
+
     static List<NewspaperFile> filterSubstituteAndSort(List<NewspaperFile> allPossibleFiles,
-                                                       NewspaperProcessingParameters processingParameters) {
+                                                       NewspaperProcessingParameters processingParameters,
+                                                       NewspaperType newspaperType) {
         List<NewspaperFile> filteredSubstitutedAndSorted
+
         if (processingParameters.currentEdition != null && !processingParameters.editionDiscriminators.isEmpty()) {
             // First we filter so we only have the files we want to process
             List<NewspaperFile> filtered = filterAllFor(processingParameters.validSectionCodes(), allPossibleFiles)
@@ -249,11 +314,20 @@ class NewspaperFile {
                 // If there are no substitutions (including the first for itself) then there is nothing to process
                 filteredSubstitutedAndSorted = [ ]
             }
+        } else if (newspaperType.REVISIONS != null) {
+            List<NewspaperFile> filtered = replaceRevisions(allPossibleFiles, newspaperType)
+            if (filtered[0].getSectionCode() || filtered[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
+            else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(filtered, processingParameters)
         } else {
             // Sort list in ascending order if it doesn't contain a section code
             if (allPossibleFiles[0].getSectionCode() || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
-            else filteredSubstitutedAndSorted =  sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
+            else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
         }
+
+        if (newspaperType.IGNORE != null) {
+            filteredSubstitutedAndSorted = removeIgnored(filteredSubstitutedAndSorted, newspaperType)
+        }
+
         return filteredSubstitutedAndSorted
     }
 
@@ -302,7 +376,7 @@ class NewspaperFile {
         return sorted
     }
 
-    static List<NewspaperFile> fromSourceFolder(Path sourceFolder) {
+    static List<NewspaperFile> fromSourceFolder(Path sourceFolder, NewspaperType newspaperType) {
         String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         boolean isRegexNotGlob = true
         boolean matchFilenameOnly = true
@@ -349,7 +423,7 @@ class NewspaperFile {
     private populate() {
         this.filename = file.fileName.toString()
         this.LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
-        // TODO Maybe the pattern comes from a resource or properties file?
+
         Matcher matcher = filename =~ /${newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN}/
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
@@ -366,10 +440,19 @@ class NewspaperFile {
             this.dateYear = date.year
             this.dateMonthOfYear = date.monthValue
             this.dateDayOfMonth = date.dayOfMonth
+
+            String issueString = matcher.group('issue')
+            if (issueString.length() > 0) {
+                this.issue = Integer.parseInt(issueString)
+                this.issueNumber = Integer.parseInt(issueString.substring(0,2))
+                Year year = Year.parse(issueString.substring(2,4), "yy")
+                this.issueYear = year.getValue()
+            }
             this.sequenceLetter = matcher.group('sequenceLetter')
             this.sequenceNumberString = matcher.group('sequenceNumber')
             this.sequenceNumber = sequenceNumberString.length() > 0 ? Integer.parseInt(sequenceNumberString) : 0
             this.qualifier = matcher.group('qualifier')
+            this.revision = matcher.group('revision')
         }
     }
 

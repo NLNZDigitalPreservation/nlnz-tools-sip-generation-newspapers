@@ -135,7 +135,7 @@ class NewspaperSpreadsheet {
             } else {
                 titleCodeToRowsMap.put(titleCode, [rowMap ])
             }
-            allTitleCodeKeys.add(titleCode)
+            allTitleCodeKeys.add(titleCode.toUpperCase())
         }
     }
 

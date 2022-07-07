@@ -16,6 +16,13 @@ class ProcessingOptionTest {
 
         List<ProcessingOption> expected = [ ProcessingOption.NumericBeforeAlphaSequencing ]
         assertThat("ProcessingOption merges correctly", merged, is(expected))
+
+        List<ProcessingOption> current1 = [ ProcessingOption.FullDateInSip ]
+        List<ProcessingOption> overrides1 = [ ProcessingOption.IssueOnlyInSip ]
+        List<ProcessingOption> merged1 = ProcessingOption.mergeOverrides(current1, overrides1)
+
+        List<ProcessingOption> expected1 = [ ProcessingOption.IssueOnlyInSip ]
+        assertThat("ProcessingOption merges correctly", merged1, is(expected1))
     }
 
     @Test

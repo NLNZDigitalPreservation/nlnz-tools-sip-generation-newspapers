@@ -26,4 +26,4 @@ java -Xms${minMemory} -Xmx${maxMemory} \
     --forReviewFolder="${forReviewFolder}" \
     --createDestination \
     --parallelizeProcessing \
-    --numberOfThreads ${numberOfThreads}
+    --numberOfThreads=${numberOfThreads}

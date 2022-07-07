@@ -287,21 +287,21 @@ The newspaper types are stored in a JSON file located at
 A newspaper type the following structure::
 
     {
-      "alliedPress": {
-        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
-        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-        "DATE_TIME_PATTERN": "ddMMMyyyy",
-        "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
-        "SUPPLEMENTS": {
-          "Signal": "OtagoDailyTimes",
-          "UBet": "OtagoDailyTimes"
-        }
+      "areMedia": {
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<publisherCode>[a-z]{3})(?<titleCode>[a-zA-Z0-9]{2})(?<issue>\\d{4})(?<sequenceLetter>\\w{1})(?<sequenceNumber>\\d{3})(?<sectionCode>)([_])?(?<revision>[a-zA-Z0-9]{0,2})_(?<qualifier>.*?)-(?<date>\\d{6}).[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": ".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}",
+        "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": ".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}",
+        "DATE_TIME_PATTERN": "ddMMyy",
+        "PATH_TO_SPREADSHEET": "default-are-media-import-parameters.json",
+        "SUPPLEMENTS": null,
+        "IGNORE": ["POSTER", "POS"],
+        "REVISIONS": "R",
+        "CASE_SENSITIVE": false
       }
     }
 
 
-The  key (in this case alliedPress) is the name of the newspaper type which will need to be used when running the
+The  key (in this case areMedia) is the name of the newspaper type which will need to be used when running the
 scripts.
 
 The three fields beginning ``PDF_FILE_WITH...`` are the regular expression (regex) patterns required by the code to
@@ -316,6 +316,23 @@ In the example above Signal and UBet need to be processed with the OtagoDailyTim
 which have the same title code as their parent and do not need to be included here.
 This field only needs to be present if the newspaper type has such supplements.
 
+``IGNORE`` is a list of terms that, if present in the qualifier section of a filename, indicate that file should be
+ignored and not included in the sip. Files with theses terms in the filenames will be placed in the for-review/IGNORED
+folder. In the case of Are Media, these are poster files which are not part of the publication.
+
+``REVISIONS`` Some newspaper types (only Are Media at this stage) upload revised versions of files to the ftp folder
+so they processing may have multiple versions of a file with the same page number to deal with. This files will include
+a revision number in the 'revision' section of the filename.
+The REVISIONS field in the Newspaper Type indicates both that revisions need to be checked for, and how the are
+labelled. The "R" in this case will be followed by a number in the filename. For example revisions for Are Media are
+labelled R1, R2, etc. If this field is not null, the programme will check if each file has a newer revision and add the
+latest revision number to the sip. Older revisions will be placed in the for-review/IGNORED folder.
+
+``CASE_SENSITIVE`` This indicates whether a Newspaper Type's titlecodes should be treated as case sensitive. For example
+Allied Press's titles are in the style OtagoDailyTimes, and should be processed using case sensitivity. However Are
+Media has titles such as YH which are inconstantly labelled (e.g. yh, yH, Yh). Setting CASE_SENSITIVE to false means
+these inconstantly labelled files will be sorted into the same location and processed correctly.
+
 Adding new newspaper types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -323,8 +340,8 @@ If a new newspaper type needs to be added, an entry with the exact format above 
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
 For help with regular expressions (regex) see https://regex101.com/ for example.
 
-The ``SUPPLEMENTS`` field can have the value ``null`` or be left off if the new newspaper type doesn't have such
-supplements.
+The ``SUPPLEMENTS``, ``IGNORE`` and ``REVISIONS`` fields can have the value ``null`` or be left off if the new newspaper
+type doesn't have these fields.
 
 A processing spreadsheet will also need to be added to the codebase and referred to in the ``PATH_TO_SPREADSHEET`` field.
 See the section `Processing spreadsheet`_ for more information.
@@ -759,6 +776,30 @@ option that can be used to override its value. In general options don't have sid
 ``numeric_before_alpha``
     Sequences are sorted with sequence numbers only sorted before sequence letters only. So, we would have ordering
     ``01, 02, A01, A02, B01, B02``. Override is ``alpha_before_numeric``.
+
+``full_date_in_sip``
+    The full date will be used in the designation data of the sip mets.xml file. For example::
+
+    <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <dc:title>The Ensign</dc:title>
+        <dc:date>2022</dc:date>
+        <dcterms:available>06</dcterms:available>
+        <dc:coverage>01</dc:coverage>
+    </dc:record>
+
+   Override is ``issue_only_in_sip``
+
+``issue_only_in_sip``
+    For publications that have an issue number, this option can be used to populate the sip mets.xml instead. For
+    example::
+
+    <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <dc:title>Australian women's weekly</dc:title>
+        <dc:date>2022</dc:date>
+        <dcterms:available>05</dcterms:available>
+    </dc:record>
+
+   Override is  ``full_date_in_sip``
 
 Overrides for rules and options
 -------------------------------

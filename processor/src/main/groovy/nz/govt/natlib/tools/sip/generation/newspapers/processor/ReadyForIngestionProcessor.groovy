@@ -370,7 +370,7 @@ class ReadyForIngestionProcessor {
                         List<ProcessingOption> perThreadOverrideOptions = (List<ProcessingOption>) this.overrideProcessingOptions.clone()
 
                         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build(titleCode,
-                                perThreadProcessingTypes, titleCodeFolder, processingDate, newspaperSpreadsheet,
+                                perThreadProcessingTypes, titleCodeFolder, processingDate, newspaperSpreadsheet, newspaperType,
                                 perThreadOverrideRules, perThreadOverrideOptions)
 
                         parametersList.each { NewspaperProcessingParameters processingParameters ->
@@ -414,7 +414,7 @@ class ReadyForIngestionProcessor {
         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at end of ALL processing",
                 true, true, true, false, true, true, true)
         log.info("${System.lineSeparator()}END ready-for-ingestion with parameters:")
-        log.info("    startindDate=${processorConfiguration.startingDate}")
+        log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")
         log.info("    targetForIngestionFolder=${processorConfiguration.targetForIngestionFolder.normalize().toString()}")

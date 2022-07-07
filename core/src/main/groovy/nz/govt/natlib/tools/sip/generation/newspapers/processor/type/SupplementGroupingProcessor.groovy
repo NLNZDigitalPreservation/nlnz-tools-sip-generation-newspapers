@@ -3,6 +3,7 @@ package nz.govt.natlib.tools.sip.generation.newspapers.processor.type
 import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperType
 
 /**
  * Does processing operations specific to the processing type
@@ -11,8 +12,8 @@ import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 @Log4j2
 class SupplementGroupingProcessor {
     static List<NewspaperFile> selectAndSort(NewspaperProcessingParameters processingParameters,
-                                             List<NewspaperFile> allPossibleFiles) {
-        List<NewspaperFile> newspaperFiles = NewspaperFile.filterSubstituteAndSort(allPossibleFiles, processingParameters)
+                                             List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
+        List<NewspaperFile> newspaperFiles = NewspaperFile.filterSubstituteAndSort(allPossibleFiles, processingParameters, newspaperType)
 
         List<String> allFileSectionCodes = NewspaperFile.allSectionCodes(allPossibleFiles)
         boolean hasAtLeastOneMissingSectionCode = processingParameters.sectionCodes.any { String sectionCode ->

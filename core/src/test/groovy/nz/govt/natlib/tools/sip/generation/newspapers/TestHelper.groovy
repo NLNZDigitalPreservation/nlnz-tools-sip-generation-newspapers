@@ -267,7 +267,9 @@ class TestHelper {
         assertThat("title", sipForValidation.extractTitle(), is(title))
         assertThat("dcDate", sipForValidation.extractDcDate(), is(dcDate))
         assertThat("dcTermsAvailable", sipForValidation.extractDcTermsAvailable(), is(dcTermsAvailable))
-        assertThat("dcCoverage", sipForValidation.extractDcCoverage(), is(dcCoverage))
+        if (dcCoverage != null) {
+            assertThat("dcCoverage", sipForValidation.extractDcCoverage(), is(dcCoverage))
+        }
         assertThat("ieEntityType", sipForValidation.extractIEEntityType(), is(ieEntityType))
         assertThat("objectIdentifierType", sipForValidation.extractObjectIdentifierType(), is(objectIdentifierType))
         assertThat("objectIdentifierValue", sipForValidation.extractObjectIdentifierValue(), is(objectcIdentifierValue))

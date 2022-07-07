@@ -90,13 +90,13 @@ class NewspaperFilesProcessor {
             List<NewspaperFile> sortedFilesForProcessing
             switch (processingParameters.type) {
                 case ProcessingType.ParentGrouping:
-                    sortedFilesForProcessing = ParentGroupingProcessor.selectAndSort(processingParameters, validNamedFiles)
+                    sortedFilesForProcessing = ParentGroupingProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.ParentGroupingWithEdition:
-                    sortedFilesForProcessing = ParentGroupingWithEditionProcessor.selectAndSort(processingParameters, validNamedFiles)
+                    sortedFilesForProcessing = ParentGroupingWithEditionProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.SupplementGrouping:
-                    sortedFilesForProcessing = SupplementGroupingProcessor.selectAndSort(processingParameters, validNamedFiles)
+                    sortedFilesForProcessing = SupplementGroupingProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.CreateSipForFolder:
                     sortedFilesForProcessing = SipForFolderProcessor.selectAndSort(processingParameters, validNamedFiles)
@@ -265,14 +265,22 @@ class NewspaperFilesProcessor {
                     SipFactory.TITLE_PARENT_KEY
             Sip sip = SipFactory.fromMap(processingParameters.spreadsheetRow, [ ], false, false, titleKey)
 
-            sip.year = sipDate.year
-            sip.month = sipDate.monthValue
-            sip.dayOfMonth = sipDate.dayOfMonth
-            sip.updateFromDateFields()
+            if (processingParameters.options.contains(ProcessingOption.IssueOnlyInSip)) {
+                    NewspaperFile file = sortedNewspaperFiles[0]
+                    sip.dcDate = "${file.issueYear}".toString()
+                    sip.dcTermsAvailable = String.format("%02d", file.issueNumber)
+                    sip.dcCoverage = ''
+            } else {
+                sip.year = sipDate.year
+                sip.month = sipDate.monthValue
+                sip.dayOfMonth = sipDate.dayOfMonth
+                sip.updateFromDateFields()
 
-            if (processingParameters.includeCurrentEditionForDcCoverage) {
-                sip.dcCoverage = "${sipDate.dayOfMonth} [${processingParameters.currentEdition}]"
+                if (processingParameters.includeCurrentEditionForDcCoverage) {
+                    sip.dcCoverage = "${sipDate.dayOfMonth} [${processingParameters.currentEdition}]"
+                }
             }
+
             processingParameters.sipProcessingState.ieEntityType = sip.ieEntityType
             processingParameters.sipProcessingState.identifier = formatSipProcessingStateIdentifier()
 
@@ -338,7 +346,7 @@ class NewspaperFilesProcessor {
         if (processingParameters.rules.contains(ProcessingRule.MissingSequenceError) &&
             processingParameters.rules.contains(ProcessingRule.IsMultiPdfFiles)) {
             List<NewspaperFile> postMissingSequenceFiles = NewspaperFile.postMissingSequenceFiles(checkList,
-                    processingParameters)
+                    processingParameters, this.newspaperType)
             if (postMissingSequenceFiles.size() > 0) {
                 boolean hasMissingFiles = true
                 if (processingParameters.rules.contains(ProcessingRule.MissingSequenceDoubleWideIgnored)) {

@@ -44,13 +44,13 @@ class NewspaperProcessingParameters {
     SipProcessingState sipProcessingState = new SipProcessingState()
 
     static List<NewspaperProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
-                                                     LocalDate processingDate, NewspaperSpreadsheet spreadsheet,
+                                                     LocalDate processingDate, NewspaperSpreadsheet spreadsheet, NewspaperType newspaperType,
                                                      List<ProcessingRule> overrideRules = [],
                                                      List<ProcessingOption> overrideOptions = []) {
         List<NewspaperProcessingParameters> parametersList = [ ]
 
         processingTypes.sort().each { ProcessingType processingType ->
-            List<Map<String, String>> matchingRows = matchingRowsFor(titleCode, processingType, sourceFolder, processingDate, spreadsheet)
+            List<Map<String, String>> matchingRows = matchingRowsFor(titleCode, processingType, sourceFolder, processingDate, spreadsheet, newspaperType)
             if (processingType == ProcessingType.ParentGroupingWithEdition) {
                 matchingRows.each { Map<String, String> singleRow ->
                     NewspaperProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
@@ -120,7 +120,7 @@ class NewspaperProcessingParameters {
                 processingParameters.editionDiscriminators.each { String editionDiscriminator ->
                     boolean hasMatchingEdition = true
                     if (processingParameters.rules.contains(ProcessingRule.IgnoreEditionsWithoutMatchingFiles)) {
-                        List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder)
+                        List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder, newspaperType)
                         hasMatchingEdition = allNewspaperFiles.any { NewspaperFile newspaperFile ->
                             editionDiscriminator == newspaperFile.sectionCode
                         }
@@ -195,13 +195,13 @@ class NewspaperProcessingParameters {
     }
 
     static List<Map<String, String>> matchingRowsFor(String titleCode, ProcessingType processingType, Path sourceFolder,
-                                                     LocalDate processingDate, NewspaperSpreadsheet spreadsheet) {
+                                                     LocalDate processingDate, NewspaperSpreadsheet spreadsheet, NewspaperType newspaperType) {
         List<Map<String, String>> matchingRows = spreadsheet.matchingProcessingTypeParameterMaps(
                 processingType.fieldValue, titleCode)
         if (!matchingRows.isEmpty() && processingType == ProcessingType.ParentGroupingWithEdition) {
             // Step 1: Find all the files, get the different section_codes
 //            List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder, fileFindPattern)
-            List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder)
+            List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder, newspaperType)
             List<String> uniqueSectionCodes = NewspaperFile.uniqueSectionCodes(allNewspaperFiles)
 
             // Step 2: Based on the section_code pick the right spreadsheet row
