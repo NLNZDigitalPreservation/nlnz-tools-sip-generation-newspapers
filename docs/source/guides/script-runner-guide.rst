@@ -293,59 +293,75 @@ A newspaper type the following structure::
         "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": ".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}",
         "DATE_TIME_PATTERN": "ddMMyy",
         "PATH_TO_SPREADSHEET": "default-are-media-import-parameters.json",
-        "SUPPLEMENTS": null,
+        "SUPPLEMENTS": {
+            "Signal": "OtagoDailyTimes",
+            "UBet": "OtagoDailyTimes"
+        },
         "IGNORE": ["POSTER", "POS"],
         "REVISIONS": "R",
-        "CASE_SENSITIVE": false
+        "CASE_SENSITIVE": false,
+        "DATE_ADJUSTMENTS": {
+            "LS": 5,
+            "ZW": 7
+        }
       }
     }
 
 
-The  key (in this case areMedia) is the name of the newspaper type which will need to be used when running the
-scripts.
+The  key (in this case areMedia) is the name of the newspaper type and will need to be used when running the scripts.
+This example doesn't match the actual Are Media configuration, but has been used to display examples of all the fields.
 
-The three fields beginning ``PDF_FILE_WITH...`` are the regular expression (regex) patterns required by the code to
-validate the filenames being processed.
+The three fields beginning ``PDF_FILE_WITH...`` (required) are the regular expression (regex) patterns required by the
+code to validate the filenames being processed.
 
-``DATE_TIME_PATTERN`` is the pattern used in the filenames for that newspaper type.
+``DATE_TIME_PATTERN`` (required) is the date pattern used in the filenames for that newspaper type.
 
-``PATH_TO_SPREADSHEET`` is the name of the processing spreadsheet required to process the individual titles of that type.
+``PATH_TO_SPREADSHEET`` (required) is the name of the processing spreadsheet required to process the individual titles
+of that newspaper type.
 
-``SUPPLEMENTS`` is used when a newspaper has supplements whose title codes do not match the parent title.
+``SUPPLEMENTS`` (optional) is used when a newspaper has supplements whose title codes do not match the parent title.
 In the example above Signal and UBet need to be processed with the OtagoDailyTimes. They differ from other supplements
 which have the same title code as their parent and do not need to be included here.
 This field only needs to be present if the newspaper type has such supplements.
 
-``IGNORE`` is a list of terms that, if present in the qualifier section of a filename, indicate that file should be
+``IGNORE`` (optional) is a list of terms that, if present in the qualifier section of a filename, indicate that file should be
 ignored and not included in the sip. Files with theses terms in the filenames will be placed in the for-review/IGNORED
 folder. In the case of Are Media, these are poster files which are not part of the publication.
 
-``REVISIONS`` Some newspaper types (only Are Media at this stage) upload revised versions of files to the ftp folder
-so they processing may have multiple versions of a file with the same page number to deal with. This files will include
-a revision number in the 'revision' section of the filename.
-The REVISIONS field in the Newspaper Type indicates both that revisions need to be checked for, and how the are
-labelled. The "R" in this case will be followed by a number in the filename. For example revisions for Are Media are
+``REVISIONS`` (optional) Some newspaper types (only Are Media at this stage) upload revised versions of files to the
+ftp folder so there may be multiple versions of a file with the same date and page number to deal with. The revised
+files will include a revision number in the 'revision' section of the filename.
+The REVISIONS field in the Newspaper Type indicates both that revisions need to be checked for, and how those revisions
+are labelled. The "R" in this case will be followed by a number in the filename. For example revisions for Are Media are
 labelled R1, R2, etc. If this field is not null, the programme will check if each file has a newer revision and add the
 latest revision number to the sip. Older revisions will be placed in the for-review/IGNORED folder.
 
-``CASE_SENSITIVE`` This indicates whether a Newspaper Type's titlecodes should be treated as case sensitive. For example
-Allied Press's titles are in the style OtagoDailyTimes, and should be processed using case sensitivity. However Are
-Media has titles such as YH which are inconstantly labelled (e.g. yh, yH, Yh). Setting CASE_SENSITIVE to false means
-these inconstantly labelled files will be sorted into the same location and processed correctly.
+``CASE_SENSITIVE`` (required) This indicates whether a Newspaper Type's titlecodes should be treated as case sensitive.
+For example Allied Press's titles are in the style OtagoDailyTimes, and should be processed using case sensitivity.
+However Are Media has titles such as YH which are inconstantly labelled (e.g. yh, yH, Yh). Setting CASE_SENSITIVE to
+false means these inconstantly labelled files will be sorted into the same location and processed correctly.
+
+``DATE_ADJUSTMENTS`` (optional) Some Are Media titles have a mismatch between the date in the filenames and the actual
+publication date. For example the filename date for the title LS is always 5 days earlier than the publication date.
+Adding the titlecode and the number of days to adjust by to this section will ensure the correct publication date is
+added to the METS file.
 
 Adding new newspaper types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If a new newspaper type needs to be added, an entry with the exact format above needs to added to the json file.
+If a new newspaper type needs to be added, an entry with the format above needs to added to the json file.
+
+The following fields are REQUIRED: ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN``,
+``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN``, ``PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN``,
+``DATE_TIME_PATTERN``, ``PATH_TO_SPREADSHEET``, ``CASE_SENSITIVE``
+
+While these fields are OPTIONAL: ``SUPPLEMENTS``, ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
+
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
 For help with regular expressions (regex) see https://regex101.com/ for example.
 
-The ``SUPPLEMENTS``, ``IGNORE`` and ``REVISIONS`` fields can have the value ``null`` or be left off if the new newspaper
-type doesn't have these fields.
-
 A processing spreadsheet will also need to be added to the codebase and referred to in the ``PATH_TO_SPREADSHEET`` field.
 See the section `Processing spreadsheet`_ for more information.
-
 
 FTP stage
 =========
