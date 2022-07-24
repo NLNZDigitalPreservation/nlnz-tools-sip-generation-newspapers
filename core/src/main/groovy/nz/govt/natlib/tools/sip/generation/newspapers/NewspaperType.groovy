@@ -12,6 +12,7 @@ class NewspaperType {
     ArrayList IGNORE
     String REVISIONS
     boolean CASE_SENSITIVE
+    Map DATE_ADJUSTMENTS
 
     //Use default spreadsheet
     NewspaperType(String newspaperType) {
@@ -37,5 +38,6 @@ class NewspaperType {
         IGNORE = newspaperType["IGNORE"] != null ? newspaperType["IGNORE"] as ArrayList : null
         REVISIONS = newspaperType["REVISIONS"]
         CASE_SENSITIVE = newspaperType["CASE_SENSITIVE"]
+        DATE_ADJUSTMENTS = newspaperType["DATE_ADJUSTMENTS"] != null ? newspaperType["DATE_ADJUSTMENTS"] as Map : null
     }
 }

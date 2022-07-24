@@ -10,8 +10,8 @@ export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
 export newspaperType="areMedia"
 
-export startingDate="2022-04-01"
-export endingDate="2022-04-30"
+export startingDate="2022-06-01"
+export endingDate="2022-06-30"
 
 export forIngestionProcessingTypes="parent_grouping,create_sip_for_folder"
 export forIngestionProcessingRules="handle_ignored,optional_all_sections_in_sip,handle_invalid"

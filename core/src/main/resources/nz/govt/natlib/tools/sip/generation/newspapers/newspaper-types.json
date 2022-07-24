@@ -44,6 +44,10 @@
     "SUPPLEMENTS": null,
     "IGNORE": ["POSTER", "POS"],
     "REVISIONS": "R",
-    "CASE_SENSITIVE": false
+    "CASE_SENSITIVE": false,
+    "DATE_ADJUSTMENTS": {
+      "LS": 5,
+      "ZW": 7
+    }
   }
 }

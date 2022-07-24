@@ -124,7 +124,13 @@ class NewspaperFilesProcessor {
             } else {
                 List<NewspaperFile> sipFiles = differentiateFiles(validNamedFiles, sortedFilesForProcessing)
 
-                String sipAsXml = generateSipAsXml(sipFiles, processingParameters.date)
+                LocalDate date = processingParameters.date
+
+                if (newspaperType.DATE_ADJUSTMENTS != null && newspaperType.DATE_ADJUSTMENTS[processingParameters.titleCode]) {
+                    date = date.plusDays(newspaperType.DATE_ADJUSTMENTS.get(processingParameters.titleCode) as long)
+                }
+
+                String sipAsXml = generateSipAsXml(sipFiles, date)
                 processingParameters.sipProcessingState.sipAsXml = sipAsXml
             }
         }
