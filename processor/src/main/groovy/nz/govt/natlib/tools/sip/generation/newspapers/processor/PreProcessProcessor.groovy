@@ -84,54 +84,9 @@ class PreProcessProcessor {
         }
     }
 
-    boolean copyOrMoveFileToPreProcessingDestination(Path destinationFolder, Path forReviewFolder, NewspaperFile targetFile,
-                                                     String dateFolderName, boolean moveFile) {
-
-        String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
-        String folderPath
-        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
-        Map supplements = newspaperType.SUPPLEMENTS
-
-        if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
-            // There's an entry in the spreadsheet for this titleCode
-            // Goes to '<date>/<titleCode>/<file>'
-            if (!recognizedTitleCodes.contains(targetFile.titleCode)) {
-                recognizedTitleCodes.add(targetFile.titleCode)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${targetFile.titleCode}")
-            }
-            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
-        } else if (supplements != null && supplements[targetFile.titleCode]) {
-            GeneralUtils.printAndFlush("\n")
-            log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
-
-            // Get the parent publication name of the supplement
-            titleCodeFolderName = supplements.get(targetFile.titleCode)
-
-            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
-            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
-                recognizedTitleCodes.add(titleCodeFolderName)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
-            }
-
-            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
-        } else {
-            // There is no entry in the spreadsheet for this titleCode
-            // Goes to 'UNKNOWN-TITLE-CODE/<date>/<file>'
-            if (!unrecognizedTitleCodes.contains(targetFile.titleCode)) {
-                unrecognizedTitleCodes.add(targetFile.titleCode)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding unrecognizedName=${targetFile.titleCode}")
-            }
-            folderPath = "${forReviewFolder.normalize().toString()}${File.separator}UNKNOWN-TITLE-CODE${File.separator}${dateFolderName}"
-        }
-        Path destination = Path.of(folderPath)
-        makeDirs(destination)
-
-        Path destinationFile = destination.resolve(targetFile.file.fileName)
-        addInProcessDestinationFile(destinationFile)
+    boolean moveFileToDestination(Path destinationFile, NewspaperFile targetFile, boolean moveFile) {
         boolean moveToDestination = true
+
         if (Files.exists(destinationFile)) {
             if (Files.exists(destinationFile) && Files.exists(targetFile.file) &&
                     Files.isSameFile(destinationFile, targetFile.file)) {
@@ -183,6 +138,92 @@ class PreProcessProcessor {
         }
         removeInProcessDestinationFile(destinationFile)
 
+        return moveToDestination
+    }
+
+    boolean copyOrMoveFileToPreProcessingDestination(Path destinationFolder, Path forReviewFolder, NewspaperFile targetFile,
+                                                     String dateFolderName, boolean moveFile) {
+
+        String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
+        String folderPath
+        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
+        Map supplements = newspaperType.SUPPLEMENTS
+        Map parentSupplements = newspaperType.PARENT_SUPPLEMENTS
+
+        if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
+            // There's an entry in the spreadsheet for this titleCode
+            // Goes to '<date>/<titleCode>/<file>'
+            if (!recognizedTitleCodes.contains(targetFile.titleCode)) {
+                recognizedTitleCodes.add(targetFile.titleCode)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${targetFile.titleCode}")
+            }
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else if (supplements != null && supplements[targetFile.titleCode]) {
+            GeneralUtils.printAndFlush("\n")
+            log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
+
+            // Get the parent publication name of the supplement
+            titleCodeFolderName = supplements.get(targetFile.titleCode)
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else {
+            // There is no entry in the spreadsheet for this titleCode
+            // Goes to 'UNKNOWN-TITLE-CODE/<date>/<file>'
+            if (!unrecognizedTitleCodes.contains(targetFile.titleCode)) {
+                unrecognizedTitleCodes.add(targetFile.titleCode)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding unrecognizedName=${targetFile.titleCode}")
+            }
+            folderPath = "${forReviewFolder.normalize().toString()}${File.separator}UNKNOWN-TITLE-CODE${File.separator}${dateFolderName}"
+        }
+
+        // Parent supplements are moved into their parent publication folder and then processed again as a parent themselves
+        if (parentSupplements != null && parentSupplements[targetFile.titleCode]) {
+            titleCodeFolderName = parentSupplements[targetFile.titleCode]
+            String parentFolderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+
+            Path parentDestination = Path.of(parentFolderPath)
+
+            if (Files.notExists(parentDestination) && !makeDirs(parentDestination)) {
+                log.warn("copyOrMoveFileToPreProcessingDestination parent supplement unable to get directory " + " " + targetFile.file.fileName + " " + parentDestination.toString())
+                return false
+            }
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            Path parentDestinationFile = parentDestination.resolve(targetFile.file.fileName)
+            addInProcessDestinationFile(parentDestinationFile)
+
+            boolean movedToParentDestination = moveFileToDestination(parentDestinationFile, targetFile, moveFile)
+            if (!movedToParentDestination) {
+                return false;
+            }
+        }
+
+        Path destination = Path.of(folderPath)
+
+        if (Files.notExists(destination) && !makeDirs(destination)) {
+            log.warn("copyOrMoveFileToPreProcessingDestination unable to get directory " + " " + targetFile.file.fileName + " " + destination.toString())
+            return false
+        }
+
+        Path destinationFile = destination.resolve(targetFile.file.fileName)
+        addInProcessDestinationFile(destinationFile)
+
+        boolean moveToDestination = moveFileToDestination(destinationFile, targetFile, moveFile)
         return moveToDestination
     }
 
