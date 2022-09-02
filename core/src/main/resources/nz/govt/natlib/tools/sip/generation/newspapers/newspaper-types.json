@@ -9,8 +9,6 @@
       "Signal": "OtagoDailyTimes",
       "UBet": "OtagoDailyTimes"
     },
-    "IGNORE": null,
-    "REVISIONS": null,
     "CASE_SENSITIVE": true
   },
   "areMedia": {
@@ -35,9 +33,6 @@
     "DATE_TIME_PATTERN": "yyyyMMdd",
     "PATH_TO_SPREADSHEET": "default-stuff-import-parameters.json",
     "SUPPLEMENTS": {
-      "FPD": "DOM",
-      "FPP": "PRS",
-      "FPW": "WAT",
       "FPS": "SUS",
       "HON": "NOO",
       "SOP": "SOT",
@@ -52,7 +47,25 @@
       "LID": "DOM",
       "LIP": "PRS",
       "LIW": "WAT"
-    }
+    },
+    "APPENDABLE_SUPPLEMENTS": {
+      "FPD": {
+        "PARENT": "DOM",
+        "INITIALS": "FP",
+        "MASTER": true
+      },
+      "FPP": {
+        "PARENT": "PRS",
+        "INITIALS": "FP",
+        "MASTER": false
+      },
+      "FPW": {
+        "PARENT": "WAT",
+        "INITIALS": "FP",
+        "MASTER": false
+      }
+    },
+    "CASE_SENSITIVE": true
   },
   "WMMA": {
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3,4})(?<issue>)(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<revision>)(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}",
@@ -60,9 +73,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "ddMMMyy",
     "PATH_TO_SPREADSHEET": "default-WMMA-import-parameters.json",
-    "SUPPLEMENTS": null,
-    "IGNORE": null,
-    "REVISIONS": null,
     "CASE_SENSITIVE": false
   },
   "wptNews": {
@@ -71,9 +81,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\d{6}\\w{6,7}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "ddMMyy",
     "PATH_TO_SPREADSHEET": "default-wptnews-import-parameters.json",
-    "SUPPLEMENTS": null,
-    "IGNORE": null,
-    "REVISIONS": null,
     "CASE_SENSITIVE": true
   }
 }

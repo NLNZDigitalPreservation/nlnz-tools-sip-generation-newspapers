@@ -12,6 +12,7 @@ import nz.govt.natlib.tools.sip.utils.PathUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -35,13 +36,18 @@ class PreProcessProcessor {
         this.processorConfiguration = processorConfiguration
     }
 
-    void makeDirs(Path directory) {
+    boolean makeDirs(Path directory) {
+        boolean result = false
         folderCreationLock.lock()
         try {
             Files.createDirectories(directory)
+            result = true
+        } catch (Exception e) {
+            log.error("makeDirs unable to create directory " + directory.toString())
         } finally {
             folderCreationLock.unlock()
         }
+        return result
     }
 
     void waitForNoInProcessDestinationFile(Path file) {
@@ -81,6 +87,42 @@ class PreProcessProcessor {
             }
         } finally {
             inProcessDestinationFilesLock.unlock()
+        }
+    }
+
+    // Copy missing appendable supplements for other publications
+    void copyAppendedTitleFile(List<String> appendedTitles, List<String> folders, String initials, NewspaperFile targetFile, Path folderPath) {
+        String targetTitle = targetFile.titleCode
+        String parentDirectory = folderPath.getParent().toString()
+
+        for (String title : appendedTitles) {
+            // Check if the file has already been processed for other publications
+            for (String folder : folders) {
+                if (Files.exists(Paths.get(parentDirectory + folder +
+                        targetFile.getFilename().replace(targetTitle, initials + folder[1])))) {
+                    log.info("copyOrMoveFileToPreProcessingDestination ${targetFile.getFilename()} " +
+                            "already copied and processed in ${parentDirectory + folder}")
+                    continue
+                }
+                // Check if an FP file for other publications already exists in the source directory
+                Path copyPath = Paths.get(targetFile.getFile().getParent().toString() + File.separator +
+                        targetFile.getFilename().replace(targetTitle, title))
+                if (Files.exists(copyPath)) {
+                    log.info("copyOrMoveFileToPreProcessingDestination Forever project file ${copyPath.toString()} exists")
+                    continue
+                }
+                // Copy the file for other publications to destination folder
+                Path destinationPath = Paths.get(parentDirectory + folder +
+                        targetFile.getFilename().replace(targetTitle, initials + folder[1]))
+                if (Files.notExists(destinationPath.getParent()) && !makeDirs(destinationPath.getParent())) {
+                    log.error("copyOrMoveFileToPreProcessingDestination could not get directory " + destinationPath.getParent().toString())
+                }
+                if (Files.notExists(destinationPath)) {
+                    log.info("copyOrMoveFileToPreProcessingDestination Copying Forever Project file from ${targetFile.getFilename()} to " +
+                            "${destinationPath.toString()} for use in ${folder.substring(1, folder.length() - 1)}")
+                    Files.copy(targetFile.file, destinationPath)
+                }
+            }
         }
     }
 
@@ -148,6 +190,7 @@ class PreProcessProcessor {
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
         Map supplements = newspaperType.SUPPLEMENTS
+        Object appendableSupplements = newspaperType.APPENDABLE_SUPPLEMENTS
         Map parentSupplements = newspaperType.PARENT_SUPPLEMENTS
 
         if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
@@ -174,6 +217,31 @@ class PreProcessProcessor {
             }
 
             folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else if (appendableSupplements != null && appendableSupplements[targetFile.titleCode]) {
+            List<String> appendedTitleCodes = []
+            List<String> pubDirs = []
+            // Get the parent publication name of the supplement
+            titleCodeFolderName = appendableSupplements[targetFile.titleCode]["PARENT"]
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            if (appendableSupplements[targetFile.titleCode]["MASTER"]) {
+                for (supplement in appendableSupplements) {
+                    if (!supplement.value["MASTER"]) {
+                        appendedTitleCodes.add(supplement.key as String)
+                        pubDirs.add("${File.separator}${supplement.value["PARENT"]}${File.separator}")
+                    }
+                }
+            }
+
+            String initials = appendableSupplements[targetFile.titleCode]["INITIALS"]
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+            copyAppendedTitleFile(appendedTitleCodes, pubDirs, initials, targetFile, Paths.get(folderPath))
         } else {
             // There is no entry in the spreadsheet for this titleCode
             // Goes to 'UNKNOWN-TITLE-CODE/<date>/<file>'
@@ -349,6 +417,7 @@ class PreProcessProcessor {
         processorConfiguration.timekeeper.logElapsed(false, filesProcessedCounter.total, true)
 
         log.info("END processing for parameters:")
+        log.info("    newspaperType=${processorConfiguration.newspaperType}")
         log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")

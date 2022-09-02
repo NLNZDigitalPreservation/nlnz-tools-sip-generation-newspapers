@@ -90,4 +90,23 @@ class NewspaperSpreadsheetTest {
         assertTrue("isMagazine is true for Woman's Day",
                 NewspaperSpreadsheet.extractBooleanValue(mapsForAreMedia, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
     }
+
+    @Test
+    void loadsTheStuffSpreadsheetCorrectly() {
+        NewspaperType newspaperType = new NewspaperType("stuff")
+        NewspaperSpreadsheet stuffSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
+
+        assertTrue("Spreadsheet is valid", stuffSpreadsheet.spreadsheet.isValid(false, false))
+        List<Map<String, String>> mapsForStuffList =
+                stuffSpreadsheet.spreadsheet.mapsForColumn(NewspaperSpreadsheet.MMSID_COLUMN_NAME,
+                        "9917982733502836")
+
+        assertThat("Ag Trader has 1 entry", mapsForStuffList.size(), is(1))
+        Map<String, String> mapsForStuff = mapsForStuffList.first()
+        assertThat("'title_parent' is 'Ag Trader'", mapsForStuff.get("title_parent"), is("Ag Trader"))
+        assertThat("'MMSID' is 9917982733502836", mapsForStuff.get("MMSID"), is("9917982733502836"))
+        assertThat("'title_code' is 'AGT'", mapsForStuff.get("title_code"), is("AGT"))
+        assertTrue("isMagazine is true for Ag Trader",
+                NewspaperSpreadsheet.extractBooleanValue(mapsForStuff, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
+    }
 }
