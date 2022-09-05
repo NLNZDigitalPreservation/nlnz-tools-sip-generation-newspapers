@@ -3,7 +3,6 @@ package nz.govt.natlib.tools.sip.generation.newspapers.scenarios
 import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.IEEntityType
 import nz.govt.natlib.tools.sip.extraction.SipXmlExtractor
-import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.NewspaperFilesProcessor
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
@@ -11,14 +10,12 @@ import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper.TestMethodState
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
-import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -102,7 +99,7 @@ class AllSectionCodesRequiredTest {
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TST",
                 [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
-                [ProcessingRule.AllSectionsInSipRequired ], [ ])
+                [ProcessingRule.AllSectionsInSipRequired ], [])
 
         assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))

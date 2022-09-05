@@ -359,7 +359,7 @@ class NewspaperFile {
             else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(filtered, processingParameters)
         } else {
             // Sort list in ascending order if it doesn't contain a section code
-            if (allPossibleFiles[0].getSectionCode() || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
+            if (allPossibleFiles[0].getSectionCode() == null || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
             else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
         }
 
