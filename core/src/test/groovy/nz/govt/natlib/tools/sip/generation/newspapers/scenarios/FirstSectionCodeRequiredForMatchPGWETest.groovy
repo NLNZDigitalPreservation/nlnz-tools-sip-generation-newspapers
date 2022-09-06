@@ -3,7 +3,6 @@ package nz.govt.natlib.tools.sip.generation.newspapers.scenarios
 import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.IEEntityType
 import nz.govt.natlib.tools.sip.extraction.SipXmlExtractor
-import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
@@ -16,7 +15,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

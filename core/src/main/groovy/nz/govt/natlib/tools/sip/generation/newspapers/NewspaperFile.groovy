@@ -151,7 +151,7 @@ class NewspaperFile {
                                                         NewspaperType newspaperType) {
         List<NewspaperFile> sorted = null
         // Sort list in ascending order if it doesn't contain a section code
-        if (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) {
+        if (files[0] && (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty())) {
             if (newspaperType.CASE_SENSITIVE) {
                 sorted = files.sort()
             } else {
