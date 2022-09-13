@@ -297,6 +297,28 @@ A newspaper type the following structure::
             "Signal": "OtagoDailyTimes",
             "UBet": "OtagoDailyTimes"
         },
+        "PARENT_SUPPLEMENTS": {
+          "LID": "DOM",
+          "LIP": "PRS",
+          "LIW": "WAT"
+        },
+        "SUBSTITUTABLE_SUPPLEMENTS": {
+          "FPD": {
+            "PARENT": "DOM",
+            "INITIALS": "FP",
+            "MASTER": true
+          },
+          "FPP": {
+            "PARENT": "PRS",
+            "INITIALS": "FP",
+            "MASTER": false
+          },
+          "FPW": {
+            "PARENT": "WAT",
+            "INITIALS": "FP",
+            "MASTER": false
+          }
+        },
         "IGNORE": ["POSTER", "POS"],
         "REVISIONS": "R",
         "CASE_SENSITIVE": false,
@@ -321,8 +343,32 @@ of that newspaper type.
 
 ``SUPPLEMENTS`` (optional) is used when a newspaper has supplements whose title codes do not match the parent title.
 In the example above Signal and UBet need to be processed with the OtagoDailyTimes. They differ from other supplements
-which have the same title code as their parent and do not need to be included here.
+which have the same title code as their parent and which do not need to be included here.
+The grouping together of these files happens in the pre-processing stage.
 This field only needs to be present if the newspaper type has such supplements.
+
+``PARENT_SUPPLEMENTS`` (optional) is very similar to the SUPPLEMENTS above, but as well as being added to the parent
+title, these supplements are then processed again into their own parent folder. These supplements have their own entry in
+the title spreadsheet referred to in the PATH_TO_SPREADSHEET entry.
+In the example above LID needs to be processed with the DOM files, but it will also be processed again into its own LID
+file.
+This processing happens during the pre-processing stage.
+This field only needs to be present if the newspaper type has such supplements.
+This field is currently only used for the Stuff Life supplements.
+
+``SUBSTITUTABLE_SUPPLEMENTS`` (optional) is like SUPPLEMENTS, however these are supplements that are the same across
+multiple titles. Occasionally only one of these is included in the FTP folder and this existing title needs to be
+substituted for the missing ones. In the example above there are three supplements which are grouped together by the
+INITIALS property "FP". One of these "FPD" has the MASTER property set to true, while the others are false. Therefore,
+when this title is present but the others are missing, this MASTER copy will be substituted for the missing "FPD" and
+"FPW" files, and placed in their respective PARENT folders.
+This field only needs to be present if the newspaper type has such supplements. If present then each entry needs a
+``PARENT`` property, which is the parent title it belongs to; an ``INITIALS`` property, which is the initials it begins
+with and which are used to group together the supplements which can be substituted for each other; a ``MASTER``
+property, which identifies the title which can be swapped for the others. In this case FPD is always present while FPP
+and FPW are the ones which are usually missing, so FPD is used as the MASTER.
+This processing happens during the pre-processing stage.
+This field is currently only used for the Stuff Forever Project supplements.
 
 ``IGNORE`` (optional) is a list of terms that, if present in the qualifier section of a filename, indicate that file should be
 ignored and not included in the sip. Files with theses terms in the filenames will be placed in the for-review/IGNORED
@@ -355,7 +401,10 @@ The following fields are REQUIRED: ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_G
 ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN``, ``PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN``,
 ``DATE_TIME_PATTERN``, ``PATH_TO_SPREADSHEET``, ``CASE_SENSITIVE``
 
-While these fields are OPTIONAL: ``SUPPLEMENTS``, ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
+While these fields are OPTIONAL: ``SUPPLEMENTS``, ``PARENT_SUPPLEMENTS``, ``SUBSTITUTABLE_SUPPLEMENTS``,
+``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
+
+If ``SUBSTITUTABLE_SUPPLEMENTS`` is used, then each entry REQUIRES a ``PARENT``, ``INITIALS`` and ``MASTER`` property
 
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
 For help with regular expressions (regex) see https://regex101.com/ for example.

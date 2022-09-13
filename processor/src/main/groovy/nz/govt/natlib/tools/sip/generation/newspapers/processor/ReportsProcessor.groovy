@@ -73,7 +73,7 @@ class ReportsProcessor {
                         recognizedTitleCodes.add(parentTitleCode)
                         log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
                     }
-                } else if (newspaperType.APPENDABLE_SUPPLEMENTS != null && newspaperType.APPENDABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
+                } else if (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
                     String parentTitleCode = newspaperType.SUPPLEMENTS[newspaperFile.titleCode]["PARENT"]
 
                     if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {

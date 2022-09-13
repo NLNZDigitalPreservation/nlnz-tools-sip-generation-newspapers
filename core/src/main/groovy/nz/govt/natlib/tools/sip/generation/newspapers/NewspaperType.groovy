@@ -10,7 +10,7 @@ class NewspaperType {
     String PATH_TO_SPREADSHEET
     Map SUPPLEMENTS
     Map PARENT_SUPPLEMENTS
-    Map APPENDABLE_SUPPLEMENTS
+    Map SUBSTITUTABLE_SUPPLEMENTS
     ArrayList IGNORE
     String REVISIONS
     boolean CASE_SENSITIVE
@@ -38,7 +38,7 @@ class NewspaperType {
         PATH_TO_SPREADSHEET = newspaperType["PATH_TO_SPREADSHEET"]
         SUPPLEMENTS = newspaperType["SUPPLEMENTS"] != null ? newspaperType["SUPPLEMENTS"] as Map : null
         PARENT_SUPPLEMENTS = newspaperType["PARENT_SUPPLEMENTS"] != null ? newspaperType["PARENT_SUPPLEMENTS"] as Map : null
-        APPENDABLE_SUPPLEMENTS = newspaperType["APPENDABLE_SUPPLEMENTS"] != null ? newspaperType["APPENDABLE_SUPPLEMENTS"] as Map : null
+        SUBSTITUTABLE_SUPPLEMENTS = newspaperType["SUBSTITUTABLE_SUPPLEMENTS"] != null ? newspaperType["SUBSTITUTABLE_SUPPLEMENTS"] as Map : null
         IGNORE = newspaperType["IGNORE"] != null ? newspaperType["IGNORE"] as ArrayList : null
         REVISIONS = newspaperType["REVISIONS"]
         CASE_SENSITIVE = newspaperType["CASE_SENSITIVE"]

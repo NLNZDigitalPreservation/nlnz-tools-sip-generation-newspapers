@@ -190,7 +190,7 @@ class PreProcessProcessor {
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
         Map supplements = newspaperType.SUPPLEMENTS
-        Object appendableSupplements = newspaperType.APPENDABLE_SUPPLEMENTS
+        Object appendableSupplements = newspaperType.SUBSTITUTABLE_SUPPLEMENTS
         Map parentSupplements = newspaperType.PARENT_SUPPLEMENTS
 
         if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {

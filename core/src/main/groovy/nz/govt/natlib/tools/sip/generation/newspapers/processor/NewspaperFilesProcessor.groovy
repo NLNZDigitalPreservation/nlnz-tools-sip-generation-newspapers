@@ -123,7 +123,7 @@ class NewspaperFilesProcessor {
             // If so, process the files as a single collection with FP/Property/Life files at the end
             boolean toAddAtEnd = false
             for (NewspaperFile file : sortedFilesForProcessing) {
-                if (((newspaperType.APPENDABLE_SUPPLEMENTS != null && newspaperType.APPENDABLE_SUPPLEMENTS[file.titleCode]) ||
+                if (((newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[file.titleCode]) ||
                         (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[file.titleCode]) ||
                         (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[file.titleCode])) &&
                         (processingParameters.titleCode != file.titleCode)) {
@@ -139,7 +139,7 @@ class NewspaperFilesProcessor {
                 List<NewspaperFile> lifeFiles = []
                 List<NewspaperFile> sortedFiles = []
                 for (NewspaperFile newspaperFile : sortedFilesForProcessing) {
-                    if (newspaperType.APPENDABLE_SUPPLEMENTS != null && newspaperType.APPENDABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
+                    if (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
                         foreverProjectFiles.add(newspaperFile)
                     } else if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
                         lifeFiles.add(newspaperFile)

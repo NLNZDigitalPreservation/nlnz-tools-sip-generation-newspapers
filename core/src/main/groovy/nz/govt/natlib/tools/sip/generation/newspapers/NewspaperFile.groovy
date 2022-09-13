@@ -173,7 +173,7 @@ class NewspaperFile {
                         // 397, 398, 400, 401, ... -> this would be considered okay, even though there is a page missing.
                     }  else if ((newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[testFile.titleCode]) ||
                             (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[testFile.titleCode]) ||
-                        (newspaperType.APPENDABLE_SUPPLEMENTS != null && newspaperType.APPENDABLE_SUPPLEMENTS[testFile.titleCode])
+                        (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[testFile.titleCode])
                     ) {
                         // This not a skip in sequence, these files have a different a title code to their
                         // parent_publication
@@ -226,8 +226,8 @@ class NewspaperFile {
         }
         possibleFiles.each { NewspaperFile newspaperFile ->
             if ((newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) ||
-                    (newspaperType.APPENDABLE_SUPPLEMENTS != null &&
-                            newspaperType.APPENDABLE_SUPPLEMENTS[newspaperFile.titleCode]) ||
+                    (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null &&
+                            newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) ||
                 (newspaperType.PARENT_SUPPLEMENTS != null &&
                             newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode] &&
                             newspaperFile.titleCode != titleCode)

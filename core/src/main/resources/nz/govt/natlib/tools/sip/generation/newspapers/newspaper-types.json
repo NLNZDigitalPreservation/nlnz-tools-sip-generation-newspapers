@@ -48,7 +48,7 @@
       "LIP": "PRS",
       "LIW": "WAT"
     },
-    "APPENDABLE_SUPPLEMENTS": {
+    "SUBSTITUTABLE_SUPPLEMENTS": {
       "FPD": {
         "PARENT": "DOM",
         "INITIALS": "FP",
