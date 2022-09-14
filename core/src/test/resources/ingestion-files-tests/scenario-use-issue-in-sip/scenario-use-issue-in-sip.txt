@@ -1,0 +1,2 @@
+Titles with the 'use-issue-in-sip' processing-option, and which have an issue number in their filename, will
+use the month/year from the issue number and not the date in the SIP.
