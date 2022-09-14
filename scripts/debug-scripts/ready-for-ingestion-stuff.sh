@@ -6,7 +6,7 @@ export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
 export newspaperType="stuff"
 
-export startingDate="2022-08-01"
+export startingDate="2022-08-31"
 export endingDate="2022-08-31"
 
 export forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,supplement_grouping,create_sip_for_folder"
@@ -19,7 +19,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.0.1-SNAPSHOT.jar \
+    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.0-SNAPSHOT.jar \
     --readyForIngestion \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \

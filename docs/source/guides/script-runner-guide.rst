@@ -354,7 +354,8 @@ In the example above LID needs to be processed with the DOM files, but it will a
 file.
 This processing happens during the pre-processing stage.
 This field only needs to be present if the newspaper type has such supplements.
-This field is currently only used for the Stuff Life supplements.
+This field was added for the Stuff Life supplements which have reverted to using the DOM titlecode, but it remains in
+place in case it changes back.
 
 ``SUBSTITUTABLE_SUPPLEMENTS`` (optional) is like SUPPLEMENTS, however these are supplements that are the same across
 multiple titles. Occasionally only one of these is included in the FTP folder and this existing title needs to be
