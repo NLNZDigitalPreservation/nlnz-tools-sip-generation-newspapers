@@ -48,9 +48,10 @@ shadowJar {
     baseName = "${rootProject.name}-fat-all"
     classifier = null
     version = project.ext.versionNumber
-    manifest {
-        attributes 'Main-Class': 'nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorRunnerWrapper'
-    }
+    manifest.attributes (
+         'Main-Class': 'nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorRunnerWrapper',
+            'Multi-Release': 'true'
+    )
 }
 
 test {
