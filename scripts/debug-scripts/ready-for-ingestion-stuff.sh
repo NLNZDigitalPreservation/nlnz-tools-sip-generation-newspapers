@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/stuff-processing/pre-processing_August_2022"
+export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/stuff-processing/pre-processing_Sep_2022"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/stuff-processing/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
 export newspaperType="stuff"
 
-export startingDate="2022-08-31"
-export endingDate="2022-08-31"
+export startingDate="2022-09-01"
+export endingDate="2022-09-30"
 
 export forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,supplement_grouping,create_sip_for_folder"
 #export forIngestionProcessingOptions="use_command_line_pdf_to_thumbnail_generation"

@@ -2,12 +2,12 @@
 
 export sourceFolder="$HOME/workspace/testdata/stuff/"
 export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/stuff-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_August_2022"
-export forReviewFolder="${targetBaseFolder}/for-review_August_2022"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Sep_2022"
+export forReviewFolder="${targetBaseFolder}/for-review_Sep_2022"
 export newspaperType="stuff"
 
-export startingDate="2022-08-01"
-export endingDate="2022-08-31"
+export startingDate="2022-09-01"
+export endingDate="2022-09-30"
 
 #export generalProcessingOptions="search_without_directory_stream"
 
