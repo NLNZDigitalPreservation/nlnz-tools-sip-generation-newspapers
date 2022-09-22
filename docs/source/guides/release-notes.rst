@@ -16,10 +16,18 @@ Contents of this document
 
 Following this introduction, the Release Notes includes the following sections:
 
--   **1.0.1-SNAPSHOT** - Current 1.0.1 development.
+-   **1.1.1**
+
+-   **1.0.1-SNAPSHOT**
 
 -   **1.0.0-SNAPSHOT**
 
+1.1.1
+==============
+
+    - Adds the NewspaperType 'stuff'. 'Stuff' was formerly known as Fairfax. This means the
+    nlnz-tools-sip-generation-fairfax code has been retired, and all processing is now done by this codebase.
+    The Fairfax code is still available for reference on github.
 
 1.0.1-SNAPSHOT
 ==============
@@ -35,7 +43,7 @@ Following this introduction, the Release Notes includes the following sections:
 
 Created from the code for NLNZ Tools SIP Generation Fairfax. Added the concept of a NewspaperType.
 
-NewspaperTypes replaces the hardcoded filename patterns etc for Fairfax and can be configured within
+NewspaperTypes replace the hardcoded filename patterns etc for Fairfax and can be configured within
 `resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json`
 
 Each NewspaperType requires a corresponding NewspaperSpreadsheet which lists each publication for that type
