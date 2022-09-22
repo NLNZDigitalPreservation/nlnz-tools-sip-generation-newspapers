@@ -26,6 +26,29 @@ class SupplementGroupingProcessor {
                     "processingParameters=${processingParameters}")
         }
 
+        // Return files if there are no sequence letters to process
+        if (processingParameters.sequenceLetters.size() == 0) {
+            return newspaperFiles
+        }
+
+        // Check if there are any files with sequence letter
+        // If so, do not skip and only process sequence letter files
+        List<NewspaperFile> sequenceLetterFiles = [ ]
+        newspaperFiles.each { NewspaperFile newspaperFile ->
+            if (processingParameters.sequenceLetters.contains(newspaperFile.sequenceLetter)) {
+                sequenceLetterFiles.add(newspaperFile)
+            }
+        }
+
+        if (sequenceLetterFiles.size() > 0) {
+            newspaperFiles = sequenceLetterFiles
+            processingParameters.skip = false
+        } else {
+            processingParameters.skip = true
+            log.info("no sequence letter ${processingParameters.sequenceLetters} files, " +
+                    "skipping processing for processingParameters=${processingParameters}")
+        }
+
         return newspaperFiles
     }
 }

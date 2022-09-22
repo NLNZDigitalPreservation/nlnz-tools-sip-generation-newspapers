@@ -1,0 +1,2 @@
+Titles with a date adjustment as defined in the test-newspaper-types.json config file should have their date in the
+resulting SIP adjusted by the given number of days.

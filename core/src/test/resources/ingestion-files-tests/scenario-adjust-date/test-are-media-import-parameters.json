@@ -1,0 +1,43 @@
+[
+  {
+    "test-mms-id-one": {
+      "MMSID": "test-mms-id-one",
+      "title_parent": "New Zealand woman's weekly",
+      "processing_type": "parent_grouping",
+      "processing_rules": "",
+      "processing_options": "numeric_before_alpha",
+      "publication_key": "title_code",
+      "title_code": "ZW",
+      "edition_discriminators": "",
+      "section_codes": "",
+      "sequence_letters": "",
+      "Access": "200",
+      "Magazine": "1",
+      "ingest_status": "STA",
+      "Frequency": "",
+      "entity_type": "PER",
+      "title_mets": "New Zealand woman's weekly",
+      "ISSN online": "",
+      "Bib ID": "",
+      "Access condition": "",
+      "Date catalogued": "",
+      "Collector_folder": "TBC",
+      "Cataloguer": "",
+      "Notes": "",
+      "first_issue_starting_page": "",
+      "last_issue_starting_page": "",
+      "has_volume_md": "0",
+      "has_issue_md": "0",
+      "has_number_md": "0",
+      "previous_volume": "",
+      "previous_volume_date": "",
+      "previous_volume_frequency": "",
+      "previous_issue": "",
+      "previous_issue_date": "",
+      "previous_issue_frequency": "",
+      "previous_number": "",
+      "previous_number_date": "",
+      "previous_number_frequency": ""
+    }
+  }
+]

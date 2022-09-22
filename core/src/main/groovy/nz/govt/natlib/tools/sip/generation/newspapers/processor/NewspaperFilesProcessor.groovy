@@ -119,6 +119,48 @@ class NewspaperFilesProcessor {
                     break
             }
 
+            // Determine if fairfaxFiles contains any files that starts with FP or is a Property or Life title code
+            // If so, process the files as a single collection with FP/Property/Life files at the end
+            boolean toAddAtEnd = false
+            for (NewspaperFile file : sortedFilesForProcessing) {
+                if (((newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[file.titleCode]) ||
+                        (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[file.titleCode]) ||
+                        (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[file.titleCode])) &&
+                        (processingParameters.titleCode != file.titleCode)) {
+                    toAddAtEnd = true
+                    break
+                }
+            }
+            // Property, Forever Project and Life are to be added at the end of the publication
+            // Life goes before Homes which goes before Forever Project
+            if (toAddAtEnd) {
+                List<NewspaperFile> foreverProjectFiles = []
+                List<NewspaperFile> propertyFiles = []
+                List<NewspaperFile> lifeFiles = []
+                List<NewspaperFile> sortedFiles = []
+                for (NewspaperFile newspaperFile : sortedFilesForProcessing) {
+                    if (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
+                        foreverProjectFiles.add(newspaperFile)
+                    } else if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
+                        lifeFiles.add(newspaperFile)
+                    } else if (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) {
+                        propertyFiles.add(newspaperFile)
+                    } else {
+                        sortedFiles.add(newspaperFile)
+                    }
+                }
+                for (NewspaperFile pf : lifeFiles) {
+                    sortedFiles.add(pf)
+                }
+                for (NewspaperFile pf : propertyFiles) {
+                    sortedFiles.add(pf)
+                }
+                for (NewspaperFile ff : foreverProjectFiles) {
+                    sortedFiles.add(ff)
+                }
+                sortedFilesForProcessing = sortedFiles
+            }
+
             if (processingParameters.skip) {
                 log.info("Skipping processing for processingParameters=${processingParameters}")
             } else {

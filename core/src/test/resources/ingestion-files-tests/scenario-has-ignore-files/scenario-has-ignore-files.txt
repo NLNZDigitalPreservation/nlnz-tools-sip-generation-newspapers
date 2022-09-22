@@ -1,0 +1,2 @@
+Files with an ignore section matching one of the ignore strings in the test-newspaper-types.json
+should be ignored.

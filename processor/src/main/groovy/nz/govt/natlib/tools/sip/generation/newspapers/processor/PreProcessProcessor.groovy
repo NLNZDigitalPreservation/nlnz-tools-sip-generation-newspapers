@@ -12,6 +12,7 @@ import nz.govt.natlib.tools.sip.utils.PathUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -35,13 +36,18 @@ class PreProcessProcessor {
         this.processorConfiguration = processorConfiguration
     }
 
-    void makeDirs(Path directory) {
+    boolean makeDirs(Path directory) {
+        boolean result = false
         folderCreationLock.lock()
         try {
             Files.createDirectories(directory)
+            result = true
+        } catch (Exception e) {
+            log.error("makeDirs unable to create directory " + directory.toString())
         } finally {
             folderCreationLock.unlock()
         }
+        return result
     }
 
     void waitForNoInProcessDestinationFile(Path file) {
@@ -84,54 +90,45 @@ class PreProcessProcessor {
         }
     }
 
-    boolean copyOrMoveFileToPreProcessingDestination(Path destinationFolder, Path forReviewFolder, NewspaperFile targetFile,
-                                                     String dateFolderName, boolean moveFile) {
+    // Copy missing appendable supplements for other publications
+    void copyAppendedTitleFile(List<String> appendedTitles, List<String> folders, String initials, NewspaperFile targetFile, Path folderPath) {
+        String targetTitle = targetFile.titleCode
+        String parentDirectory = folderPath.getParent().toString()
 
-        String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
-        String folderPath
-        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
-        Map supplements = newspaperType.SUPPLEMENTS
-
-        if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
-            // There's an entry in the spreadsheet for this titleCode
-            // Goes to '<date>/<titleCode>/<file>'
-            if (!recognizedTitleCodes.contains(targetFile.titleCode)) {
-                recognizedTitleCodes.add(targetFile.titleCode)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${targetFile.titleCode}")
+        for (String title : appendedTitles) {
+            // Check if the file has already been processed for other publications
+            for (String folder : folders) {
+                if (Files.exists(Paths.get(parentDirectory + folder +
+                        targetFile.getFilename().replace(targetTitle, initials + folder[1])))) {
+                    log.info("copyOrMoveFileToPreProcessingDestination ${targetFile.getFilename()} " +
+                            "already copied and processed in ${parentDirectory + folder}")
+                    continue
+                }
+                // Check if an FP file for other publications already exists in the source directory
+                Path copyPath = Paths.get(targetFile.getFile().getParent().toString() + File.separator +
+                        targetFile.getFilename().replace(targetTitle, title))
+                if (Files.exists(copyPath)) {
+                    log.info("copyOrMoveFileToPreProcessingDestination Forever project file ${copyPath.toString()} exists")
+                    continue
+                }
+                // Copy the file for other publications to destination folder
+                Path destinationPath = Paths.get(parentDirectory + folder +
+                        targetFile.getFilename().replace(targetTitle, initials + folder[1]))
+                if (Files.notExists(destinationPath.getParent()) && !makeDirs(destinationPath.getParent())) {
+                    log.error("copyOrMoveFileToPreProcessingDestination could not get directory " + destinationPath.getParent().toString())
+                }
+                if (Files.notExists(destinationPath)) {
+                    log.info("copyOrMoveFileToPreProcessingDestination Copying Forever Project file from ${targetFile.getFilename()} to " +
+                            "${destinationPath.toString()} for use in ${folder.substring(1, folder.length() - 1)}")
+                    Files.copy(targetFile.file, destinationPath)
+                }
             }
-            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
-        } else if (supplements != null && supplements[targetFile.titleCode]) {
-            GeneralUtils.printAndFlush("\n")
-            log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
-
-            // Get the parent publication name of the supplement
-            titleCodeFolderName = supplements.get(targetFile.titleCode)
-
-            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
-            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
-                recognizedTitleCodes.add(titleCodeFolderName)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
-            }
-
-            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
-        } else {
-            // There is no entry in the spreadsheet for this titleCode
-            // Goes to 'UNKNOWN-TITLE-CODE/<date>/<file>'
-            if (!unrecognizedTitleCodes.contains(targetFile.titleCode)) {
-                unrecognizedTitleCodes.add(targetFile.titleCode)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding unrecognizedName=${targetFile.titleCode}")
-            }
-            folderPath = "${forReviewFolder.normalize().toString()}${File.separator}UNKNOWN-TITLE-CODE${File.separator}${dateFolderName}"
         }
-        Path destination = Path.of(folderPath)
-        makeDirs(destination)
+    }
 
-        Path destinationFile = destination.resolve(targetFile.file.fileName)
-        addInProcessDestinationFile(destinationFile)
+    boolean moveFileToDestination(Path destinationFile, NewspaperFile targetFile, boolean moveFile) {
         boolean moveToDestination = true
+
         if (Files.exists(destinationFile)) {
             if (Files.exists(destinationFile) && Files.exists(targetFile.file) &&
                     Files.isSameFile(destinationFile, targetFile.file)) {
@@ -183,6 +180,118 @@ class PreProcessProcessor {
         }
         removeInProcessDestinationFile(destinationFile)
 
+        return moveToDestination
+    }
+
+    boolean copyOrMoveFileToPreProcessingDestination(Path destinationFolder, Path forReviewFolder, NewspaperFile targetFile,
+                                                     String dateFolderName, boolean moveFile) {
+
+        String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
+        String folderPath
+        Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
+        Map supplements = newspaperType.SUPPLEMENTS
+        Object appendableSupplements = newspaperType.SUBSTITUTABLE_SUPPLEMENTS
+        Map parentSupplements = newspaperType.PARENT_SUPPLEMENTS
+
+        if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
+            // There's an entry in the spreadsheet for this titleCode
+            // Goes to '<date>/<titleCode>/<file>'
+            if (!recognizedTitleCodes.contains(targetFile.titleCode)) {
+                recognizedTitleCodes.add(targetFile.titleCode)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${targetFile.titleCode}")
+            }
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else if (supplements != null && supplements[targetFile.titleCode]) {
+            GeneralUtils.printAndFlush("\n")
+            log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
+
+            // Get the parent publication name of the supplement
+            titleCodeFolderName = supplements.get(targetFile.titleCode)
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else if (appendableSupplements != null && appendableSupplements[targetFile.titleCode]) {
+            List<String> appendedTitleCodes = []
+            List<String> pubDirs = []
+            // Get the parent publication name of the supplement
+            titleCodeFolderName = appendableSupplements[targetFile.titleCode]["PARENT"]
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            if (appendableSupplements[targetFile.titleCode]["MASTER"]) {
+                for (supplement in appendableSupplements) {
+                    if (!supplement.value["MASTER"]) {
+                        appendedTitleCodes.add(supplement.key as String)
+                        pubDirs.add("${File.separator}${supplement.value["PARENT"]}${File.separator}")
+                    }
+                }
+            }
+
+            String initials = appendableSupplements[targetFile.titleCode]["INITIALS"]
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+            copyAppendedTitleFile(appendedTitleCodes, pubDirs, initials, targetFile, Paths.get(folderPath))
+        } else {
+            // There is no entry in the spreadsheet for this titleCode
+            // Goes to 'UNKNOWN-TITLE-CODE/<date>/<file>'
+            if (!unrecognizedTitleCodes.contains(targetFile.titleCode)) {
+                unrecognizedTitleCodes.add(targetFile.titleCode)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding unrecognizedName=${targetFile.titleCode}")
+            }
+            folderPath = "${forReviewFolder.normalize().toString()}${File.separator}UNKNOWN-TITLE-CODE${File.separator}${dateFolderName}"
+        }
+
+        // Parent supplements are moved into their parent publication folder and then processed again as a parent themselves
+        if (parentSupplements != null && parentSupplements[targetFile.titleCode]) {
+            titleCodeFolderName = parentSupplements[targetFile.titleCode]
+            String parentFolderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+
+            Path parentDestination = Path.of(parentFolderPath)
+
+            if (Files.notExists(parentDestination) && !makeDirs(parentDestination)) {
+                log.warn("copyOrMoveFileToPreProcessingDestination parent supplement unable to get directory " + " " + targetFile.file.fileName + " " + parentDestination.toString())
+                return false
+            }
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            Path parentDestinationFile = parentDestination.resolve(targetFile.file.fileName)
+            addInProcessDestinationFile(parentDestinationFile)
+
+            boolean movedToParentDestination = moveFileToDestination(parentDestinationFile, targetFile, moveFile)
+            if (!movedToParentDestination) {
+                return false;
+            }
+        }
+
+        Path destination = Path.of(folderPath)
+
+        if (Files.notExists(destination) && !makeDirs(destination)) {
+            log.warn("copyOrMoveFileToPreProcessingDestination unable to get directory " + " " + targetFile.file.fileName + " " + destination.toString())
+            return false
+        }
+
+        Path destinationFile = destination.resolve(targetFile.file.fileName)
+        addInProcessDestinationFile(destinationFile)
+
+        boolean moveToDestination = moveFileToDestination(destinationFile, targetFile, moveFile)
         return moveToDestination
     }
 
@@ -308,6 +417,7 @@ class PreProcessProcessor {
         processorConfiguration.timekeeper.logElapsed(false, filesProcessedCounter.total, true)
 
         log.info("END processing for parameters:")
+        log.info("    newspaperType=${processorConfiguration.newspaperType}")
         log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")

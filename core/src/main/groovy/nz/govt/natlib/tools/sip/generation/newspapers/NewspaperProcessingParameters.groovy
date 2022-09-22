@@ -38,6 +38,7 @@ class NewspaperProcessingParameters {
     LocalDate date
     Map<String, String> spreadsheetRow = [ : ]
     List<String> sectionCodes = [ ]
+    List<String> sequenceLetters = [ ]
     List<String> editionDiscriminators = [ ]
     boolean isMagazine = false
     String currentEdition
@@ -189,6 +190,7 @@ class NewspaperProcessingParameters {
                     options: ProcessingOption.extract(options, ",", processingType.defaultOptions),
                     sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: matchingRow,
                     sectionCodes: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SECTION_CODE_KEY),
+                    sequenceLetters: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SEQUENCE_LETTER_KEY),
                     editionDiscriminators: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY),
                     isMagazine: NewspaperSpreadsheet.extractBooleanValue(matchingRow, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
         }

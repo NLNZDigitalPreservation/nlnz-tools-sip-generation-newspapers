@@ -4,6 +4,7 @@ import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFileTitleEditionKey
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperSpreadsheet
+import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperType
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.support.TitleCodeByDateSummary
 import nz.govt.natlib.tools.sip.pdf.PdfInformationExtractor
 import nz.govt.natlib.tools.sip.utils.PathUtils
@@ -17,6 +18,7 @@ class ReportsProcessor {
     ProcessorConfiguration processorConfiguration
     Set<String> recognizedTitleCodes = []
     Set<String> unrecognizedTitleCodes = []
+    NewspaperType newspaperType
 
     ReportsProcessor(ProcessorConfiguration processorConfiguration) {
         this.processorConfiguration = processorConfiguration
@@ -24,6 +26,7 @@ class ReportsProcessor {
 
     void listFiles() {
         log.info("STARTING listFiles")
+        this.newspaperType = new NewspaperType(processorConfiguration.newspaperType)
 
         // Clear the set of recognized and unrecognized names before processing begins
         recognizedTitleCodes = []
@@ -55,6 +58,27 @@ class ReportsProcessor {
                     if (!recognizedTitleCodes.contains(newspaperFile.titleCode)) {
                         recognizedTitleCodes.add(newspaperFile.titleCode)
                         log.info("listFiles adding recognizedTitleCode=${newspaperFile.titleCode}")
+                    }
+                } else if (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) {
+                    String parentTitleCode = newspaperType.SUPPLEMENTS[newspaperFile.titleCode]
+
+                    if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {
+                        recognizedTitleCodes.add(parentTitleCode)
+                        log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
+                    }
+                } else if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
+                    String parentTitleCode = newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]
+
+                    if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {
+                        recognizedTitleCodes.add(parentTitleCode)
+                        log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
+                    }
+                } else if (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
+                    String parentTitleCode = newspaperType.SUPPLEMENTS[newspaperFile.titleCode]["PARENT"]
+
+                    if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {
+                        recognizedTitleCodes.add(parentTitleCode)
+                        log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
                     }
                 } else {
                     if (!unrecognizedTitleCodes.contains(newspaperFile.titleCode)) {

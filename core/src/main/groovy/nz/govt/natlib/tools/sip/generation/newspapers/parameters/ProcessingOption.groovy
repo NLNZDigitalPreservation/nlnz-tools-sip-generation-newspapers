@@ -7,6 +7,7 @@ import nz.govt.natlib.tools.sip.state.SipProcessingException
 enum ProcessingOption {
     AlphaBeforeNumericSequencing("alpha_before_numeric"),
     NumericBeforeAlphaSequencing("numeric_before_alpha"),
+
     FullDateInSip("full_date_in_sip"),
     IssueOnlyInSip("issue_only_in_sip"),
 
@@ -20,6 +21,7 @@ enum ProcessingOption {
         }
         OVERRIDES_MAP.put(AlphaBeforeNumericSequencing, [ NumericBeforeAlphaSequencing ])
         OVERRIDES_MAP.put(NumericBeforeAlphaSequencing, [ AlphaBeforeNumericSequencing ])
+
         OVERRIDES_MAP.put(FullDateInSip, [IssueOnlyInSip ])
         OVERRIDES_MAP.put(IssueOnlyInSip, [FullDateInSip ])
     }

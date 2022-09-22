@@ -34,10 +34,10 @@ Following this introduction, this Overview and History Guide includes the follow
 Overview
 ========
 
-NLNZ Tools SIP Generation Newspapers is an adaptation of NLNZ Tools SIP Generation Fairfax. It has been adapted to be
-configurable for different newspaper types other than just Fairfax.
-It prepares SIPs for ingestion into the Rosetta archiving system. Its purpose is to automate the generation of
-SIPs from Newspaper files.
+NLNZ Tools SIP Generation Newspapers is designed to prepare SIPs for ingestion into the Rosetta archiving system.
+It automates the process of generating SIPs from the newspaper files uploaded to the NLNZ legal deposit FTP folders.
+It is an adaptation of NLNZ Tools Sip Generation Fairfax, which dealt only with Fairfax files. This adapted code is
+configurable for multiple newspaper types.
 
 What it is *NOT*
 ----------------
@@ -54,21 +54,25 @@ Increasing amounts of New Zealand's documentary heritage is only available onlin
 convenient, but its impermanence, lack of clear ownership, and dynamic nature pose significant challenges to any
 institution that attempts to acquire and preserve it.
 
-NLNZ Tools SIP Generation Fairfax is a set of functionality for use in ingesting Fairfax-specific content. This
-*fairfax* ingestion, which is a feed from Fairfax of their digital print publications. The Fairfax code does the custom
-processing involved with processing the Fairfax files.
+The original NLNZ Tools SIP Generation Fairfax was a set of functionality for use in ingesting Fairfax-specific content.
+Fairfax was the former name of the publication company now known as Stuff. This *fairfax* ingestion, which is a feed
+from Fairfax of their digital print publications. The Fairfax code did the custom processing involved with processing
+the Fairfax files.
 
-Since the Fairfax code was written, more digital newspaper print publications have required processing.
-NLNZ Tools SIP Generation Newspapers is adapted from NLNZ Tools SIP Generation Fairfax.
-Its main difference is that it can be configured to process different newspaper file types from publishers other than
-Fairfax, and new publications can be added to it in the
+Since the original Fairfax code was written, more digital newspaper print publications have required processing, each
+with specific filename patterns and processing requirements.
+NLNZ Tools SIP Generation Newspapers is adapted from NLNZ Tools SIP Generation Fairfax. Its main difference is that it
+can be configured to process different newspaper file types from publishers other than Fairfax, and new publications
+can be added to it in the
 ``resources/nz/govt/natlib/tools/sip/generation/newspapers/newspaper-types.json`` config file.
-Digital newspaper files are fed from various publishers which need to need ingested into Rosetta.
+Digital newspaper files are fed from various publishers which need to need be ingested into Rosetta.
 This code does the custom processing involved with processing these files.
 
 The current configured newspaper types are:
 
 - Allied Press (alliedPress)
+- Are Media (areMedia)
+- Stuff (stuff) - formerly Fairfax
 - Wairarapa Times Age (WMMA)
 - Westport News (wptNews)
 
