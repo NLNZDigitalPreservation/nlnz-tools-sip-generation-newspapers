@@ -154,7 +154,7 @@ class CleanUpFTPProcessor {
                 log.info("    reviewed=${GeneralUtils.TOTAL_FORMAT.format(filesProcessedCounter.total)}")
                 log.info("    files deleted=${GeneralUtils.TOTAL_FORMAT.format(filesDeleted.total)}")
                 int notDeleted = filesProcessedCounter.total - filesDeleted.total
-                log.info("    NOT delted=${GeneralUtils.TOTAL_FORMAT.format(notDeleted)}")
+                log.info("    NOT deleted=${GeneralUtils.TOTAL_FORMAT.format(notDeleted)}")
 
             } else {
                 log.info("Process cancelled by user")
