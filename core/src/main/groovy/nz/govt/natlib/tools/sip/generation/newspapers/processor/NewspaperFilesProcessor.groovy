@@ -27,10 +27,15 @@ import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
 import nz.govt.natlib.tools.sip.state.SipProcessingState
 
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfigurationLayout;
+
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
 import org.apache.commons.io.FilenameUtils
+
+import java.time.format.DateTimeFormatter
 
 /**
  * The main processing class. Takes a given set of processing parameters and
@@ -96,6 +101,7 @@ class NewspaperFilesProcessor {
                     sortedFilesForProcessing = ParentGroupingWithEditionProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.SupplementGrouping:
+                case ProcessingType.SupplementWithDateAndIssue:
                     sortedFilesForProcessing = SupplementGroupingProcessor.selectAndSort(processingParameters, validNamedFiles, newspaperType)
                     break
                 case ProcessingType.CreateSipForFolder:
@@ -123,8 +129,7 @@ class NewspaperFilesProcessor {
             // If so, process the files as a single collection with FP/Property/Life files at the end
             boolean toAddAtEnd = false
             for (NewspaperFile file : sortedFilesForProcessing) {
-                if (((newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[file.titleCode]) ||
-                        (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[file.titleCode]) ||
+                if (((newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[file.titleCode]) ||
                         (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[file.titleCode])) &&
                         (processingParameters.titleCode != file.titleCode)) {
                     toAddAtEnd = true
@@ -139,9 +144,7 @@ class NewspaperFilesProcessor {
                 List<NewspaperFile> lifeFiles = []
                 List<NewspaperFile> sortedFiles = []
                 for (NewspaperFile newspaperFile : sortedFilesForProcessing) {
-                    if (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
-                        foreverProjectFiles.add(newspaperFile)
-                    } else if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
+                    if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
                         lifeFiles.add(newspaperFile)
                     } else if (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) {
                         propertyFiles.add(newspaperFile)
@@ -149,8 +152,8 @@ class NewspaperFilesProcessor {
                         sortedFiles.add(newspaperFile)
                     }
                 }
-                for (NewspaperFile pf : lifeFiles) {
-                    sortedFiles.add(pf)
+                for (NewspaperFile lf : lifeFiles) {
+                    sortedFiles.add(lf)
                 }
                 for (NewspaperFile pf : propertyFiles) {
                     sortedFiles.add(pf)
@@ -308,7 +311,8 @@ class NewspaperFilesProcessor {
             processingParameters.sipProcessingState.addException(sipProcessingException)
             log.warn(detailedReason)
         } else {
-            String titleKey = processingParameters.type == ProcessingType.SupplementGrouping ?
+            String titleKey = (processingParameters.type == ProcessingType.SupplementGrouping ||
+                    processingParameters.type == ProcessingType.SupplementWithDateAndIssue) ?
                     SipFactory.TITLE_METS_KEY :
                     SipFactory.TITLE_PARENT_KEY
             Sip sip = SipFactory.fromMap(processingParameters.spreadsheetRow, [ ], false, false, titleKey)
@@ -326,6 +330,52 @@ class NewspaperFilesProcessor {
 
                 if (processingParameters.includeCurrentEditionForDcCoverage) {
                     sip.dcCoverage = "${sipDate.dayOfMonth} [${processingParameters.currentEdition}]"
+                }
+
+                if (processingParameters.type == ProcessingType.SupplementWithDateAndIssue) {
+                    log.info("Finding issue number for supplement")
+                    if (processingParameters.supplementPreviousIssuesFile != null) {
+                        try {
+                            log.info("Extracting issue number from ${processingParameters.supplementPreviousIssuesFile}")
+                            PropertiesConfiguration supplementsConfig = new PropertiesConfiguration()
+                            PropertiesConfigurationLayout layout = new PropertiesConfigurationLayout()
+                            supplementsConfig.setLayout(layout)
+                            layout.load(supplementsConfig, new FileReader(processingParameters.supplementPreviousIssuesFile))
+
+                            String lastIssue = supplementsConfig.getProperty("${processingParameters.titleCode}_PREVIOUS_ISSUE")
+                            String previousDate = supplementsConfig.getProperty("${processingParameters.titleCode}_PREVIOUS_DATE")
+
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                            LocalDate lastDate = LocalDate.parse(previousDate, formatter)
+
+                            if (lastIssue != null && lastDate != null) {
+                                log.info("Updating issue number from ${processingParameters.supplementPreviousIssuesFile}")
+
+                                if (lastDate < sipDate) {
+                                    Integer currentIssue = lastIssue.toInteger() + 1
+                                    sip.issued = currentIssue.toString()
+
+                                    supplementsConfig.setProperty("${processingParameters.titleCode}_PREVIOUS_ISSUE", currentIssue.toString())
+                                    supplementsConfig.setProperty("${processingParameters.titleCode}_PREVIOUS_DATE", sipDate.toString())
+                                    StringWriter stringWriter = new StringWriter();
+                                    layout.save(supplementsConfig, stringWriter)
+                                } else {
+                                    sip.issued = lastIssue.toString()
+                                }
+
+                            } else {
+                                log.warn("${processingParameters.titleCode}_PREVIOUS_ISSUE not found")
+                            }
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace()
+                            log.warn("No file found at ${processingParameters.supplementPreviousIssuesFile}")
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        log.warn("No supplement-previous-issues file found, skipping")
+                    }
                 }
             }
 
@@ -371,7 +421,8 @@ class NewspaperFilesProcessor {
     String formatSipProcessingStateIdentifier() {
 
         String titleWithUnderscores
-        if (processingParameters.type == ProcessingType.SupplementGrouping) {
+        if (processingParameters.type == ProcessingType.SupplementGrouping ||
+                processingParameters.type == ProcessingType.SupplementWithDateAndIssue) {
             // supplement_grouping needs to add a few more things for uniqueness
             // as it's possible for multiple supplements to have the same title code
             String sectionCodesString = processingParameters.sectionCodesString.

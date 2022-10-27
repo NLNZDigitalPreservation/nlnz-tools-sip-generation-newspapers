@@ -33,7 +33,6 @@
     "DATE_TIME_PATTERN": "yyyyMMdd",
     "PATH_TO_SPREADSHEET": "default-stuff-import-parameters.json",
     "SUPPLEMENTS": {
-      "FPS": "SUS",
       "HON": "NOO",
       "SOP": "SOT",
       "HOC": "PRS",
@@ -44,26 +43,10 @@
       "HHT": "HUN"
     },
     "PARENT_SUPPLEMENTS": {
+      "FPS": "SUS",
       "LID": "DOM",
       "LIP": "PRS",
       "LIW": "WAT"
-    },
-    "SUBSTITUTABLE_SUPPLEMENTS": {
-      "FPD": {
-        "PARENT": "DOM",
-        "INITIALS": "FP",
-        "MASTER": true
-      },
-      "FPP": {
-        "PARENT": "PRS",
-        "INITIALS": "FP",
-        "MASTER": false
-      },
-      "FPW": {
-        "PARENT": "WAT",
-        "INITIALS": "FP",
-        "MASTER": false
-      }
     },
     "CASE_SENSITIVE": true
   },

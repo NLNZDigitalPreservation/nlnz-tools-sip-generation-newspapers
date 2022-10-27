@@ -15,8 +15,8 @@ import java.util.concurrent.Callable
 @Log4j2
 @Command(description = 'Runs different processors based on command-line options.', name = 'processorRunner')
 class ProcessorRunner implements ProcessorConfiguration, Callable<Void> {
-    final static LocalDate DEFAULT_STARTING_DATE = LocalDate.of(2015, 1, 1)
-    final static LocalDate DEFAULT_ENDING_DATE = LocalDate.now()
+//    final static LocalDate DEFAULT_STARTING_DATE = LocalDate.of(2015, 1, 1)
+//    final static LocalDate DEFAULT_ENDING_DATE = LocalDate.now()
 
     boolean commandExecuted = false
 
@@ -177,6 +177,11 @@ For processing exceptions, depending on processor.""")
             description = """The publication type to be processed, e.g. AlliedPress""")
     String newspaperType
 
+    @Option(names=['--supplementPreviousIssuesFile'], paramLabel = "SUPPLEMENT_PREVIOUS_ISSUES",
+            description = """The location of the file which stores the previous issue number and date of particular
+supplements for a newspaper type. Used for calculating the issue number of the latest issue when this is not included
+in the filename. e.g the Forever Project supplement.""")
+    String supplementPreviousIssuesFile = null
 
     static void main(String[] args) throws Exception {
         ProcessorRunner processorRunner = new ProcessorRunner()
@@ -213,6 +218,8 @@ For processing exceptions, depending on processor.""")
         log.info("        extractMetadata=${extractMetadata}")
         log.info("    Publication type:")
         log.info("        newspaperType=${newspaperType}")
+        log.info("    Location of supplement issues file:")
+        log.info("        supplementPreviousIssuesFile=${supplementPreviousIssuesFile}")
         log.info("    Source and target folders:")
         log.info("        sourceFolder=${sourceFolder}")
         log.info("        targetFolder=${targetFolder}")
@@ -360,7 +367,7 @@ For processing exceptions, depending on processor.""")
         }
         if (readyForIngestion) {
             if (newspaperType == null) {
-                String message = "preProcess requires newspaperType"
+                String message = "readyForIngestion requires newspaperType"
                 log.error(message)
                 throw new ProcessorException(message)
             }

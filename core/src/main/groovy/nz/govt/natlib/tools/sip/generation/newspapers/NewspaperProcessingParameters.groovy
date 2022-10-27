@@ -42,12 +42,13 @@ class NewspaperProcessingParameters {
     List<String> editionDiscriminators = [ ]
     boolean isMagazine = false
     String currentEdition
+    String supplementPreviousIssuesFile = null
     SipProcessingState sipProcessingState = new SipProcessingState()
 
     static List<NewspaperProcessingParameters> build(String titleCode, List<ProcessingType> processingTypes, Path sourceFolder,
                                                      LocalDate processingDate, NewspaperSpreadsheet spreadsheet, NewspaperType newspaperType,
-                                                     List<ProcessingRule> overrideRules = [],
-                                                     List<ProcessingOption> overrideOptions = []) {
+                                                     List<ProcessingRule> overrideRules = [], List<ProcessingOption> overrideOptions = [],
+                                                     String supplementPreviousIssuesFile = null) {
         List<NewspaperProcessingParameters> parametersList = [ ]
 
         processingTypes.sort().each { ProcessingType processingType ->
@@ -66,6 +67,15 @@ class NewspaperProcessingParameters {
                             processingDate, [ singleRow ])
                     candidate.rules = ProcessingRule.mergeOverrides(candidate.rules, overrideRules)
                     candidate.options = ProcessingOption.mergeOverrides(candidate.options, overrideOptions)
+                    parametersList.add(candidate)
+                }
+            } else if (processingType == ProcessingType.SupplementWithDateAndIssue) {
+                matchingRows.each { Map<String, String> singleRow ->
+                    NewspaperProcessingParameters candidate = buildForRows(titleCode, processingType, sourceFolder,
+                            processingDate, [ singleRow ])
+                    candidate.rules = ProcessingRule.mergeOverrides(candidate.rules, overrideRules)
+                    candidate.options = ProcessingOption.mergeOverrides(candidate.options, overrideOptions)
+                    candidate.supplementPreviousIssuesFile = supplementPreviousIssuesFile
                     parametersList.add(candidate)
                 }
             } else {
@@ -94,12 +104,14 @@ class NewspaperProcessingParameters {
                                 // If there are too many definitions then show that as an exception -- our definitions need fixing.
                                 parametersList.add(candidate)
                             } else if (processingTypes.contains(ProcessingType.SupplementGrouping) ||
-                                    processingTypes.contains(ProcessingType.CreateSipForFolder)) {
+                                    processingTypes.contains(ProcessingType.CreateSipForFolder) ||
+                                    processingTypes.contains(ProcessingType.SupplementWithDateAndIssue)) {
                                 log.debug("Ignoring processingType=${processingType}, invalid candidate=${candidate}, as other processing types may match.")
                             } else {
                                 parametersList.add(candidate)
                             }
-                        } else if (processingType == ProcessingType.SupplementGrouping &&
+                        } else if ((processingType == ProcessingType.SupplementGrouping ||
+                                processingType == ProcessingType.SupplementWithDateAndIssue) &&
                                 processingTypes.contains(ProcessingType.CreateSipForFolder)) {
                             log.debug("Ignoring processingType=${processingType}, invalid candidate=${candidate}, as other processing types may match.")
                         } else {

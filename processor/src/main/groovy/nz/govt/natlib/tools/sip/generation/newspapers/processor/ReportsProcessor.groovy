@@ -69,14 +69,7 @@ class ReportsProcessor {
                 } else if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
                     String parentTitleCode = newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]
 
-                    if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {
-                        recognizedTitleCodes.add(parentTitleCode)
-                        log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
-                    }
-                } else if (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) {
-                    String parentTitleCode = newspaperType.SUPPLEMENTS[newspaperFile.titleCode]["PARENT"]
-
-                    if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {
+                    if (!recognizedTitleCodes.contains(newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode])) {
                         recognizedTitleCodes.add(parentTitleCode)
                         log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
                     }

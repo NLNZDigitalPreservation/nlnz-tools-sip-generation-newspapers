@@ -100,6 +100,5 @@ class NewspaperTypeTest {
                 is("yyyyMMdd"))
         assert newspaperType.SUPPLEMENTS instanceof Map
         assert newspaperType.PARENT_SUPPLEMENTS instanceof Map
-        assert newspaperType.SUBSTITUTABLE_SUPPLEMENTS instanceof Map
     }
 }

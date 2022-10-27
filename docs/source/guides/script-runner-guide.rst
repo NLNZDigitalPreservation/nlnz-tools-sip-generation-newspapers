@@ -216,6 +216,10 @@ Ready-for-ingestion parameters
 |                                                        | A comma-separated list of options. These options will       |
 |                                                        | override any contradictory options.                         |
 +--------------------------------------------------------+-------------------------------------------------------------+
+| --supplementPreviousIssuesFile                         | A path to a .properties file which stores the previous issue|
+|    =SUPPLEMENT_PREVIOUS_ISSUES_FILE                    | number and date for supplements which need to calculate an  |
+|                                                        | issue number. Currently only used for FOREVER PROJECT (FPS).|
++--------------------------------------------------------+-------------------------------------------------------------+
 
 Options
 -------
@@ -302,23 +306,6 @@ A newspaper type the following structure::
           "LIP": "PRS",
           "LIW": "WAT"
         },
-        "SUBSTITUTABLE_SUPPLEMENTS": {
-          "FPD": {
-            "PARENT": "DOM",
-            "INITIALS": "FP",
-            "MASTER": true
-          },
-          "FPP": {
-            "PARENT": "PRS",
-            "INITIALS": "FP",
-            "MASTER": false
-          },
-          "FPW": {
-            "PARENT": "WAT",
-            "INITIALS": "FP",
-            "MASTER": false
-          }
-        },
         "IGNORE": ["POSTER", "POS"],
         "REVISIONS": "R",
         "CASE_SENSITIVE": false,
@@ -357,20 +344,6 @@ This field only needs to be present if the newspaper type has such supplements.
 This field was added for the Stuff Life supplements which have reverted to using the DOM titlecode, but it remains in
 place in case it changes back.
 
-``SUBSTITUTABLE_SUPPLEMENTS`` (optional) is like SUPPLEMENTS, however these are supplements that are the same across
-multiple titles. Occasionally only one of these is included in the FTP folder and this existing title needs to be
-substituted for the missing ones. In the example above there are three supplements which are grouped together by the
-INITIALS property "FP". One of these "FPD" has the MASTER property set to true, while the others are false. Therefore,
-when this title is present but the others are missing, this MASTER copy will be substituted for the missing "FPD" and
-"FPW" files, and placed in their respective PARENT folders.
-This field only needs to be present if the newspaper type has such supplements. If present then each entry needs a
-``PARENT`` property, which is the parent title it belongs to; an ``INITIALS`` property, which is the initials it begins
-with and which are used to group together the supplements which can be substituted for each other; a ``MASTER``
-property, which identifies the title which can be swapped for the others. In this case FPD is always present while FPP
-and FPW are the ones which are usually missing, so FPD is used as the MASTER.
-This processing happens during the pre-processing stage.
-This field is currently only used for the Stuff Forever Project supplements.
-
 ``IGNORE`` (optional) is a list of terms that, if present in the qualifier section of a filename, indicate that file should be
 ignored and not included in the sip. Files with theses terms in the filenames will be placed in the for-review/IGNORED
 folder. In the case of Are Media, these are poster files which are not part of the publication.
@@ -402,10 +375,7 @@ The following fields are REQUIRED: ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_G
 ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN``, ``PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN``,
 ``DATE_TIME_PATTERN``, ``PATH_TO_SPREADSHEET``, ``CASE_SENSITIVE``
 
-While these fields are OPTIONAL: ``SUPPLEMENTS``, ``PARENT_SUPPLEMENTS``, ``SUBSTITUTABLE_SUPPLEMENTS``,
-``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
-
-If ``SUBSTITUTABLE_SUPPLEMENTS`` is used, then each entry REQUIRES a ``PARENT``, ``INITIALS`` and ``MASTER`` property
+While these fields are OPTIONAL: ``SUPPLEMENTS``, ``PARENT_SUPPLEMENTS``, ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
 
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
 For help with regular expressions (regex) see https://regex101.com/ for example.
@@ -692,6 +662,16 @@ ordering is required. This would likely require an additional rule so that order
 ``supplement_grouping`` default options:
     ``numeric_before_alpha``.
 
+supplement_with_date_and_issue
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the same as supplement_grouping, but in addition it adds an issue number to the ``mets.xml``
+The default rules and options are the same, but with the addition of the option ``dc_issued_field``
+Currently only used by Forever Project (FPS).
+
+Should be used in conjunction with supplementPreviousIssuesFile processing parameter - this is the location of a
+.properties file which is used to calculate the latest issue number. See below for more information.
+
 create_sip_for_folder
 ~~~~~~~~~~~~~~~~~~~~~
 This is a catch-all for all the publications that don't have a corresponding spreadsheet row. The ``mets.xml`` will
@@ -867,6 +847,10 @@ option that can be used to override its value. In general options don't have sid
 
    Override is  ``full_date_in_sip``
 
+``dc_issued_field``
+    Adds a <dc:issued> field to the mets.xml when a separate issue number is present.
+    Override is ``no_dc_issued_field``
+
 Overrides for rules and options
 -------------------------------
 Processing rules and options can be overridden on several different levels.
@@ -882,6 +866,41 @@ For example, the ``parent_grouping`` processing type has default processing opti
 processing the title code ``DPT``, this default option is overridden by ``alpha_before_numeric`` for the DPT row
 for ``parent_grouping``. Finally, it is possible to specify a processing option ``numeric_before_alpha`` on the
 command line, which would mean that all processing sorts the ordering of PDFs as ``numeric_before_alpha``.
+
+Supplements Previous Issues File
+--------------------------------
+This is a .properties file which stores the previous issue number and date for some supplement issues, currently only
+FPS (Forever Project), which belongs to the 'stuff' newspaper type.
+The file is used to calculate the latest issue of the supplement during processing, as the issue number cannot be
+determined any other way.
+It has the format::
+
+    FPS_PREVIOUS_DATE=2022-01-01
+    FPS_PREVIOUS_ISSUE=10
+
+If the date of the issue being processed is after the previous date in the file, it will increment the issue number by
+one and then update the file with the new date and issue.
+
+This is an imperfect way of finding the issue number and has the potential to get out of sync, so will require some
+quality control.
+
+The recommended location for the file is in the processing output folder - e.g
+Y:\ndha\pre-deposit_prod\NDHA_submission-Rosetta\stuff-processing\supplements-previous-issues.properties
+
+The location of the file needs to be referenced in the ready-for-ingestion process using the
+supplementPreviousIssuesFile parameter.
+
+If a new supplement needs to be added:
+- Its entry in the spreadsheet needs to be given the processing type ``supplement_with_date_and_issue``
+- If it is a 'stuff' newspaperType, it can be added to the existing file using its titleCode
+- If it belongs to a different newspaperType, a new .properties file should be created and added to the processing
+output folder for that newspaperType. This file will need to be referenced in the ready-for-ingestion process using the
+supplementPreviousIssuesFile parameter
+
+in either case, the new entry should be entered::
+
+    <new title code>_PREVIOUS_DATE=<date of most recent issue in format YYYY-MM-DD>
+    <new title code>_PREVIOUS_ISSUE=<most recent issue number>
 
 File processed indicator: *ready-for-ingestion-FOLDER-COMPLETED* file
 ---------------------------------------------------------------------

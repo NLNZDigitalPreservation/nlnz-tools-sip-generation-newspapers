@@ -310,6 +310,7 @@ class ReadyForIngestionProcessor {
             Files.createDirectories(processorConfiguration.forReviewFolder)
         }
         this.newspaperType = new NewspaperType(processorConfiguration.newspaperType)
+
         this.newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         // First, collect all the directories to process
@@ -371,7 +372,7 @@ class ReadyForIngestionProcessor {
 
                         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build(titleCode,
                                 perThreadProcessingTypes, titleCodeFolder, processingDate, newspaperSpreadsheet, newspaperType,
-                                perThreadOverrideRules, perThreadOverrideOptions)
+                                perThreadOverrideRules, perThreadOverrideOptions, processorConfiguration.supplementPreviousIssuesFile)
 
                         parametersList.each { NewspaperProcessingParameters processingParameters ->
                             if (!processingParameters.valid) {

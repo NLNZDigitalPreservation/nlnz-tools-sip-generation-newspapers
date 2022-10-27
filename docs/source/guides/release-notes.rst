@@ -16,18 +16,28 @@ Contents of this document
 
 Following this introduction, the Release Notes includes the following sections:
 
+-   **1.1.2**
+
 -   **1.1.1**
 
 -   **1.0.1-SNAPSHOT**
 
 -   **1.0.0-SNAPSHOT**
 
+1.1.2
+==============
+
+- Adds the Processing Type 'supplement_with_date_and_issue' and the Processing Option 'dc_issued_field'.
+These are used to add an 'issued' field to the mets. Also adds a 'supplementPreviousIssuesFile' to the Processor
+Configuration. This can be used to calculate the latest issue number for the 'issued' field.
+These changes are currently only used for the Forever Project supplement (FPS)
+
 1.1.1
 ==============
 
-    - Adds the NewspaperType 'stuff'. 'Stuff' was formerly known as Fairfax. This means the
-    nlnz-tools-sip-generation-fairfax code has been retired, and all processing is now done by this codebase.
-    The Fairfax code is still available for reference on github.
+- Adds the NewspaperType 'stuff'. 'Stuff' was formerly known as Fairfax. This means the
+nlnz-tools-sip-generation-fairfax code has been retired, and all processing is now done by this codebase.
+The Fairfax code is still available for reference on github.
 
 1.0.1-SNAPSHOT
 ==============

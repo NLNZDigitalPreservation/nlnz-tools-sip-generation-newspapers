@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/stuff/"
-export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/stuff-processing/"
+export sourceFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/lissje/SUS/"
+export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/lissje/stuff-processing/"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Sep_2022"
 export forReviewFolder="${targetBaseFolder}/for-review_Sep_2022"
 export newspaperType="stuff"
@@ -18,7 +18,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.1-SNAPSHOT.jar \
+    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.2-SNAPSHOT.jar \
     --preProcess \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \

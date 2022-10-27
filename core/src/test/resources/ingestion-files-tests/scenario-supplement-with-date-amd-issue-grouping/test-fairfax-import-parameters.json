@@ -1,0 +1,43 @@
+[
+  {
+    "test-mms-id-one": {
+      "MMSID": "test-mms-id-one",
+      "title_parent": "Sunday Star Times",
+      "processing_type": "supplement_with_date_and_issue",
+      "processing_rules": "",
+      "processing_options": "alpha_before_numeric",
+      "publication_key": "",
+      "title_code": "FPS",
+      "edition_discriminators": "",
+      "section_codes": "ED1",
+      "sequence_letters": "",
+      "Access": "200",
+      "Magazine": "0",
+      "ingest_status": "SUP",
+      "Frequency": "Quarterly",
+      "entity_type": "SS",
+      "title_mets": "The Forever Project",
+      "ISSN online": "",
+      "Bib ID": "",
+      "Access condition": "",
+      "Date catalogued": "",
+      "Collector_folder": "",
+      "Cataloguer": "",
+      "Notes": "",
+      "first_issue_starting_page": "",
+      "last_issue_starting_page": "",
+      "has_volume_md": "",
+      "has_issue_md": "",
+      "has_number_md": "",
+      "previous_volume": "",
+      "previous_volume_date": "",
+      "previous_volume_frequency": "",
+      "previous_issue": "",
+      "previous_issue_date": "",
+      "previous_issue_frequency": "",
+      "previous_number": "",
+      "previous_number_date": "",
+      "previous_number_frequency": ""
+    }
+  }
+]
