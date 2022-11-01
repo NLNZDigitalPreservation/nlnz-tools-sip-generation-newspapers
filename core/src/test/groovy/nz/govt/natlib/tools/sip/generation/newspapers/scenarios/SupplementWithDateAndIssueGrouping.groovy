@@ -53,8 +53,8 @@ class SupplementWithDateAndIssueGrouping {
         layout.load(supplementsConfig, new FileReader(PREVIOUS_SUPPLEMENTS_ISSUES_PATH))
         supplementsConfig.setProperty("FPS_PREVIOUS_ISSUE", "10")
         supplementsConfig.setProperty("FPS_PREVIOUS_DATE", "2018-01-01")
-        StringWriter stringWriter = new StringWriter();
-        layout.save(supplementsConfig, stringWriter)
+        FileWriter fileWriter = new FileWriter(PREVIOUS_SUPPLEMENTS_ISSUES_PATH, false)
+        layout.save(supplementsConfig, fileWriter)
 
 //        FileOutputStream output = new FileOutputStream(PREVIOUS_SUPPLEMENTS_ISSUES_PATH)
 //        prop.setProperty("FPS_PREVIOUS_ISSUE", "10")

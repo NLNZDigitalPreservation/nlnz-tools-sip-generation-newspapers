@@ -12,7 +12,7 @@ Introduction
 ============
 
 About NLNZ Tools SIP Generation Newspapers
----------------------------------------
+------------------------------------------
 
 NLNZ Tools SIP Generation Newspapers is specific set of tools for processing digital newspaper file content.
 The ultimate output of these tools are SIPs for ingestion into the Rosetta archiving system.

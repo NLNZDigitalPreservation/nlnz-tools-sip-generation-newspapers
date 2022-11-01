@@ -357,8 +357,8 @@ class NewspaperFilesProcessor {
 
                                     supplementsConfig.setProperty("${processingParameters.titleCode}_PREVIOUS_ISSUE", currentIssue.toString())
                                     supplementsConfig.setProperty("${processingParameters.titleCode}_PREVIOUS_DATE", sipDate.toString())
-                                    StringWriter stringWriter = new StringWriter();
-                                    layout.save(supplementsConfig, stringWriter)
+                                    FileWriter fileWriter = new FileWriter(processingParameters.supplementPreviousIssuesFile, false)
+                                    layout.save(supplementsConfig, fileWriter)
                                 } else {
                                     sip.issued = lastIssue.toString()
                                 }
