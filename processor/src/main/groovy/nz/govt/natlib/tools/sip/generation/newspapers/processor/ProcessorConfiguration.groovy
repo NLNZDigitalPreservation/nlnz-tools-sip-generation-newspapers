@@ -8,8 +8,8 @@ import java.time.LocalDate
 
 @Log4j2
 trait ProcessorConfiguration {
-    final static LocalDate DEFAULT_STARTING_DATE = LocalDate.of(2015, 1, 1)
-    final static LocalDate DEFAULT_ENDING_DATE = LocalDate.now()
+//    final static LocalDate DEFAULT_STARTING_DATE = LocalDate.of(2015, 1, 1)
+//    final static LocalDate DEFAULT_ENDING_DATE = LocalDate.now()
 
     boolean preProcess
     boolean readyForIngestion
@@ -37,8 +37,8 @@ trait ProcessorConfiguration {
 
     Timekeeper timekeeper
 
-    LocalDate startingDate = DEFAULT_STARTING_DATE
-    LocalDate endingDate = DEFAULT_ENDING_DATE
+    LocalDate startingDate
+    LocalDate endingDate
 
     Path sourceFolder
     Path targetFolder
@@ -48,6 +48,7 @@ trait ProcessorConfiguration {
     Path forReviewFolder
 
     String newspaperType
+    String supplementPreviousIssuesFile
     String forIngestionProcessingTypes
     String forIngestionProcessingRules
     String forIngestionProcessingOptions

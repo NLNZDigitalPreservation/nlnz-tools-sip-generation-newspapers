@@ -263,7 +263,7 @@ class TestHelper {
                                                 String dcTermsAvailable, String dcCoverage, IEEntityType ieEntityType,
                                                 String objectIdentifierType, String objectcIdentifierValue,
                                                 String policyId, String preservationType, String usageType,
-                                                boolean isDigitalOriginal, int revisionNumber) {
+                                                boolean isDigitalOriginal, int revisionNumber, String dcTermsIssued = null) {
         assertThat("title", sipForValidation.extractTitle(), is(title))
         assertThat("dcDate", sipForValidation.extractDcDate(), is(dcDate))
         assertThat("dcTermsAvailable", sipForValidation.extractDcTermsAvailable(), is(dcTermsAvailable))
@@ -278,6 +278,9 @@ class TestHelper {
         assertThat("usageType", sipForValidation.extractUsageType(), is(usageType))
         assertThat("digitalOriginal", sipForValidation.extractDigitalOriginal(), is(isDigitalOriginal))
         assertThat("revisionNumber", sipForValidation.extractRevisionNumber(), is(revisionNumber))
+        if (dcTermsIssued != null) {
+            assertThat("dcTermsIssued", sipForValidation.extractIssueNumber(), is(dcTermsIssued))
+        }
     }
 
     static void assertExpectedSipFileValues(SipXmlExtractor sipForValidation, int idIndex, String originalName,

@@ -11,6 +11,9 @@ enum ProcessingOption {
     FullDateInSip("full_date_in_sip"),
     IssueOnlyInSip("issue_only_in_sip"),
 
+    DcIssuedField("dc_issued_field"),
+    NoDcIssuedField("no_dc_issued_field"),
+
     private static final Map<String, ProcessingOption> LOOKUP_BY_FIELD_VALUE = [ : ]
     private static final Map<ProcessingOption, List<ProcessingOption>> OVERRIDES_MAP = [ : ]
     private final String fieldValue
@@ -24,6 +27,9 @@ enum ProcessingOption {
 
         OVERRIDES_MAP.put(FullDateInSip, [IssueOnlyInSip ])
         OVERRIDES_MAP.put(IssueOnlyInSip, [FullDateInSip ])
+
+        OVERRIDES_MAP.put(DcIssuedField, [NoDcIssuedField ])
+        OVERRIDES_MAP.put(NoDcIssuedField, [DcIssuedField ])
     }
 
     static List<ProcessingOption> extract(String list, String separator = ",", List<ProcessingOption> defaults = [ ],

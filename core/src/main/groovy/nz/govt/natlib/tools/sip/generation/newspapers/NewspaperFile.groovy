@@ -172,8 +172,7 @@ class NewspaperFile {
                         // Note that there's a small edge case where there are hundreds of pages, such as:
                         // 397, 398, 400, 401, ... -> this would be considered okay, even though there is a page missing.
                     }  else if ((newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[testFile.titleCode]) ||
-                            (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[testFile.titleCode]) ||
-                        (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null && newspaperType.SUBSTITUTABLE_SUPPLEMENTS[testFile.titleCode])
+                            (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[testFile.titleCode])
                     ) {
                         // This not a skip in sequence, these files have a different a title code to their
                         // parent_publication
@@ -226,8 +225,6 @@ class NewspaperFile {
         }
         possibleFiles.each { NewspaperFile newspaperFile ->
             if ((newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) ||
-                    (newspaperType.SUBSTITUTABLE_SUPPLEMENTS != null &&
-                            newspaperType.SUBSTITUTABLE_SUPPLEMENTS[newspaperFile.titleCode]) ||
                 (newspaperType.PARENT_SUPPLEMENTS != null &&
                             newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode] &&
                             newspaperFile.titleCode != titleCode)
@@ -547,7 +544,8 @@ class NewspaperFile {
 
     // Substitutions can happen if the file has the same date, sequence letter and sequence number
     boolean canSubstituteFor(NewspaperFile newspaperFile) {
-        return this.date == newspaperFile.date && this.sequenceLetter == newspaperFile.sequenceLetter &&
+        return this.titleCode == newspaperFile.titleCode && this.date == newspaperFile.date &&
+                this.sequenceLetter == newspaperFile.sequenceLetter &&
                 this.sequenceNumber == newspaperFile.sequenceNumber
     }
 

@@ -190,7 +190,6 @@ class PreProcessProcessor {
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
         Map supplements = newspaperType.SUPPLEMENTS
-        Object appendableSupplements = newspaperType.SUBSTITUTABLE_SUPPLEMENTS
         Map parentSupplements = newspaperType.PARENT_SUPPLEMENTS
 
         if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
@@ -217,31 +216,6 @@ class PreProcessProcessor {
             }
 
             folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
-        } else if (appendableSupplements != null && appendableSupplements[targetFile.titleCode]) {
-            List<String> appendedTitleCodes = []
-            List<String> pubDirs = []
-            // Get the parent publication name of the supplement
-            titleCodeFolderName = appendableSupplements[targetFile.titleCode]["PARENT"]
-
-            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
-            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
-                recognizedTitleCodes.add(titleCodeFolderName)
-                GeneralUtils.printAndFlush("\n")
-                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
-            }
-
-            if (appendableSupplements[targetFile.titleCode]["MASTER"]) {
-                for (supplement in appendableSupplements) {
-                    if (!supplement.value["MASTER"]) {
-                        appendedTitleCodes.add(supplement.key as String)
-                        pubDirs.add("${File.separator}${supplement.value["PARENT"]}${File.separator}")
-                    }
-                }
-            }
-
-            String initials = appendableSupplements[targetFile.titleCode]["INITIALS"]
-            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
-            copyAppendedTitleFile(appendedTitleCodes, pubDirs, initials, targetFile, Paths.get(folderPath))
         } else {
             // There is no entry in the spreadsheet for this titleCode
             // Goes to 'UNKNOWN-TITLE-CODE/<date>/<file>'

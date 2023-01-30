@@ -99,7 +99,7 @@ class AllSectionCodesRequiredTest {
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TST",
                 [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
-                [ProcessingRule.AllSectionsInSipRequired ], [])
+                [ProcessingRule.AllSectionsInSipRequired ])
 
         assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))

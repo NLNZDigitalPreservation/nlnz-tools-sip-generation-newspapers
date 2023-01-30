@@ -108,8 +108,8 @@ class MissingSequenceDoubleWidePagesTest {
 
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TSTP",
-                [ ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
-                [ ], [ ])
+                [ ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
+                testMethodState.newspaperType,)
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))
