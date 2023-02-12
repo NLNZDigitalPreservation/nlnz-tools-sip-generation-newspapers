@@ -48,7 +48,7 @@ class NewspaperSpreadsheetTest {
         Map<String, String> mapsForAlliedPress = mapsForAlliedPressList.first()
         assertThat("'title_parent' is 'The Ashburton courier'", mapsForAlliedPress.get("title_parent"), is("The Ashburton courier"))
         assertThat("'MMSID' is 9918591570102836", mapsForAlliedPress.get("MMSID"), is("9918591570102836"))
-        assertThat("'title_code' is 'AshburtonCourier'", mapsForAlliedPress.get("title_code"), is("AshburtonCourier"))
+        assertThat("'title_code' is 'ASH'", mapsForAlliedPress.get("title_code"), is("ASH"))
         assertFalse("isMagazine is false for The Ashburton courier",
                 NewspaperSpreadsheet.extractBooleanValue(mapsForAlliedPress, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
     }

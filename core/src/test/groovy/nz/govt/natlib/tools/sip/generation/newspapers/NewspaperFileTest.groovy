@@ -94,17 +94,16 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithAPLetterSequence() {
-        String originalFilename = "CluthaLeader-21Oct2021-Thu.pdf"
+        String originalFilename = "CLL_2023_02_01.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
         NewspaperType newspaperType = new NewspaperType("alliedPress")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
-        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("CluthaLeader"))
+        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("CLL"))
         assertNotNull("Year extracted", testNewspaperFile.dateYear)
-        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(new Integer(2021)))
-        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(new Integer(10)))
-        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(new Integer(21)))
-        assertThat("Qualifier parsed correctly", testNewspaperFile.qualifier, is("Thu"))
+        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(new Integer(2023)))
+        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(new Integer(02)))
+        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(new Integer(01)))
         assertTrue("NewspaperFile is valid", testNewspaperFile.isValidName())
     }
 
