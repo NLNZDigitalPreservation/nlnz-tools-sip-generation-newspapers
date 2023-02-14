@@ -47,6 +47,47 @@
     },
     {
         "row-0001": {
+            "MMSID": "9919293434902836",
+            "title_parent": "Mid Canterbury Realty",
+            "processing_type": "parent_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "title_code",
+            "title_code": "ARL",
+            "edition_discriminators": "",
+            "section_codes": "",
+            "sequence_letters": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "STA",
+            "Frequency": "",
+            "entity_type": "PER",
+            "title_mets": "Mid Canterbury Realty",
+            "ISSN online": "",
+            "Bib ID": "",
+            "Access condition": "",
+            "Date catalogued": "",
+            "Collector_folder": "TBC",
+            "Cataloguer": "",
+            "Notes": "",
+            "first_issue_starting_page": "",
+            "last_issue_starting_page": "",
+            "has_volume_md": "0",
+            "has_issue_md": "0",
+            "has_number_md": "0",
+            "previous_volume": "",
+            "previous_volume_date": "",
+            "previous_volume_frequency": "",
+            "previous_issue": "",
+            "previous_issue_date": "",
+            "previous_issue_frequency": "",
+            "previous_number": "",
+            "previous_number_date": "",
+            "previous_number_frequency": ""
+        }
+    },
+    {
+        "row-0002": {
             "MMSID": "9918591570102836",
             "title_parent": "The Ashburton courier",
             "processing_type": "parent_grouping",
@@ -87,7 +128,7 @@
         }
     },
     {
-        "row-0002": {
+        "row-0003": {
             "MMSID": "9918191969802836",
             "title_parent": "Cromwell Bulletin",
             "processing_type": "parent_grouping",
@@ -128,7 +169,7 @@
         }
     },
     {
-        "row-0003": {
+        "row-0004": {
             "MMSID": "9918759673502836",
             "title_parent": "Central rural life",
             "processing_type": "parent_grouping",
@@ -169,7 +210,7 @@
         }
     },
     {
-        "row-0004": {
+        "row-0005": {
             "MMSID": "9914702963502836",
             "title_parent": "The Clutha leader",
             "processing_type": "parent_grouping",
@@ -210,7 +251,7 @@
         }
     },
     {
-        "row-0005": {
+        "row-0006": {
             "MMSID": "9919159336602836",
             "title_parent": "The news Central Otago and Wanaka",
             "processing_type": "parent_grouping",
@@ -251,7 +292,7 @@
         }
     },
     {
-        "row-0006": {
+        "row-0007": {
             "MMSID": "9918591568602836",
             "title_parent": "The Ensign",
             "processing_type": "parent_grouping",
@@ -292,7 +333,7 @@
         }
     },
     {
-        "row-0007": {
+        "row-0008": {
             "MMSID": "9918591570502836",
             "title_parent": "North Canterbury news",
             "processing_type": "parent_grouping",
@@ -333,7 +374,7 @@
         }
     },
     {
-        "row-0008": {
+        "row-0009": {
             "MMSID": "9914956293502836",
             "title_parent": "Mountain scene",
             "processing_type": "parent_grouping",
@@ -374,7 +415,7 @@
         }
     },
     {
-        "row-0009": {
+        "row-0010": {
             "MMSID": "9915985563502836",
             "title_parent": "The Oamaru mail",
             "processing_type": "parent_grouping",
@@ -415,7 +456,7 @@
         }
     },
     {
-        "row-0010": {
+        "row-0011": {
             "MMSID": "9914662313502836",
             "title_parent": "Otago Daily Times",
             "processing_type": "parent_grouping",
@@ -456,7 +497,7 @@
         }
     },
     {
-        "row-0011": {
+        "row-0012": {
             "MMSID": "9918591569102836",
             "title_parent": "Southland express",
             "processing_type": "parent_grouping",
@@ -497,7 +538,7 @@
         }
     },
     {
-        "row-0012": {
+        "row-0013": {
             "MMSID": "9918591569402836",
             "title_parent": "The Star",
             "processing_type": "parent_grouping",
@@ -538,7 +579,7 @@
         }
     },
     {
-        "row-0013": {
+        "row-0014": {
             "MMSID": "9918592770102836",
             "title_parent": "Southern rural life",
             "processing_type": "parent_grouping",
@@ -579,7 +620,7 @@
         }
     },
     {
-        "row-0014": {
+        "row-0015": {
             "MMSID": "9918591569702836",
             "title_parent": "The Courier",
             "processing_type": "parent_grouping",
@@ -620,7 +661,7 @@
         }
     },
     {
-        "row-0015": {
+        "row-0016": {
             "MMSID": "9915026003502836",
             "title_parent": "W\u0101naka Sun",
             "processing_type": "parent_grouping",
@@ -661,7 +702,7 @@
         }
     },
     {
-        "row-0016": {
+        "row-0017": {
             "MMSID": "",
             "title_parent": "",
             "processing_type": "",
