@@ -211,8 +211,8 @@
     },
     {
         "row-0005": {
-            "MMSID": "9917963133502836",
-            "title_parent": "The Dominion Post",
+            "MMSID": "9919304631202836",
+            "title_parent": "The Post",
             "processing_type": "parent_grouping",
             "processing_rules": "",
             "processing_options": "numeric_before_alpha",
@@ -226,12 +226,12 @@
             "ingest_status": "TEC",
             "Frequency": "",
             "entity_type": "PER",
-            "title_mets": "Dominion Post",
+            "title_mets": "Post",
             "ISSN online": "",
             "Bib ID": "",
             "Access condition": "",
             "Date catalogued": "",
-            "Collector_folder": "The_Dominion_Post",
+            "Collector_folder": "The_Post",
             "Cataloguer": "",
             "Notes": "Fairfax updated title code",
             "first_issue_starting_page": "",
@@ -253,7 +253,7 @@
     {
         "row-0006": {
             "MMSID": "9917963903502836",
-            "title_parent": "The Dominion Post",
+            "title_parent": "The Post",
             "processing_type": "supplement_grouping",
             "processing_rules": "",
             "processing_options": "alpha_before_numeric",
@@ -272,7 +272,7 @@
             "Bib ID": "",
             "Access condition": "",
             "Date catalogued": "",
-            "Collector_folder": "The_Dominion_Post",
+            "Collector_folder": "The_Post",
             "Cataloguer": "",
             "Notes": "Fairfax updated title code",
             "first_issue_starting_page": "",
@@ -294,7 +294,7 @@
     {
         "row-0007": {
             "MMSID": "9917963483502836",
-            "title_parent": "The Dominion Post",
+            "title_parent": "The Post",
             "processing_type": "supplement_grouping",
             "processing_rules": "",
             "processing_options": "alpha_before_numeric",
@@ -313,7 +313,7 @@
             "Bib ID": "",
             "Access condition": "",
             "Date catalogued": "",
-            "Collector_folder": "The_Dominion_Post",
+            "Collector_folder": "The_Post",
             "Cataloguer": "",
             "Notes": "",
             "first_issue_starting_page": "",
@@ -335,7 +335,7 @@
     {
         "row-0008": {
             "MMSID": "9917964493502836",
-            "title_parent": "The Dominion Post",
+            "title_parent": "The Post",
             "processing_type": "supplement_grouping",
             "processing_rules": "",
             "processing_options": "alpha_before_numeric",
@@ -354,7 +354,7 @@
             "Bib ID": "1796449",
             "Access condition": "200",
             "Date catalogued": "16/06/2016",
-            "Collector_folder": "The_Dominion_Post",
+            "Collector_folder": "The_Post",
             "Cataloguer": "Denise",
             "Notes": "T Prefix before page number. Fairfax updated title code to DOM",
             "first_issue_starting_page": "DPTED1-20150707-T01",
@@ -1155,7 +1155,7 @@
     {
         "row-0028": {
             "MMSID": "9917963483502836",
-            "title_parent": "The Dominion Post",
+            "title_parent": "The Post",
             "processing_type": "supplement_grouping",
             "processing_rules": "",
             "processing_options": "alpha_before_numeric",

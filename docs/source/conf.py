@@ -26,7 +26,7 @@ author = u'National Library of New Zealand'
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'1.1.3-SNAPSHOT'
+release = u'1.1.4-SNAPSHOT'
 
 
 # -- General configuration ---------------------------------------------------
