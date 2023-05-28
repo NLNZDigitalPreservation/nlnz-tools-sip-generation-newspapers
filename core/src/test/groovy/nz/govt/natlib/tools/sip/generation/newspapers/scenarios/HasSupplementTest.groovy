@@ -56,11 +56,11 @@ class HasSupplementTest {
     }
 
     void processFiles(List<Path> filesForProcessing) {
-        String dateString = "26Oct2021"
+        String dateString = "2021_10_26"
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
-        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("Newspaper",
+        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("ODT",
                 [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType,
                 [ProcessingRule.IsSinglePdfFile, ProcessingRule.UseFileNameForMetsLabel])
 
@@ -105,11 +105,11 @@ class HasSupplementTest {
 
         assertTrue("SipProcessingState is complete", testMethodState.sipProcessingState.isComplete())
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "Newspaper-26Oct2021-Tue.pdf", "Newspaper-26Oct2021-Tue.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "Newspaper-26Oct2021-Tue", "application/pdf")
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "ODT_2021_10_26.pdf", "ODT_2021_10_26.pdf",
+                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "ODT_2021_10_26", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "Supplement-26Oct2021-Tue.pdf", "Supplement-26Oct2021-Tue.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "Supplement-26Oct2021-Tue", "application/pdf")
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "UBET_2021_10_26.pdf", "UBET_2021_10_26.pdf",
+                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "UBET_2021_10_26", "application/pdf")
 
     }
 

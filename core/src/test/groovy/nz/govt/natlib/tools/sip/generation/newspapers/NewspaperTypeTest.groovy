@@ -33,17 +33,17 @@ class NewspaperTypeTest {
         NewspaperType newspaperType = new NewspaperType("alliedPress")
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN,
-                is("(?<titleCode>[a-zA-Z0-9]{4,19})(?<issue>)(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<revision>)(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("(?<titleCode>[A-Z]{2,4})(?<issue>)(?<sectionCode>)_(?<date>\\d{4}_\\d{2}_\\d{2})(?<revision>)(?<sequenceLetter>)(?<sequenceNumber>)(?<qualifier>)\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN,
-                is("\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN,
-                is("\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
-                is("ddMMMyyyy"))
-        assertThat("SUPPLEMENTS has a UBet key", newspaperType.SUPPLEMENTS.containsKey("UBet"), is(true))
+                is("yyyy_MM_dd"))
+        assertThat("SUPPLEMENTS has a UBET key", newspaperType.SUPPLEMENTS.containsKey("UBET"), is(true))
         assert newspaperType.SUPPLEMENTS instanceof Map
     }
 

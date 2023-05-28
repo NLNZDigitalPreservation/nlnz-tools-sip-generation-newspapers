@@ -358,8 +358,8 @@ latest revision number to the sip. Older revisions will be placed in the for-rev
 
 ``CASE_SENSITIVE`` (required) This indicates whether a Newspaper Type's titlecodes should be treated as case sensitive.
 For example Allied Press's titles are in the style OtagoDailyTimes, and should be processed using case sensitivity.
-However Are Media has titles such as YH which are inconstantly labelled (e.g. yh, yH, Yh). Setting CASE_SENSITIVE to
-false means these inconstantly labelled files will be sorted into the same location and processed correctly.
+However Are Media has titles such as YH which are inconsistently labelled (e.g. yh, yH, Yh). Setting CASE_SENSITIVE to
+false means these inconsistently labelled files will be sorted into the same location and processed correctly.
 
 ``DATE_ADJUSTMENTS`` (optional) Some Are Media titles have a mismatch between the date in the filenames and the actual
 publication date. For example the filename date for the title LS is always 5 days earlier than the publication date.
