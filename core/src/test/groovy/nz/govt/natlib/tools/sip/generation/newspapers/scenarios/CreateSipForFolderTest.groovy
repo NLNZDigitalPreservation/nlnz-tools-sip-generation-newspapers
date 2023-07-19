@@ -147,34 +147,34 @@ class CreateSipForFolderTest {
                 IEEntityType.UNKNOWN, "ALMAMMS", "UNKNOWN_MMSID",
                 "200", "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTPBX-20181123-001.pdf", "TSTPBX-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TST-PBX-ZN-20181123-001.pdf", "TST-PBX-ZN-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTPBX-20181123-002.pdf", "TSTPBX-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TST-PBX-ZN-20181123-002.pdf", "TST-PBX-ZN-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTPBX-20181123-003with-a-qualifier.pdf", "TSTPBX-20181123-003with-a-qualifier.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TST-PBX-ZN-20181123-003with-a-qualifier.pdf", "TST-PBX-ZN-20181123-003with-a-qualifier.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTPBX-20181123-004.pdf", "TSTPBX-20181123-004.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TST-PBX-ZN-20181123-004.pdf", "TST-PBX-ZN-20181123-004.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTPBX-20181123-005.pdf", "TSTPBX-20181123-005.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TST-PBX-ZN-20181123-005.pdf", "TST-PBX-ZN-20181123-005.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0005", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTPBX-20181123-006.pdf", "TSTPBX-20181123-006.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TST-PBX-ZN-20181123-006.pdf", "TST-PBX-ZN-20181123-006.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0006", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTPBX-20181123-007.pdf", "TSTPBX-20181123-007.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TST-PBX-ZN-20181123-007.pdf", "TST-PBX-ZN-20181123-007.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0007", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 8, "TSTPBX-20181123-008.pdf", "TSTPBX-20181123-008.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 8, "TST-PBX-ZN-20181123-008.pdf", "TST-PBX-ZN-20181123-008.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0008", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 9, "TSTPBX-20181123-009.pdf", "TSTPBX-20181123-009.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 9, "TST-PBX-ZN-20181123-009.pdf", "TST-PBX-ZN-20181123-009.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0009", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 10, "TSTPBX-20181123-010.pdf", "TSTPBX-20181123-010.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 10, "TST-PBX-ZN-20181123-010.pdf", "TST-PBX-ZN-20181123-010.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0010", "application/pdf")
     }
 

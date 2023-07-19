@@ -195,25 +195,25 @@ class FirstSectionCodeRequiredForMatchPGTest {
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-one", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTPB1-20181123-001.pdf", "TSTPB1-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TST-PB1-ZN-20181123-001.pdf", "TST-PB1-ZN-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTPB1-20181123-002.pdf", "TSTPB1-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TST-PB1-ZN-20181123-002.pdf", "TST-PB1-ZN-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTPB1-20181123-003.pdf", "TSTPB1-20181123-003.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TST-PB1-ZN-20181123-003.pdf", "TST-PB1-ZN-20181123-003.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTZOO-20181123-001.pdf", "TSTZOO-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TST-ZOO-ZN-20181123-001.pdf", "TST-ZOO-ZN-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTZOO-20181123-002.pdf", "TSTZOO-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TST-ZOO-ZN-20181123-002.pdf", "TST-ZOO-ZN-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0005", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTZOO-20181123-003.pdf", "TSTZOO-20181123-003.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TST-ZOO-ZN-20181123-003.pdf", "TST-ZOO-ZN-20181123-003.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0006", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTZOO-20181123-004.pdf", "TSTZOO-20181123-004.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TST-ZOO-ZN-20181123-004.pdf", "TST-ZOO-ZN-20181123-004.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0007", "application/pdf")
     }
 }

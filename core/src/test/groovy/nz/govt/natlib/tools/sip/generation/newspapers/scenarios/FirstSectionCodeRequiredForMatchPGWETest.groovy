@@ -194,16 +194,16 @@ class FirstSectionCodeRequiredForMatchPGWETest {
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-zoo", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTZOO-20181123-001.pdf", "TSTZOO-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TST-ZOO-ZN-20181123-001.pdf", "TST-ZOO-ZN-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTZOO-20181123-002.pdf", "TSTZOO-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TST-ZOO-ZN-20181123-002.pdf", "TST-ZOO-ZN-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTZOO-20181123-003.pdf", "TSTZOO-20181123-003.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TST-ZOO-ZN-20181123-003.pdf", "TST-ZOO-ZN-20181123-003.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTZOO-20181123-004.pdf", "TSTZOO-20181123-004.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TST-ZOO-ZN-20181123-004.pdf", "TST-ZOO-ZN-20181123-004.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
     }
 }

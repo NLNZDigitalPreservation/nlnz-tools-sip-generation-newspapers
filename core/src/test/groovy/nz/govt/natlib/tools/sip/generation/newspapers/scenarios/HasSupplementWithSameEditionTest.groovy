@@ -106,16 +106,16 @@ class HasSupplementWithSameEditionTest {
 
         assertTrue("SipProcessingState is complete", testMethodState.sipProcessingState.isComplete())
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "SUSED1-20181123-001.pdf", "SUSED1-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "SUS-ED1-ZN-20181123-001.pdf", "SUS-ED1-ZN-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "SUSED1-20181123-002.pdf", "SUSED1-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "SUS-ED1-ZN-20181123-002.pdf", "SUS-ED1-ZN-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "FPSED1-20181123-001.pdf", "FPSED1-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "FPS-ED1-ZN-20181123-001.pdf", "FPS-ED1-ZN-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "FPSED1-20181123-002.pdf", "FPSED1-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "FPS-ED1-ZN-20181123-002.pdf", "FPS-ED1-ZN-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
 
     }
