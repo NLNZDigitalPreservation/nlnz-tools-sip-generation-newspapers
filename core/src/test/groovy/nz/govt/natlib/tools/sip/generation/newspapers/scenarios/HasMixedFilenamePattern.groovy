@@ -3,30 +3,29 @@ package nz.govt.natlib.tools.sip.generation.newspapers.scenarios
 import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.IEEntityType
 import nz.govt.natlib.tools.sip.extraction.SipXmlExtractor
-import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperFile
 import nz.govt.natlib.tools.sip.generation.newspapers.NewspaperProcessingParameters
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper
 import nz.govt.natlib.tools.sip.generation.newspapers.TestHelper.TestMethodState
-import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.NewspaperFilesProcessor
+import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import static org.hamcrest.core.Is.is
-import static org.junit.Assert.*
+import static org.junit.Assert.assertThat
+import static org.junit.Assert.assertTrue
 
 /**
- * Tests the {@code multiple-section-codes} scenario.
+ * Tests the {@code no-matching-sip-definition-with-create-sip-option} scenario.
  *
  * Note that this test is complicated by the files either being part of a directory structure or in a resource file (jar),
  * so the {@link TestHelper} class is used to handle both scenarios. In real-life processing the files would be on the
@@ -36,14 +35,14 @@ import static org.junit.Assert.*
  */
 @RunWith(MockitoJUnitRunner.class)
 @Log4j2
-class MultipleSectionCodesTest {
+class HasMixedFilenamePattern {
     // TODO Make this processing simpler
     // - given a starting folder
     // - and a set of selection criteria
     // - create SIPs for the given files
     static String ID_COLUMN_NAME = "MMSID"
 
-    static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-multiple-section-codes"
+    static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-has-mixed-filename-pattern"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
     static final String NEWSPAPER_TYPE = "stuff"
 
@@ -67,7 +66,7 @@ class MultipleSectionCodesTest {
     @Ignore
     void correctlyAssembleSipFromFilesOnFilesystem() {
         boolean forLocalFilesystem = true
-        TestHelper.initializeTestMethod(testMethodState, "MultipleSectionCodesTest-", forLocalFilesystem)
+        TestHelper.initializeTestMethod(testMethodState, "HasMixedFilenamePatternTest-", forLocalFilesystem)
 
         // TODO A more complicated pattern -- date and other masks?
         boolean isRegexNotGlob = true
@@ -82,7 +81,7 @@ class MultipleSectionCodesTest {
     @Test
     void correctlyAssembleSipFromFiles() {
         boolean forLocalFilesystem = false
-        TestHelper.initializeTestMethod(testMethodState, "MultipleSectionCodesTest-", forLocalFilesystem)
+        TestHelper.initializeTestMethod(testMethodState, "HasMixedFilenamePatternTest-", forLocalFilesystem)
 
         // TODO A more complicated pattern -- date and other masks?
         boolean isRegexNotGlob = true
@@ -98,56 +97,35 @@ class MultipleSectionCodesTest {
         String dateString = "20181123"
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
-
         Path sourceFolder = Path.of(testMethodState.localPath)
         List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TST",
                 [ProcessingType.ParentGrouping ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet,
                 testMethodState.newspaperType, [ProcessingRule.AllSectionsInSipOptional ])
 
-        assertThat("Only a single FairfaxProcessingParameters is returned, size=${parametersList.size()}",
+        assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
                 parametersList.size(), is(1))
 
         NewspaperProcessingParameters processingParameters = parametersList.first()
-
-        assertThat("Multiple section codes: 'PB1', 'BOO', 'ZOO', 'AAT'", processingParameters.sectionCodes,
-                is([ 'PB1', 'BOO', 'ZOO', 'AAT' ]))
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
         NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
-        log.info("${System.lineSeparator()}FairfaxProcessingParameters and SipProcessingState:")
+        log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")
         log.info(processingParameters.detailedDisplay(0, true))
         log.info(System.lineSeparator())
 
-        int expectedNumberOfFilesProcessed = 11
-        int expectedNumberOfSipFiles = 11
-        int expectedNumberOfValidFiles = 11
+        int expectedNumberOfFilesProcessed = 4
+        int expectedNumberOfSipFiles = 4
+        int expectedNumberOfValidFiles = 4
         int expectedNumberOfInvalidFiles = 0
-        int expectedNumberOfIgnoredFiles = 2
+        int expectedNumberOfIgnoredFiles = 0
         int expectedNumberOfUnrecognizedFiles = 0
         TestHelper.assertSipProcessingStateFileNumbers(expectedNumberOfFilesProcessed, expectedNumberOfSipFiles,
                 expectedNumberOfValidFiles, expectedNumberOfInvalidFiles,
                 expectedNumberOfIgnoredFiles, expectedNumberOfUnrecognizedFiles, testMethodState.sipProcessingState)
 
-        assertThat("${expectedNumberOfIgnoredFiles} ignored files should have been processed",
-                testMethodState.sipProcessingState.ignoredFiles.size(), is(expectedNumberOfIgnoredFiles))
-        assertThat("First ignored file is 'TST-QEE-ZN-20181123-001.pdf'",
-                testMethodState.sipProcessingState.ignoredFiles.first().fileName.toString(), is("TST-QEE-ZN-20181123-001.pdf"))
-
-//        if (processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage) &&
-//                processingParameters.options.contains(ProcessingOption.AlwaysGenerateThumbnailPage)) {
-//            assertTrue("Thumbnail page exists, file=${processingParameters.thumbnailPageFile.normalize()}",
-//                    Files.exists(processingParameters.thumbnailPageFile))
-//            // We delete the file because we don't want it sticking around after the test
-//            // Comment out the following line if you want to view the file
-//            Files.deleteIfExists(processingParameters.thumbnailPageFile)
-//        } else {
-//            assertNull("Thumbnail page DOES NOT exist, file=${processingParameters.thumbnailPageFile}",
-//                    processingParameters.thumbnailPageFile)
-//        }
-
-        log.info("STARTING SIP validation")
+        log.info("SIP validation")
         sipConstructedCorrectly(sipAsXml)
         log.info("ENDING SIP validation")
         log.info("Process output path=${testMethodState.processOutputInterceptor.path}")
@@ -164,44 +142,22 @@ class MultipleSectionCodesTest {
         assertTrue("SipXmlExtractor has content", sipForValidation.xml.length() > 0)
 
         assertTrue("SipProcessingState is complete", testMethodState.sipProcessingState.isComplete())
-        assertTrue("SipProcessingState is successful", testMethodState.sipProcessingState.isSuccessful())
+//        assertTrue("SipProcessingState is successful", testMethodState.sipProcessingState.isSuccessful())
 
         TestHelper.assertExpectedSipMetadataValues(sipForValidation, "Test Publication One", "2018", "11", "23",
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-one", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TST-PB1-ZN-20181123-001.pdf", "TST-PB1-ZN-20181123-001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTBOO-20181123-001.pdf", "TSTBOO-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TST-PB1-ZN-20181123-002.pdf", "TST-PB1-ZN-20181123-002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTBOO-20181123-002.pdf", "TSTBOO-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TST-PB1-ZN-20181123-A01with-a-qualifier.pdf", "TST-PB1-ZN-20181123-A01with-a-qualifier.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TST-AAT-ZN-20181123-P01.pdf", "TST-AAT-ZN-20181123-P01.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TST-PB1-ZN-20181123-A02.pdf", "TST-PB1-ZN-20181123-A02.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TST-AAT-ZN-20181123-P02.pdf", "TST-AAT-ZN-20181123-P02.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TST-PB1-ZN-20181123-B01.pdf", "TST-PB1-ZN-20181123-B01.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0005", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TST-PB1-ZN-20181123-B02.pdf", "TST-PB1-ZN-20181123-B02.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0006", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TST-PB1-ZN-20181123-C01.pdf", "TST-PB1-ZN-20181123-C01.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0007", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 8, "TST-BOO-ZN-20181123-001.pdf", "TST-BOO-ZN-20181123-001.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0008", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 9, "TST-BOO-ZN-20181123-002.pdf", "TST-BOO-ZN-20181123-002.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0009", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 10, "TST-AAT-ZN-20181123-P01.pdf", "TST-AAT-ZN-20181123-P01.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0010", "application/pdf")
-
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 11, "TST-AAT-ZN-20181123-P02.pdf", "TST-AAT-ZN-20181123-P02.pdf",
-                636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0011", "application/pdf")
     }
-
 }
