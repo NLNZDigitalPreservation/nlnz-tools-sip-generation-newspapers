@@ -11,6 +11,7 @@ export startingDate="2023-07-01"
 export endingDate="2023-07-30"
 
 export forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,supplement_grouping,supplement_with_date_and_issue,create_sip_for_folder"
+export forIngestionProcessingRules="handle_ignored"
 #export forIngestionProcessingOptions="use_command_line_pdf_to_thumbnail_generation"
 
 # Note that the number of threads increases processing speed due to ODS poor single-thread performance

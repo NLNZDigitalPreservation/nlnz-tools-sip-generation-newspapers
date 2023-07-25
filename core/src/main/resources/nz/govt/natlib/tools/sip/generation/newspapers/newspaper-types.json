@@ -54,7 +54,8 @@
       "LIP": "PRS",
       "LIW": "WAT"
     },
-    "CASE_SENSITIVE": true
+    "CASE_SENSITIVE": true,
+    "IGNORE_SEQUENCE": "N"
   },
   "WMMA": {
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3,4})(?<issue>)(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<revision>)(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}",
