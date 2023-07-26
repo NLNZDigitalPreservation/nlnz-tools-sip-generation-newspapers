@@ -43,16 +43,16 @@
       "HWE": "PST",
       "CHM": "CEL",
       "HOK": "KAO",
-      "HHT": "HUN",
-      "YWD": "PST",
-      "YWP": "PRS",
-      "YWW": "WAT"
+      "HHT": "HUN"
     },
     "PARENT_SUPPLEMENTS": {
       "FPS": "SUS",
-      "LID": "DOM",
+      "LID": "PST",
       "LIP": "PRS",
-      "LIW": "WAT"
+      "LIW": "WAT",
+      "YWD": "PST",
+      "YWP": "PRS",
+      "YWW": "WAT"
     },
     "CASE_SENSITIVE": true,
     "IGNORE_SEQUENCE": "N"

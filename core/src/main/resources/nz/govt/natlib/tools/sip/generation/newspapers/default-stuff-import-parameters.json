@@ -2148,48 +2148,6 @@
     },
     {
         "row-0051": {
-            "MMSID": "9917906003502836",
-            "title_parent": "The Press",
-            "processing_type": "supplement_grouping",
-            "processing_rules": "",
-            "processing_options": "alpha_before_numeric",
-            "publication_key": "",
-            "title_code": "PRS",
-            "edition_discriminators": "",
-            "section_codes": "YWE",
-            "sequence_letters": "",
-            "ignore_sequence": "",
-            "Access": "200",
-            "Magazine": "0",
-            "ingest_status": "SUP",
-            "Frequency": "",
-            "entity_type": "SS",
-            "title_mets": "Your weekend",
-            "ISSN online": "",
-            "Bib ID": "1790600",
-            "Access condition": "200",
-            "Date catalogued": "27/05/2016",
-            "Collector_folder": "The_Press",
-            "Cataloguer": "Andrew R",
-            "Notes": "Fairfax updated title code",
-            "first_issue_starting_page": "",
-            "last_issue_starting_page": "",
-            "has_volume_md": "0",
-            "has_issue_md": "0",
-            "has_number_md": "0",
-            "previous_volume": "",
-            "previous_volume_date": "",
-            "previous_volume_frequency": "",
-            "previous_issue": "",
-            "previous_issue_date": "",
-            "previous_issue_frequency": "",
-            "previous_number": "",
-            "previous_number_date": "",
-            "previous_number_frequency": ""
-        }
-    },
-    {
-        "row-0052": {
             "MMSID": "9919304626802836",
             "title_parent": "The Post",
             "processing_type": "parent_grouping",
@@ -2231,49 +2189,7 @@
         }
     },
     {
-        "row-0053": {
-            "MMSID": "9917963903502836",
-            "title_parent": "The Post",
-            "processing_type": "supplement_grouping",
-            "processing_rules": "",
-            "processing_options": "alpha_before_numeric",
-            "publication_key": "",
-            "title_code": "PST",
-            "edition_discriminators": "",
-            "section_codes": "YWE",
-            "sequence_letters": "",
-            "ignore_sequence": "",
-            "Access": "200",
-            "Magazine": "0",
-            "ingest_status": "SUP",
-            "Frequency": "Saturday",
-            "entity_type": "SS",
-            "title_mets": "Your weekend",
-            "ISSN online": "",
-            "Bib ID": "",
-            "Access condition": "",
-            "Date catalogued": "",
-            "Collector_folder": "The_Post",
-            "Cataloguer": "",
-            "Notes": "Fairfax updated title code",
-            "first_issue_starting_page": "",
-            "last_issue_starting_page": "",
-            "has_volume_md": "",
-            "has_issue_md": "",
-            "has_number_md": "",
-            "previous_volume": "",
-            "previous_volume_date": "",
-            "previous_volume_frequency": "",
-            "previous_issue": "",
-            "previous_issue_date": "",
-            "previous_issue_frequency": "",
-            "previous_number": "",
-            "previous_number_date": "",
-            "previous_number_frequency": ""
-        }
-    },
-    {
-        "row-0054": {
+        "row-0052": {
             "MMSID": "9917963483502836",
             "title_parent": "The Post",
             "processing_type": "supplement_grouping",
@@ -2315,7 +2231,7 @@
         }
     },
     {
-        "row-0055": {
+        "row-0053": {
             "MMSID": "9917964493502836",
             "title_parent": "The Post",
             "processing_type": "supplement_grouping",
@@ -2357,7 +2273,7 @@
         }
     },
     {
-        "row-0056": {
+        "row-0054": {
             "MMSID": "9917966493502836",
             "title_parent": "Rodney Times",
             "processing_type": "parent_grouping",
@@ -2399,7 +2315,7 @@
         }
     },
     {
-        "row-0057": {
+        "row-0055": {
             "MMSID": "9917907173502836",
             "title_parent": "Saturday Express",
             "processing_type": "parent_grouping",
@@ -2441,7 +2357,7 @@
         }
     },
     {
-        "row-0058": {
+        "row-0056": {
             "MMSID": "9917984313502836",
             "title_parent": "Sunday News",
             "processing_type": "parent_grouping",
@@ -2483,7 +2399,7 @@
         }
     },
     {
-        "row-0059": {
+        "row-0057": {
             "MMSID": "9917976283502836",
             "title_parent": "Sunday Star Times Sunday",
             "processing_type": "parent_grouping",
@@ -2525,7 +2441,7 @@
         }
     },
     {
-        "row-0060": {
+        "row-0058": {
             "MMSID": "9914607593502836",
             "title_parent": "The Southland Times",
             "processing_type": "parent_grouping",
@@ -2567,7 +2483,7 @@
         }
     },
     {
-        "row-0061": {
+        "row-0059": {
             "MMSID": "9917966833502836",
             "title_parent": "South Waikato News",
             "processing_type": "parent_grouping",
@@ -2609,7 +2525,7 @@
         }
     },
     {
-        "row-0062": {
+        "row-0060": {
             "MMSID": "9917976113502836",
             "title_parent": "Sunday Star Times",
             "processing_type": "parent_grouping",
@@ -2651,7 +2567,7 @@
         }
     },
     {
-        "row-0063": {
+        "row-0061": {
             "MMSID": "9917976003502836",
             "title_parent": "Taranaki Daily News",
             "processing_type": "parent_grouping",
@@ -2693,7 +2609,7 @@
         }
     },
     {
-        "row-0064": {
+        "row-0062": {
             "MMSID": "9917966723502836",
             "title_parent": "South Taranaki Star",
             "processing_type": "parent_grouping",
@@ -2735,7 +2651,7 @@
         }
     },
     {
-        "row-0065": {
+        "row-0063": {
             "MMSID": "9917962373502836",
             "title_parent": "Taupo Times",
             "processing_type": "parent_grouping",
@@ -2777,7 +2693,7 @@
         }
     },
     {
-        "row-0066": {
+        "row-0064": {
             "MMSID": "9914609313502836",
             "title_parent": "The Timaru Herald",
             "processing_type": "parent_grouping",
@@ -2819,7 +2735,7 @@
         }
     },
     {
-        "row-0067": {
+        "row-0065": {
             "MMSID": "9917981683502836",
             "title_parent": "TV Guide",
             "processing_type": "parent_grouping",
@@ -2861,7 +2777,7 @@
         }
     },
     {
-        "row-0068": {
+        "row-0066": {
             "MMSID": "9917962273502836",
             "title_parent": "Upper Hutt Leader",
             "processing_type": "parent_grouping",
@@ -2903,7 +2819,7 @@
         }
     },
     {
-        "row-0069": {
+        "row-0067": {
             "MMSID": "9917971643502836",
             "title_parent": "Waikato Times",
             "processing_type": "parent_grouping",
@@ -2945,7 +2861,7 @@
         }
     },
     {
-        "row-0070": {
+        "row-0068": {
             "MMSID": "9919147890402836",
             "title_parent": "The Waikato Times",
             "processing_type": "supplement_grouping",
@@ -2987,49 +2903,7 @@
         }
     },
     {
-        "row-0071": {
-            "MMSID": "9917971783502836",
-            "title_parent": "Waikato Times",
-            "processing_type": "supplement_grouping",
-            "processing_rules": "",
-            "processing_options": "numeric_before_alpha",
-            "publication_key": "",
-            "title_code": "WAT",
-            "edition_discriminators": "",
-            "section_codes": "YWE",
-            "sequence_letters": "",
-            "ignore_sequence": "",
-            "Access": "200",
-            "Magazine": "0",
-            "ingest_status": "SUP",
-            "Frequency": "Saturday",
-            "entity_type": "SS",
-            "title_mets": "Your weekend",
-            "ISSN online": "",
-            "Bib ID": "",
-            "Access condition": "",
-            "Date catalogued": "",
-            "Collector_folder": "Waikato_Times",
-            "Cataloguer": "",
-            "Notes": "Fairfax updated title code",
-            "first_issue_starting_page": "",
-            "last_issue_starting_page": "",
-            "has_volume_md": "0",
-            "has_issue_md": "0",
-            "has_number_md": "0",
-            "previous_volume": "",
-            "previous_volume_date": "",
-            "previous_volume_frequency": "",
-            "previous_issue": "",
-            "previous_issue_date": "",
-            "previous_issue_frequency": "",
-            "previous_number": "",
-            "previous_number_date": "",
-            "previous_number_frequency": ""
-        }
-    },
-    {
-        "row-0072": {
+        "row-0069": {
             "MMSID": "9917925423502836",
             "title_parent": "Western Homes",
             "processing_type": "parent_grouping",
@@ -3071,7 +2945,7 @@
         }
     },
     {
-        "row-0073": {
+        "row-0070": {
             "MMSID": "9917923503502836",
             "title_parent": "Whangarei Leader",
             "processing_type": "parent_grouping",
@@ -3113,7 +2987,7 @@
         }
     },
     {
-        "row-0074": {
+        "row-0071": {
             "MMSID": "9917923483502836",
             "title_parent": "Western Leader",
             "processing_type": "parent_grouping",
@@ -3136,6 +3010,132 @@
             "Access condition": "",
             "Date catalogued": "",
             "Collector_folder": "Western_Leader",
+            "Cataloguer": "",
+            "Notes": "Fairfax updated title code",
+            "first_issue_starting_page": "",
+            "last_issue_starting_page": "",
+            "has_volume_md": "0",
+            "has_issue_md": "0",
+            "has_number_md": "0",
+            "previous_volume": "",
+            "previous_volume_date": "",
+            "previous_volume_frequency": "",
+            "previous_issue": "",
+            "previous_issue_date": "",
+            "previous_issue_frequency": "",
+            "previous_number": "",
+            "previous_number_date": "",
+            "previous_number_frequency": ""
+        }
+    },
+    {
+        "row-0072": {
+            "MMSID": "9917963903502836",
+            "title_parent": "Your Weekend Post",
+            "processing_type": "supplement_grouping",
+            "processing_rules": "",
+            "processing_options": "alpha_before_numeric",
+            "publication_key": "",
+            "title_code": "YWD",
+            "edition_discriminators": "",
+            "section_codes": "ED1",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "SUP",
+            "Frequency": "Saturday",
+            "entity_type": "SS",
+            "title_mets": "Your weekend Post",
+            "ISSN online": "",
+            "Bib ID": "",
+            "Access condition": "",
+            "Date catalogued": "",
+            "Collector_folder": "Your_Weekend_Post",
+            "Cataloguer": "",
+            "Notes": "Fairfax updated title code",
+            "first_issue_starting_page": "",
+            "last_issue_starting_page": "",
+            "has_volume_md": "",
+            "has_issue_md": "",
+            "has_number_md": "",
+            "previous_volume": "",
+            "previous_volume_date": "",
+            "previous_volume_frequency": "",
+            "previous_issue": "",
+            "previous_issue_date": "",
+            "previous_issue_frequency": "",
+            "previous_number": "",
+            "previous_number_date": "",
+            "previous_number_frequency": ""
+        }
+    },
+    {
+        "row-0073": {
+            "MMSID": "9917906003502836",
+            "title_parent": "Your Weekend The Press",
+            "processing_type": "supplement_grouping",
+            "processing_rules": "",
+            "processing_options": "alpha_before_numeric",
+            "publication_key": "",
+            "title_code": "YWP",
+            "edition_discriminators": "",
+            "section_codes": "ED1",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "SUP",
+            "Frequency": "",
+            "entity_type": "SS",
+            "title_mets": "Your weekend Press",
+            "ISSN online": "",
+            "Bib ID": "1790600",
+            "Access condition": "200",
+            "Date catalogued": "27/05/2016",
+            "Collector_folder": "Your_Weekend__Press",
+            "Cataloguer": "Andrew R",
+            "Notes": "Fairfax updated title code",
+            "first_issue_starting_page": "",
+            "last_issue_starting_page": "",
+            "has_volume_md": "0",
+            "has_issue_md": "0",
+            "has_number_md": "0",
+            "previous_volume": "",
+            "previous_volume_date": "",
+            "previous_volume_frequency": "",
+            "previous_issue": "",
+            "previous_issue_date": "",
+            "previous_issue_frequency": "",
+            "previous_number": "",
+            "previous_number_date": "",
+            "previous_number_frequency": ""
+        }
+    },
+    {
+        "row-0074": {
+            "MMSID": "9917971783502836",
+            "title_parent": "Your Weekend WT",
+            "processing_type": "supplement_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "",
+            "title_code": "YWW",
+            "edition_discriminators": "",
+            "section_codes": "ED1",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "SUP",
+            "Frequency": "Saturday",
+            "entity_type": "SS",
+            "title_mets": "Your weekend WT",
+            "ISSN online": "",
+            "Bib ID": "",
+            "Access condition": "",
+            "Date catalogued": "",
+            "Collector_folder": "Your_Weekend_WT",
             "Cataloguer": "",
             "Notes": "Fairfax updated title code",
             "first_issue_starting_page": "",
