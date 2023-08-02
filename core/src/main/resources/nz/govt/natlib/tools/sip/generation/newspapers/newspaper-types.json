@@ -34,16 +34,17 @@
     "DATE_TIME_PATTERN": "yyyyMMdd",
     "PATH_TO_SPREADSHEET": "default-stuff-import-parameters.json",
     "SUPPLEMENTS": {
+      "CHM": "CEL",
+      "HFR": "FRC",
+      "HHT": "HUN",
       "HMS": "MAS",
+      "HOK": "KAO",
       "HON": "NOO",
-      "HOT": "TAD",
-      "HSO": "SOT",
       "HOC": "PRS",
       "HOW": "WAT",
-      "HWE": "PST",
-      "CHM": "CEL",
-      "HOK": "KAO",
-      "HHT": "HUN"
+      "HOT": "TAD",
+      "HSO": "SOT",
+      "HWE": "PST"
     },
     "PARENT_SUPPLEMENTS": {
       "FPS": "SUS",
@@ -54,8 +55,7 @@
       "YWP": "PRS",
       "YWW": "WAT"
     },
-    "CASE_SENSITIVE": true,
-    "IGNORE_SEQUENCE": "N"
+    "CASE_SENSITIVE": true
   },
   "WMMA": {
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3,4})(?<issue>)(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<revision>)(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}",
