@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export sourceFolder="/home/jeremy/workspace/testdata/stuff/"
+export sourceFolder="/home/jeremy/workspace/testdata/stuff-ftp/"
 export targetBaseFolder="/home/jeremy/workspace/testdata/stuff-processing/"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Jul_2023"
 export forReviewFolder="${targetBaseFolder}/for-review_Jul_2023"
