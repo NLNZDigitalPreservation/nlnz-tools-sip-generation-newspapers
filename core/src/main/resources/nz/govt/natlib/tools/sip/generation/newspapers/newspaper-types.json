@@ -28,26 +28,33 @@
     }
   },
   "stuff": {
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3})(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}",
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{5,7}-\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{5,7}-\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3})-?(?<sectionCode>[a-zA-Z0-9]{2,3})-(\\w{2}-){0,1}?-?(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "yyyyMMdd",
     "PATH_TO_SPREADSHEET": "default-stuff-import-parameters.json",
     "SUPPLEMENTS": {
+      "CHM": "CEL",
+      "HFR": "FRC",
+      "HHT": "HUN",
+      "HMS": "MAS",
+      "HOK": "KAO",
       "HON": "NOO",
-      "SOP": "SOT",
       "HOC": "PRS",
       "HOW": "WAT",
-      "HWE": "DOM",
-      "CHM": "CEL",
-      "HOK": "KAO",
-      "HHT": "HUN"
+      "HOT": "TAD",
+      "HSO": "SOT",
+      "HWE": "PST",
+      "TVL": "SUS"
     },
     "PARENT_SUPPLEMENTS": {
       "FPS": "SUS",
-      "LID": "DOM",
+      "LID": "PST",
       "LIP": "PRS",
-      "LIW": "WAT"
+      "LIW": "WAT",
+      "YWD": "PST",
+      "YWP": "PRS",
+      "YWW": "WAT"
     },
     "CASE_SENSITIVE": true
   },

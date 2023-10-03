@@ -107,8 +107,25 @@ class NewspaperFile {
     // as if they are the same.
     static List<NewspaperFile> sortWithSameTitleCodeAndDate(List<NewspaperFile> files,
                                                             NewspaperProcessingParameters processingParameters) {
+
+        if (!processingParameters.ignoreSequence.isEmpty()) {
+            List<NewspaperFile> ignoredRemoved = []
+            files.each {NewspaperFile newspaperFile ->
+                boolean ignoreFile = false
+                processingParameters.ignoreSequence.each { String ignoreLetter ->
+                    if (newspaperFile.sequenceLetter == ignoreLetter) {
+                        ignoreFile = true
+                    }
+                }
+                if (!ignoreFile) {
+                    ignoredRemoved.push(newspaperFile)
+                }
+            }
+            files = ignoredRemoved
+        }
+
         // FIRST: Order by sectionCode as per processingParameters
-        Map<String, List<NewspaperFile>> filesBySection = [: ]
+        Map<String, List<NewspaperFile>> filesBySection = [:]
         processingParameters.sectionCodes.each { String sectionCode ->
             List<NewspaperFile> sectionFiles = [ ]
             filesBySection.put(sectionCode, sectionFiles)

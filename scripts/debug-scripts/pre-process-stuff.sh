@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/lissje/SUS/"
-export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/lissje/stuff-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Sep_2022"
-export forReviewFolder="${targetBaseFolder}/for-review_Sep_2022"
+export sourceFolder="/home/jeremy/workspace/testdata/stuff-ftp/"
+export targetBaseFolder="/home/jeremy/workspace/testdata/stuff-processing/"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Jul_2023"
+export forReviewFolder="${targetBaseFolder}/for-review_Jul_2023"
 export newspaperType="stuff"
 
-export startingDate="2022-09-01"
-export endingDate="2022-09-30"
+export startingDate="2023-07-01"
+export endingDate="2023-07-30"
 
 #export generalProcessingOptions="search_without_directory_stream"
 
@@ -18,7 +18,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.2-SNAPSHOT.jar \
+    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.5-SNAPSHOT.jar \
     --preProcess \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \

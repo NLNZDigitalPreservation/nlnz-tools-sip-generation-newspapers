@@ -124,8 +124,8 @@ class NoMatchingSipDefinitionTest {
 
         assertThat("${expectedNumberOfIgnoredFiles} ignored files should have been processed",
                 testMethodState.sipProcessingState.ignoredFiles.size(), is(expectedNumberOfIgnoredFiles))
-        assertThat("Ignored file is 'TSTPBX-20181123-001.pdf'",
-                testMethodState.sipProcessingState.ignoredFiles.first().fileName.toString(), is("TSTPBX-20181123-001.pdf"))
+        assertThat("Ignored file is 'TST-PBX-ZN-20181123-001.pdf'",
+                testMethodState.sipProcessingState.ignoredFiles.first().fileName.toString(), is("TST-PBX-ZN-20181123-001.pdf"))
 
 //        if (processingParameters.options.contains(ProcessingOption.GenerateProcessedPdfThumbnailsPage)) {
 //            assertNull("Thumbnail page DOES NOT exist, file=${processingParameters.thumbnailPageFile}",

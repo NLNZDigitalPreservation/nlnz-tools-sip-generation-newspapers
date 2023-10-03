@@ -11,6 +11,7 @@
       "edition_discriminators": "ED1+ED2+ED3+NT1+NT2+NT3+ST1+ST2+ST3",
       "section_codes": "ED1+TAB+SPC+QFS",
       "sequence_letters": "",
+      "ignore_sequence": "",
       "Access": "200",
       "Magazine": "0",
       "ingest_status": "TEC",
