@@ -47,8 +47,8 @@ class ReadyForIngestionProcessor {
     List<ProcessingRule> overrideProcessingRules = [ ]
     List<ProcessingOption> overrideProcessingOptions = [ ]
 
-    List<Tuple2<Path, String>> failureFolderAndReasons = Collections.synchronizedList([ ])
-    List<Tuple2<Path, String>> skippedFolderAndReasons = Collections.synchronizedList([ ])
+    List<Tuple2<Path, String>> failureFolderAndReasons = Collections.synchronizedList([ ]) as List<Tuple2<Path, String>>
+    List<Tuple2<Path, String>> skippedFolderAndReasons = Collections.synchronizedList([ ]) as List<Tuple2<Path, String>>
 
     AtomicBoolean killInitiationLogged = new AtomicBoolean(false)
     AtomicBoolean shutdownInitiated = new AtomicBoolean(false)
@@ -92,7 +92,7 @@ class ReadyForIngestionProcessor {
         if (processingTypes.isEmpty()) {
             String message = "No acceptable value for processingTypes=${this.processorConfiguration.forIngestionProcessingTypes}".toString()
             SipProcessingException exception = new SipProcessingExceptionReason(
-                    SipProcessingExceptionReasonType.INVALID_PARAMETERS, null, message)
+                    SipProcessingExceptionReasonType.INVALID_PARAMETERS, null, message) as SipProcessingException
             throw exception
         }
         this.overrideProcessingRules = ProcessingRule.extract(this.processorConfiguration.forIngestionProcessingRules,
@@ -253,7 +253,7 @@ class ReadyForIngestionProcessor {
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
         if (processingParameters.valid && !sipAsXml.isEmpty()) {
             Path sipFile = sipAndFilesFolder.resolve(FilenameUtils.separatorsToSystem("content/mets.xml"))
-            sipFile.withWriter(StandardCharsets.UTF_8.name()) { Writer writer ->
+            sipFile.toFile().withWriter(StandardCharsets.UTF_8.name()) { Writer writer ->
                 writer.write(sipAsXml)
             }
         }
@@ -263,7 +263,7 @@ class ReadyForIngestionProcessor {
         // We will assume that millisecond timestamps ensures that the filename will be unique
         Path processingStateFile = processingParameters.sourceFolder.resolve(
                 "${processingParameters.processingDifferentiator()}_parameters-and-state_${PathUtils.FILE_TIMESTAMP_FORMATTER.format(now)}.txt")
-        processingStateFile.withWriter(StandardCharsets.UTF_8.name()) { Writer writer ->
+        processingStateFile.toFile().withWriter(StandardCharsets.UTF_8.name()) { Writer writer ->
             writer.write(processingParameters.detailedDisplay(0, true))
         }
         if (Files.exists(sipAndFilesFolder)) {
@@ -345,7 +345,7 @@ class ReadyForIngestionProcessor {
         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at start of ALL processing",
                 true, true, true, false, true, true, true)
 
-        List<Path> invalidFolders = Collections.synchronizedList([ ])
+        List<Path> invalidFolders = Collections.synchronizedList([ ]) as List<Path>
 
         setupShutdownHook()
         // Process the collected directories across multiple threads
@@ -354,9 +354,9 @@ class ReadyForIngestionProcessor {
         // to debug.
         GParsExecutorsPool.withPool(numberOfThreads) {
             titleCodeFoldersAndDates.eachParallel { Tuple2<Path, String> titleCodeFolderAndDateString ->
-                Path titleCodeFolder = titleCodeFolderAndDateString.first
+                Path titleCodeFolder = titleCodeFolderAndDateString.first() as Path
                 String titleCode = titleCodeFolder.fileName.toString()
-                String dateString = titleCodeFolderAndDateString.second
+                String dateString = titleCodeFolderAndDateString.get(1) as Path
                 String titleCodeFolderMessage = "titleCode=${titleCode}, date=${dateString}, folder=${titleCodeFolder.normalize()}"
                 try {
                     if (continueProcessing) {
@@ -431,7 +431,7 @@ class ReadyForIngestionProcessor {
         if (skippedFolderAndReasons.size() > 0) {
             log.info("${System.lineSeparator()}Folder processing skipped total=${skippedFolderAndReasons.size()}")
             skippedFolderAndReasons.each { Tuple2<Path, String> folderAndReason ->
-                log.info("    Skipped folder=${folderAndReason.first.normalize().toString()}, reason=${folderAndReason.second}")
+                log.info("    Skipped folder=${folderAndReason.get(0).normalize().toString()}, reason=${folderAndReason.get(1)}")
             }
         }
 

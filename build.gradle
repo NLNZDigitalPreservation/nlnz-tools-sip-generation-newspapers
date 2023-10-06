@@ -11,12 +11,22 @@ subprojects {
 
     project.ext {
         vendor = "National Library of New Zealand"
-
         versionNumber = "1.1.5-SNAPSHOT"
     }
 
-    apply plugin: 'maven'
     apply plugin: 'maven-publish'
+    apply plugin: 'groovy'
+    apply plugin: 'java'
+    apply plugin: 'pmd'
+
+    apply plugin: 'jacoco'
+    jacoco {
+        // This version is necessary to run under JDK 1.17
+        toolVersion = "0.8.7"
+    }
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     configurations {
         publishableArtifacts

@@ -3,7 +3,7 @@ package nz.govt.natlib.tools.sip.generation.newspapers
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorOption
 import nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorUtils
 import org.apache.commons.io.FilenameUtils
-import org.apache.commons.lang.SystemUtils
+import org.apache.commons.lang3.SystemUtils
 
 import java.nio.file.Path
 import java.util.regex.Pattern

@@ -14,13 +14,13 @@ buildscript {
     }
     dependencies {
         classpath 'nz.govt.natlib.m11n.tools:gradle-plugin:1.0.0-SNAPSHOT'
-        classpath 'nz.govt.natlib.tools:sip-generation-gradle-plugin:1.0.3-SNAPSHOT'
+        classpath 'nz.govt.natlib.tools:sip-generation-gradle-plugin:1.0.6-SNAPSHOT'
     }
 }
 
 plugins {
     // required for jacoco test coverage checks
-    id 'com.github.kt3k.coveralls' version '2.6.3'
+    alias libs.plugins.coveralls
 }
 
 project.ext {
@@ -64,63 +64,42 @@ project.ext {
             project.newspaperSpreadsheetExportFilename : null
 }
 
-apply plugin: 'groovy'
-
-apply plugin: 'java'
-
-// this needs to be set after the 'java' plugin has been applied
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-apply plugin: 'jacoco'
-jacoco {
-    // This version is necessary to run under JDK 1.11
-    toolVersion = "0.8.2"
-}
-
 // run the findBugs checks with 'gradle check' or 'gradle findBugsMain' or 'gradle findBugsTest'
 //apply plugin: 'findbugs'
 
 // run the pmd source code analyzer with 'gradle check' or 'gradle pmdMain' or 'gradle pmdTest'
-apply plugin: 'pmd' // source code analyzer
+//apply plugin: 'pmd' // source code analyzer
 
 setVersion(project.ext.versionNumber)
 
+// Dependency versions are stored in /nlnz-tools-sip-generation-newspapers/gradle/libs.versions.toml
 dependencies {
     // localGroovy (which is currently 2.4.x) is used. Groovy 2.5.x supports JsonGenerator and other new functionality
     // but causes issues with downstream builds, so alternatives provided by Groovy 2.4.x are used.
-    compile localGroovy()
-    //compile 'org.codehaus.groovy:groovy-all:2.5.4'
+    implementation localGroovy()
 
-    // Latest version
-    compile "org.apache.commons:commons-lang3:3.9"
-    // Latest version
-    compile "org.apache.commons:commons-collections4:4.3"
+    //NLNZ dependency
+    implementation(libs.sip.generation.core)
 
-    compile 'org.apache.commons:commons-configuration2:2.8.0'
+    implementation(libs.commons.lang)
+    implementation(libs.commons.collections)
+    implementation(libs.commons.configuration)
+    implementation(libs.commons.io)
 
     // For parallel processing
-    compile "org.codehaus.gpars:gpars:1.2.1"
+    implementation(libs.gpars)
 
     // We're using Log4j2
-    compile 'org.apache.logging.log4j:log4j-api:2.17.0'
-    compile 'org.apache.logging.log4j:log4j-core:2.17.0'
+    implementation(libs.log4j.api)
+    implementation(libs.log4j.core)
     // Ensure that other logging APIs use log4j2
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
-    compile 'org.apache.logging.log4j:log4j-jcl:2.17.0'
+    implementation(libs.log4j.slf4j.impl)
+    implementation(libs.log4j.jcl)
 
-    compile 'nz.govt.natlib.tools:sip-generation-core:1.0.3-SNAPSHOT'
-
-    // latest version
-    testCompile 'junit:junit:4.12'
-
-    // latest version
-    testCompile 'org.hamcrest:hamcrest-core:2.1'
-
-    // latest version
-    testCompile 'org.mockito:mockito-core:2.23.4'
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.hamcrest.core)
+    testImplementation(libs.mockito.core)
 }
 
 jar {
