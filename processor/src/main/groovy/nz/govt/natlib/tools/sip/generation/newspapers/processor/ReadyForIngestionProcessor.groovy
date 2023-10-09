@@ -64,7 +64,7 @@ class ReadyForIngestionProcessor {
             String dateString = folderNameComponents.get(0)
             try {
                 date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(dateTimePattern))
-            } catch (DateTimeParseException e) {
+            } catch (DateTimeParseException ignored) {
                 log.warn("Unable to parse dateString=${dateString} to LocalDate. Using null.")
             }
         }
@@ -356,7 +356,7 @@ class ReadyForIngestionProcessor {
             titleCodeFoldersAndDates.eachParallel { Tuple2<Path, String> titleCodeFolderAndDateString ->
                 Path titleCodeFolder = titleCodeFolderAndDateString.first() as Path
                 String titleCode = titleCodeFolder.fileName.toString()
-                String dateString = titleCodeFolderAndDateString.get(1) as Path
+                String dateString = titleCodeFolderAndDateString.get(1)
                 String titleCodeFolderMessage = "titleCode=${titleCode}, date=${dateString}, folder=${titleCodeFolder.normalize()}"
                 try {
                     if (continueProcessing) {
@@ -431,14 +431,14 @@ class ReadyForIngestionProcessor {
         if (skippedFolderAndReasons.size() > 0) {
             log.info("${System.lineSeparator()}Folder processing skipped total=${skippedFolderAndReasons.size()}")
             skippedFolderAndReasons.each { Tuple2<Path, String> folderAndReason ->
-                log.info("    Skipped folder=${folderAndReason.get(0).normalize().toString()}, reason=${folderAndReason.get(1)}")
+                log.info("    Skipped folder=${folderAndReason.get(0).toString()}, reason=${folderAndReason.get(1)}")
             }
         }
 
         if (failureFolderAndReasons.size() > 0) {
             log.info("${System.lineSeparator()}Folder processing failures total=${failureFolderAndReasons.size()}")
             failureFolderAndReasons.each { Tuple2<Path, String> folderAndReason ->
-                log.info("    Failure folder=${folderAndReason.first.normalize().toString()}, reason=${folderAndReason.second}")
+                log.info("    Failure folder=${folderAndReason.get(0).toString()}, reason=${folderAndReason.get(1)}")
             }
         }
     }

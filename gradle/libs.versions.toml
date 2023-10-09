@@ -2,7 +2,7 @@
 log4j = "2.20.0"
 
 [libraries]
-sip-generation-core = 'nz.govt.natlib.tools:sip-generation-core:1.0.6-SNAPSHOT'
+sip-generation-core = 'nz.govt.natlib.tools:sip-generation-core:1.0.5-SNAPSHOT'
 
 commons-lang = "org.apache.commons:commons-lang3:3.9"
 commons-collections = "org.apache.commons:commons-collections4:4.3"
