@@ -1,0 +1,10 @@
+PROCESSING_TYPE=--preProcess
+NEWSPAPER_TYPE=--newspaperType=alliedPress
+STARTING_DATE=--startingDate=2023-09-01
+ENDING_DATE=--endingDate=2023-09-30
+SOURCE_FOLDER=--sourceFolder=/source/allpress/
+TARGET_PRE_PROCESSING_FOLDER=--targetPreProcessingFolder=/output/allpress-processing/pre-processing_Sep_2023
+FOR_REVIEW_FOLDER=--forReviewFolder=/output/allpress-processing/for-review_Sep_2023
+CREATE_DESTINATION_FOLDER=--createDestination
+PARALLELIZE_PROCESSING=--parallelizeProcessing
+NUMBER_OF_THREADS--numberOfThreads=4
