@@ -58,12 +58,12 @@
     },
     "CASE_SENSITIVE": true
   },
-  "WMMA": {
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3,4})(?<issue>)(?<editionCode>)(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<revision>)(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}",
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-    "DATE_TIME_PATTERN": "ddMMMyy",
-    "PATH_TO_SPREADSHEET": "default-WMMA-import-parameters.json",
+  "WTAA": {
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3,4})-(?<issue>)(?<editionCode>)(?<sectionCode>)(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<qualifier>)(?<sequenceNumber>\\d{1,4})(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4}-\\d{8}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4}-\\d{8}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+    "DATE_TIME_PATTERN": "yyyyMMdd",
+    "PATH_TO_SPREADSHEET": "default-WTAA-import-parameters.json",
     "CASE_SENSITIVE": false
   },
   "wptNews": {

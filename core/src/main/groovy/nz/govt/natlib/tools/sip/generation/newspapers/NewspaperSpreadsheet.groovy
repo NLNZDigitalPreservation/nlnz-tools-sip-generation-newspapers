@@ -53,7 +53,7 @@ class NewspaperSpreadsheet {
     static NewspaperSpreadsheet defaultInstance(String pathToSpreadsheet) {
         // TODO Either a root class to get resourceAsStream, move the json file to the same package or do ../../.. etc
         // or do what SipTestHelper does.
-//        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream("default-WMMA-import-parameters.json")
+//        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream("default-WTAA-import-parameters.json")
         InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream(pathToSpreadsheet)
         Spreadsheet spreadsheet = Spreadsheet.fromJson(Spreadsheet.GENERATE_ID_VALUE, defaultSpreadsheetInputStream.text, true, true)
 
