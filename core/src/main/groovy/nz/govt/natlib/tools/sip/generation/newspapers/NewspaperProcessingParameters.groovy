@@ -38,6 +38,7 @@ class NewspaperProcessingParameters {
     LocalDate date
     Map<String, String> spreadsheetRow = [ : ]
     List<String> sectionCodes = [ ]
+    List<String> editionCodes = [ ]
     List<String> sequenceLetters = [ ]
     List<String> ignoreSequence = []
     List<String> editionDiscriminators = [ ]
@@ -136,7 +137,7 @@ class NewspaperProcessingParameters {
                     if (processingParameters.rules.contains(ProcessingRule.IgnoreEditionsWithoutMatchingFiles)) {
                         List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder, newspaperType)
                         hasMatchingEdition = allNewspaperFiles.any { NewspaperFile newspaperFile ->
-                            editionDiscriminator == newspaperFile.sectionCode
+                            editionDiscriminator == newspaperFile.sectionCode || editionDiscriminator == newspaperFile.editionCode
                         }
                     }
                     if (hasMatchingEdition) {
@@ -310,14 +311,20 @@ class NewspaperProcessingParameters {
 
     List<String> validSectionCodes() {
         if (!hasCurrentEdition()) {
-            return (List<String>) this.sectionCodes.clone()
+//            return (List<String>) this.sectionCodes.clone()
+            return (List<String>) this.editionCodes.clone()
         }
         List<String> validSectionCodes = [ ]
         if (this.currentEdition != this.editionDiscriminators.first()) {
             validSectionCodes.add(this.editionDiscriminators.first())
         }
         validSectionCodes.add(this.currentEdition)
-        this.sectionCodes.each { String sectionCode ->
+//        this.sectionCodes.each { String sectionCode ->
+//            if (sectionCode != currentEdition && sectionCode != editionDiscriminators.first()) {
+//                validSectionCodes.add(sectionCode)
+//            }
+//        }
+        this.editionCodes.each { String sectionCode ->
             if (sectionCode != currentEdition && sectionCode != editionDiscriminators.first()) {
                 validSectionCodes.add(sectionCode)
             }
@@ -359,6 +366,7 @@ class NewspaperProcessingParameters {
         stringBuilder.append("${initialOffset}    titleCode=${titleCode}")
         stringBuilder.append(System.lineSeparator())
         stringBuilder.append("${initialOffset}    sectionCodes=${sectionCodes}")
+        stringBuilder.append("${initialOffset}    editionCodes=${editionCodes}")
         stringBuilder.append(System.lineSeparator())
         stringBuilder.append("${initialOffset}    editionDiscriminators=${editionDiscriminators}")
         stringBuilder.append(System.lineSeparator())

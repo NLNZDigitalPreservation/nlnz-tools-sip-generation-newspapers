@@ -45,6 +45,7 @@ class NewspaperFile {
     String filename
     String titleCode
     String sectionCode
+    String editionCode
     Integer dateYear
     Integer dateMonthOfYear
     Integer dateDayOfMonth
@@ -248,9 +249,12 @@ class NewspaperFile {
                 (newspaperType.PARENT_SUPPLEMENTS != null &&
                             newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode] &&
                             newspaperFile.titleCode != titleCode)
-                    && newspaperFile.sectionCode == replacementSectionCode) {
+//                    && newspaperFile.sectionCode == replacementSectionCode
+                && newspaperFile.editionCode == replacementSectionCode
+            ) {
                 substituted.add(newspaperFile)
-            } else if (!otherSectionCodes.contains(newspaperFile.sectionCode)) {
+//            } else if (!otherSectionCodes.contains(newspaperFile.sectionCode)) {
+            } else if (!otherSectionCodes.contains(newspaperFile.editionCode)) {
                 NewspaperFile replacementFile = substituteFor(sourceSectionCode, replacementSectionCode, newspaperFile,
                         possibleFiles)
                 if (replacementFile != null) {
@@ -263,13 +267,15 @@ class NewspaperFile {
 
     static boolean hasSubstitutions(String replacementSectionCode, List<NewspaperFile> possibleFiles) {
         return possibleFiles.any { NewspaperFile newspaperFile ->
-            newspaperFile.sectionCode == replacementSectionCode
+            newspaperFile.editionCode == replacementSectionCode
+//            newspaperFile.sectionCode == replacementSectionCode
         }
     }
 
     static List<NewspaperFile> filterAllFor(List<String> sectionCodes, List<NewspaperFile> possibleFiles) {
         List<NewspaperFile> filtered = possibleFiles.findAll { NewspaperFile newspaperFile ->
-            sectionCodes.contains(newspaperFile.sectionCode)
+//            sectionCodes.contains(newspaperFile.sectionCode)
+            sectionCodes.contains(newspaperFile.editionCode)
         }
         if (possibleFiles.size() != filtered.size()) {
             log.warn("Not all filtered files exist in final list, differences=${differences(possibleFiles, filtered)}")
@@ -484,6 +490,7 @@ class NewspaperFile {
         if (matcher.matches()) {
             this.titleCode = matcher.group('titleCode')
             this.sectionCode = matcher.group('sectionCode')
+            this.editionCode = matcher.group("editionCode")
             // In some situations the titleCode will take too many characters
 //            if ((this.titleCode.length() == 4) && (this.sectionCode.length() == 2)) {
 //                this.sectionCode = "${this.titleCode.substring(3, 4)}${this.sectionCode}"
