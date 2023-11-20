@@ -28,23 +28,20 @@ class NewspaperFileTest {
 
     @Test
     void correctlyMatchesFilenamesUsingDifferentRegexPatterns() {
-        checkRegexFilenamePatternMatches("abcD25Apr18A1.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25APR18A1.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcd25Apr18A01.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcd25APR18A001.PDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25apr18A0001.PDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18001.PDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18A1some-qualifier.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18A1-another-qualifier.pDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20182504-A1.pDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcd-20182504-A01.pDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcd-20182504-A001.PDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20182504-A0001.PDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20182504-001.PDF", "WTAA", true, true, true)
         // NOTE: This does match, but the '1' at the end is included in the qualifier.
-        checkRegexFilenamePatternMatches("abcD25Apr18A0001.pdf", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20182504-A0001.pdf", "WTAA", true, true, true)
 
-        checkRegexFilenamePatternMatches("abcDnodateA001.PDF", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("abcDEFGH-20180425-A001.PDF", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("abcD25Apr18A001", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("abcD25Apr18A001.pdf2", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("ab25Apr18A001.pdf", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD-nodate-A001.PDF", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("abcDEFGH-20180425-A001.PDF", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD25Apr18A001", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD25Apr18A001.pdf2", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("ab25Apr18A001.pdf", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("", "WTAA", false, false, false)
     }
 
     void checkRegexFilenamePatternMatches(String valueToCheck, String publication, boolean matchesWithGroupingRegex,
@@ -75,16 +72,16 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithWMMALetterSequence() {
-        String originalFilename = "WMMA22Oct18B024.pdf"
+        String originalFilename = "WTAA-20181022-B024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
-        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WMMA"))
+        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WTAA"))
         assertNotNull("Year extracted", testNewspaperFile.dateYear)
-        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(new Integer(2018)))
-        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(new Integer(10)))
-        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(new Integer(22)))
+        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(2018))
+        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(10))
+        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(22))
         assertThat("Prefix parsed correctly", testNewspaperFile.sequenceLetter, is("B"))
         assertThat("Prefix parsed correctly", testNewspaperFile.sequenceNumberString, is("024"))
         assertThat("Prefix parsed correctly", testNewspaperFile.sequenceNumber, is(24))
