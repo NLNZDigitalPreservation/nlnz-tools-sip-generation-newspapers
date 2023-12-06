@@ -190,7 +190,7 @@ class FirstSectionCodeRequiredForMatchPGWETest {
         assertTrue("SipProcessingState is complete", testMethodState.sipProcessingState.isComplete())
         assertTrue("SipProcessingState is successful", testMethodState.sipProcessingState.isSuccessful())
 
-        TestHelper.assertExpectedSipMetadataValues(sipForValidation, "Test Publication Zoo", "2018", "11", "23 [ZOO]",
+        TestHelper.assertExpectedSipMetadataValues(sipForValidation, "Test Publication Zoo", "2018", "11", "23 [ZN]",
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-zoo", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 

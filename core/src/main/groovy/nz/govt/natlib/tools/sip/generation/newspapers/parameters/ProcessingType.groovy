@@ -9,7 +9,7 @@ enum ProcessingType {
     ParentGroupingWithEdition("parent_grouping_with_edition",
             [ ProcessingRule.SkipIgnored, ProcessingRule.SkipUnrecognised, ProcessingRule.SkipInvalid,
               ProcessingRule.Automatic, ProcessingRule.FirstSectionCodeNotRequiredForMatch,
-              ProcessingRule.AllSectionsInSipRequired, ProcessingRule.MissingSequenceError,
+              ProcessingRule.MissingSequenceError,
               ProcessingRule.MissingSequenceDoubleWideIgnored, ProcessingRule.IgnoreEditionsWithoutMatchingFiles,
               ProcessingRule.ZeroLengthPdfReplacedWithPageUnavailablePdf, ProcessingRule.DoNotForceSkip,
               ProcessingRule.NumericStartsInHundredsNotConsideredSequenceSkips, ProcessingRule.IsMultiPdfFiles,

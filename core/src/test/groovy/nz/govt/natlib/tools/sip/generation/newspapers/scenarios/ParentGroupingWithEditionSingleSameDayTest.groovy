@@ -24,6 +24,10 @@ import static org.hamcrest.core.Is.is
 import static org.junit.Assert.*
 
 /**
+ * THIS TEST TESTS A DEPRECATED FEATURE, AND IS NOW IGNORED. IT HAS BEEN KEPT FOR REFERENCE
+ */
+
+/**
  * Tests the {@code parent-grouping-with-edition-single-same-day} scenario.
  *
  * Note that this test is complicated by the files either being part of a directory structure or in a resource file (jar),
@@ -34,6 +38,7 @@ import static org.junit.Assert.*
  */
 @RunWith(MockitoJUnitRunner.class)
 @Log4j2
+@Ignore
 class ParentGroupingWithEditionSingleSameDayTest {
     // TODO Make this processing simpler
     // - given a starting folder

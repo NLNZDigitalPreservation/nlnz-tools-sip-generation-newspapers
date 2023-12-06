@@ -11,20 +11,20 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner.class)
 class NewspaperTypeTest {
     @Test
-    void loadsTheWMMASpreadsheet() {
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+    void loadsTheWTAASpreadsheet() {
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN,
-                is("(?<titleCode>[a-zA-Z0-9]{3,4})(?<issue>)(?<editionCode>)(?<sectionCode>)(?<date>\\d{2}\\w{3}\\d{2})(?<revision>)(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("(?<titleCode>[a-zA-Z0-9]{3,4})-(?<issue>)(?<editionCode>)(?<sectionCode>)(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN,
-                is("\\w{4,7}\\d{2}\\w{3}\\d{2}\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("\\w{4}-\\d{8}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN,
-                is("\\w{4,7}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("\\w{4}-\\d{8}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
-                is("ddMMMyy"))
+                is("yyyyMMdd"))
         assertThat("SUPPLEMENTS is null", newspaperType.SUPPLEMENTS, is(null))
     }
 
@@ -88,13 +88,13 @@ class NewspaperTypeTest {
         NewspaperType newspaperType = new NewspaperType("stuff")
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN,
-                is("(?<titleCode>[a-zA-Z0-9]{3})-?(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<editionCode>\\w{2}){0,1}?-?(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("(?<titleCode>[a-zA-Z0-9]{3})-?(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<editionCode>\\w{2})?-?(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN,
-                is("\\w{3}-?\\w{3,4}-\\w{2}-{0,1}?\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN is set correctly",
                 newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN,
-                is("\\w{3}-?\\w{3,4}-\\w{2}-{0,1}?\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+                is("\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
                 is("yyyyMMdd"))

@@ -137,7 +137,7 @@ class NewspaperProcessingParameters {
                     if (processingParameters.rules.contains(ProcessingRule.IgnoreEditionsWithoutMatchingFiles)) {
                         List<NewspaperFile> allNewspaperFiles = NewspaperFile.fromSourceFolder(sourceFolder, newspaperType)
                         hasMatchingEdition = allNewspaperFiles.any { NewspaperFile newspaperFile ->
-                            editionDiscriminator == newspaperFile.sectionCode || editionDiscriminator == newspaperFile.editionCode
+                            editionDiscriminator == newspaperFile.editionCode
                         }
                     }
                     if (hasMatchingEdition) {
@@ -204,6 +204,7 @@ class NewspaperProcessingParameters {
                     options: ProcessingOption.extract(options, ",", processingType.defaultOptions),
                     sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: matchingRow,
                     sectionCodes: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SECTION_CODE_KEY),
+                    editionCodes: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_CODE_KEY),
                     sequenceLetters: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SEQUENCE_LETTER_KEY),
                     ignoreSequence: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.IGNORE_SEQUENCE_KEY),
                     editionDiscriminators: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY),
@@ -310,8 +311,8 @@ class NewspaperProcessingParameters {
     }
 
     List<String> validSectionCodes() {
+
         if (!hasCurrentEdition()) {
-//            return (List<String>) this.sectionCodes.clone()
             return (List<String>) this.editionCodes.clone()
         }
         List<String> validSectionCodes = [ ]
@@ -319,11 +320,6 @@ class NewspaperProcessingParameters {
             validSectionCodes.add(this.editionDiscriminators.first())
         }
         validSectionCodes.add(this.currentEdition)
-//        this.sectionCodes.each { String sectionCode ->
-//            if (sectionCode != currentEdition && sectionCode != editionDiscriminators.first()) {
-//                validSectionCodes.add(sectionCode)
-//            }
-//        }
         this.editionCodes.each { String sectionCode ->
             if (sectionCode != currentEdition && sectionCode != editionDiscriminators.first()) {
                 validSectionCodes.add(sectionCode)
@@ -366,6 +362,7 @@ class NewspaperProcessingParameters {
         stringBuilder.append("${initialOffset}    titleCode=${titleCode}")
         stringBuilder.append(System.lineSeparator())
         stringBuilder.append("${initialOffset}    sectionCodes=${sectionCodes}")
+        stringBuilder.append(System.lineSeparator())
         stringBuilder.append("${initialOffset}    editionCodes=${editionCodes}")
         stringBuilder.append(System.lineSeparator())
         stringBuilder.append("${initialOffset}    editionDiscriminators=${editionDiscriminators}")
