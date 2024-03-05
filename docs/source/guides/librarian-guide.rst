@@ -138,13 +138,21 @@ Columns used by ready-for-ingestion processing
     The title code of the publication.
 
 ``edition_discriminators``
-    The section code names that indicate a different edition. They are separated by the ``+`` sign, as in
-    ``ED1+ED2+ED3``.
+    When a publication with one title code has two editions - e.g NZFarmer (2023 : southern edition) and
+    NZFarmer (2023 : northern edition), the edition discriminator identifies which files belong just to that edition.
+    These are used then used in the ``edition_codes`` to build the complete issue. In the case of NZFarmer, both editions
+    use all the files with a ``ZN`` code, but the files with ``ST`` are specific to the southern edition, and ``NT`` to
+    the northern edition
+
+``edition_codes``
+    The combination of codes that will build a full issue for publication multiple editions. The ``edition_discriminators``
+    followed by a ``+`` followed by any other ``edition_codes`` that should be included. e.g ``ST+ZN``
 
 ``section_codes``
     The section codes that will be included in the publication. For different editions, only the first edition code
     needs to be included. Section codes are included in the publication in the same order they are given here. They are
     separated by the ``+`` sign, as in ``ED1+TAB+YWE``.
+
 
 ``Access``
     The publication access. This is usually ``200``.
