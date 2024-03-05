@@ -28,23 +28,20 @@ class NewspaperFileTest {
 
     @Test
     void correctlyMatchesFilenamesUsingDifferentRegexPatterns() {
-        checkRegexFilenamePatternMatches("abcD25Apr18A1.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25APR18A1.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcd25Apr18A01.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcd25APR18A001.PDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25apr18A0001.PDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18001.PDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18A1some-qualifier.pDF", "WMMA", true, true, true)
-        checkRegexFilenamePatternMatches("abcD25Apr18A1-another-qualifier.pDF", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20180425-A1.pDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcd-20180425-A01.pDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcd-20180425-A001.PDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20180425-A0001.PDF", "WTAA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20180425-001.PDF", "WTAA", true, true, true)
         // NOTE: This does match, but the '1' at the end is included in the qualifier.
-        checkRegexFilenamePatternMatches("abcD25Apr18A0001.pdf", "WMMA", true, true, true)
+        checkRegexFilenamePatternMatches("abcD-20180425-A0001.pdf", "WTAA", true, true, true)
 
-        checkRegexFilenamePatternMatches("abcDnodateA001.PDF", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("abcDEFGH-20180425-A001.PDF", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("abcD25Apr18A001", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("abcD25Apr18A001.pdf2", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("ab25Apr18A001.pdf", "WMMA", false, false, false)
-        checkRegexFilenamePatternMatches("", "WMMA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD-nodate-A001.PDF", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("abcDEFGH-20180425-A001.PDF", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD25Apr18A001", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("abcD25Apr18A001.pdf2", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("ab25Apr18A001.pdf", "WTAA", false, false, false)
+        checkRegexFilenamePatternMatches("", "WTAA", false, false, false)
     }
 
     void checkRegexFilenamePatternMatches(String valueToCheck, String publication, boolean matchesWithGroupingRegex,
@@ -74,17 +71,17 @@ class NewspaperFileTest {
     }
 
     @Test
-    void createsCorrectlyWithWMMALetterSequence() {
-        String originalFilename = "WMMA22Oct18B024.pdf"
+    void createsCorrectlyWithWTAALetterSequence() {
+        String originalFilename = "WTAA-20181022-B024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
-        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WMMA"))
+        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("WTAA"))
         assertNotNull("Year extracted", testNewspaperFile.dateYear)
-        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(new Integer(2018)))
-        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(new Integer(10)))
-        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(new Integer(22)))
+        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(2018))
+        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(10))
+        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(22))
         assertThat("Prefix parsed correctly", testNewspaperFile.sequenceLetter, is("B"))
         assertThat("Prefix parsed correctly", testNewspaperFile.sequenceNumberString, is("024"))
         assertThat("Prefix parsed correctly", testNewspaperFile.sequenceNumber, is(24))
@@ -144,10 +141,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithNumberOnlySequence() {
-        String originalFilename = "t2022Oct18024.pdf"
+        String originalFilename = "t20-20181022-024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -163,10 +160,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithLetterSequenceQualifier() {
-        String originalFilename = "TST22Oct18B024a qualifier.pdf"
+        String originalFilename = "TST-20181022-B024a qualifier.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -184,10 +181,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithMixedCaseExtension() {
-        String originalFilename = "TST22Oct18B024a qualifier.pDf"
+        String originalFilename = "TST-20181022-B024a qualifier.pDf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -205,10 +202,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithUpperCaseExtension() {
-        String originalFilename = "TST22Oct18B024a qualifier.PDF"
+        String originalFilename = "TST-20181022-B024a qualifier.PDF"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -226,10 +223,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithFourCharacterTitleCode() {
-        String originalFilename = "JAZZ22Oct18B024a qualifier.pDf"
+        String originalFilename = "JAZZ-20181022-B024a qualifier.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -247,10 +244,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithNumberOnlySequenceQualifier() {
-        String originalFilename = "t2022Oct18024crop.pdf"
+        String originalFilename = "t20-20181022-024crop.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -266,10 +263,10 @@ class NewspaperFileTest {
 
     @Test
     void createsCorrectlyWithInvalidFilename() {
-        String originalFilename = "abcde22Oct18024.pdf"
+        String originalFilename = "abcde-20181022-024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
 
         assertThat("filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
@@ -278,12 +275,12 @@ class NewspaperFileTest {
 
     @Test
     void matchesWhenSamePrefixAndDate() {
-        String filename1 = "Mixy22Oct18023.pdf"
-        String filename2 = "Mixy22Oct18001.pdf"
+        String filename1 = "Mixy-20181022-023.pdf"
+        String filename2 = "Mixy-20181022-001.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -295,12 +292,12 @@ class NewspaperFileTest {
 
     @Test
     void matchesWhenSamePrefixDateAndSequence() {
-        String filename1 = "Mixy22Oct18023.pdf"
-        String filename2 = "Mixy22Oct18023withQualifier.pdf"
+        String filename1 = "Mixy-20181022-023.pdf"
+        String filename2 = "Mixy-20181022-023withQualifier.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -311,12 +308,12 @@ class NewspaperFileTest {
 
     @Test
     void doesNotMatchWhenSamePrefixButDifferentDate() {
-        String filename1 = "ABCD22Oct18023.pdf"
-        String filename2 = "ABCD23Oct18023.pdf"
+        String filename1 = "ABCD-20181022-023.pdf"
+        String filename2 = "ABCD-20181023-023.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -326,12 +323,12 @@ class NewspaperFileTest {
 
     @Test
     void doesNotMatchWhenDifferentPrefix() {
-        String filename1 = "NAMA22Oct18023.pdf"
-        String filename2 = "NAMB22Oct20023.pdf"
+        String filename1 = "NAMA-20201022-023.pdf"
+        String filename2 = "NAMB-20201022-023..pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -341,14 +338,14 @@ class NewspaperFileTest {
 
     @Test
     void sortsCorrectlyWithSameDateButDifferentSequenceNumbers() {
-        String filename1 = "NAMe22Oct18023.pdf"
-        String filename2 = "NAMe22Oct18022.pdf"
-        String filename3 = "NAMe22Oct18021.pdf"
+        String filename1 = "NAMe-20181022-023.pdf"
+        String filename2 = "NAMe-20181022-022.pdf"
+        String filename3 = "NAMe-20181022-021.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -360,14 +357,14 @@ class NewspaperFileTest {
 
     @Test
     void sortsCorrectlyWithDifferentDates() {
-        String filename1 = "NAMe23Oct18021.pdf"
-        String filename2 = "NAMe22Oct18022.pdf"
-        String filename3 = "NAMe21Oct18023.pdf"
+        String filename1 = "NAMe-20181023-021.pdf"
+        String filename2 = "NAMe-20181022-022.pdf"
+        String filename3 = "NAMe-20181021-023.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -379,14 +376,14 @@ class NewspaperFileTest {
 
     @Test
     void sortsCorrectlyWithSameDateAndSequenceStringButDifferentNumbers() {
-        String filename1 = "NAMe22Oct18C023.pdf"
-        String filename2 = "NAMe22Oct18C022.pdf"
-        String filename3 = "NAMe22Oct18C021.pdf"
+        String filename1 = "NAMe-20181022-C023.pdf"
+        String filename2 = "NAMe-20181022-C022.pdf"
+        String filename3 = "NAMe-20181022-C021.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -398,14 +395,14 @@ class NewspaperFileTest {
 
     @Test
     void sortsCorrectlyWithSameDateAndDifferentSequenceStringButDifferentNumbers() {
-        String filename1 = "NAMe22Oct18M023.pdf"
-        String filename2 = "NAMe22Oct18C022.pdf"
-        String filename3 = "NAMe22Oct18A021.pdf"
+        String filename1 = "NAMe-20181022-M023.pdf"
+        String filename2 = "NAMe-20181022-C022.pdf"
+        String filename3 = "NAMe-20181022-A021.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -417,14 +414,14 @@ class NewspaperFileTest {
 
     @Test
     void correctlyCreatesLocalDateFromFilename() {
-        String filename1 = "NAMe01Jan18M023.pdf"
-        String filename2 = "NAMe30Jun18A021.pdf"
-        String filename3 = "NAMe31Dec18C022.pdf"
+        String filename1 = "NAMe-20180101-M023.pdf"
+        String filename2 = "NAMe-20180630-A021.pdf"
+        String filename3 = "NAMe-20181231-C022.pdf"
         when(mockFile1.fileName).thenReturn(Path.of(filename1))
         when(mockFile2.fileName).thenReturn(Path.of(filename2))
         when(mockFile3.fileName).thenReturn(Path.of(filename3))
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(mockFile1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(mockFile2, newspaperType)
@@ -440,15 +437,15 @@ class NewspaperFileTest {
 
     @Test
     void sortsCorrectlyUsingNumericBeforeAlpha() {
-        Path file1 = Path.of("NAMe31Jan18M023.pdf")
-        Path file2 = Path.of("NAMe31Jan18A01.pdf")
-        Path file3 = Path.of("NAMe31Jan18A02.pdf")
-        Path file4 = Path.of("NAMe31Jan1802.pdf")
-        Path file5 = Path.of("NAMe31Jan1801.pdf")
-        Path file6 = Path.of("NAMe31Jan18C1.pdf")
-        Path file7 = Path.of("NAMe31Jan18C2.pdf")
+        Path file1 = Path.of("NAMe-20180131-M023.pdf")
+        Path file2 = Path.of("NAMe-20180131-A01.pdf")
+        Path file3 = Path.of("NAMe-20180131-A02.pdf")
+        Path file4 = Path.of("NAMe-20180131-02.pdf")
+        Path file5 = Path.of("NAMe-20180131-01.pdf")
+        Path file6 = Path.of("NAMe-20180131-C1.pdf")
+        Path file7 = Path.of("NAMe-20180131-C2.pdf")
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(file1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(file2, newspaperType)
@@ -468,15 +465,15 @@ class NewspaperFileTest {
 
     @Test
     void sortsCorrectlyUsingAlphaBeforeNumeric() {
-        Path file1 = Path.of("NAMe31Jan18M023.pdf")
-        Path file2 = Path.of("NAMe31Jan18A01.pdf")
-        Path file3 = Path.of("NAMe31Jan18A02.pdf")
-        Path file4 = Path.of("NAMe31Jan1802.pdf")
-        Path file5 = Path.of("NAMe31Jan1801.pdf")
-        Path file6 = Path.of("NAMe31Jan18C1.pdf")
-        Path file7 = Path.of("NAMe31Jan18C2.pdf")
+        Path file1 = Path.of("NAMe-20180131-M023.pdf")
+        Path file2 = Path.of("NAMe-20180131-A01.pdf")
+        Path file3 = Path.of("NAMe-20180131-A02.pdf")
+        Path file4 = Path.of("NAMe-20180131-02.pdf")
+        Path file5 = Path.of("NAMe-20180131-01.pdf")
+        Path file6 = Path.of("NAMe-20180131-C1.pdf")
+        Path file7 = Path.of("NAMe-20180131-C2.pdf")
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(file1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(file2, newspaperType)
@@ -496,17 +493,17 @@ class NewspaperFileTest {
 
     @Test
     void correctlyDeterminesAHundredsSequenceStart() {
-        Path file1 = Path.of("NAMe31Jan18100.pdf")
-        Path file2 = Path.of("NAMe31Jan18101.pdf")
-        Path file3 = Path.of("NAMe31Jan18300.pdf")
-        Path file4 = Path.of("NAMe313Jan18399.pdf")
-        Path file5 = Path.of("NAMe31Jan18400.pdf")
-        Path file6 = Path.of("NAMe31Jan18401.pdf")
-        Path file7 = Path.of("NAMe31Jan18402.pdf")
-        Path file8 = Path.of("NAMe31Jan18501.pdf")
-        Path file9 = Path.of("NAMe31Jan18502.pdf")
+        Path file1 = Path.of("NAMe-20180131-100.pdf")
+        Path file2 = Path.of("NAMe-20180131-101.pdf")
+        Path file3 = Path.of("NAMe-20180131-300.pdf")
+        Path file4 = Path.of("NAMe-20180131-399.pdf")
+        Path file5 = Path.of("NAMe-20180131-400.pdf")
+        Path file6 = Path.of("NAMe-20180131-401.pdf")
+        Path file7 = Path.of("NAMe-20180131-402.pdf")
+        Path file8 = Path.of("NAMe-20180131-501.pdf")
+        Path file9 = Path.of("NAMe-20180131-502.pdf")
 
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+        NewspaperType newspaperType = new NewspaperType("WTAA")
 
         NewspaperFile newspaperFile1 = new NewspaperFile(file1, newspaperType)
         NewspaperFile newspaperFile2 = new NewspaperFile(file2, newspaperType)

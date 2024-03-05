@@ -20,6 +20,7 @@ class NewspaperSpreadsheet {
     static String PROCESSING_OPTIONS_KEY = "processing_options"
     static String TITLE_CODE_KEY = "title_code"
     static String SECTION_CODE_KEY = "section_codes"
+    static String EDITION_CODE_KEY = "edition_codes"
     static String SEQUENCE_LETTER_KEY = "sequence_letters"
     static String IGNORE_SEQUENCE_KEY = "ignore_sequence"
     static String TITLE_PARENT_KEY = "title_parent"
@@ -53,7 +54,7 @@ class NewspaperSpreadsheet {
     static NewspaperSpreadsheet defaultInstance(String pathToSpreadsheet) {
         // TODO Either a root class to get resourceAsStream, move the json file to the same package or do ../../.. etc
         // or do what SipTestHelper does.
-//        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream("default-WMMA-import-parameters.json")
+//        InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream("default-WTAA-import-parameters.json")
         InputStream defaultSpreadsheetInputStream = NewspaperSpreadsheet.getResourceAsStream(pathToSpreadsheet)
         Spreadsheet spreadsheet = Spreadsheet.fromJson(Spreadsheet.GENERATE_ID_VALUE, defaultSpreadsheetInputStream.text, true, true)
 

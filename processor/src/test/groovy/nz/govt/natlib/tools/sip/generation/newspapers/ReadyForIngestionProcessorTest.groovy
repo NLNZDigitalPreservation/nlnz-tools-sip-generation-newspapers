@@ -20,8 +20,8 @@ class ReadyForIngestionProcessorTest {
                 "NO-DATE-NECESSARY_1234_this-type_my-identifier")
     }
 
-    void validateAssemblySipAndFilesFolderName(String dateString, String titleCode, String type, String identifier,
-                                               String expectedValue) {
+    static void validateAssemblySipAndFilesFolderName(String dateString, String titleCode, String type, String identifier,
+                                                      String expectedValue) {
         String actualValue = ReadyForIngestionProcessor.assembleSipAndFilesFolderName(dateString, titleCode, type, identifier)
 
         assertThat("Correctly assembleSipAndFilesFolderName", actualValue, is(expectedValue))
@@ -37,7 +37,7 @@ class ReadyForIngestionProcessorTest {
         validateParsingSipAndFilesFolderName("_JUNK", "JUNK", null)
     }
 
-    void validateParsingSipAndFilesFolderName(String sipAndFilesFolderName, String expectedTitleCode, LocalDate expectedDate) {
+    static void validateParsingSipAndFilesFolderName(String sipAndFilesFolderName, String expectedTitleCode, LocalDate expectedDate) {
         Tuple2<String, LocalDate> actualTitleCodeAndDate = ReadyForIngestionProcessor.parseFolderNameForTitleCodeAndDate(sipAndFilesFolderName, "ddMMMyy")
         Tuple2<String, LocalDate> expectedTitleCodeAndDate = new Tuple2<>(expectedTitleCode, expectedDate)
 

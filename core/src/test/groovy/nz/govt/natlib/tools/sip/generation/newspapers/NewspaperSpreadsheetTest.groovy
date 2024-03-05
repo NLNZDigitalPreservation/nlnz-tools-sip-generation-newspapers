@@ -16,8 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner
 class NewspaperSpreadsheetTest {
 
     @Test
-    void loadsTheWMMASpreadsheetCorrectly() {
-        NewspaperType newspaperType = new NewspaperType("WMMA")
+    void loadsTheWTAASpreadsheetCorrectly() {
+        NewspaperType newspaperType = new NewspaperType("WTAA")
         NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
 
         assertTrue("Spreadsheet is valid", newspaperSpreadsheet.spreadsheet.isValid(false, false))
@@ -29,7 +29,7 @@ class NewspaperSpreadsheetTest {
         Map<String, String> mapsForWairarapaTimes = mapsForWairarapaTimesList.first()
         assertThat("'title_parent' is 'Wairarapa times-age.'", mapsForWairarapaTimes.get("title_parent"), is("Wairarapa times-age."))
         assertThat("'MMSID' is 9918822769202836", mapsForWairarapaTimes.get("MMSID"), is("9918822769202836"))
-        assertThat("'title_code' is 'WMMA'", mapsForWairarapaTimes.get("title_code"), is("WMMA"))
+        assertThat("'title_code' is 'WTAA'", mapsForWairarapaTimes.get("title_code"), is("WTAA"))
         assertFalse("isMagazine is false for WairarapaTimes",
                 NewspaperSpreadsheet.extractBooleanValue(mapsForWairarapaTimes, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
     }

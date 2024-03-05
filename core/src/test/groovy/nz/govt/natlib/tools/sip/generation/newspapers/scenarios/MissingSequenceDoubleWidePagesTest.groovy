@@ -45,7 +45,7 @@ class MissingSequenceDoubleWidePagesTest {
 
     static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-missing-sequence-with-double-wide-pages"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
-    static final String NEWSPAPER_TYPE = "WMMA"
+    static final String NEWSPAPER_TYPE = "WTAA"
 
     TestMethodState testMethodState
 
@@ -103,7 +103,7 @@ class MissingSequenceDoubleWidePagesTest {
     }
 
     void processFiles(List<Path> filesForProcessing, List<ProcessingRule> overrideRules) {
-        String dateString = "23Nov18"
+        String dateString = "20181123"
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
@@ -162,34 +162,34 @@ class MissingSequenceDoubleWidePagesTest {
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-one", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTP23Nov18001.pdf", "TSTP23Nov18001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTP-20181123-001.pdf", "TSTP-20181123-001.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTP23Nov18002.pdf", "TSTP23Nov18002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTP-20181123-002.pdf", "TSTP-20181123-002.pdf",
                 12770L, "MD5", "d455554b29d9ec67e0841834619efdfc", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTP23Nov18004.pdf", "TSTP23Nov18004.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTP-20181123-004.pdf", "TSTP-20181123-004.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTP23Nov18005.pdf", "TSTP23Nov18005.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTP-20181123-005.pdf", "TSTP-20181123-005.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0004", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTP23Nov18007.pdf", "TSTP23Nov18007.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTP-20181123-007.pdf", "TSTP-20181123-007.pdf",
                 12770L, "MD5", "d455554b29d9ec67e0841834619efdfc", "0005", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTP23Nov18008.pdf", "TSTP23Nov18008.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTP-20181123-008.pdf", "TSTP-20181123-008.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0006", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTP23Nov18009.pdf", "TSTP23Nov18009.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTP-20181123-009.pdf", "TSTP-20181123-009.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0007", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 8, "TSTP23Nov18010.pdf", "TSTP23Nov18010.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 8, "TSTP-20181123-010.pdf", "TSTP-20181123-010.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0008", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 9, "TSTP23Nov18012.pdf", "TSTP23Nov18012.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 9, "TSTP-20181123-012.pdf", "TSTP-20181123-012.pdf",
                 12923L, "MD5", "d58fb5c894632654d9bcb638485bac91", "0009", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 10, "TSTP23Nov18013.pdf", "TSTP23Nov18013.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 10, "TSTP-20181123-013.pdf", "TSTP-20181123-013.pdf",
                 12539L, "MD5", "6803efd241fed95f0614ad1e70380148", "0010", "application/pdf")
     }
 }

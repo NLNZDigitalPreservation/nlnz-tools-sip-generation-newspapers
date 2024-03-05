@@ -1,6 +1,6 @@
 plugins {
     // required for jacoco test coverage checks
-    id 'com.github.kt3k.coveralls' version '2.6.3'
+    alias libs.plugins.coveralls
 }
 
 project.ext {
@@ -19,43 +19,41 @@ project.ext {
     ]
 }
 
-apply plugin: 'groovy'
-
-apply plugin: 'java'
-
-// this needs to be set after the 'java' plugin has been applied
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-apply plugin: 'jacoco'
-jacoco {
-    // This version is necessary to run under JDK 1.11
-    toolVersion = "0.8.2"
-}
-
 // run the findBugs checks with 'gradle check' or 'gradle findBugsMain' or 'gradle findBugsTest'
 //apply plugin: 'findbugs'
 
 // run the pmd source code analyzer with 'gradle check' or 'gradle pmdMain' or 'gradle pmdTest'
-apply plugin: 'pmd' // source code analyzer
+//apply plugin: 'pmd' // source code analyzer
 
 setVersion(project.ext.versionNumber)
 
+// Dependency versions are stored in /nlnz-tools-sip-generation-newspapers/gradle/libs.versions.toml
 dependencies {
-    compile project(':sip-generation-newspapers-core')
+    implementation project(':sip-generation-newspapers-core')
 
-    compile 'info.picocli:picocli:3.9.5'
+    implementation localGroovy()
 
-    // latest version
-    testCompile 'junit:junit:4.12'
+    // NLNZ dependency
+    implementation(libs.sip.generation.core)
 
-    // latest version
-    testCompile 'org.hamcrest:hamcrest-core:2.1'
+    // For parallel processing
+    implementation(libs.gpars)
 
-    // latest version
-    testCompile 'org.mockito:mockito-core:2.23.4'
+    // We're using Log4j2
+    implementation(libs.log4j.api)
+    implementation(libs.log4j.core)
+    // Ensure that other logging APIs use log4j2
+    implementation(libs.log4j.slf4j.impl)
+    implementation(libs.log4j.jcl)
+
+    implementation(libs.picocli)
+    implementation(libs.commons.io)
+    implementation(libs.commons.lang)
+
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.hamcrest.core)
+    testImplementation(libs.mockito.core)
 }
 
 jar {

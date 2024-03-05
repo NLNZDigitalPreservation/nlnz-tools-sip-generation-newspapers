@@ -4,33 +4,24 @@ buildscript {
         mavenCentral()
         jcenter()
     }
-    dependencies {
-        // For shadow fat jar plugin, see https://github.com/johnrengelman/shadow
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
-    }
 }
 
+plugins {
+    // For shadow fat jar plugin, see https://github.com/johnrengelman/shadow
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+    id 'java'
+    id 'groovy'
+}
 project.ext {
-}
-
-apply plugin: 'groovy'
-
-apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
-
-// this needs to be set after the 'java' plugin has been applied
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
 }
 
 setVersion(project.ext.versionNumber)
 
 dependencies {
-    compile project(':sip-generation-newspapers-processor')
+    implementation project(':sip-generation-newspapers-processor')
 
     // Required by FilesFinder
-    compile 'org.apache.ant:ant:1.10.5'
+    implementation 'org.apache.ant:ant:1.10.11'
 }
 
 jar {
@@ -38,16 +29,16 @@ jar {
 }
 
 task jarSources(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     includeEmptyDirs = false
 
     from sourceSets.main.allSource
 }
 
 shadowJar {
-    baseName = "${rootProject.name}-fat-all"
-    classifier = null
-    version = project.ext.versionNumber
+    archiveBaseName = "${rootProject.name}-fat-all"
+    archiveClassifier.set(null)
+    archiveVersion = project.ext.versionNumber
     manifest.attributes (
          'Main-Class': 'nz.govt.natlib.tools.sip.generation.newspapers.processor.ProcessorRunnerWrapper',
             'Multi-Release': 'true'

@@ -14,7 +14,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
@@ -42,7 +41,7 @@ class PreProcessProcessor {
         try {
             Files.createDirectories(directory)
             result = true
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             log.error("makeDirs unable to create directory " + directory.toString())
         } finally {
             folderCreationLock.unlock()

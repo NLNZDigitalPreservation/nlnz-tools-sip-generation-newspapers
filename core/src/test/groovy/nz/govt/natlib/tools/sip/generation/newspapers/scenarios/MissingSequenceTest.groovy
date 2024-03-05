@@ -45,7 +45,7 @@ class MissingSequenceTest {
 
     static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-missing-sequence"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
-    static final String NEWSPAPER_TYPE = "WMMA"
+    static final String NEWSPAPER_TYPE = "WTAA"
 
     TestMethodState testMethodState
 
@@ -95,7 +95,7 @@ class MissingSequenceTest {
     }
 
     void processFiles(List<Path> filesForProcessing) {
-        String dateString = "23Nov18"
+        String dateString = "20181123"
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
@@ -144,32 +144,32 @@ class MissingSequenceTest {
         TestHelper.assertExpectedExceptionReason(testMethodState.sipProcessingState, SipProcessingExceptionReasonType.MISSING_SEQUENCE_FILES)
         SipProcessingException firstException = testMethodState.sipProcessingState.exceptions.first()
         SipProcessingExceptionReason firstExceptionReason = firstException.reasons.first()
-        String expectedReason = "One or more skipped sequences precedes these files=[TSTP23Nov18004.pdf, TSTP23Nov18A02.pdf, TSTP23Nov18B03.pdf]"
+        String expectedReason = "One or more skipped sequences precedes these files=[TSTP-20181123-004.pdf, TSTP-20181123-A02.pdf, TSTP-20181123-B03.pdf]"
         assertThat("SipProcessingState firstExceptionReason is ${expectedReason}", firstExceptionReason.toString(), is(expectedReason))
 
         TestHelper.assertExpectedSipMetadataValues(sipForValidation, "Test Publication One", "2018", "11", "23",
                 IEEntityType.NewspaperIE, "ALMAMMS", "test-mms-id-one", "200",
                 "PRESERVATION_MASTER", "VIEW", true, 1)
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTP23Nov18001.pdf", "TSTP23Nov18001.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "TSTP-20181123-001.pdf", "TSTP-20181123-001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTP23Nov18002.pdf", "TSTP23Nov18002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "TSTP-20181123-002.pdf", "TSTP-20181123-002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTP23Nov18004.pdf", "TSTP23Nov18004.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "TSTP-20181123-004.pdf", "TSTP-20181123-004.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0003", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTP23Nov18A02.pdf", "TSTP23Nov18A02.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 4, "TSTP-20181123-A02.pdf", "TSTP-20181123-A02.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0004", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTP23Nov18B01.pdf", "TSTP23Nov18B01.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 5, "TSTP-20181123-B01.pdf", "TSTP-20181123-B01.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0005", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTP23Nov18B03.pdf", "TSTP23Nov18B03.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 6, "TSTP-20181123-B03.pdf", "TSTP-20181123-B03.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0006", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTP23Nov18C01.pdf", "TSTP23Nov18C01.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 7, "TSTP-20181123-C01.pdf", "TSTP-20181123-C01.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0007", "application/pdf")
     }
 

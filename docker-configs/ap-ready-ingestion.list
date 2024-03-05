@@ -1,0 +1,16 @@
+# Parameters needed to correctly process allied press:
+# - newspaperType="alliedPress"
+# - forIngestionProcessingRules="is_single_pdf_file,use_filename_for_mets_label,zero_length_pdf_skipped"
+
+PROCESSING_TYPE=--readyForIngestion
+NEWSPAPER_TYPE=--newspaperType=alliedPress
+STARTING_DATE=--startingDate=2023-09-01
+ENDING_DATE=--endingDate=2023-09-30
+SOURCE_FOLDER=--sourceFolder=/output/allpress-processing/pre-processing_Sep_2023
+TARGET_FOR_INGESTION_FOLDER=--targetForIngestionFolder=/output/allpress-processing/latest-batch-ready-ingestion/for-ingestion
+FOR_REVIEW_FOLDER=--forReviewFolder=/output/allpress-processing/latest-batch-ready-ingestion/for-review
+CREATE_DESTINATION_FOLDER=--createDestination
+PARALLELIZE_PROCESSING=--parallelizeProcessing
+NUMBER_OF_THREADS--numberOfThreads=4
+FOR_INGESTION_PROCESSING_TYPES=--forIngestionProcessingTypes=parent_grouping,create_sip_for_folder
+FOR_INGESTION_PROCESSING_RULES=--forIngestionProcessingRules=is_single_pdf_file,use_filename_for_mets_label,zero_length_pdf_skipped
