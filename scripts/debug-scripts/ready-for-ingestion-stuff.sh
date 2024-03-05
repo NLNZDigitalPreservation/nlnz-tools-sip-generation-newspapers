@@ -21,7 +21,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.5-SNAPSHOT.jar \
+    -jar ../../fat/build/libs/sip-generation-newspapers-fat-all-1.1.6-SNAPSHOT.jar \
     --readyForIngestion \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \
