@@ -35,6 +35,7 @@
     "PATH_TO_SPREADSHEET": "default-stuff-import-parameters.json",
     "SUPPLEMENTS": {
       "CHM": "CEL",
+      "HFE": "FER",
       "HFR": "FRC",
       "HHT": "HUN",
       "HMS": "MAS",
