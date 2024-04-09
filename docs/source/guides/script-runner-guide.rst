@@ -818,12 +818,12 @@ option that can be used to override its value. In general options don't have sid
 
     .. code-block:: xml
 
-    <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
-        <dc:title>The Ensign</dc:title>
-        <dc:date>2022</dc:date>
-        <dcterms:available>06</dcterms:available>
-        <dc:coverage>01</dc:coverage>
-    </dc:record>
+        <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+            <dc:title>The Ensign</dc:title>
+            <dc:date>2022</dc:date>
+            <dcterms:available>06</dcterms:available>
+            <dc:coverage>01</dc:coverage>
+        </dc:record>
 
    Override is ``issue_only_in_sip``
 
@@ -833,11 +833,11 @@ option that can be used to override its value. In general options don't have sid
 
     .. code-block:: xml
 
-    <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
-        <dc:title>Australian women's weekly</dc:title>
-        <dc:date>2022</dc:date>
-        <dcterms:available>05</dcterms:available>
-    </dc:record>
+        <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+            <dc:title>Australian women's weekly</dc:title>
+            <dc:date>2022</dc:date>
+            <dcterms:available>05</dcterms:available>
+        </dc:record>
 
    Override is  ``full_date_in_sip``
 
