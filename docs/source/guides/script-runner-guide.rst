@@ -814,7 +814,9 @@ option that can be used to override its value. In general options don't have sid
     ``01, 02, A01, A02, B01, B02``. Override is ``alpha_before_numeric``.
 
 ``full_date_in_sip``
-    The full date will be used in the designation data of the sip mets.xml file. For example::
+    The full date will be used in the designation data of the sip mets.xml file. For example:
+
+    .. code-block:: xml
 
     <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:title>The Ensign</dc:title>
@@ -827,7 +829,9 @@ option that can be used to override its value. In general options don't have sid
 
 ``issue_only_in_sip``
     For publications that have an issue number, this option can be used to populate the sip mets.xml instead. For
-    example::
+    example:
+
+    .. code-block:: xml
 
     <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:title>Australian women's weekly</dc:title>
