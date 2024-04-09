@@ -166,10 +166,11 @@ Columns used by ready-for-ingestion processing
     included in the SIP. It may be a letter used to indicate that a page has been replaced by a new version. E.g.
     if ``N`` is in the ``ingnore_sequencqe`` then ``SUS-ED1-ZN-20230707-N002.pdf`` should be ignored.
 
-``sequence_letters`` (TODO not implemented yet)
-    A list of letters separated by the ``+`` sign that could indicate the ordering of the sequence letters in a
-    publication if a non-alphabetical ordering is desired. This field could also be used to determine if a
-    ``supplement_grouping`` applies. See the *supplement_grouping* section of the :doc:`script-runner-guide` for more
+``sequence_letters``
+    A list of letters separated by the ``+`` sign that indicate the ordering of the sequence letters in a
+    publication if a non-alphabetical ordering is desired. This field can also be used in a
+    ``supplement_grouping`` to determine which sequence is the supplement. See the *supplement_grouping* section of the
+    :doc:`script-runner-guide` for more
     details of how this field would be used. Note that sequence_letters has not been implemented in the codebase and
     does not exist as a column in the default spreadsheet.
 

@@ -334,7 +334,7 @@ which have the same title code as their parent and which do not need to be inclu
 The grouping together of these files happens in the pre-processing stage.
 This field only needs to be present if the newspaper type has such supplements.
 
-``PARENT_SUPPLEMENTS`` (optional) is very similar to the SUPPLEMENTS above, but as well as being added to the parent
+``PARENT_SUPPLEMENTS`` (optional) is very similar to the SUPPLEMENTS field above, but as well as being added to the parent
 title, these supplements are then processed again into their own parent folder. These supplements have their own entry in
 the title spreadsheet referred to in the PATH_TO_SPREADSHEET entry.
 In the example above LID needs to be processed with the DOM files, but it will also be processed again into its own LID
@@ -631,22 +631,12 @@ supplement_grouping
 For some publications we want to extract a subset of the ``title_parent`` publication into a separate publication that
 is loaded with its own separate MMSID. The ``title_mets`` is used as the publication title.
 
-TODO The code for this extraction is not complete and will require some more tweaking and default spreadsheet changes.
-For example, some supplements are based on having certain sequence letters. There may be multiple supplements that match
-on the same set of files (for example, the TAB section code, which often maps to a different supplement). They may rely
-on being on a certain day of the week or month of the year. Much of the determination of what the publication maps to
-may rely on human intervention.
+These supplements may have their own ``title_code``, or ths same ``title_code`` is the parent but a different
+``section_code`` or ``sequence_letter``. In the case of the latter, the ``section_code`` or ``sequence_letter`` of the
+supplement needs to be set in the ``section_codes`` or ``sequence_letters`` column of the spreadsheet.
 
-TODO One approach for dealing with extracting supplements that are specific to certain sequence letters is to add a new
-spreadsheet column ``sequence_letters`` and the supplement grouping would only select the files for processing if the
-given set of sequence letters existed in the files in the title code folder. This is similar to how
-``parent_grouping_with_edition`` works with editions. In other words, if the sequence letters have been set in the
-spreadsheet row and they do exist in the set of files, then process the supplement grouping against the set of files.
-Otherwise, there isn't a match and that supplement grouping is skipped. This would likely require an additional rule
-so that the sequence letters would be used as a filter for processing files.
-
-TODO The use of ``sequence_letters`` could also be used to determine the ordering of the pages if a non-alphabetical
-ordering is required. This would likely require an additional rule so that ordering would be used.
+The use of ``sequence_letters`` can also be used to determine the ordering of the pages if a non-alphabetical
+ordering is required.
 
 ``supplement_grouping``
     The ``title_code`` and ``section_code`` is used to produce a spreadsheet row match. This is generally used for
@@ -824,7 +814,7 @@ option that can be used to override its value. In general options don't have sid
     ``01, 02, A01, A02, B01, B02``. Override is ``alpha_before_numeric``.
 
 ``full_date_in_sip``
-    The full date will be used in the designation data of the sip mets.xml file. For example::
+    The full date will be used in the designation data of the sip mets.xml file. For example code-block:: XML
 
     <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:title>The Ensign</dc:title>
@@ -837,7 +827,7 @@ option that can be used to override its value. In general options don't have sid
 
 ``issue_only_in_sip``
     For publications that have an issue number, this option can be used to populate the sip mets.xml instead. For
-    example::
+    example code-block:: XML
 
     <dc:record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:title>Australian women's weekly</dc:title>
@@ -885,7 +875,7 @@ This is an imperfect way of finding the issue number and has the potential to ge
 quality control.
 
 The recommended location for the file is in the processing output folder - e.g
-Y:\ndha\pre-deposit_prod\NDHA_submission-Rosetta\stuff-processing\supplements-previous-issues.properties
+Y:/\ndha/\pre-deposit_prod/\NDHA_submission-Rosetta/\stuff-processing/\supplements-previous-issues.properties
 
 The location of the file needs to be referenced in the ready-for-ingestion process using the
 supplementPreviousIssuesFile parameter.
@@ -1163,8 +1153,8 @@ Converting the csv spreadsheet to JSON
        to a JSON file, which is then used for the actual processing::
 
             ./gradlew updateDefaultNewspaperImportParameters \
-              -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-spreadsheet.csv" \
-              -PnewspaperSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-parameters.json"
+              -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-stuff-import-spreadsheet.csv" \
+              -PnewspaperSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-stuff-import-parameters.json"
 
 Note that there is no requirement to use the filenames given in the example. The given filenames are the ones the code
 uses.
@@ -1174,8 +1164,8 @@ Converting the JSON parameters to csv spreadsheet
 The JSON file can be converted to a csv spreadsheet using the build task ``exportDefaultNewspaperImportParameters``::
 
     gradle exportDefaultNewspaperImportParameters \
-      -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-parameters.json" \
-      -PnewspaperSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-WMMA-import-spreadsheet.csv"
+      -PnewspaperSpreadsheetImportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-stuff-import-parameters.json" \
+      -PnewspaperSpreadsheetExportFilename="core/src/main/resources/nz/govt/natlib/tools/sip/generation/newspapers/default-stuff-import-spreadsheet.csv"
 
 Note that there is no requirement to use the filenames given in the example. The given filenames are the ones the code
 uses.

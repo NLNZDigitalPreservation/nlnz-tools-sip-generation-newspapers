@@ -2457,49 +2457,6 @@
     },
     {
         "row-0057": {
-            "MMSID": "9917976283502836",
-            "title_parent": "Sunday Star Times Sunday",
-            "processing_type": "parent_grouping",
-            "processing_rules": "",
-            "processing_options": "numeric_before_alpha",
-            "publication_key": "",
-            "title_code": "SMG",
-            "edition_discriminators": "",
-            "edition_codes": "",
-            "section_codes": "ED1+TAB+SPC+QFS",
-            "sequence_letters": "",
-            "ignore_sequence": "",
-            "Access": "200",
-            "Magazine": "1",
-            "ingest_status": "TEC",
-            "Frequency": "",
-            "entity_type": "PER",
-            "title_mets": "Sunday Star Times Sunday",
-            "ISSN online": "",
-            "Bib ID": "",
-            "Access condition": "",
-            "Date catalogued": "",
-            "Collector_folder": "Sunday_Star_Times_Sunday",
-            "Cataloguer": "",
-            "Notes": "Format change. Fairfax updated title code. NT1 = North Island First Edition -Just a few pages for each issue stops May 2016",
-            "first_issue_starting_page": "",
-            "last_issue_starting_page": "",
-            "has_volume_md": "0",
-            "has_issue_md": "0",
-            "has_number_md": "0",
-            "previous_volume": "",
-            "previous_volume_date": "",
-            "previous_volume_frequency": "",
-            "previous_issue": "",
-            "previous_issue_date": "",
-            "previous_issue_frequency": "",
-            "previous_number": "",
-            "previous_number_date": "",
-            "previous_number_frequency": ""
-        }
-    },
-    {
-        "row-0058": {
             "MMSID": "9914607593502836",
             "title_parent": "The Southland Times",
             "processing_type": "parent_grouping",
@@ -2542,7 +2499,7 @@
         }
     },
     {
-        "row-0059": {
+        "row-0058": {
             "MMSID": "9919375834602836",
             "title_parent": "Southern Outlook",
             "processing_type": "parent_grouping",
@@ -2585,7 +2542,7 @@
         }
     },
     {
-        "row-0060": {
+        "row-0059": {
             "MMSID": "9917966833502836",
             "title_parent": "South Waikato News",
             "processing_type": "parent_grouping",
@@ -2628,7 +2585,7 @@
         }
     },
     {
-        "row-0061": {
+        "row-0060": {
             "MMSID": "9917976113502836",
             "title_parent": "Sunday Star Times",
             "processing_type": "parent_grouping",
@@ -2639,7 +2596,7 @@
             "edition_discriminators": "",
             "edition_codes": "",
             "section_codes": "ED1+TAB+SPC+QFS+SHT",
-            "sequence_letters": "",
+            "sequence_letters": "T+S",
             "ignore_sequence": "N",
             "Access": "200",
             "Magazine": "0",
@@ -2671,7 +2628,7 @@
         }
     },
     {
-        "row-0062": {
+        "row-0061": {
             "MMSID": "9917976003502836",
             "title_parent": "Taranaki Daily News",
             "processing_type": "parent_grouping",
@@ -2714,7 +2671,7 @@
         }
     },
     {
-        "row-0063": {
+        "row-0062": {
             "MMSID": "9917966723502836",
             "title_parent": "South Taranaki Star",
             "processing_type": "parent_grouping",
@@ -2757,7 +2714,7 @@
         }
     },
     {
-        "row-0064": {
+        "row-0063": {
             "MMSID": "9917962373502836",
             "title_parent": "Taupo Times",
             "processing_type": "parent_grouping",
@@ -2800,7 +2757,7 @@
         }
     },
     {
-        "row-0065": {
+        "row-0064": {
             "MMSID": "9914609313502836",
             "title_parent": "The Timaru Herald",
             "processing_type": "parent_grouping",
@@ -2843,7 +2800,7 @@
         }
     },
     {
-        "row-0066": {
+        "row-0065": {
             "MMSID": "9917981683502836",
             "title_parent": "TV Guide",
             "processing_type": "parent_grouping",
@@ -2886,7 +2843,7 @@
         }
     },
     {
-        "row-0067": {
+        "row-0066": {
             "MMSID": "9917962273502836",
             "title_parent": "Upper Hutt Leader",
             "processing_type": "parent_grouping",
@@ -2929,7 +2886,7 @@
         }
     },
     {
-        "row-0068": {
+        "row-0067": {
             "MMSID": "9917971643502836",
             "title_parent": "Waikato Times",
             "processing_type": "parent_grouping",
@@ -2972,7 +2929,7 @@
         }
     },
     {
-        "row-0069": {
+        "row-0068": {
             "MMSID": "9919147890402836",
             "title_parent": "The Waikato Times",
             "processing_type": "supplement_grouping",
@@ -3015,7 +2972,7 @@
         }
     },
     {
-        "row-0070": {
+        "row-0069": {
             "MMSID": "9917925423502836",
             "title_parent": "Western Homes",
             "processing_type": "parent_grouping",
@@ -3058,7 +3015,7 @@
         }
     },
     {
-        "row-0071": {
+        "row-0070": {
             "MMSID": "9917923503502836",
             "title_parent": "Whangarei Leader",
             "processing_type": "parent_grouping",
@@ -3101,7 +3058,7 @@
         }
     },
     {
-        "row-0072": {
+        "row-0071": {
             "MMSID": "9917923483502836",
             "title_parent": "Western Leader",
             "processing_type": "parent_grouping",
@@ -3144,7 +3101,7 @@
         }
     },
     {
-        "row-0073": {
+        "row-0072": {
             "MMSID": "9917963903502836",
             "title_parent": "Your Weekend Post",
             "processing_type": "supplement_grouping",
@@ -3187,7 +3144,7 @@
         }
     },
     {
-        "row-0074": {
+        "row-0073": {
             "MMSID": "9917906003502836",
             "title_parent": "Your Weekend The Press",
             "processing_type": "supplement_grouping",
@@ -3230,7 +3187,7 @@
         }
     },
     {
-        "row-0075": {
+        "row-0074": {
             "MMSID": "9917971783502836",
             "title_parent": "Your Weekend WT",
             "processing_type": "supplement_grouping",
@@ -3273,7 +3230,7 @@
         }
     },
     {
-        "row-0076": {
+        "row-0075": {
             "MMSID": "9919356535002836",
             "title_parent": "NZFarmer (2023 : southern edition)",
             "processing_type": "parent_grouping_with_edition",
@@ -3316,7 +3273,7 @@
         }
     },
     {
-        "row-0077": {
+        "row-0076": {
             "MMSID": "9919356534902836",
             "title_parent": "NZFarmer (2023 : northern edition)",
             "processing_type": "parent_grouping_with_edition",
