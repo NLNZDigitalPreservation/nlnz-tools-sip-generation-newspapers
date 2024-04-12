@@ -41,30 +41,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "yyyyMMdd",
     "PATH_TO_SPREADSHEET": "default-stuff-import-parameters.json",
-    "SUPPLEMENTS": {
-      "CHM": "CEL",
-      "HFE": "FER",
-      "HFR": "FRC",
-      "HHT": "HUN",
-      "HMS": "MAS",
-      "HOK": "KAO",
-      "HON": "NOO",
-      "HOC": "PRS",
-      "HOW": "WAT",
-      "HOT": "TAD",
-      "HSO": "SOT",
-      "HWE": "PST",
-      "TVL": "SUS"
-    },
-    "PARENT_SUPPLEMENTS": {
-      "FPS": "SUS",
-      "LID": "PST",
-      "LIP": "PRS",
-      "LIW": "WAT",
-      "YWD": "PST",
-      "YWP": "PRS",
-      "YWW": "WAT"
-    },
     "CASE_SENSITIVE": true
   },
   "WTAA": {

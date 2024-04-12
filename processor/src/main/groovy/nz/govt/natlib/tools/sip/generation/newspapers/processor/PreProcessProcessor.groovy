@@ -188,6 +188,7 @@ class PreProcessProcessor {
         String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
+        Map<String, String> allSupplementTitleCodes = newspaperSpreadsheet.allSupplementTitleCodes
         Map supplements = newspaperType.SUPPLEMENTS
         Map parentSupplements = newspaperType.PARENT_SUPPLEMENTS
 
@@ -206,6 +207,21 @@ class PreProcessProcessor {
 
             // Get the parent publication name of the supplement
             titleCodeFolderName = supplements.get(targetFile.titleCode)
+
+            log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
+            if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
+                recognizedTitleCodes.add(titleCodeFolderName)
+                GeneralUtils.printAndFlush("\n")
+                log.info("copyOrMoveFileToPreProcessingDestination adding titleCode=${titleCodeFolderName}")
+            }
+
+            folderPath = "${destinationFolder.normalize().toString()}${File.separator}${dateFolderName}${File.separator}${titleCodeFolderName}"
+        } else if (allSupplementTitleCodes != null && allSupplementTitleCodes.size() > 0 && allSupplementTitleCodes[targetFile.titleCode]) {
+            GeneralUtils.printAndFlush("\n")
+            log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
+
+            // Get the parent publication name of the supplement
+            titleCodeFolderName = allSupplementTitleCodes.get(targetFile.titleCode)
 
             log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
             if (!recognizedTitleCodes.contains(titleCodeFolderName)) {

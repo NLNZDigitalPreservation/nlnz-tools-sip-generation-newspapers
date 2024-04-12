@@ -7,6 +7,7 @@ import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingOption
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingRule
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
+import nz.govt.natlib.tools.sip.generation.newspapers.special.ExtractValues
 import nz.govt.natlib.tools.sip.state.SipProcessingException
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReasonType
@@ -37,10 +38,11 @@ class NewspaperProcessingParameters {
     List<ProcessingOption> options = [ ]
     LocalDate date
     Map<String, String> spreadsheetRow = [ : ]
+    List<String> supplementTitleCodes = [ ]
     List<String> sectionCodes = [ ]
     List<String> editionCodes = [ ]
     List<String> sequenceLetters = [ ]
-    List<String> ignoreSequence = []
+    List<String> ignoreSequence = [ ]
     List<String> editionDiscriminators = [ ]
     boolean isMagazine = false
     String currentEdition
@@ -203,11 +205,12 @@ class NewspaperProcessingParameters {
                     rules: ProcessingRule.extract(rules, ",", processingType.defaultRules),
                     options: ProcessingOption.extract(options, ",", processingType.defaultOptions),
                     sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: matchingRow,
-                    sectionCodes: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SECTION_CODE_KEY),
-                    editionCodes: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_CODE_KEY),
-                    sequenceLetters: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SEQUENCE_LETTER_KEY),
-                    ignoreSequence: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.IGNORE_SEQUENCE_KEY),
-                    editionDiscriminators: extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY),
+                    supplementTitleCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SUPPLEMENT_TITLE_CODE_KEY),
+                    sectionCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SECTION_CODE_KEY),
+                    editionCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_CODE_KEY),
+                    sequenceLetters: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SEQUENCE_LETTER_KEY),
+                    ignoreSequence: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.IGNORE_SEQUENCE_KEY),
+                    editionDiscriminators: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY),
                     isMagazine: NewspaperSpreadsheet.extractBooleanValue(matchingRow, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
         }
     }
@@ -224,7 +227,7 @@ class NewspaperProcessingParameters {
 
             // Step 2: Based on the section_code pick the right spreadsheet row
             List<Map<String, String>> editionMatchingRows = matchingRows.findAll { Map<String, String> row ->
-                List<String> editionDiscriminators = extractSeparatedValues(row, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY)
+                List<String> editionDiscriminators = ExtractValues.extractSeparatedValues(row, NewspaperSpreadsheet.EDITION_DISCRIMINATOR_KEY)
                 editionDiscriminators.any { String discriminator ->
                     uniqueSectionCodes.contains(discriminator)
                 }
@@ -232,23 +235,6 @@ class NewspaperProcessingParameters {
             matchingRows = editionMatchingRows
         }
         return matchingRows
-    }
-
-    static List<String> extractSeparatedValues(Map<String, String> spreadsheetRow, String columnKey,
-                                               String regex = "\\+|,|-") {
-        List<String> extractedValues = splitColumnValue(spreadsheetRow.get(columnKey), regex)
-
-        return extractedValues
-    }
-
-    static List<String> splitColumnValue(String columnValue, String regex = "\\+|,|-") {
-        List<String> extractedValues = columnValue.split(regex).collect { String value ->
-            value.strip()
-        }
-
-        return extractedValues.findAll { String value ->
-            !value.isBlank()
-        }
     }
 
     void applyOverrides(List<ProcessingRule> overrideRules, List<ProcessingOption> overrideOptions) {

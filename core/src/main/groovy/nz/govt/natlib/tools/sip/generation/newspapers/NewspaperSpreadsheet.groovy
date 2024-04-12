@@ -2,6 +2,7 @@ package nz.govt.natlib.tools.sip.generation.newspapers
 
 import groovy.util.logging.Log4j2
 import nz.govt.natlib.tools.sip.generation.newspapers.parameters.ProcessingType
+import nz.govt.natlib.tools.sip.generation.newspapers.special.ExtractValues
 import nz.govt.natlib.tools.sip.generation.parameters.Spreadsheet
 import nz.govt.natlib.tools.sip.state.SipProcessingException
 import nz.govt.natlib.tools.sip.state.SipProcessingExceptionReason
@@ -19,6 +20,7 @@ class NewspaperSpreadsheet {
     static String PROCESSING_RULES_KEY = "processing_rules"
     static String PROCESSING_OPTIONS_KEY = "processing_options"
     static String TITLE_CODE_KEY = "title_code"
+    static String SUPPLEMENT_TITLE_CODE_KEY = "supplement_title_codes"
     static String SECTION_CODE_KEY = "section_codes"
     static String EDITION_CODE_KEY = "edition_codes"
     static String SEQUENCE_LETTER_KEY = "sequence_letters"
@@ -33,6 +35,7 @@ class NewspaperSpreadsheet {
     Map<String, List<Map<String, String>>> titleCodeToRowsMap = [ : ]
     Set<NewspaperFileTitleEditionKey> allTitleCodeSectionCodeKeys = [ ]
     Set<String> allTitleCodeKeys = [ ]
+    Map<String, String> allSupplementTitleCodes = [ : ]
 
     static final Map<String, String> BLANK_ROW = [
         "MMSID": "UNKNOWN_MMSID",
@@ -123,6 +126,7 @@ class NewspaperSpreadsheet {
         spreadsheet.rows.each { Map<String, String> rowMap ->
             String titleCode = rowMap.get(TITLE_CODE_KEY)
             String sectionCode = rowMap.get(SECTION_CODE_KEY)
+            String supplementCodes = rowMap.get(SUPPLEMENT_TITLE_CODE_KEY)
             NewspaperFileTitleEditionKey newspaperFileTitleEditionKey = new NewspaperFileTitleEditionKey(
                     titleCode: titleCode, sectionCode: sectionCode)
             if (titleCodeSectionCodeToRowsMap.containsKey(newspaperFileTitleEditionKey)) {
@@ -132,11 +136,19 @@ class NewspaperSpreadsheet {
                 titleCodeSectionCodeToRowsMap.put(newspaperFileTitleEditionKey, [rowMap ])
             }
             allTitleCodeSectionCodeKeys.add(newspaperFileTitleEditionKey)
+
             if (titleCodeToRowsMap.containsKey(titleCode)) {
                 List<Map<String, String>> rowsForName = titleCodeToRowsMap.get(titleCode)
                 rowsForName.add(rowMap)
             } else {
                 titleCodeToRowsMap.put(titleCode, [rowMap ])
+            }
+
+            if (!supplementCodes.isEmpty() && supplementCodes != "") {
+                List supplements = ExtractValues.splitColumnValue(supplementCodes)
+                supplements.each {
+                    allSupplementTitleCodes.put(it, titleCode)
+                }
             }
             allTitleCodeKeys.add(titleCode.toUpperCase())
         }

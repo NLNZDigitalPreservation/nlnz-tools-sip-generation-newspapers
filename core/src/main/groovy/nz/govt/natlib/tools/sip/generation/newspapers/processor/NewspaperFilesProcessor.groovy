@@ -127,6 +127,7 @@ class NewspaperFilesProcessor {
 
             // Determine if fairfaxFiles contains any files that starts with FP or is a Property or Life title code
             // If so, process the files as a single collection with FP/Property/Life files at the end
+
             boolean toAddAtEnd = false
             for (NewspaperFile file : sortedFilesForProcessing) {
                 if (((newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[file.titleCode]) ||
