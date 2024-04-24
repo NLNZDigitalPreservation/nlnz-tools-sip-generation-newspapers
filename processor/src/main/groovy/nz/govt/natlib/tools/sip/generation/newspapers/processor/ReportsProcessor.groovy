@@ -39,6 +39,7 @@ class ReportsProcessor {
 
         NewspaperSpreadsheet newspaperSpreadsheet = NewspaperSpreadsheet.defaultInstance()
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
+        Map<String, String> allSupplementKeys = newspaperSpreadsheet.allSupplementTitleCodes
         Set<NewspaperFileTitleEditionKey> allNameEditionKeys = newspaperSpreadsheet.allTitleCodeSectionCodeKeys
 
         boolean isRegexNotGlob = true
@@ -59,17 +60,11 @@ class ReportsProcessor {
                         recognizedTitleCodes.add(newspaperFile.titleCode)
                         log.info("listFiles adding recognizedTitleCode=${newspaperFile.titleCode}")
                     }
-                } else if (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) {
-                    String parentTitleCode = newspaperType.SUPPLEMENTS[newspaperFile.titleCode]
+                } else if (allSupplementKeys!= null && allSupplementKeys.size() > 0 &&
+                        allSupplementKeys[newspaperFile.titleCode]) {
+                    String parentTitleCode = allSupplementKeys.get(newspaperFile.titleCode)
 
-                    if (!recognizedTitleCodes.contains(newspaperType.SUPPLEMENTS[newspaperFile.titleCode])) {
-                        recognizedTitleCodes.add(parentTitleCode)
-                        log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
-                    }
-                } else if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
-                    String parentTitleCode = newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]
-
-                    if (!recognizedTitleCodes.contains(newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode])) {
+                    if (!recognizedTitleCodes.contains(parentTitleCode)) {
                         recognizedTitleCodes.add(parentTitleCode)
                         log.info("listFiles adding recognizedTitleCode=${parentTitleCode} for pulbication ${newspaperFile.titleCode}")
                     }

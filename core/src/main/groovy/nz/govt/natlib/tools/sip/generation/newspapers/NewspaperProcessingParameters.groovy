@@ -39,6 +39,7 @@ class NewspaperProcessingParameters {
     LocalDate date
     Map<String, String> spreadsheetRow = [ : ]
     List<String> supplementTitleCodes = [ ]
+    List<String> supplementSequenceCodes = [ ]
     List<String> sectionCodes = [ ]
     List<String> editionCodes = [ ]
     List<String> sequenceLetters = [ ]
@@ -206,6 +207,7 @@ class NewspaperProcessingParameters {
                     options: ProcessingOption.extract(options, ",", processingType.defaultOptions),
                     sourceFolder: sourceFolder, date: processingDate, spreadsheetRow: matchingRow,
                     supplementTitleCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SUPPLEMENT_TITLE_CODE_KEY),
+                    supplementSequenceCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SUPPLEMENT_WITH_SEQUENCE_KEY),
                     sectionCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SECTION_CODE_KEY),
                     editionCodes: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.EDITION_CODE_KEY),
                     sequenceLetters: ExtractValues.extractSeparatedValues(matchingRow, NewspaperSpreadsheet.SEQUENCE_LETTER_KEY),

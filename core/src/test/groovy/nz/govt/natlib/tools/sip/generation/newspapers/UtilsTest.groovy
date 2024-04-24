@@ -1,12 +1,12 @@
 package nz.govt.natlib.tools.sip.generation.newspapers
 
-
+import nz.govt.natlib.tools.sip.generation.newspapers.special.ExtractValues
 import org.junit.Test
 
 import static org.hamcrest.core.Is.is
 import static org.junit.Assert.assertThat
 
-class NewspaperProcessingParametersTest {
+class UtilsTest {
 
     @Test
     void correctExtractsParametersFromString() {
@@ -30,6 +30,6 @@ class NewspaperProcessingParametersTest {
 
     void makeAndCheckExtraction(String candidateString, List<String> expectedExtraction) {
         assertThat("Expect extract of string='${candidateString}' is=${expectedExtraction}",
-                NewspaperProcessingParameters.splitColumnValue(candidateString), is(expectedExtraction))
+                ExtractValues.splitColumnValue(candidateString), is(expectedExtraction))
     }
 }

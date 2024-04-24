@@ -21,6 +21,7 @@ class NewspaperSpreadsheet {
     static String PROCESSING_OPTIONS_KEY = "processing_options"
     static String TITLE_CODE_KEY = "title_code"
     static String SUPPLEMENT_TITLE_CODE_KEY = "supplement_title_codes"
+    static String SUPPLEMENT_WITH_SEQUENCE_KEY = "supplement_with_sequence"
     static String SECTION_CODE_KEY = "section_codes"
     static String EDITION_CODE_KEY = "edition_codes"
     static String SEQUENCE_LETTER_KEY = "sequence_letters"
@@ -133,7 +134,7 @@ class NewspaperSpreadsheet {
                 List<Map<String, String>> rowsForNameEdition = titleCodeSectionCodeToRowsMap.get(newspaperFileTitleEditionKey)
                 rowsForNameEdition.add(rowMap)
             } else {
-                titleCodeSectionCodeToRowsMap.put(newspaperFileTitleEditionKey, [rowMap ])
+                titleCodeSectionCodeToRowsMap.put(newspaperFileTitleEditionKey, [ rowMap ])
             }
             allTitleCodeSectionCodeKeys.add(newspaperFileTitleEditionKey)
 

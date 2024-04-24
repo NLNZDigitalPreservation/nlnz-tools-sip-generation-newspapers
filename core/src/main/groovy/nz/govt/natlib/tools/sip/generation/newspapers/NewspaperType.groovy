@@ -8,13 +8,12 @@ class NewspaperType {
     String PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN
     String DATE_TIME_PATTERN
     String PATH_TO_SPREADSHEET
-    Map SUPPLEMENTS
-    Map PARENT_SUPPLEMENTS
     ArrayList IGNORE
     String REVISIONS
     boolean CASE_SENSITIVE
     boolean APPEND_YEAR
     Map DATE_ADJUSTMENTS
+    String END_SEQUENCE
 
     //Use default spreadsheet
     NewspaperType(String newspaperType) {
@@ -36,12 +35,11 @@ class NewspaperType {
         PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN = newspaperType["PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN"]
         DATE_TIME_PATTERN = newspaperType["DATE_TIME_PATTERN"]
         PATH_TO_SPREADSHEET = newspaperType["PATH_TO_SPREADSHEET"]
-        SUPPLEMENTS = newspaperType["SUPPLEMENTS"] != null ? newspaperType["SUPPLEMENTS"] as Map : null
-        PARENT_SUPPLEMENTS = newspaperType["PARENT_SUPPLEMENTS"] != null ? newspaperType["PARENT_SUPPLEMENTS"] as Map : null
         IGNORE = newspaperType["IGNORE"] != null ? newspaperType["IGNORE"] as ArrayList : null
         REVISIONS = newspaperType["REVISIONS"]
         CASE_SENSITIVE = newspaperType["CASE_SENSITIVE"]
         APPEND_YEAR = newspaperType["APPEND_YEAR"]
         DATE_ADJUSTMENTS = newspaperType["DATE_ADJUSTMENTS"] != null ? newspaperType["DATE_ADJUSTMENTS"] as Map : null
+        END_SEQUENCE = newspaperType["END_SEQUENCE"] != null ? newspaperType["END_SEQUENCE"] : null
     }
 }

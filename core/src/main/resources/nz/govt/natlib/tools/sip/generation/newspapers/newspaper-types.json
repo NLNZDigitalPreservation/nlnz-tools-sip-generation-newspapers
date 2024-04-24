@@ -5,11 +5,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "yyyy_MM_dd",
     "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
-    "SUPPLEMENTS": {
-      "TVT": "ODT",
-      "UBET": "ODT",
-      "WF": "ODT"
-    },
     "CASE_SENSITIVE": true
   },
   "areMedia": {
@@ -33,7 +28,8 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{3}\\w{1}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "ddMMMyy",
     "PATH_TO_SPREADSHEET": "default-NZME-import-parameters.json",
-    "CASE_SENSITIVE": false
+    "CASE_SENSITIVE": false,
+    "END_SEQUENCE": "W"
   },
   "stuff": {
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{3})-?(?<sectionCode>[a-zA-Z0-9]{2,3})-(?<editionCode>\\w{2})?-?(?<date>\\d{8})-(?<sequenceLetter>[A-Za-z]{0,2})(?<sequenceNumber>\\d{1,4})(?<qualifier>.*?)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}",

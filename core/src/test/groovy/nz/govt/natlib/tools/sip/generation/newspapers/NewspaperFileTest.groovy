@@ -140,6 +140,22 @@ class NewspaperFileTest {
     }
 
     @Test
+    void createsCorrectlyWithNZMELetterSequence() {
+        String originalFilename = "HSHA17MAR24C001.pdf"
+        when(mockFile.fileName).thenReturn(Path.of(originalFilename))
+        NewspaperType newspaperType = new NewspaperType("NZME")
+        NewspaperFile testNewspaperFile = new NewspaperFile(mockFile, newspaperType)
+        assertThat("Filename extracted correctly", testNewspaperFile.filename, is(originalFilename))
+        assertThat("TitleCode parsed correctly", testNewspaperFile.titleCode, is("HSH"))
+        assertNotNull("Year extracted", testNewspaperFile.dateYear)
+        assertThat("dateYear parsed correctly", testNewspaperFile.dateYear, is(2024))
+        assertThat("dateMonthOfYear parsed correctly", testNewspaperFile.dateMonthOfYear, is(03))
+        assertThat("dateDayOfMonth parsed correctly", testNewspaperFile.dateDayOfMonth, is(17))
+        assertThat("Edition is parsed correctly", testNewspaperFile.editionCode, is("A"))
+        assertTrue("NewspaperFile is valid", testNewspaperFile.isValidName())
+    }
+
+    @Test
     void createsCorrectlyWithNumberOnlySequence() {
         String originalFilename = "t20-20181022-024.pdf"
         when(mockFile.fileName).thenReturn(Path.of(originalFilename))

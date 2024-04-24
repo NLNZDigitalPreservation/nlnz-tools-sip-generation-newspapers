@@ -25,7 +25,6 @@ class NewspaperTypeTest {
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
                 is("yyyyMMdd"))
-        assertThat("SUPPLEMENTS is null", newspaperType.SUPPLEMENTS, is(null))
     }
 
     @Test
@@ -43,8 +42,6 @@ class NewspaperTypeTest {
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
                 is("yyyy_MM_dd"))
-        assertThat("SUPPLEMENTS has a UBET key", newspaperType.SUPPLEMENTS.containsKey("UBET"), is(true))
-        assert newspaperType.SUPPLEMENTS instanceof Map
     }
 
     @Test
@@ -62,7 +59,6 @@ class NewspaperTypeTest {
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
                 is("ddMMyy"))
-        assertThat("SUPPLEMENTS is null", newspaperType.SUPPLEMENTS, is(null))
     }
 
     @Test
@@ -80,7 +76,6 @@ class NewspaperTypeTest {
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
                 is("ddMMyy"))
-        assertThat("SUPPLEMENTS is null", newspaperType.SUPPLEMENTS, is(null))
     }
 
     @Test
@@ -98,7 +93,22 @@ class NewspaperTypeTest {
         assertThat("DATE_TIME_PATTERN is set correctly",
                 newspaperType.DATE_TIME_PATTERN,
                 is("yyyyMMdd"))
-        assert newspaperType.SUPPLEMENTS instanceof Map
-        assert newspaperType.PARENT_SUPPLEMENTS instanceof Map
+    }
+
+    @Test
+    void loadsTheNZMESpreadsheet() {
+        NewspaperType newspaperType = new NewspaperType("NZME")
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
+                newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN,
+                is("(?<titleCode>[a-zA-Z]{3})(?<editionCode>[a-zA-Z]{1})(?<date>\\d{2}[a-zA-Z]{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,1})(?<sequenceNumber>\\d{1,4})(?<sectionCode>)(?<qualifier>)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN is set correctly",
+                newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN,
+                is("\\w{3}\\w{1}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN is set correctly",
+                newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN,
+                is("\\w{3}\\w{1}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}"))
+        assertThat("DATE_TIME_PATTERN is set correctly",
+                newspaperType.DATE_TIME_PATTERN,
+                is("ddMMMyy"))
     }
 }
