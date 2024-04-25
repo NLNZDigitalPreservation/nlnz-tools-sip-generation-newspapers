@@ -4,9 +4,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-\\w{1,4}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{3}-?\\w{3,4}-(\\w{2}-){0,1}?\\d{8}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "yyyyMMdd",
-    "PATH_TO_SPREADSHEET": "test-fairfax-import-parameters.json",
-    "PARENT_SUPPLEMENTS": {
-      "FPS": "SUS"
-    }
+    "PATH_TO_SPREADSHEET": "test-fairfax-import-parameters.json"
   }
 }

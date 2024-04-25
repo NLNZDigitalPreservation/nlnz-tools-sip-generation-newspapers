@@ -5,11 +5,6 @@
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "yyyy_MM_dd",
     "PATH_TO_SPREADSHEET": "test-allpress-import-parameters.json",
-    "SUPPLEMENTS": {
-      "TVT": "ODT",
-      "UBET": "ODT",
-      "WF": "ODT"
-    },
     "CASE_SENSITIVE": true
   }
 }
