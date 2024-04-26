@@ -98,7 +98,7 @@ class CreateSipForFolderTest {
         LocalDate processingDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(testMethodState.newspaperType.DATE_TIME_PATTERN))
 
         Path sourceFolder = Path.of(testMethodState.localPath)
-        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TSTP",
+        List<NewspaperProcessingParameters> parametersList = NewspaperProcessingParameters.build("TST",
                 [ ProcessingType.CreateSipForFolder ], sourceFolder, processingDate, testMethodState.newspaperSpreadsheet, testMethodState.newspaperType)
 
         assertThat("Only a single NewspaperProcessingParameters is returned, size=${parametersList.size()}",
