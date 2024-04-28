@@ -81,7 +81,8 @@ class UseIssueInSipTest {
         NewspaperProcessingParameters processingParameters = parametersList.first()
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
-        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE)
+        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE,
+                testMethodState.newspaperType)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
         log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")

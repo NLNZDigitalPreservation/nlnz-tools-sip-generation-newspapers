@@ -8,14 +8,11 @@
     "CASE_SENSITIVE": false
   },
   "alliedPress": {
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z0-9]{4,19})(?<sectionCode>)-(?<date>\\d{2}\\w{3}\\d{4})(?<sequenceLetter>)(?<sequenceNumber>)-(?<qualifier>\\w{3})\\.[pP]{1}[dD]{1}[fF]{1}",
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-\\w{1,3}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{4,19}-\\d{2}\\w{3}\\d{4}-.*?\\.[pP]{1}[dD]{1}[fF]{1}",
-    "DATE_TIME_PATTERN": "ddMMMyyyy",
-    "PATH_TO_SPREADSHEET": "default-allied-press-import-parameters.json",
-    "SUPPLEMENTS": {
-      "Signal": "OtagoDailyTimes",
-      "UBet": "OtagoDailyTimes"
-    }
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[A-Z]{2,4})(?<issue>)(?<editionCode>)(?<sectionCode>)_(?<date>\\d{4}_\\d{2}_\\d{2})(?<revision>)(?<sequenceLetter>)(?<sequenceNumber>)(?<qualifier>)\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}",
+    "DATE_TIME_PATTERN": "yyyy_MM_dd",
+    "PATH_TO_SPREADSHEET": "test-allied-press-import-parameters.json",
+    "CASE_SENSITIVE": true
   }
 }

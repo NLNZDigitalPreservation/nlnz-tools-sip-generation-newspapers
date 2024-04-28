@@ -1,6 +1,6 @@
 {
   "alliedPress": {
-    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[A-Z]{2,4})(?<issue>)(?<sectionCode>)_(?<date>\\d{4}_\\d{2}_\\d{2})(?<revision>)(?<sequenceLetter>)(?<sequenceNumber>)(?<qualifier>)\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[A-Z]{2,4})(?<issue>)(?<editionCode>)(?<sectionCode>)_(?<date>\\d{4}_\\d{2}_\\d{2})(?<revision>)(?<sequenceLetter>)(?<sequenceNumber>)(?<qualifier>)\\.[pP]{1}[dD]{1}[fF]{1}",
     "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}",
     "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{2,4}_\\d{4}_\\d{2}_\\d{2}\\.[pP]{1}[dD]{1}[fF]{1}",
     "DATE_TIME_PATTERN": "yyyy_MM_dd",

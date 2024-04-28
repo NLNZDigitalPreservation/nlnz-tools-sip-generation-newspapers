@@ -32,9 +32,9 @@ class SupplementWithDateAndIssueGrouping {
     // - create SIPs for the given files
     static String ID_COLUMN_NAME = "MMSID"
 
-    static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-supplement-with-date-amd-issue-grouping"
+    static final String RESOURCES_FOLDER = "ingestion-files-tests/scenario-supplement-with-date-and-issue-grouping"
     static final String IMPORT_PARAMETERS_FILENAME = "test-newspaper-types.json"
-    static final String PREVIOUS_SUPPLEMENTS_ISSUES_PATH = "src/test/resources/ingestion-files-tests/scenario-supplement-with-date-amd-issue-grouping/supplements-previous-issues.properties"
+    static final String PREVIOUS_SUPPLEMENTS_ISSUES_PATH = "src/test/resources/ingestion-files-tests/scenario-supplement-with-date-and-issue-grouping/supplements-previous-issues.properties"
     static final String NEWSPAPER_TYPE = "stuff"
 
     TestMethodState testMethodState
@@ -43,10 +43,6 @@ class SupplementWithDateAndIssueGrouping {
     void setup() {
         testMethodState = new TestMethodState(ID_COLUMN_NAME, RESOURCES_FOLDER, IMPORT_PARAMETERS_FILENAME, NEWSPAPER_TYPE)
 
-//        FileInputStream input = new FileInputStream(PREVIOUS_SUPPLEMENTS_ISSUES_PATH)
-//        Properties prop = new Properties()
-//        prop.load(input)
-//        input.close()
         PropertiesConfiguration supplementsConfig = new PropertiesConfiguration()
         PropertiesConfigurationLayout layout = new PropertiesConfigurationLayout()
         supplementsConfig.setLayout(layout)
@@ -55,12 +51,6 @@ class SupplementWithDateAndIssueGrouping {
         supplementsConfig.setProperty("FPS_PREVIOUS_DATE", "2018-01-01")
         FileWriter fileWriter = new FileWriter(PREVIOUS_SUPPLEMENTS_ISSUES_PATH, false)
         layout.save(supplementsConfig, fileWriter)
-
-//        FileOutputStream output = new FileOutputStream(PREVIOUS_SUPPLEMENTS_ISSUES_PATH)
-//        prop.setProperty("FPS_PREVIOUS_ISSUE", "10")
-//        prop.setProperty("FPS_PREVIOUS_DATE", "2018-01-01")
-//        prop.store(output, null)
-//        output.close()
     }
 
     /**
@@ -102,7 +92,8 @@ class SupplementWithDateAndIssueGrouping {
         NewspaperProcessingParameters processingParameters = parametersList.first()
 
         processingParameters.sipProcessingState = testMethodState.sipProcessingState
-        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE)
+        NewspaperFilesProcessor.processCollectedFiles(processingParameters, filesForProcessing, NEWSPAPER_TYPE,
+                testMethodState.newspaperType)
         String sipAsXml = processingParameters.sipProcessingState.sipAsXml
 
         log.info("${System.lineSeparator()}NewspaperProcessingParameters and SipProcessingState:")

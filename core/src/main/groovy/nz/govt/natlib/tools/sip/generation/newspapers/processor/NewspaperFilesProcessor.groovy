@@ -62,9 +62,9 @@ class NewspaperFilesProcessor {
 
     static void processCollectedFiles(NewspaperProcessingParameters processingParameters,
                                       List<Path> filesForProcessing,
-                                      String newspaperType) {
+                                      String type, NewspaperType newspaperType = null) {
         NewspaperFilesProcessor newspaperFilesProcessor = new NewspaperFilesProcessor(processingParameters,
-                filesForProcessing, newspaperType)
+                filesForProcessing, type, newspaperType)
         if (processingParameters.rules.contains(ProcessingRule.ForceSkip)) {
             log.info("Skipping processing sourceFolder=${processingParameters.sourceFolder.normalize()} as processing rules include=${ProcessingRule.ForceSkip.fieldValue}")
             processingParameters.skip = true
@@ -74,10 +74,11 @@ class NewspaperFilesProcessor {
         newspaperFilesProcessor.process()
     }
 
-    NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String type) {
+    NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String type,
+                            NewspaperType newspaperType = null) {
         this.processingParameters = processingParameters
         this.filesForProcessing = filesForProcessing
-        this.newspaperType = new NewspaperType(type)
+        this.newspaperType = newspaperType != null ? newspaperType : new NewspaperType(type)
     }
 
     void process() {
@@ -130,7 +131,7 @@ class NewspaperFilesProcessor {
                 List<NewspaperFile> sortedFiles = []
                 List<NewspaperFile> endSequence = []
                 for (NewspaperFile newspaperFile : sortedFilesForProcessing) {
-                    if (newspaperType.END_SEQUENCE != null && newspaperFile.sequenceLetter == newspaperType.END_SEQUENCE) {
+                    if (newspaperFile.sequenceLetter == newspaperType.END_SEQUENCE) {
                         endSequence.add(newspaperFile)
                     } else {
                         sortedFiles.add(newspaperFile)
