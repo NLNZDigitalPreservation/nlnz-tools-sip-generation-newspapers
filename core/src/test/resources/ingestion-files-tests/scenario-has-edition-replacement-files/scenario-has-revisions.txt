@@ -1,0 +1,2 @@
+Only the latest revision of a file should be included in the sip. Earlier revisions should be invalid.
+The revision code is defined in the test-newspaper-types.json config file.

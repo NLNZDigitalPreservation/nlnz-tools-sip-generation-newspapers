@@ -156,8 +156,12 @@ Columns used by ready-for-ingestion processing
     the northern edition
 
 ``edition_codes``
-    The combination of codes that will build a full issue for publication multiple editions. The ``edition_discriminators``
+    Has two uses
+    1. The combination of codes that will build a full issue for publication multiple editions. The ``edition_discriminators``
     followed by a ``+`` followed by any other ``edition_codes`` that should be included. e.g ``ST+ZN``
+    2. Used when there may be new editions of a title which replace the files from the previous edition. For example
+    If there is ``edition_codes`` has a value of ``B+C`` any files with the edition code ``B`` will replace any with the
+    edition code ``B``, and any with the edition code ``C`` will replace both ``B`` and ``C``
 
 ``section_codes``
     The section codes that will be included in the publication. For different editions, only the first edition code

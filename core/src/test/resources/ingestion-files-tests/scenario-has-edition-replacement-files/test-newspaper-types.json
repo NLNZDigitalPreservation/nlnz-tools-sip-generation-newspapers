@@ -1,0 +1,11 @@
+{
+  "NZME" : {
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN": "(?<titleCode>[a-zA-Z]{3})(?<editionCode>[a-zA-Z]{1})(?<date>\\d{2}[a-zA-Z]{3}\\d{2})(?<sequenceLetter>[A-Za-z]{0,1})(?<sequenceNumber>\\d{1,4})(?<sectionCode>)(?<qualifier>)(?<issue>)(?<revision>)\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN": "\\w{3}\\w{1}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+    "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": "\\w{3}\\w{1}\\d{2}\\w{3}\\d{2}.*?\\.[pP]{1}[dD]{1}[fF]{1}",
+    "DATE_TIME_PATTERN": "ddMMMyy",
+    "PATH_TO_SPREADSHEET": "test-NZME-import-parameters.json",
+    "CASE_SENSITIVE": false,
+    "END_SEQUENCE": "W"
+  }
+}
