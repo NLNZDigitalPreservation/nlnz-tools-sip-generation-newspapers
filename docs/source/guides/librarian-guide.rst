@@ -137,6 +137,17 @@ Columns used by ready-for-ingestion processing
 ``title_code``
     The title code of the publication.
 
+``supplement_title_codes``
+    The title codes of any supplements that should be grouped with the publication despite having a different title code,
+    e.g. the stuff files with the title code ``TVL`` should be grouped with the Sunday Star Times, which has the main
+    title code of ``SUS``. The order they are listed is the order they will be sorted.
+
+``supplement_with_sequence``
+    When a supplement needs to be ordered by its sequence letter in a non-alphabetical order. Add the title code of the
+    supplement followed by the sequence letter, e.g. ``TVLT+TVLS``. In this case for the supplement with the title code
+    TVL, the files with sequence letter ``T`` will come before the files with the sequence letter ``S``. The supplement
+    must also exist in the ``supplement_title_codes`` column, as above
+
 ``edition_discriminators``
     When a publication with one title code has two editions - e.g NZFarmer (2023 : southern edition) and
     NZFarmer (2023 : northern edition), the edition discriminator identifies which files belong just to that edition.

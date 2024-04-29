@@ -355,7 +355,7 @@ The following fields are REQUIRED: ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_G
 ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN``, ``PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN``,
 ``DATE_TIME_PATTERN``, ``PATH_TO_SPREADSHEET``, ``CASE_SENSITIVE``
 
-While these fields are OPTIONAL: ``SUPPLEMENTS``, ``PARENT_SUPPLEMENTS``, ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
+While these fields are OPTIONAL: ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``, ``END_SEQUENCE``
 
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
 For help with regular expressions (regex) see https://regex101.com/ for example.
