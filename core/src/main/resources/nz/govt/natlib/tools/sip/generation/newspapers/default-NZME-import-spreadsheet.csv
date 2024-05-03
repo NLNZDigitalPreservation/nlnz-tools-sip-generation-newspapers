@@ -7,7 +7,7 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9919378430302836|Hauraki Coromandel Post|parent_grouping||numeric_before_alpha|title_code|BCP||||||||200|0|STA|Thursday|PER|Hauraki Coromandel Post
 9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBK|HBR|||||||200|0|STA||PER|Hawke's Bay Today
 9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBZ|HVL|||||||200|0|STA|Saturday|PER|Hawke's Bay Today
-9919379434902836|Herald on Sunday|parent_grouping||numeric_before_alpha|title_code|HSM|HSH+RST|||||||200|0|STA|Sunday|PER|Herald on Sunday
+9919379434902836|Herald on Sunday|parent_grouping|handle_ignored,optional_all_sections_in_sip|numeric_before_alpha|title_code|HSM|HSH+RST|||B+C||||200|0|STA|Sunday|PER|Herald on Sunday
 9919378429602836|Horowhenua Chronicle|parent_grouping||numeric_before_alpha|title_code|HCL||||||||200|0|STA|Friday|PER|Horowhenua Chronicle
 9919378431102836|Kapiti News|parent_grouping||numeric_before_alpha|title_code|KNL||||||||200|0|STA|Wednesday|PER|Kapiti News
 9919378430602836|Katikati Advertiser|parent_grouping||numeric_before_alpha|title_code|KAM||||||||200|0|STA|Thursday|PER|Katikati Advertiser
@@ -16,14 +16,14 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9919379435102836|Northern Advocate|parent_grouping||numeric_before_alpha|title_code|NAO|NPG|||||||200|0|STA||PER|Northern Advocate
 9919379435102836|Northern Advocate|parent_grouping||numeric_before_alpha|title_code|NAD|NVL|||||||200|0|STA|Saturday|PER|Northern Advocate
 9919378429702836|Northland Age|parent_grouping||numeric_before_alpha|title_code|NAF||||||||200|0|STA||PER|Northland Age
-9919379435302836|NZ Herald|parent_grouping|handle_ignored|numeric_before_alpha|title_code|NZC|WHO+NTR+VIV|||B+C||||200|0|STA||PER|NZ Herald
-9919379435302836|NZ Herald|parent_grouping||numeric_before_alpha|title_code|NZS|MAG+DRI+NHH|||B+C||||200|0|STA|Saturday|PER|NZ Herald
+9919379435302836|NZ Herald|parent_grouping|handle_ignored,optional_all_sections_in_sip|numeric_before_alpha|title_code|NZC|WHO+NTR+VIV|||B+C||||200|0|STA||PER|NZ Herald
+9919379435302836|NZ Herald|parent_grouping|handle_ignored,optional_all_sections_in_sip|numeric_before_alpha|title_code|NZS|MAG+DRI+NHH|||B+C||||200|0|STA|Saturday|PER|NZ Herald
 9919379435602836|Rotorua Daily Post|parent_grouping||numeric_before_alpha|title_code|DPM||||||||200|0|STA||PER|Rotorua Daily Post
 9919379435602836|Rotorua Daily Post|parent_grouping||numeric_before_alpha|title_code|DPS|DVL+BRE|||||||200|0|STA|Saturday|PER|Rotorua Daily Post
 9919378431002836|Stratford Press|parent_grouping||numeric_before_alpha|title_code|STP||||||||200|0|STA|Wednesday|PER|Stratford Press
 9919378429902836|Taupo Turangi Herald|parent_grouping||numeric_before_alpha|title_code|TMO|PGT|||||||200|0|STA|Thursday|PER|Taupo Turangi Herald
 9919378429802836|Te Awamutu Courier|parent_grouping||numeric_before_alpha|title_code|TCC|RUP+DRB+TPG|||||||200|0|STA|Thursday|PER|Te Awamutu Courier
-|Te Puke Times|parent_grouping||numeric_before_alpha|title_code|TPM||||||||200|0|STA|Thursday|PER|Te Puke Times
+9919378430502836|Te Puke Times|parent_grouping||numeric_before_alpha|title_code|TPM||||||||200|0|STA|Thursday|PER|Te Puke Times
 9919378429502836|Waikato Herald|parent_grouping||numeric_before_alpha|title_code|WMN||||||||200|0|STA||PER|Waikato Herald
 9918252332102836|Whanganui Chronicle|parent_grouping||numeric_before_alpha|title_code|WGM||||||||200|0|SUP||PER|Whanganui Chronicle
 9918252332102836|Whanganui Chronicle|parent_grouping||numeric_before_alpha|title_code|WGC|CWR+WVL|||||||200|0|SUP|Saturday|PER|Whanganui Chronicle
