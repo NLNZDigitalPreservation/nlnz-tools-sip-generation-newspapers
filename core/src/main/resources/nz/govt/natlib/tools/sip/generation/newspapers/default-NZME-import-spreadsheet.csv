@@ -5,8 +5,8 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9919378430702836|CHB Mail|parent_grouping||numeric_before_alpha|title_code|CBM||||||||200|0|STA||PER|CHB Mail
 9919378431302836|Hastings Leader|parent_grouping||numeric_before_alpha|title_code|HLE||||||||200|0|STA|Wednesday|PER|Hastings Leader
 9919378430302836|Hauraki Coromandel Post|parent_grouping||numeric_before_alpha|title_code|BCP||||||||200|0|STA|Thursday|PER|Hauraki Coromandel Post
-9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBK|HBR|||||||200|0|STA||PER|Hawke's Bay Today
-9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBZ|HVL|||||||200|0|STA|Saturday|PER|Hawke's Bay Today
+9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBK|HBR+HCM|||||||200|0|STA||PER|Hawke's Bay Today
+9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBZ|HVL+HCM|||||||200|0|STA|Saturday|PER|Hawke's Bay Today
 9919379434902836|Herald on Sunday|parent_grouping|handle_ignored,optional_all_sections_in_sip|numeric_before_alpha|title_code|HSM|HSH+RST|||B+C||||200|0|STA|Sunday|PER|Herald on Sunday
 9916685063502836|Horowhenua Chronicle|parent_grouping||numeric_before_alpha|title_code|HCL||||||||200|0|STA|Friday|PER|Horowhenua Chronicle
 9919378431102836|Kapiti News|parent_grouping||numeric_before_alpha|title_code|KNL||||||||200|0|STA|Wednesday|PER|Kapiti News
