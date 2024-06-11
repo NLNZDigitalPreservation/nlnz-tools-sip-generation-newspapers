@@ -1,7 +1,7 @@
 [
     {
         "COMMENTS": [
-            
+            "# 9919379435502836|Hawke's Bay Today|parent_grouping||numeric_before_alpha|title_code|HBZ|HVL+HCM|||||||200|0|STA|Saturday|PER|Hawke's Bay Today"
         ]
     },
     {
@@ -126,6 +126,30 @@
     },
     {
         "row-0005": {
+            "MMSID": "9918822769002836",
+            "title_parent": "Gisborne Herald",
+            "processing_type": "parent_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "title_code",
+            "title_code": "GHD",
+            "supplement_title_codes": "GVL+GHP",
+            "supplement_with_sequence": "",
+            "edition_discriminators": "",
+            "edition_codes": "",
+            "section_codes": "",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "STA",
+            "Frequency": "",
+            "entity_type": "PER",
+            "title_mets": "Gisborne Herald"
+        }
+    },
+    {
+        "row-0006": {
             "MMSID": "9919378431302836",
             "title_parent": "Hastings Leader",
             "processing_type": "parent_grouping",
@@ -149,7 +173,7 @@
         }
     },
     {
-        "row-0006": {
+        "row-0007": {
             "MMSID": "9919378430302836",
             "title_parent": "Hauraki Coromandel Post",
             "processing_type": "parent_grouping",
@@ -173,7 +197,7 @@
         }
     },
     {
-        "row-0007": {
+        "row-0008": {
             "MMSID": "9919379435502836",
             "title_parent": "Hawke's Bay Today",
             "processing_type": "parent_grouping",
@@ -181,7 +205,7 @@
             "processing_options": "numeric_before_alpha",
             "publication_key": "title_code",
             "title_code": "HBK",
-            "supplement_title_codes": "HBR+HCM",
+            "supplement_title_codes": "HBZ+HBR+HVL+HCM",
             "supplement_with_sequence": "",
             "edition_discriminators": "",
             "edition_codes": "",
@@ -192,30 +216,6 @@
             "Magazine": "0",
             "ingest_status": "STA",
             "Frequency": "",
-            "entity_type": "PER",
-            "title_mets": "Hawke's Bay Today"
-        }
-    },
-    {
-        "row-0008": {
-            "MMSID": "9919379435502836",
-            "title_parent": "Hawke's Bay Today",
-            "processing_type": "parent_grouping",
-            "processing_rules": "",
-            "processing_options": "numeric_before_alpha",
-            "publication_key": "title_code",
-            "title_code": "HBZ",
-            "supplement_title_codes": "HVL+HCM",
-            "supplement_with_sequence": "",
-            "edition_discriminators": "",
-            "edition_codes": "",
-            "section_codes": "",
-            "sequence_letters": "",
-            "ignore_sequence": "",
-            "Access": "200",
-            "Magazine": "0",
-            "ingest_status": "STA",
-            "Frequency": "Saturday",
             "entity_type": "PER",
             "title_mets": "Hawke's Bay Today"
         }
@@ -445,7 +445,7 @@
             "processing_options": "numeric_before_alpha",
             "publication_key": "title_code",
             "title_code": "NZC",
-            "supplement_title_codes": "WHO+NTR+VIV",
+            "supplement_title_codes": "WHO+NTR+VIV+NZF",
             "supplement_with_sequence": "",
             "edition_discriminators": "",
             "edition_codes": "B+C",
