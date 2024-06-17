@@ -133,7 +133,7 @@
             "processing_options": "numeric_before_alpha",
             "publication_key": "title_code",
             "title_code": "GHD",
-            "supplement_title_codes": "GVL+GHP",
+            "supplement_title_codes": "GVL+GHP+GHF",
             "supplement_with_sequence": "",
             "edition_discriminators": "",
             "edition_codes": "",
