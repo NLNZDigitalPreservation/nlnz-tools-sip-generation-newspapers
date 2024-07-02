@@ -26,6 +26,7 @@ class PreProcessProcessor {
     Set<String> recognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<String> unrecognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<Path> inProcessDestinationFiles = new ConcurrentHashMap().newKeySet()
+    List<Path> unreadableFiles = new ArrayList<>()
 
     // Locks
     ReentrantLock folderCreationLock = new ReentrantLock()
@@ -282,9 +283,14 @@ class PreProcessProcessor {
                                       boolean sortByDate) {
         List<NewspaperFile> filteredList = new ArrayList<>()
         allFilesList.each { Path theFile ->
-            NewspaperFile newspaperFile = new NewspaperFile(theFile, this.newspaperType)
-             if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
-                filteredList.add(newspaperFile)
+            try {
+                NewspaperFile newspaperFile = new NewspaperFile(theFile, this.newspaperType)
+                if (newspaperFile.date >= startingDate && newspaperFile.date <= endingDate) {
+                    filteredList.add(newspaperFile)
+                }
+            } catch (Exception e) {
+                log.warn("Error reading file ${theFile}", e)
+                unreadableFiles.add(theFile)
             }
         }
 
@@ -370,6 +376,21 @@ class PreProcessProcessor {
                         }
                     } catch (Exception e) {
                         log.error("Exception processing newspaperFile=${newspaperFile}", e)
+                    }
+                }
+                if (!unreadableFiles.isEmpty()) {
+                    Path reviewFolder = Paths.get("${processorConfiguration.forReviewFolder.toString()}${File.separator}UNREADABLE-FILENAME")
+                    if (!Files.exists(reviewFolder)) {
+                        Files.createDirectories(reviewFolder)
+                    }
+                    log.info("Moving unreadable files to ${reviewFolder}")
+                    GParsExecutorsPool.withPool(numberOfThreads) {
+                        unreadableFiles.each { Path unreadableFile ->
+                            def targetFile = reviewFolder.resolve(unreadableFile.fileName)
+                            if (!Files.exists(targetFile)) {
+                                Files.move(unreadableFile, targetFile)
+                            }
+                        }
                     }
                 }
             }
