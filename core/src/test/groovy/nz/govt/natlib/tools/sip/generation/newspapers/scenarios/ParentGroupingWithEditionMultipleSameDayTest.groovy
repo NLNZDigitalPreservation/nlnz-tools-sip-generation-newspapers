@@ -140,7 +140,8 @@ class ParentGroupingWithEditionMultipleSameDayTest {
 
             testMethodState.sipProcessingState = originalSipProcessingState.clone()
             currentProcessingParameters.sipProcessingState = testMethodState.sipProcessingState
-            NewspaperFilesProcessor.processCollectedFiles(currentProcessingParameters, filesForProcessing, NEWSPAPER_TYPE)
+            NewspaperFilesProcessor.processCollectedFiles(currentProcessingParameters, filesForProcessing, NEWSPAPER_TYPE,
+                    testMethodState.newspaperType)
             String sipAsXml = currentProcessingParameters.sipProcessingState.sipAsXml
 
             assertTrue("Processing rules includes EditionDiscriminatorsUsingSmartSubstitute",

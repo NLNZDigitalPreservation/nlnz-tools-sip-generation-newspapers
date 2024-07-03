@@ -8,6 +8,8 @@
       "processing_options": "alpha_before_numeric",
       "publication_key": "title_code",
       "title_code": "TST",
+      "supplement_title_codes": "",
+      "supplement_with_sequence": "",
       "edition_discriminators": "PB1+PB2+PB3",
       "section_codes": "PB1+BOO+ZOO+AAT",
       "sequence_letters": "",

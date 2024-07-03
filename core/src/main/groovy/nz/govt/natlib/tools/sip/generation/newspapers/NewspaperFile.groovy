@@ -109,30 +109,71 @@ class NewspaperFile {
     static List<NewspaperFile> sortWithSameTitleCodeAndDate(List<NewspaperFile> files,
                                                             NewspaperProcessingParameters processingParameters) {
 
-//        if (!processingParameters.ignoreSequence.isEmpty()) {
-//            List<NewspaperFile> ignoredRemoved = []
-//            files.each {NewspaperFile newspaperFile ->
-//                boolean ignoreFile = false
-//                processingParameters.ignoreSequence.each { String ignoreLetter ->
-//                    if (newspaperFile.sequenceLetter == ignoreLetter) {
-//                        ignoreFile = true
-//                    }
-//                }
-//                if (!ignoreFile) {
-//                    ignoredRemoved.push(newspaperFile)
-//                }
-//            }
-//            files = ignoredRemoved
-//        }
-
         // FIRST: Order by sectionCode as per processingParameters
         Map<String, List<NewspaperFile>> filesBySection = [:]
         processingParameters.sectionCodes.each { String sectionCode ->
             List<NewspaperFile> sectionFiles = [ ]
             filesBySection.put(sectionCode, sectionFiles)
             files.each { NewspaperFile newspaperFile ->
-                if (currentSectionCodeFile(sectionCode, newspaperFile, processingParameters)) {
+                if (newspaperFile.titleCode == processingParameters.titleCode &&
+                    currentSectionCodeFile(sectionCode, newspaperFile, processingParameters)) {
                     sectionFiles.add(newspaperFile)
+                }
+            }
+        }
+
+        if (!processingParameters.supplementSequenceCodes.isEmpty()) {
+            if (filesBySection.isEmpty()) {
+                List<NewspaperFile> tileCodeFiles = []
+                filesBySection.put(processingParameters.titleCode, tileCodeFiles)
+            }
+
+            processingParameters.supplementSequenceCodes.forEach {String ssc ->
+                List<NewspaperFile> supplementFiles = []
+                filesBySection.put(ssc, supplementFiles)
+                String supTitleCode = ssc.substring(0, ssc.length() - 1)
+                String sequence = ssc.substring(ssc.length() - 1)
+                files.each {NewspaperFile newspaperFile ->
+                    if (supTitleCode == newspaperFile.titleCode && sequence == newspaperFile.sequenceLetter) {
+                        supplementFiles.add(newspaperFile)
+                    }
+                    if (filesBySection.containsKey(processingParameters.titleCode) &&
+                            newspaperFile.titleCode == processingParameters.titleCode &&
+                            !filesBySection.get(processingParameters.titleCode).contains(newspaperFile)) {
+                        filesBySection.get(processingParameters.titleCode).add(newspaperFile)
+                    }
+                }
+            }
+        }
+
+        if (!processingParameters.supplementTitleCodes.isEmpty()) {
+            boolean addTitleCodeFiles = false
+            if (filesBySection.isEmpty()) {
+                List<NewspaperFile> tileCodeFiles = []
+                filesBySection.put(processingParameters.titleCode, tileCodeFiles)
+                addTitleCodeFiles = true
+            }
+            processingParameters.supplementTitleCodes.each { String stc ->
+                boolean alreadyExists = false
+                for (String key : filesBySection.keySet()) {
+                    if (key.startsWith(stc)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+                if (!alreadyExists) {
+                    List<NewspaperFile> supplementFiles = []
+                    filesBySection.put(stc, supplementFiles)
+                    files.each { NewspaperFile newspaperFile ->
+                        if (stc == newspaperFile.titleCode) {
+                            supplementFiles.add(newspaperFile)
+                        }
+                        if (addTitleCodeFiles && filesBySection.containsKey(processingParameters.titleCode) &&
+                                newspaperFile.titleCode == processingParameters.titleCode &&
+                                !filesBySection.get(processingParameters.titleCode).contains(newspaperFile)) {
+                            filesBySection.get(processingParameters.titleCode).add(newspaperFile)
+                        }
+                    }
                 }
             }
         }
@@ -172,7 +213,8 @@ class NewspaperFile {
                                                         NewspaperType newspaperType) {
         List<NewspaperFile> sorted = null
         // Sort list in ascending order if it doesn't contain a section code
-        if (files[0] && (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty())) {
+        if (files[0] && (files[0].getSectionCode() == null || files[0].getSectionCode().isEmpty()) &&
+        processingParameters.supplementTitleCodes.isEmpty()) {
             if (newspaperType.CASE_SENSITIVE) {
                 sorted = files.sort()
             } else {
@@ -192,9 +234,8 @@ class NewspaperFile {
                         // We don't consider this a skip in the sequence.
                         // Note that there's a small edge case where there are hundreds of pages, such as:
                         // 397, 398, 400, 401, ... -> this would be considered okay, even though there is a page missing.
-                    }  else if ((newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[testFile.titleCode]) ||
-                            (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[testFile.titleCode])
-                    ) {
+                    }  else if (!processingParameters.supplementTitleCodes.isEmpty() &&
+                            processingParameters.supplementTitleCodes.contains(testFile.titleCode)) {
                         // This not a skip in sequence, these files have a different a title code to their
                         // parent_publication
                     } else {
@@ -239,16 +280,14 @@ class NewspaperFile {
     }
 
     static List<NewspaperFile> substituteAllFor(String sourceSectionCode, String replacementSectionCode, String titleCode,
-                                                List<String> allSectionCodes, List<NewspaperFile> possibleFiles) {
+                                                List<String> allSectionCodes, List<String> supplementCodes,
+                                                List<NewspaperFile> possibleFiles) {
         List<NewspaperFile> substituted = []
         List<String> otherSectionCodes = allSectionCodes.findAll { String sectionCode ->
             sectionCode != sourceSectionCode && sectionCode != replacementSectionCode
         }
         possibleFiles.each { NewspaperFile newspaperFile ->
-            if ((newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) ||
-                (newspaperType.PARENT_SUPPLEMENTS != null &&
-                            newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode] &&
-                            newspaperFile.titleCode != titleCode)
+            if (newspaperFile.titleCode != titleCode && supplementCodes.contains(newspaperFile.titleCode)
                 && newspaperFile.sectionCode == replacementSectionCode
             ) {
                 substituted.add(newspaperFile)
@@ -277,6 +316,49 @@ class NewspaperFile {
             log.warn("Not all filtered files exist in final list, differences=${differences(possibleFiles, filtered)}")
         }
         return filtered
+    }
+
+    static List<NewspaperFile> replaceUpdatedEditionPages(List<NewspaperFile> allPossibleFiles, List<String> editionCodes) {
+        def updates = [:]
+
+        allPossibleFiles.forEach { newspaperFile ->
+            String sequence = newspaperFile.sequenceLetter
+                    ? newspaperFile.sequenceLetter + newspaperFile.sequenceNumber
+                    : newspaperFile.sequenceNumber
+
+            if (editionCodes.contains(newspaperFile.editionCode)) {
+                if (!updates[newspaperFile.titleCode]) {
+                    updates[newspaperFile.titleCode] = [:]
+                    updates[newspaperFile.titleCode][sequence] = newspaperFile.editionCode
+                } else if (!updates[newspaperFile.titleCode][sequence]) {
+                    updates[newspaperFile.titleCode][sequence] = newspaperFile.editionCode
+                } else if (newspaperFile.editionCode > (updates[newspaperFile.titleCode][sequence] as String)) {
+                    updates[newspaperFile.titleCode][sequence]= newspaperFile.editionCode
+                }
+            }
+        }
+
+        // Add all pages to a new list, if there are revisions add only the latest revision to the list
+        List<NewspaperFile> filesWithUpdates = [ ]
+        if (updates.size() > 0) {
+            allPossibleFiles.forEach { newspaperFile ->
+                String sequence = newspaperFile.sequenceLetter
+                        ? newspaperFile.sequenceLetter + newspaperFile.sequenceNumber
+                        : newspaperFile.sequenceNumber
+
+                if (!updates[newspaperFile.titleCode]) {
+                    filesWithUpdates.push(newspaperFile)
+                } else if (!updates[newspaperFile.titleCode][sequence]) {
+                    filesWithUpdates.push(newspaperFile)
+                } else if (updates[newspaperFile.titleCode][sequence] == newspaperFile.editionCode) {
+                    filesWithUpdates.push(newspaperFile)
+                }
+            }
+        } else {
+            filesWithUpdates = allPossibleFiles
+        }
+
+        return filesWithUpdates
     }
 
     static List<NewspaperFile> replaceRevisions(List<NewspaperFile> allPossibleFiles, NewspaperType newspaperType) {
@@ -379,24 +461,36 @@ class NewspaperFile {
             if (hasSubstitutions) {
                 List<NewspaperFile> substituted = substituteAllFor(firstDiscriminatorCode,
                         processingParameters.currentEdition, processingParameters.titleCode,
-                        processingParameters.editionDiscriminators, filtered)
+                        processingParameters.editionDiscriminators, processingParameters.supplementSequenceCodes,
+                        filtered)
                 // Then we sort so the ordering is correct
                 // Sort list in ascending order if it doesn't contain a section code
-                if (substituted[0].getSectionCode() == null || substituted[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = substituted.sort()
+                if (substituted[0].getSectionCode() == null || substituted[0].getSectionCode().isEmpty() &&
+                        processingParameters.supplementTitleCodes.isEmpty()) filteredSubstitutedAndSorted = substituted.sort()
                 else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(substituted, processingParameters)
             } else {
                 // If there are no substitutions (including the first for itself) then there is nothing to process
 //                filteredSubstitutedAndSorted = [ ]
-                if (filtered[0].getSectionCode() || filtered[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
+                if (filtered[0].getSectionCode() == null || filtered[0].getSectionCode().isEmpty() &&
+                        processingParameters.supplementTitleCodes.isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
                 else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(filtered, processingParameters)
             }
+        } else if (!processingParameters.editionCodes.isEmpty() &&
+                (processingParameters.editionDiscriminators == null || processingParameters.editionDiscriminators.isEmpty())) {
+            // There are potential pages from a newer addition which should be swapped in for the older pages
+            List<NewspaperFile> filtered = replaceUpdatedEditionPages(allPossibleFiles, processingParameters.editionCodes)
+            if (filtered[0].getSectionCode() || filtered[0].getSectionCode().isEmpty() &&
+                    processingParameters.supplementTitleCodes.isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
+            else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(filtered, processingParameters)
         } else if (newspaperType.REVISIONS != null) {
             List<NewspaperFile> filtered = replaceRevisions(allPossibleFiles, newspaperType)
-            if (filtered[0].getSectionCode() || filtered[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
+            if (filtered[0].getSectionCode() || filtered[0].getSectionCode().isEmpty() &&
+                    processingParameters.supplementTitleCodes.isEmpty()) filteredSubstitutedAndSorted = filtered.sort()
             else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(filtered, processingParameters)
         } else {
             // Sort list in ascending order if it doesn't contain a section code
-            if (allPossibleFiles[0].getSectionCode() == null || allPossibleFiles[0].getSectionCode().isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
+            if (allPossibleFiles[0].getSectionCode() == null || allPossibleFiles[0].getSectionCode().isEmpty() &&
+                    processingParameters.supplementTitleCodes.isEmpty()) filteredSubstitutedAndSorted = allPossibleFiles.sort()
             else filteredSubstitutedAndSorted = sortWithSameTitleCodeAndDate(allPossibleFiles, processingParameters)
         }
 

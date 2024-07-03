@@ -109,4 +109,23 @@ class NewspaperSpreadsheetTest {
         assertTrue("isMagazine is true for Ag Trader",
                 NewspaperSpreadsheet.extractBooleanValue(mapsForStuff, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
     }
+
+    @Test
+    void loadsTheNZMESpreadsheetCorrectly() {
+        NewspaperType newspaperType = new NewspaperType("NZME")
+        NewspaperSpreadsheet nzmeSpreadsheet = NewspaperSpreadsheet.defaultInstance(newspaperType.PATH_TO_SPREADSHEET)
+
+        assertTrue("Spreadsheet is valid", nzmeSpreadsheet.spreadsheet.isValid(false, false))
+        List<Map<String, String>> mapsForNZMEList =
+                nzmeSpreadsheet.spreadsheet.mapsForColumn(NewspaperSpreadsheet.MMSID_COLUMN_NAME,
+                        "9919379435202836")
+
+        assertThat("Bay of Plenty Times has 2 entrys", mapsForNZMEList.size(), is(2))
+        Map<String, String> mapsForStuff = mapsForNZMEList.first()
+        assertThat("'title_parent' is 'Bay of Plenty Times'", mapsForStuff.get("title_parent"), is("Bay of Plenty Times"))
+        assertThat("'MMSID' is 9919379435202836", mapsForStuff.get("MMSID"), is("9919379435202836"))
+        assertThat("'title_code' is 'BTC'", mapsForStuff.get("title_code"), is("BTC"))
+        assertFalse("isMagazine is false for Bay of Plenty Times",
+                NewspaperSpreadsheet.extractBooleanValue(mapsForStuff, NewspaperSpreadsheet.IS_MAGAZINE_KEY))
+    }
 }

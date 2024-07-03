@@ -297,22 +297,14 @@ A newspaper type the following structure::
         "PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN": ".*?\\w{2}.*?\\d{6}\\.[pP]{1}[dD]{1}[fF]{1}",
         "DATE_TIME_PATTERN": "ddMMyy",
         "PATH_TO_SPREADSHEET": "default-are-media-import-parameters.json",
-        "SUPPLEMENTS": {
-            "Signal": "OtagoDailyTimes",
-            "UBet": "OtagoDailyTimes"
-        },
-        "PARENT_SUPPLEMENTS": {
-          "LID": "DOM",
-          "LIP": "PRS",
-          "LIW": "WAT"
-        },
         "IGNORE": ["POSTER", "POS"],
         "REVISIONS": "R",
         "CASE_SENSITIVE": false,
         "DATE_ADJUSTMENTS": {
             "LS": 5,
             "ZW": 7
-        }
+        },
+        "END_SEQUENCE": "W"
       }
     }
 
@@ -327,22 +319,6 @@ code to validate the filenames being processed.
 
 ``PATH_TO_SPREADSHEET`` (required) is the name of the processing spreadsheet required to process the individual titles
 of that newspaper type.
-
-``SUPPLEMENTS`` (optional) is used when a newspaper has supplements whose title codes do not match the parent title.
-In the example above Signal and UBet need to be processed with the OtagoDailyTimes. They differ from other supplements
-which have the same title code as their parent and which do not need to be included here.
-The grouping together of these files happens in the pre-processing stage.
-This field only needs to be present if the newspaper type has such supplements.
-
-``PARENT_SUPPLEMENTS`` (optional) is very similar to the SUPPLEMENTS field above, but as well as being added to the parent
-title, these supplements are then processed again into their own parent folder. These supplements have their own entry in
-the title spreadsheet referred to in the PATH_TO_SPREADSHEET entry.
-In the example above LID needs to be processed with the DOM files, but it will also be processed again into its own LID
-file.
-This processing happens during the pre-processing stage.
-This field only needs to be present if the newspaper type has such supplements.
-This field was added for the Stuff Life supplements which have reverted to using the DOM titlecode, but it remains in
-place in case it changes back.
 
 ``IGNORE`` (optional) is a list of terms that, if present in the qualifier section of a filename, indicate that file should be
 ignored and not included in the sip. Files with theses terms in the filenames will be placed in the for-review/IGNORED
@@ -366,6 +342,10 @@ publication date. For example the filename date for the title LS is always 5 day
 Adding the titlecode and the number of days to adjust by to this section will ensure the correct publication date is
 added to the METS file.
 
+``END_SEQUENCE`` (optional) This looks for a sequence letter to always add to the very end of the file sequence. For
+example, NZME has 'wrapper' files marked with the sequence letter 'W'. e.g. RSTA17MAR24W001.pdf. This will be placed
+at the end instead of in the alphanumeric sequence it would otherwise go in.
+
 Adding new newspaper types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -375,7 +355,7 @@ The following fields are REQUIRED: ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_G
 ``PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN``, ``PDF_FILE_WITH_TITLE_SECTION_DATE_PATTERN``,
 ``DATE_TIME_PATTERN``, ``PATH_TO_SPREADSHEET``, ``CASE_SENSITIVE``
 
-While these fields are OPTIONAL: ``SUPPLEMENTS``, ``PARENT_SUPPLEMENTS``, ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``
+While these fields are OPTIONAL: ``IGNORE``, ``REVISIONS``, ``DATE_ADJUSTMENTS``, ``END_SEQUENCE``
 
 The regular expressions need to match the format of the filename patterns for the new newspaper type.
 For help with regular expressions (regex) see https://regex101.com/ for example.

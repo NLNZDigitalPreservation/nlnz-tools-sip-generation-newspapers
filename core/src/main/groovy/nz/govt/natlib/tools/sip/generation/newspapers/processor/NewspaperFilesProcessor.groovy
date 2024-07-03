@@ -62,9 +62,9 @@ class NewspaperFilesProcessor {
 
     static void processCollectedFiles(NewspaperProcessingParameters processingParameters,
                                       List<Path> filesForProcessing,
-                                      String newspaperType) {
+                                      String type, NewspaperType newspaperType = null) {
         NewspaperFilesProcessor newspaperFilesProcessor = new NewspaperFilesProcessor(processingParameters,
-                filesForProcessing, newspaperType)
+                filesForProcessing, type, newspaperType)
         if (processingParameters.rules.contains(ProcessingRule.ForceSkip)) {
             log.info("Skipping processing sourceFolder=${processingParameters.sourceFolder.normalize()} as processing rules include=${ProcessingRule.ForceSkip.fieldValue}")
             processingParameters.skip = true
@@ -74,10 +74,11 @@ class NewspaperFilesProcessor {
         newspaperFilesProcessor.process()
     }
 
-    NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String type) {
+    NewspaperFilesProcessor(NewspaperProcessingParameters processingParameters, List<Path> filesForProcessing, String type,
+                            NewspaperType newspaperType = null) {
         this.processingParameters = processingParameters
         this.filesForProcessing = filesForProcessing
-        this.newspaperType = new NewspaperType(type)
+        this.newspaperType = newspaperType != null ? newspaperType : new NewspaperType(type)
     }
 
     void process() {
@@ -125,41 +126,19 @@ class NewspaperFilesProcessor {
                     break
             }
 
-            // Determine if fairfaxFiles contains any files that starts with FP or is a Property or Life title code
-            // If so, process the files as a single collection with FP/Property/Life files at the end
-            boolean toAddAtEnd = false
-            for (NewspaperFile file : sortedFilesForProcessing) {
-                if (((newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[file.titleCode]) ||
-                        (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[file.titleCode])) &&
-                        (processingParameters.titleCode != file.titleCode)) {
-                    toAddAtEnd = true
-                    break
-                }
-            }
-            // Property, Forever Project and Life are to be added at the end of the publication
-            // Life goes before Homes which goes before Forever Project
-            if (toAddAtEnd) {
-                List<NewspaperFile> foreverProjectFiles = []
-                List<NewspaperFile> propertyFiles = []
-                List<NewspaperFile> lifeFiles = []
+            // If the newspaper type has an end sequence, add this to the end of all the files
+            if (newspaperType.END_SEQUENCE != null) {
                 List<NewspaperFile> sortedFiles = []
+                List<NewspaperFile> endSequence = []
                 for (NewspaperFile newspaperFile : sortedFilesForProcessing) {
-                    if (newspaperType.PARENT_SUPPLEMENTS != null && newspaperType.PARENT_SUPPLEMENTS[newspaperFile.titleCode]) {
-                        lifeFiles.add(newspaperFile)
-                    } else if (newspaperType.SUPPLEMENTS != null && newspaperType.SUPPLEMENTS[newspaperFile.titleCode]) {
-                        propertyFiles.add(newspaperFile)
+                    if (newspaperFile.sequenceLetter == newspaperType.END_SEQUENCE) {
+                        endSequence.add(newspaperFile)
                     } else {
                         sortedFiles.add(newspaperFile)
                     }
                 }
-                for (NewspaperFile lf : lifeFiles) {
-                    sortedFiles.add(lf)
-                }
-                for (NewspaperFile pf : propertyFiles) {
-                    sortedFiles.add(pf)
-                }
-                for (NewspaperFile ff : foreverProjectFiles) {
-                    sortedFiles.add(ff)
+                for (NewspaperFile es : endSequence) {
+                    sortedFiles.add(es)
                 }
                 sortedFilesForProcessing = sortedFiles
             }
