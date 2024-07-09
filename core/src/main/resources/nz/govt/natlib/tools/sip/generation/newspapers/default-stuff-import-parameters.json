@@ -3246,6 +3246,96 @@
     },
     {
         "row-0072": {
+            "MMSID": "9918822769202836",
+            "title_parent": "Wairarapa times-age.",
+            "processing_type": "parent_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "title_code",
+            "title_code": "WTA",
+            "supplement_title_codes": "HWT",
+            "supplement_with_sequence": "",
+            "edition_discriminators": "",
+            "edition_codes": "",
+            "section_codes": "ED1",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "STA",
+            "Frequency": "",
+            "entity_type": "PER",
+            "title_mets": "Wairarapa times-age.",
+            "ISSN online": "",
+            "Bib ID": "",
+            "Access condition": "",
+            "Date catalogued": "",
+            "Collector_folder": "Wairarapa_times-age",
+            "Cataloguer": "",
+            "Notes": "",
+            "first_issue_starting_page": "",
+            "last_issue_starting_page": "",
+            "has_volume_md": "",
+            "has_issue_md": "",
+            "has_number_md": "",
+            "previous_volume": "",
+            "previous_volume_date": "",
+            "previous_volume_frequency": "",
+            "previous_issue": "",
+            "previous_issue_date": "",
+            "previous_issue_frequency": "",
+            "previous_number": "",
+            "previous_number_date": "",
+            "previous_number_frequency": ""
+        }
+    },
+    {
+        "row-0073": {
+            "MMSID": "9919348421202836",
+            "title_parent": "Wairarapa Midweek",
+            "processing_type": "parent_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "title_code",
+            "title_code": "WTM",
+            "supplement_title_codes": "",
+            "supplement_with_sequence": "",
+            "edition_discriminators": "",
+            "edition_codes": "",
+            "section_codes": "ED1",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "STA",
+            "Frequency": "",
+            "entity_type": "PER",
+            "title_mets": "Wairarapa Midweek",
+            "ISSN online": "",
+            "Bib ID": "",
+            "Access condition": "",
+            "Date catalogued": "",
+            "Collector_folder": "Wairarapa_Midweek",
+            "Cataloguer": "",
+            "Notes": "",
+            "first_issue_starting_page": "",
+            "last_issue_starting_page": "",
+            "has_volume_md": "",
+            "has_issue_md": "",
+            "has_number_md": "",
+            "previous_volume": "",
+            "previous_volume_date": "",
+            "previous_volume_frequency": "",
+            "previous_issue": "",
+            "previous_issue_date": "",
+            "previous_issue_frequency": "",
+            "previous_number": "",
+            "previous_number_date": "",
+            "previous_number_frequency": ""
+        }
+    },
+    {
+        "row-0074": {
             "MMSID": "9917963903502836",
             "title_parent": "Your Weekend Post",
             "processing_type": "supplement_grouping",
@@ -3290,7 +3380,7 @@
         }
     },
     {
-        "row-0073": {
+        "row-0075": {
             "MMSID": "9917906003502836",
             "title_parent": "Your Weekend The Press",
             "processing_type": "supplement_grouping",
@@ -3335,7 +3425,7 @@
         }
     },
     {
-        "row-0074": {
+        "row-0076": {
             "MMSID": "9917971783502836",
             "title_parent": "Your Weekend WT",
             "processing_type": "supplement_grouping",
@@ -3380,7 +3470,7 @@
         }
     },
     {
-        "row-0075": {
+        "row-0077": {
             "MMSID": "9919356535002836",
             "title_parent": "NZFarmer (2023 : southern edition)",
             "processing_type": "parent_grouping_with_edition",
@@ -3425,7 +3515,7 @@
         }
     },
     {
-        "row-0076": {
+        "row-0078": {
             "MMSID": "9919356534902836",
             "title_parent": "NZFarmer (2023 : northern edition)",
             "processing_type": "parent_grouping_with_edition",
