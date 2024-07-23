@@ -12,7 +12,7 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9917905833502836|Franklin County News|parent_grouping||numeric_before_alpha|title_code|FRC|HFR||||ED1+SPC+QFS|||200|0|STA||PER|Franklin County News|||||Franklin_County_News||Fairfax updated title code|||0|0|0||||||||||
 9915719963502836|Get Growing|parent_grouping||alpha_before_numeric|title_code|GTG|||||ED1|||200|1|STA||PER|Get growing||||7/06/2017|Get_growing|Christina||||0|0|0||||||||||
 9917905183502836|Hauraki Herald|parent_grouping||numeric_before_alpha|title_code|HAH|||||ED1+SPC+QFS|||200|0|STA||PER|Hauraki Herald|||||Hauraki_Herald||Fairfax updated title code|||0|0|0||||||||||
-9917905443502836|Hamilton Press|parent_grouping||numeric_before_alpha|title_code|HAP|||||ED1+QFS|||200|0|STA||PER|Hamilton Press||1790544|100-P|27/05/2016|Hamilton_Press|Denise|Fairfax updated title code|||0|0|0||||||||||
+9919409831802836|The Waikato local|parent_grouping||numeric_before_alpha|title_code|HAP|||||ED1+QFS|||200|0|STA||PER|The Waikato local||1790544|100-P|27/05/2016|The_Waikato_local |Denise|Fairfax updated title code|||0|0|0||||||||||
 9919174874602836|Homed Bay of Plenty|parent_grouping||numeric_before_alpha|title_code|HBP|||||ED1|||200|0|STA||PER|Homed|||||Homed||Fairfax updated title code|||0|0|0||||||||||
 9917926363502836|Far North Real Estate|parent_grouping||alpha_before_numeric|title_code|HOF|||||ED1|||200|0|PIL||PER|Far North Real Estate||1792636|100|3/06/2016|Far_North_Real_Estate|Denise||||0|0|0||||||||||
 9917975173502836|Waikato Location Edition|parent_grouping||alpha_before_numeric|title_code|HOL|||||ED1|||200|0|STA||PER|Waikato Location Edition||1797517|100|24/06/2016|Waikato_Location_Edition|Denise|From 26 Mar 2016 supplement's naming convention changed to Section G|||0|0|0||||||||||
@@ -24,8 +24,8 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9914842803502836|The Hutt News|parent_grouping||numeric_before_alpha|title_code|HUN|HHT||||ED1|||200|0|TEC||PER|Hutt News||1484280|100-P|27/05/2016|The_Hutt_News|Andrew R|Papers Past. Fairfax updated title code|||0|0|0||||||||||
 9917913663502836|Kapi-Mana News|parent_grouping||numeric_before_alpha|title_code|KAN|||||ED1|||200|0|STA||PER|Kapi-Mana News|||||Kapi-Mana_News||Fairfax updated title code|||0|0|0||||||||||
 9917913883502836|Kapiti Observer|parent_grouping||numeric_before_alpha|title_code|KAO|HOK||||ED1+QFS|||200|0|STA||PER|Kapiti Observer|||||Kapiti_Observer||Fairfax updated title code|||0|0|0||||||||||
-9917975883502836|The Nelson Leader|parent_grouping||numeric_before_alpha|title_code|LEN|||||ED1+QFS|||200|0|STA||PER|The Leader (Nelson)||1797588|100-P|24/06/2016|The_Nelson_Leader|Andrew E|Fairfax updated title code|||0|0|0||||||||||
-9917962463502836|The Tasman Leader|parent_grouping||numeric_before_alpha|title_code|LET|||||ED1|||200|0|STA||PER|The Leader (Tasman)||1796246|100-P|15/06/2016|The_Tasman_Leader|Denise|Fairfax updated title code|||0|0|0||||||||||
+9919409834702836|The Leader Nelson-Tasman|parent_grouping||numeric_before_alpha|title_code|LEN|||||ED1+QFS|||200|0|STA||PER|The Leader Nelson-Tasman||1797588|100-P|24/06/2016|The_Leader_Nelson-Tasman|Andrew E|Fairfax updated title code|||0|0|0||||||||||
+# 9917962463502836|The Tasman Leader|parent_grouping||numeric_before_alpha|title_code|LET|||||ED1|||200|0|STA||PER|The Leader (Tasman)||1796246|100-P|15/06/2016|The_Tasman_Leader|Denise|Fairfax updated title code|||0|0|0||||||||||
 9917963483502836|The Post|supplement_grouping||alpha_before_numeric||LID|||||ED1|||200|0|SUP|Wednesday|SS|Life||||||||||||||||||||||
 9919016168702836|The Press|supplement_grouping||alpha_before_numeric||LIP|||||ED1|||200|0|SUP|Wednesday|SS|Life||||||||||||||||||||||
 9919147890402836|The Waikato Times|supplement_grouping||alpha_before_numeric||LIW|||||ED1|||200|0|SUP|Wednesday|SS|Life||||||||||||||||||||||
