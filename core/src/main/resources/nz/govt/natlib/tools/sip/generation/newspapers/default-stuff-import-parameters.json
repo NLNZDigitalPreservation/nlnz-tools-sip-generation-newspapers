@@ -1364,7 +1364,7 @@
             "processing_options": "numeric_before_alpha",
             "publication_key": "title_code",
             "title_code": "MAC",
-            "supplement_title_codes": "",
+            "supplement_title_codes": "HOP",
             "supplement_with_sequence": "",
             "edition_discriminators": "",
             "edition_codes": "",
