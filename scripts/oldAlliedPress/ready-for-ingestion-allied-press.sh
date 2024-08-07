@@ -4,8 +4,8 @@
 # - newspaperType="alliedPress"
 # - forIngestionProcessingRules="is_single_pdf_file,use_filename_for_mets_label,zero_length_pdf_skipped"
 
-export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/pre-processing_Dec_2021"
-export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/allpress/allpress-processing/latest-batch-ready-ingestion"
+export sourceFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/NDHA_submission_Rosetta/allpress-processing/pre-processing_Apr_2021/"
+export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/NDHA_submission_Rosetta/allpress-processing/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
 export newspaperType="alliedPress"
@@ -22,7 +22,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.1-SNAPSHOT.jar \
+    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.2.1-SNAPSHOT.jar \
     --readyForIngestion \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export sourceFolder="/media/sf_Y_DRIVE/ndha/legaldep-ftp/bauernz/"
-export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/NDHA_submission_Rosetta/are-media-processing/testing"
+export sourceFolder="/media/sf_Y_DRIVE/ndha/legaldep-ftp/aremedia/"
+export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/NDHA_submission_Rosetta/are-media-processing"
 export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Apr_2022"
 export forReviewFolder="${targetBaseFolder}/for-review_Apr_2022"
 export newspaperType="areMedia"
@@ -18,7 +18,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.0-SNAPSHOT.jar \
+    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.2.1-SNAPSHOT.jar \
     --preProcess \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \

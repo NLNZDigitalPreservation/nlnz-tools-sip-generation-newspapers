@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/wairarapa_times_age/wairarapa-times-processing/pre-processing_Nov_2021"
-export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/wairarapa_times_age/wairarapa-times-processing/latest-batch-ready-ingestion"
+export sourceFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/westportnews/pre-processing_Oct_2021"
+export targetBaseFolder="$HOME/workspace/testdata/NDHA_submission_Rosetta/westportnews/latest-batch-ready-ingestion"
 export targetForIngestionFolder="${targetBaseFolder}/for-ingestion"
 export forReviewFolder="${targetBaseFolder}/for-review"
-export newspaperType="WMMA"
+export newspaperType="wptNews"
 
-export startingDate="2021-11-01"
-export endingDate="2021-11-30"
+export startingDate="2021-10-01"
+export endingDate="2021-10-30"
 
 export forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,supplement_grouping,create_sip_for_folder"
 
@@ -17,7 +17,7 @@ export minMemory="4G"
 export maxMemory="8G"
 
 java -Xms${minMemory} -Xmx${maxMemory} \
-    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.0.1-SNAPSHOT.jar \
+    -jar ../fat/build/libs/sip-generation-newspapers-fat-all-1.2.1-SNAPSHOT.jar \
     --readyForIngestion \
     --newspaperType="${newspaperType}" \
     --startingDate="${startingDate}" \
