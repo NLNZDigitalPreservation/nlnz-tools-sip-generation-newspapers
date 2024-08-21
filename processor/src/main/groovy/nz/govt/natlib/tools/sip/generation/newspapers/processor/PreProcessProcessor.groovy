@@ -23,10 +23,15 @@ class PreProcessProcessor {
     ProcessorConfiguration processorConfiguration
     NewspaperType newspaperType
     NewspaperSpreadsheet newspaperSpreadsheet
+    Map<String, List<String>> allSupplementTitleCodes
     Set<String> recognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<String> unrecognizedTitleCodes = new ConcurrentHashMap<>().newKeySet()
     Set<Path> inProcessDestinationFiles = new ConcurrentHashMap().newKeySet()
     List<Path> unreadableFiles = new ArrayList<>()
+    Map<String, List<NewspaperFile>> multipleParentSupplements = [:]
+    DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER
+    ProcessingCounter filesProcessedCounter = new ProcessingCounter()
+    ProcessingCounter filesMovedOrCopiedCounter = new ProcessingCounter()
 
     // Locks
     ReentrantLock folderCreationLock = new ReentrantLock()
@@ -90,42 +95,6 @@ class PreProcessProcessor {
         }
     }
 
-    // Copy missing appendable supplements for other publications
-    void copyAppendedTitleFile(List<String> appendedTitles, List<String> folders, String initials, NewspaperFile targetFile, Path folderPath) {
-        String targetTitle = targetFile.titleCode
-        String parentDirectory = folderPath.getParent().toString()
-
-        for (String title : appendedTitles) {
-            // Check if the file has already been processed for other publications
-            for (String folder : folders) {
-                if (Files.exists(Paths.get(parentDirectory + folder +
-                        targetFile.getFilename().replace(targetTitle, initials + folder[1])))) {
-                    log.info("copyOrMoveFileToPreProcessingDestination ${targetFile.getFilename()} " +
-                            "already copied and processed in ${parentDirectory + folder}")
-                    continue
-                }
-                // Check if an FP file for other publications already exists in the source directory
-                Path copyPath = Paths.get(targetFile.getFile().getParent().toString() + File.separator +
-                        targetFile.getFilename().replace(targetTitle, title))
-                if (Files.exists(copyPath)) {
-                    log.info("copyOrMoveFileToPreProcessingDestination Forever project file ${copyPath.toString()} exists")
-                    continue
-                }
-                // Copy the file for other publications to destination folder
-                Path destinationPath = Paths.get(parentDirectory + folder +
-                        targetFile.getFilename().replace(targetTitle, initials + folder[1]))
-                if (Files.notExists(destinationPath.getParent()) && !makeDirs(destinationPath.getParent())) {
-                    log.error("copyOrMoveFileToPreProcessingDestination could not get directory " + destinationPath.getParent().toString())
-                }
-                if (Files.notExists(destinationPath)) {
-                    log.info("copyOrMoveFileToPreProcessingDestination Copying Forever Project file from ${targetFile.getFilename()} to " +
-                            "${destinationPath.toString()} for use in ${folder.substring(1, folder.length() - 1)}")
-                    Files.copy(targetFile.file, destinationPath)
-                }
-            }
-        }
-    }
-
     boolean moveFileToDestination(Path destinationFile, NewspaperFile targetFile, boolean moveFile) {
         boolean moveToDestination = true
 
@@ -163,12 +132,7 @@ class PreProcessProcessor {
                     destinationFile = nonDuplicateFile
                     addInProcessDestinationFile(nonDuplicateFile)
                     removeInProcessDestinationFile(oldDestinationFile)
-                    if (Files.exists(destinationFile)) {
-                        // another thread has already created this duplicate file
-                        couldAlreadyExist = true
-                    } else {
-                        couldAlreadyExist = false
-                    }
+                    couldAlreadyExist = Files.exists(destinationFile)
                 }
             }
         }
@@ -189,7 +153,7 @@ class PreProcessProcessor {
         String titleCodeFolderName = newspaperType.CASE_SENSITIVE ? targetFile.titleCode : targetFile.titleCode.toUpperCase()
         String folderPath
         Set<String> allNameKeys = newspaperSpreadsheet.allTitleCodeKeys
-        Map<String, String> allSupplementTitleCodes = newspaperSpreadsheet.allSupplementTitleCodes
+        allSupplementTitleCodes = newspaperSpreadsheet.allSupplementTitleCodes
 
         if (allNameKeys.contains(targetFile.titleCode.toUpperCase())) {
             // There's an entry in the spreadsheet for this titleCode
@@ -233,8 +197,23 @@ class PreProcessProcessor {
             GeneralUtils.printAndFlush("\n")
             log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
 
-            // Get the parent publication name of the supplement
-            titleCodeFolderName = allSupplementTitleCodes.get(targetFile.titleCode)
+            // Get the parent publication/s of the supplement
+            def matchingSupplementTitleCodes= allSupplementTitleCodes.get(targetFile.titleCode)
+
+            // If there are multiple matching parent titles for the supplement, keep the supplement to one side
+            // and process again at the end to see which parent matches for that date
+            if (matchingSupplementTitleCodes.size() > 1) {
+
+                if (multipleParentSupplements.containsKey(targetFile.titleCode)) {
+                    multipleParentSupplements.get(targetFile.titleCode).add(targetFile)
+                } else {
+                    multipleParentSupplements.put(targetFile.titleCode, [targetFile])
+                }
+                log.info("copyOrMoveFileToPreProcessingDestination multiple parents found for supplement ${targetFile.file.fileName}, will process again at the end")
+                return false
+            } else {
+                titleCodeFolderName = matchingSupplementTitleCodes[0]
+            }
 
             log.info("copyOrMoveFileToPreProcessingDestination adding ${targetFile.file.fileName} to ${titleCodeFolderName}")
             if (!recognizedTitleCodes.contains(titleCodeFolderName)) {
@@ -269,16 +248,6 @@ class PreProcessProcessor {
         return moveToDestination
     }
 
-    List<LocalDate> processingDates(LocalDate startingDate, LocalDate endingDate) {
-        List<LocalDate> datesList = new ArrayList<>()
-        LocalDate currentDate = startingDate
-        while (currentDate <= endingDate) {
-            datesList += currentDate
-            currentDate = currentDate.plusDays(1L)
-        }
-        return datesList
-    }
-
     List<NewspaperFile> filteredFiles(List<Path> allFilesList, LocalDate startingDate, LocalDate endingDate,
                                       boolean sortByDate) {
         List<NewspaperFile> filteredList = new ArrayList<>()
@@ -298,6 +267,52 @@ class PreProcessProcessor {
             filteredList.sort() { NewspaperFile file1, NewspaperFile file2 -> file1.date <=> file2.date }
         }
         return filteredList
+    }
+
+    void handleMultipleParentSupplements(List<NewspaperFile> files, int numberOfThreads) {
+        NewspaperFile sampleFile = files[0]
+        def existingTitleFolders = []
+
+        String dateFolderName = LOCAL_DATE_FOLDER_FORMATTER.format(sampleFile.date)
+        def matchingSupplementTitleCodes = allSupplementTitleCodes.get(sampleFile.titleCode)
+        String datePath = "${processorConfiguration.targetPreProcessingFolder.normalize().toString()}${File.separator}${dateFolderName}"
+
+        matchingSupplementTitleCodes.each { parentTitleCode ->
+            Path titleCodePath = Paths.get("${datePath}${File.separator}${parentTitleCode}")
+            if (Files.exists(titleCodePath)) {
+                existingTitleFolders.add(titleCodePath)
+            }
+        }
+
+        GParsExecutorsPool.withPool(numberOfThreads) {
+            files.each { supplementFile ->
+                String folderPath
+                if (existingTitleFolders.size() == 1) {
+                    folderPath = existingTitleFolders[0]
+                } else {
+                    folderPath = "${processorConfiguration.forReviewFolder.normalize().toString()}${File.separator}SUPPLEMENT-PARENT-NOT-FOUND${File.separator}${dateFolderName}"
+                }
+
+                Path destination = Path.of(folderPath)
+
+                if (Files.notExists(destination) && !makeDirs(destination)) {
+                    log.warn("handleMultipleParentSupplements unable to get directory " + " " + supplementFile.file.fileName + " " + destination.toString())
+                    return false
+                }
+
+                Path destinationFile = destination.resolve(supplementFile.file.fileName)
+
+                addInProcessDestinationFile(destinationFile)
+                try {
+                    boolean moved = moveFileToDestination(destinationFile, supplementFile, processorConfiguration.moveFiles)
+                    if (moved) {
+                        filesMovedOrCopiedCounter.incrementCounter()
+                    }
+                } catch (Exception e) {
+                    log.error("Exception processing newspaperFile=${supplementFile}", e)
+                }
+            }
+        }
     }
 
     // See the README.md for folder descriptions and structures.
@@ -328,7 +343,7 @@ class PreProcessProcessor {
         boolean sortFiles = true
 
         String pattern = newspaperType.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
-        DateTimeFormatter LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
+        LOCAL_DATE_FOLDER_FORMATTER = DateTimeFormatter.ofPattern(newspaperType.DATE_TIME_PATTERN)
 //        String pattern = NewspaperFile.PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_PATTERN
         // Given that we could be dealing with 60,000+ files in the source directory, it's probably more efficient to
         // get them all at once
@@ -346,8 +361,6 @@ class PreProcessProcessor {
         int numberOfThreads = processorConfiguration.parallelizeProcessing ? processorConfiguration.numberOfThreads : 1
         log.info("Spreading processing over numberOfThreads=${numberOfThreads}")
 
-        ProcessingCounter filesProcessedCounter = new ProcessingCounter()
-        ProcessingCounter filesMovedOrCopiedCounter = new ProcessingCounter()
         processorConfiguration.timekeeper.logElapsed(false, filesProcessedCounter.currentCount)
         if (processorConfiguration.startingDate != null && processorConfiguration.endingDate != null) {
             List<NewspaperFile> filteredFiles = filteredFiles(allFiles, processorConfiguration.startingDate,
@@ -378,18 +391,25 @@ class PreProcessProcessor {
                         log.error("Exception processing newspaperFile=${newspaperFile}", e)
                     }
                 }
-                if (!unreadableFiles.isEmpty()) {
-                    Path reviewFolder = Paths.get("${processorConfiguration.forReviewFolder.toString()}${File.separator}UNREADABLE-FILENAME")
-                    if (!Files.exists(reviewFolder)) {
-                        Files.createDirectories(reviewFolder)
-                    }
-                    log.info("Moving unreadable files to ${reviewFolder}")
-                    GParsExecutorsPool.withPool(numberOfThreads) {
-                        unreadableFiles.each { Path unreadableFile ->
-                            def targetFile = reviewFolder.resolve(unreadableFile.fileName)
-                            if (!Files.exists(targetFile)) {
-                                Files.move(unreadableFile, targetFile)
-                            }
+            }
+            // If supplements were found with multiple possible parent titles, process them again at the end to find
+            // the matching parent for that publication date
+            if (!multipleParentSupplements.isEmpty()) {
+                multipleParentSupplements.each { titleCode, files ->
+                    handleMultipleParentSupplements(files, numberOfThreads)
+                }
+            }
+            if (!unreadableFiles.isEmpty()) {
+                Path reviewFolder = Paths.get("${processorConfiguration.forReviewFolder.toString()}${File.separator}UNREADABLE-FILENAME")
+                if (!Files.exists(reviewFolder)) {
+                    Files.createDirectories(reviewFolder)
+                }
+                log.info("Moving unreadable files to ${reviewFolder}")
+                GParsExecutorsPool.withPool(numberOfThreads) {
+                    unreadableFiles.each { Path unreadableFile ->
+                        def targetFile = reviewFolder.resolve(unreadableFile.fileName)
+                        if (!Files.exists(targetFile)) {
+                            Files.move(unreadableFile, targetFile)
                         }
                     }
                 }

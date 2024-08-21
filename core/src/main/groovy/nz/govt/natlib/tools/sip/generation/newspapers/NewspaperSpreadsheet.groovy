@@ -36,7 +36,7 @@ class NewspaperSpreadsheet {
     Map<String, List<Map<String, String>>> titleCodeToRowsMap = [ : ]
     Set<NewspaperFileTitleEditionKey> allTitleCodeSectionCodeKeys = [ ]
     Set<String> allTitleCodeKeys = [ ]
-    Map<String, String> allSupplementTitleCodes = [ : ]
+    Map<String, List<String>> allSupplementTitleCodes = [:]
 
     static final Map<String, String> BLANK_ROW = [
         "MMSID": "UNKNOWN_MMSID",
@@ -147,8 +147,12 @@ class NewspaperSpreadsheet {
 
             if (!supplementCodes.isEmpty() && supplementCodes != "") {
                 List supplements = ExtractValues.splitColumnValue(supplementCodes)
-                supplements.each {
-                    allSupplementTitleCodes.put(it, titleCode)
+                supplements.each { supplement ->
+                    if (allSupplementTitleCodes.containsKey(supplement)) {
+                        allSupplementTitleCodes[supplement] << titleCode
+                    } else {
+                        allSupplementTitleCodes[supplement] = [titleCode]
+                    }
                 }
             }
             allTitleCodeKeys.add(titleCode.toUpperCase())
