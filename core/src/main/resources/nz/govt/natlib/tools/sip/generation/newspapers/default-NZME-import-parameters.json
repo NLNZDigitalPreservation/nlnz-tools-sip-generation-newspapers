@@ -102,6 +102,30 @@
     },
     {
         "row-0004": {
+            "MMSID": "9915789723502836",
+            "title_parent": "Coast & Country",
+            "processing_type": "parent_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "title_code",
+            "title_code": "CAC",
+            "supplement_title_codes": "",
+            "supplement_with_sequence": "",
+            "edition_discriminators": "",
+            "edition_codes": "",
+            "section_codes": "",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "STA",
+            "Frequency": "",
+            "entity_type": "PER",
+            "title_mets": "Coast & Country"
+        }
+    },
+    {
+        "row-0005": {
             "MMSID": "9919378430702836",
             "title_parent": "CHB Mail",
             "processing_type": "parent_grouping",
@@ -125,7 +149,7 @@
         }
     },
     {
-        "row-0005": {
+        "row-0006": {
             "MMSID": "9918822769002836",
             "title_parent": "Gisborne Herald",
             "processing_type": "parent_grouping",
@@ -149,7 +173,7 @@
         }
     },
     {
-        "row-0006": {
+        "row-0007": {
             "MMSID": "9919378431302836",
             "title_parent": "Hastings Leader",
             "processing_type": "parent_grouping",
@@ -173,7 +197,7 @@
         }
     },
     {
-        "row-0007": {
+        "row-0008": {
             "MMSID": "9919378430302836",
             "title_parent": "Hauraki Coromandel Post",
             "processing_type": "parent_grouping",
@@ -197,7 +221,7 @@
         }
     },
     {
-        "row-0008": {
+        "row-0009": {
             "MMSID": "9919379435502836",
             "title_parent": "Hawke's Bay Today",
             "processing_type": "parent_grouping",
@@ -221,7 +245,7 @@
         }
     },
     {
-        "row-0009": {
+        "row-0010": {
             "MMSID": "9919379434902836",
             "title_parent": "Herald on Sunday",
             "processing_type": "parent_grouping",
@@ -245,7 +269,7 @@
         }
     },
     {
-        "row-0010": {
+        "row-0011": {
             "MMSID": "9916685063502836",
             "title_parent": "Horowhenua Chronicle",
             "processing_type": "parent_grouping",
@@ -269,7 +293,7 @@
         }
     },
     {
-        "row-0011": {
+        "row-0012": {
             "MMSID": "9919378431102836",
             "title_parent": "Kapiti News",
             "processing_type": "parent_grouping",
@@ -293,7 +317,7 @@
         }
     },
     {
-        "row-0012": {
+        "row-0013": {
             "MMSID": "9919378430602836",
             "title_parent": "Katikati Advertiser",
             "processing_type": "parent_grouping",
@@ -317,7 +341,7 @@
         }
     },
     {
-        "row-0013": {
+        "row-0014": {
             "MMSID": "9919378430002836",
             "title_parent": "Manawatu Guardian",
             "processing_type": "parent_grouping",
@@ -341,7 +365,7 @@
         }
     },
     {
-        "row-0014": {
+        "row-0015": {
             "MMSID": "9919378431202836",
             "title_parent": "Napier Courier",
             "processing_type": "parent_grouping",
@@ -365,7 +389,7 @@
         }
     },
     {
-        "row-0015": {
+        "row-0016": {
             "MMSID": "9919379435102836",
             "title_parent": "Northern Advocate",
             "processing_type": "parent_grouping",
@@ -389,7 +413,7 @@
         }
     },
     {
-        "row-0016": {
+        "row-0017": {
             "MMSID": "9919379435102836",
             "title_parent": "Northern Advocate",
             "processing_type": "parent_grouping",
@@ -413,7 +437,7 @@
         }
     },
     {
-        "row-0017": {
+        "row-0018": {
             "MMSID": "9919378429702836",
             "title_parent": "Northland Age",
             "processing_type": "parent_grouping",
@@ -437,7 +461,7 @@
         }
     },
     {
-        "row-0018": {
+        "row-0019": {
             "MMSID": "9919379435302836",
             "title_parent": "NZ Herald",
             "processing_type": "parent_grouping",
@@ -461,7 +485,7 @@
         }
     },
     {
-        "row-0019": {
+        "row-0020": {
             "MMSID": "9919379435302836",
             "title_parent": "NZ Herald",
             "processing_type": "parent_grouping",
@@ -485,7 +509,7 @@
         }
     },
     {
-        "row-0020": {
+        "row-0021": {
             "MMSID": "9919379435602836",
             "title_parent": "Rotorua Daily Post",
             "processing_type": "parent_grouping",
@@ -509,7 +533,7 @@
         }
     },
     {
-        "row-0021": {
+        "row-0022": {
             "MMSID": "9919379435602836",
             "title_parent": "Rotorua Daily Post",
             "processing_type": "parent_grouping",
@@ -533,7 +557,7 @@
         }
     },
     {
-        "row-0022": {
+        "row-0023": {
             "MMSID": "9919378431002836",
             "title_parent": "Stratford Press",
             "processing_type": "parent_grouping",
@@ -557,7 +581,7 @@
         }
     },
     {
-        "row-0023": {
+        "row-0024": {
             "MMSID": "9919378429902836",
             "title_parent": "Taupo Turangi Herald",
             "processing_type": "parent_grouping",
@@ -581,7 +605,7 @@
         }
     },
     {
-        "row-0024": {
+        "row-0025": {
             "MMSID": "9919378429802836",
             "title_parent": "Te Awamutu Courier",
             "processing_type": "parent_grouping",
@@ -605,7 +629,7 @@
         }
     },
     {
-        "row-0025": {
+        "row-0026": {
             "MMSID": "9919378430502836",
             "title_parent": "Te Puke Times",
             "processing_type": "parent_grouping",
@@ -629,7 +653,7 @@
         }
     },
     {
-        "row-0026": {
+        "row-0027": {
             "MMSID": "9919378429502836",
             "title_parent": "Waikato Herald",
             "processing_type": "parent_grouping",
@@ -653,7 +677,31 @@
         }
     },
     {
-        "row-0027": {
+        "row-0028": {
+            "MMSID": "9915789603502836",
+            "title_parent": "The Weekend Sun",
+            "processing_type": "parent_grouping",
+            "processing_rules": "",
+            "processing_options": "numeric_before_alpha",
+            "publication_key": "title_code",
+            "title_code": "TWS",
+            "supplement_title_codes": "",
+            "supplement_with_sequence": "",
+            "edition_discriminators": "",
+            "edition_codes": "",
+            "section_codes": "",
+            "sequence_letters": "",
+            "ignore_sequence": "",
+            "Access": "200",
+            "Magazine": "0",
+            "ingest_status": "STA",
+            "Frequency": "",
+            "entity_type": "PER",
+            "title_mets": "The Weekend Sun"
+        }
+    },
+    {
+        "row-0029": {
             "MMSID": "9918252332102836",
             "title_parent": "Whanganui Chronicle",
             "processing_type": "parent_grouping",
@@ -677,7 +725,7 @@
         }
     },
     {
-        "row-0028": {
+        "row-0030": {
             "MMSID": "9918252332102836",
             "title_parent": "Whanganui Chronicle",
             "processing_type": "parent_grouping",
@@ -701,7 +749,7 @@
         }
     },
     {
-        "row-0029": {
+        "row-0031": {
             "MMSID": "9918252330702836",
             "title_parent": "Whanganui Midweek",
             "processing_type": "parent_grouping",
@@ -721,11 +769,11 @@
             "ingest_status": "SUP",
             "Frequency": "Wednesday",
             "entity_type": "PER",
-            "title_mets": "Wanganui Midweek"
+            "title_mets": "Whanganui Midweek"
         }
     },
     {
-        "row-0030": {
+        "row-0032": {
             "MMSID": "",
             "title_parent": "",
             "processing_type": "",

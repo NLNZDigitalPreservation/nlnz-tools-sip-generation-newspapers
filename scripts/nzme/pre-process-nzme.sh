@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="/media/sf_Y_DRIVE/ndha/legaldep-ftp/nzme/"
-export targetBaseFolder="/media/sf_Y_DRIVE/ndha/pre-deposit_prod/NDHA_submission_Rosetta/nzme-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Nov_2023"
-export forReviewFolder="${targetBaseFolder}/for-review_Nov_2023"
+export sourceFolder="/mnt/y/ndha/pre-deposit_prod/NDHA_submission_Rosetta/nzme-processing/TWA_Files_for_processing/04Oct24/"
+export targetBaseFolder="/mnt/y/ndha/pre-deposit_prod/NDHA_submission_Rosetta/nzme-processing/"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_TWA"
+export forReviewFolder="${targetBaseFolder}/for-review_TWA"
 export newspaperType="NZME"
 
-export startingDate="2023-11-01"
-export endingDate="2023-11-30"
+export startingDate="2024-08-01"
+export endingDate="2024-11-30"
 
 #export generalProcessingOptions="search_without_directory_stream"
 

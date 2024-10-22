@@ -2,6 +2,7 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9919379435202836|Bay of Plenty Times|parent_grouping||numeric_before_alpha|title_code|BTC|MOO|||||||200|0|STA||PER|Bay of Plenty Times
 9919379435202836|Bay of Plenty Times|parent_grouping||numeric_before_alpha|title_code|BTS|BVL|||||||200|0|STA|Saturday|PER|Bay of Plenty Times
 9919378429402836|Bush Telegraph|parent_grouping||numeric_before_alpha|title_code|BUT||||||||200|0|STA|Monday|PER|Bush Telegraph
+9915789723502836|Coast & Country|parent_grouping||numeric_before_alpha|title_code|CAC||||||||200|0|STA||PER|Coast & Country
 9919378430702836|CHB Mail|parent_grouping||numeric_before_alpha|title_code|CBM||||||||200|0|STA||PER|CHB Mail
 9918822769002836|Gisborne Herald |parent_grouping||numeric_before_alpha|title_code|GHD|GVL+GHP+GHF|||||||200|0|STA||PER|Gisborne Herald
 9919378431302836|Hastings Leader|parent_grouping||numeric_before_alpha|title_code|HLE||||||||200|0|STA|Wednesday|PER|Hastings Leader
@@ -26,7 +27,8 @@ MMSID|title_parent|processing_type|processing_rules|processing_options|publicati
 9919378429802836|Te Awamutu Courier|parent_grouping||numeric_before_alpha|title_code|TCC|RUP+DRB+TPG|||||||200|0|STA|Thursday|PER|Te Awamutu Courier
 9919378430502836|Te Puke Times|parent_grouping||numeric_before_alpha|title_code|TPM||||||||200|0|STA|Thursday|PER|Te Puke Times
 9919378429502836|Waikato Herald|parent_grouping||numeric_before_alpha|title_code|WMN||||||||200|0|STA||PER|Waikato Herald
+9915789603502836|The Weekend Sun|parent_grouping||numeric_before_alpha|title_code|TWS||||||||200|0|STA||PER|The Weekend Sun
 9918252332102836|Whanganui Chronicle|parent_grouping||numeric_before_alpha|title_code|WGM|CWR+WVL|||||||200|0|SUP||PER|Whanganui Chronicle
 9918252332102836|Whanganui Chronicle|parent_grouping||numeric_before_alpha|title_code|WGC|CWR+WVL|||||||200|0|SUP|Saturday|PER|Whanganui Chronicle
-9918252330702836|Whanganui Midweek|parent_grouping||numeric_before_alpha|title_code|MWA||||||||200|0|SUP|Wednesday|PER|Wanganui Midweek
+9918252330702836|Whanganui Midweek|parent_grouping||numeric_before_alpha|title_code|MWA||||||||200|0|SUP|Wednesday|PER|Whanganui Midweek
 ||||||||||
