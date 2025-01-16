@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export sourceFolder="/home/lissje/workspace/testdata/stuff/"
-export targetBaseFolder="/home/lissje/workspace/testdata/stuff-processing/"
-export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Nov_2023"
-export forReviewFolder="${targetBaseFolder}/for-review_Nov_2023"
+export sourceFolder="/home/lissje/workspace/testdata/newspapers/stuff/data/"
+export targetBaseFolder="/home/lissje/workspace/testdata/newspapers/stuff-processing/"
+export targetPreProcessingFolder="${targetBaseFolder}/pre-processing_Nov_2024"
+export forReviewFolder="${targetBaseFolder}/for-review_Nov_2024"
 export newspaperType="stuff"
 
-export startingDate="2023-11-01"
-export endingDate="2023-11-30"
+export startingDate="2024-11-01"
+export endingDate="2024-11-30"
 
 #export generalProcessingOptions="search_without_directory_stream"
 
