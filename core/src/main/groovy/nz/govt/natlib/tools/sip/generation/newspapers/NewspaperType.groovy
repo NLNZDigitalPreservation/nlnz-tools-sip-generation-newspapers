@@ -1,6 +1,7 @@
 package nz.govt.natlib.tools.sip.generation.newspapers
 
 import groovy.json.JsonSlurper
+import nz.govt.natlib.tools.sip.state.SipProcessingException
 
 class NewspaperType {
     String PDF_FILE_WITH_TITLE_SECTION_DATE_SEQUENCE_GROUPING_PATTERN
@@ -19,6 +20,9 @@ class NewspaperType {
     NewspaperType(String newspaperType) {
         InputStream inputStream = NewspaperType.getResourceAsStream("newspaper-types.json")
         def newspaperTypes = new JsonSlurper().parseText(inputStream.text)
+        if (newspaperTypes[newspaperType] == null) {
+            throw new SipProcessingException("NewspaperType " + newspaperType + " doesn't exist")
+        }
         index(newspaperTypes[newspaperType])
     }
 
@@ -26,6 +30,9 @@ class NewspaperType {
     NewspaperType(String newspaperType, String pathToSpreadsheet) {
         File spreadsheetFile = new File("${pathToSpreadsheet}")
         def newspaperTypes = new JsonSlurper().parseText(spreadsheetFile.text)
+        if (newspaperTypes[newspaperType] == null) {
+            throw new SipProcessingException("NewspaperType " + newspaperType + " doesn't exist")
+        }
         index(newspaperTypes[newspaperType])
     }
 
