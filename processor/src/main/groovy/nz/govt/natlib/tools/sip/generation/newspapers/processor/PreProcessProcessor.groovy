@@ -169,7 +169,7 @@ class PreProcessProcessor {
             // and once into its parent title as a supplement
             if (allSupplementTitleCodes != null && allSupplementTitleCodes.size() > 0 && allSupplementTitleCodes[targetFile.titleCode]) {
 
-                def matchingSupplementTitleCodes= allSupplementTitleCodes.get(targetFile.titleCode)
+                def matchingSupplementTitleCodes = allSupplementTitleCodes.get(targetFile.titleCode)
 
                 if (matchingSupplementTitleCodes.size() > 1) {
                     if (multipleParentSupplements.containsKey(targetFile.titleCode)) {
@@ -210,7 +210,7 @@ class PreProcessProcessor {
             log.info("copyOrMoveFileToPreProcessingDestination found Supplement ${targetFile.titleCode}")
 
             // Get the parent publication/s of the supplement
-            def matchingSupplementTitleCodes= allSupplementTitleCodes.get(targetFile.titleCode)
+            def matchingSupplementTitleCodes = allSupplementTitleCodes.get(targetFile.titleCode)
 
             // If there are multiple matching parent titles for the supplement, keep the supplement to one side
             // and process again at the end to see which parent matches for that date
