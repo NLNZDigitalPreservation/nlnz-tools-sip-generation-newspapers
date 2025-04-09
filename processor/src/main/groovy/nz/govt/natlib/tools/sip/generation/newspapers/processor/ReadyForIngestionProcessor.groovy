@@ -36,7 +36,13 @@ import java.util.regex.Pattern
  */
 @Log4j2
 class ReadyForIngestionProcessor {
-    static final String READY_FOR_INGESTION_COMPLETED_FILENAME = "ready-for-ingestion-FOLDER-COMPLETED"
+//    Temporarily rename the ready file to work around a file permissions issue in Rosetta
+//    There is a script that runs on the server that looks for this ready-for-permissions file
+//    When it finds it, it will update the file permissions so that Rosetta can access them, then add the ready-for-ingestion-FOLDER-COMPLETED
+//    file
+//    static final String READY_FOR_INGESTION_COMPLETED_FILENAME = "ready-for-ingestion-FOLDER-COMPLETED"
+    static final String READY_FOR_INGESTION_COMPLETED_FILENAME = "ready-for-permissions"
+
     // TODO This might be better configurable or as a general option in ProcessorRunner.
     static final String KILL_FILE_NAME = "ready-for-ingestion-STOP"
 
