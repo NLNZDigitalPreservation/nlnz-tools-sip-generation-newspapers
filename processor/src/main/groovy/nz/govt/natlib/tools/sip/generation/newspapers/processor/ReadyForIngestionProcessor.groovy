@@ -421,6 +421,7 @@ class ReadyForIngestionProcessor {
         JvmPerformanceLogger.logState("ReadyForIngestionProcessor Current thread state at end of ALL processing",
                 true, true, true, false, true, true, true)
         log.info("${System.lineSeparator()}END ready-for-ingestion with parameters:")
+        log.info("    newspaperType=${processorConfiguration.newspaperType}")
         log.info("    startingDate=${processorConfiguration.startingDate}")
         log.info("    endingDate=${processorConfiguration.endingDate}")
         log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")
