@@ -1,0 +1,13 @@
+--readyForIngestion
+--newspaperType="stuff"
+--startingDate="2025-03-01"
+--endingDate="2025-03-31"
+--sourceFolder="/data/newspaper-processing-out/pre-processing_Mar_2025/"
+--targetForIngestionFolder="/data/newspaper-processing-out/latest-batch/for-ingestion"
+--forReviewFolder="/data/newspaper-processing-out/latest-batch/for-review"
+--createDestination
+--parallelizeProcessing
+--numberOfThreads=4
+--forIngestionProcessingTypes="parent_grouping,parent_grouping_with_edition,supplement_grouping,supplement_with_date_and_issue,create_sip_for_folder"
+--forIngestionProcessingRules=""
+--forIngestionProcessingOptions=""
