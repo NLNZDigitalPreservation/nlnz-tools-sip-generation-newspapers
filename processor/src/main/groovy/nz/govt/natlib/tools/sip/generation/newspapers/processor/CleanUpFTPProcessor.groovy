@@ -145,6 +145,7 @@ class CleanUpFTPProcessor {
                 processorConfiguration.timekeeper.logElapsed(false, filesProcessedCounter.total, true)
 
                 log.info("END processing for parameters:")
+                log.info("    newspaperType=${processorConfiguration.newspaperType}")
                 log.info("    startindDate=${processorConfiguration.startingDate}")
                 log.info("    endingDate=${processorConfiguration.endingDate}")
                 log.info("    sourceFolder=${processorConfiguration.sourceFolder.normalize().toString()}")

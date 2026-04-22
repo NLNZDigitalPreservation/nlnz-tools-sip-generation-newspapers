@@ -108,7 +108,7 @@ class HasEditionReplacemantFiles {
         TestHelper.assertExpectedSipFileValues(sipForValidation, 1, "NZCA14MAR24A001.pdf", "NZCA14MAR24A001.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0001", "application/pdf")
 
-        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "NZCB14MAR24A002.pdf", "NZCB14MAR24A002.pdf",
+        TestHelper.assertExpectedSipFileValues(sipForValidation, 2, "NZCAA14MAR24A002.pdf", "NZCAA14MAR24A002.pdf",
                 636L, "MD5", "7273a4d61a8dab92be4393e2923ad2d2", "0002", "application/pdf")
 
         TestHelper.assertExpectedSipFileValues(sipForValidation, 3, "NZCC14MAR24A003.pdf", "NZCC14MAR24A003.pdf",

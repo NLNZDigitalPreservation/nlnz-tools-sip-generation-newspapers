@@ -1,0 +1,12 @@
+--preProcess
+--newspaperType="stuff"
+--startingDate="2025-03-01"
+--endingDate="2025-03-31"
+--sourceFolder="/data/stuff/"
+--targetPreProcessingFolder="/data/newspaper-processing-out/pre-processing_Mar_2025/"
+--forReviewFolder="/data/newspaper-processing-out/for-review_Mar_2025/"
+--createDestination
+--parallelizeProcessing
+--numberOfThreads=4
+
+
